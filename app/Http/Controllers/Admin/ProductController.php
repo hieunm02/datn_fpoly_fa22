@@ -23,7 +23,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAll();
-        return view('admin.products.index');
+        return view('admin.products.index', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -33,7 +35,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-       return view('admin.products.create');
+        return view('admin.products.create');
     }
 
     /**
@@ -79,7 +81,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
     }
 
     /**
