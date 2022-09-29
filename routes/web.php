@@ -82,6 +82,10 @@ Route::prefix('/')->group(function () {
         return view('client.term');
     });
 
+    Route::get('/product-detail', function () {
+        return view('client.product-detail');
+    });
+
     Route::get('/verification', function () {
         return view('client.verification');
     });
