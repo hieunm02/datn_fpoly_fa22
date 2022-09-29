@@ -2,19 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title')</title>
-    <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.png')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-    <!-- page css -->
-
-    <!-- Core css -->
-    <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet">
-
+   @include('layouts.admin.head')
 </head>
 
 <body>
@@ -24,54 +12,9 @@
             @include('layouts.admin.header')
             <!-- Header END -->
 
-            <!-- Side Nav START -->
-            <div class="side-nav">
-                <div class="side-nav-inner">
-                    <ul class="side-nav-menu scrollable">
-
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" href="javascript:void(0);">
-                                <span class="icon-holder">
-                                    <i class="anticon anticon-appstore"></i>
-                                </span>
-                                <span class="title">Products</span>
-                                <span class="arrow">
-                                    <i class="arrow-icon"></i>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{route('products.index')}}">List Products</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('products.create')}}">Create Products</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" href="javascript:void(0);">
-                                <span class="icon-holder">
-                                    <i class="far fa-newspaper"></i>
-                                </span>
-                                <span class="title">News</span>
-                                <span class="arrow">
-                                    <i class="arrow-icon"></i>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{route('news.index')}}">List news</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('news.create')}}">Create news</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Side Nav END -->
+        <!-- Side Nav START -->
+        @include('layouts.admin.sidebar')
+        <!-- Side Nav END -->
 
             <!-- Page Container START -->
             <div class="page-container">
@@ -81,22 +24,23 @@
 
                 <!-- Content Wrapper END -->
 
-                <!-- Footer START -->
-                @include('layouts.admin.footer')
-                <!-- Footer END -->
+        </div>
+        <!-- Page Container END -->
 
-            </div>
-            <!-- Page Container END -->
-
-            <!-- Search Start-->
-            <div class="modal modal-left fade search" id="search-drawer">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header justify-content-between align-items-center">
-                            <h5 class="modal-title">Search</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <i class="anticon anticon-close"></i>
-                            </button>
+        <!-- Search Start-->
+        {{-- <div class="modal modal-left fade search" id="search-drawer">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-between align-items-center">
+                        <h5 class="modal-title">Search</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="anticon anticon-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body scrollable">
+                        <div class="input-affix">
+                            <i class="prefix-icon anticon anticon-search"></i>
+                            <input type="text" class="form-control" placeholder="Search">
                         </div>
                         <div class="modal-body scrollable">
                             <div class="input-affix">
@@ -197,7 +141,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Search End-->
+        </div> --}}
+        <!-- Search End-->
 
             <!-- Quick View START -->
             <div class="modal modal-right fade quick-view" id="quick-view">
@@ -259,17 +204,17 @@
         </div>
     </div>
 
+<footer class="footer">
+    <div class="footer-content">
+        <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
+        <span>
+            <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
+            <a href="" class="text-gray">Privacy &amp; Policy</a>
+        </span>
+    </div>
+</footer>
 
-    <!-- Core Vendors JS -->
-    <script src="{{asset('assets/js/vendors.min.js')}}"></script>
-
-    <!-- page js -->
-    <script src="{{asset('assets/vendors/chartjs/Chart.min.js')}}"></script>
-    <script src="{{asset('assets/js/pages/dashboard-default.js')}}"></script>
-
-    <!-- Core JS -->
-    <script src="{{asset('assets/js/app.min.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+@include('layouts.admin.footer')
 </body>
 
 </html>

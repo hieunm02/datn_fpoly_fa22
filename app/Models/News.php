@@ -17,11 +17,6 @@ class News extends Model
         'content',
         'view',
         'user_id',
-        'active',
+        'active'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
