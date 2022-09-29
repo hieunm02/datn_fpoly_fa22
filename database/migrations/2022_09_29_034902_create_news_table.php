@@ -19,7 +19,7 @@ class CreateNewsTable extends Migration
             $table->char('short_desc', 150);
             $table->text('image_path');
             $table->text('content');
-            $table->integer('view');
+            $table->integer('view')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
