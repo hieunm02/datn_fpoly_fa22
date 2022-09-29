@@ -1,9 +1,13 @@
-<footer class="footer">
-    <div class="footer-content">
-        <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
-        <span>
-                            <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
-                            <a href="" class="text-gray">Privacy &amp; Policy</a>
-                        </span>
-    </div>
-</footer>
+
+<!-- Core Vendors JS -->
+<script src="{{asset('assets/js/vendors.min.js')}}"></script>
+
+<!-- page js -->
+<script src="{{asset('assets/vendors/chartjs/Chart.min.js')}}"></script>
+<script src={{asset('assets/js/pages/dashboard-default.js')}}></script>
+
+<!-- Core JS -->
+<script src={{asset('assets/js/app.min.js')}}></script>
+<script src="/js/main.js"></script>
+
+@yield('layouts.admin.footer')
