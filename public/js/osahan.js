@@ -178,3 +178,36 @@ Version: 1.0
     var Nav = $main_nav.hcOffcanvasNav(defaultOptions);
 
 })(jQuery); // End of use strict
+
+function changeImage(a) {
+    console.log(document.getElementById("imgClick").src = a);
+    document.getElementById("imgClick").src = a;
+}
+
+function clickComment() {
+    var click = document.getElementById("clickComment");
+    var comment = document.getElementById("comment");
+    var content = document.getElementById("content");
+    content.style.display = 'none';
+    comment.style.display = 'block';
+}
+function clickContent() {
+    var click = document.getElementById("clickContent");
+    var comment = document.getElementById("comment");
+    var content = document.getElementById("content");
+    content.classList.remove('d-none');
+    content.style.display = 'block';
+    comment.style.display = 'none';
+}
+
+function cong() {
+    var val = document.getElementById("quantity").value;
+    document.getElementById("quantity").value = parseInt(val) + 1;
+}
+
+function tru() {
+    var val = document.getElementById("quantity").value;
+    if (parseInt(val) > 1) {
+        document.getElementById("quantity").value = parseInt(val) - 1;
+    }
+}
