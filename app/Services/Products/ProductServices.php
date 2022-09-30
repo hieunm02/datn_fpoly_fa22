@@ -5,6 +5,7 @@ namespace App\Services\Products;
 use App\Models\Menu;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\Thumb;
 use Illuminate\Support\Facades\Session;
 
 class ProductServices
@@ -27,44 +28,44 @@ class ProductServices
 
     public function create($request)
     {
-        $product = new Product();
-        $product->fill($request->all());
-        if ($request->hasFile('thumb')) {
-            $image = $request->thumb;
-            $imageName = $image->hashName();
-            $imageName = $request->name . '_' . $imageName;
-            $product->thumb = $image->storeAs('images/products', $imageName);
-            $product->content = $request->content;
-            $product->name = $request->name;
-            $product->price_id = $request->price_id;
-            $product->menu_id = $request->menu_id;
-            $product->active = 1;
-            $product->save();
-        }
-        Session::flash('success', 'Tạo mới thành công');
-        return redirect()->route('products.index');
 
-//
-//            $productId = $product->id;
-////            if ($request->hasFile('thumb')) {
-////                foreach ($request->thumb as $file) {
-////                    $imageNew = new Thumb();
-////                    if (isset($file)) {
-////                        $imageNew->gallery = $file->hashName();
-////                        $imageNew->product_id = $productId;
-////                        // $imageNew = $file->storeAs('images/products', $imageNew);
-////                        $file->move('images/products', $file->hashName());
-////                        $imageNew->save();
-////                    }
-////                }
-////            }
-///
-//            Session::flash('success', 'Tạo mới thành công');
-//            return redirect()->route('products.index');
-//        } catch (\Exception $err) {
-//            Session::flash('error', $err->getMessage());
-//            return false;
-//        }
+        try {
+            $product = new Product();
+            $product->fill($request->all());
+            if ($request->hasFile('thumb')) {
+                $image = $request->thumb;
+                $imageName = $image->hashName();
+                $imageName = $request->name . '_' . $imageName;
+                $product->thumb = $image->storeAs('images/products', $imageName);
+                $product->content = $request->content;
+                $product->desc = $request->desc;
+                $product->quantity = $request->quantity;
+                $product->name = $request->name;
+                $product->price_id = $request->price_id;
+                $product->menu_id = $request->menu_id;
+                $product->active = 1;
+                $product->save();
+            }
+            $productId = $product->id;
+            if ($request->hasFile('image')) {
+                foreach ($request->image as $file) {
+                    $imageNew = new Thumb();
+                    if (isset($file)) {
+                        $imageNew->image = $file->hashName();
+                        $imageNew->product_id = $productId;
+                        $file->move('images/products', $file->hashName());
+                        $imageNew->save();
+                    }
+                }
+            }
+
+            Session::flash('success', 'Tạo sản phẩm  thành công');
+        } catch (\Exception $err) {
+            Session::flash('error', $err->getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     public function update($data)

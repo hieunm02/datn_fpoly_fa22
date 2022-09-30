@@ -25,8 +25,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productService->getAll();
-        return view('admin.products.index');
+        return view('admin.products.index', [
+            'title' => 'Danh sách sản phẩm',
+        ]);
     }
 
     /**
@@ -36,9 +37,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $title = 'Tạo mới sản phẩm';
         $prices = $this->productService->getPrice();
         $menus = $this->productService->getMenu();
-        return view('admin.products.create', compact('prices', 'menus'));
+        return view('admin.products.create', compact('prices', 'menus', 'title'));
     }
 
     /**

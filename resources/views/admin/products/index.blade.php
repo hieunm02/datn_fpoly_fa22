@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-master')
-@section('title', 'Products')
+@section('title', $title)
 @section('content')
     <div class="main-content">
         <div class="page-header">
