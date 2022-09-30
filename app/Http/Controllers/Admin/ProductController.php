@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
+use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -33,7 +36,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-       return view('admin.products.create');
+        $prices = $this->productService->getPrice();
+        $menus = $this->productService->getMenu();
+        return view('admin.products.create', compact('prices', 'menus'));
     }
 
     /**
@@ -42,7 +47,7 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $this->productService->create($request);
         return redirect()->back();
