@@ -68,8 +68,9 @@
                                 <tr>
                                     <td>
                                         <div class="checkbox">
-                                            <input id="check-item-1" name="{{ $product->id }}" type="checkbox">
-                                            <label for="check-item-1" class="m-b-0"></label>
+                                            <input id="check-item-{{ $index + 1 }}" name="{{ $product->id }}"
+                                                type="checkbox">
+                                            <label for="check-item-{{ $index + 1 }}" class="m-b-0"></label>
                                         </div>
                                     </td>
                                     <td>
