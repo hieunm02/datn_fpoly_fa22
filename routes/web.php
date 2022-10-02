@@ -47,6 +47,14 @@ Route::prefix('/')->group(function () {
         return view('client.list-products');
     });
 
+    Route::get('/news', function () {
+        return view('client.news');
+    });
+
+    Route::get('/news-detail', function () {
+        return view('client.news-detail');
+    });
+
     Route::get('/login', function () {
         return view('client.login');
     });
@@ -92,13 +100,6 @@ Route::prefix('/')->group(function () {
     });
 });
 
-<<<<<<< HEAD
-//Admin
-Route::prefix('/admin')->group(function () {
-    Route::resource('products', ProductController::class);
-    Route::resource('news', NewsController::class);
-});
-=======
 
 
 // Admin
@@ -108,7 +109,9 @@ Route::prefix('admin')->group(function () {
     // Danh mục 
     Route::resource('menus', MenuController::class);
 
+    // news
+    Route::resource('news', NewsController::class);
+
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
 });
->>>>>>> ef0d6ac369e9d14a61aa832c94d37ed82bdd7a1f

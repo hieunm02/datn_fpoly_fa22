@@ -104,9 +104,11 @@
         <div class="pb-3 row">
             <div class="col-md-12">
                 <div class="col-md-12 p-0">
-                    <button class="p-3 m0 d-inline-block btn-dark cursor-pointer" onclick="clickComment()" id="clickComment">
+                    <button class="p-3 m0 d-inline-block btn-dark cursor-pointer" onclick="clickComment()"
+                        id="clickComment">
                         Bình luận đánh giá</button>
-                    <button class="p-3 m0 d-inline-block btn-dark cursor-pointer"  onclick="clickContent()"  id="clickContent">Mô tả</button>
+                    <button class="p-3 m0 d-inline-block btn-dark cursor-pointer" onclick="clickContent()"
+                        id="clickContent">Mô tả</button>
                 </div>
                 <div class="osahan-cart-item mb-3 rounded shadow-sm bg-white overflow-hidden">
                     <div class="osahan-cart-item-profile bg-white p-3">
@@ -117,13 +119,13 @@
                             </div>
                             {{-- @foreach ($comments as $item) --}}
                             <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
-                                <div class="d-flex">
-                                    <div class="avatar mr-2">
+                                <div class="col-md-12 d-flex">
+                                    <div class="avatar setCt mr-2">
                                         <img src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
                                             style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
                                             alt="">
                                     </div>
-                                    <div class="d-flex flex-column justify-content-center" style="flex: none;">
+                                    <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                         <h6 class="mb-0">Khách hàng</h6>
                                         <div class="text-warning">
                                             <i class="feather-star mr-n1"></i>
@@ -140,12 +142,13 @@
                                             obcaecati cumque molestias, quo dolorem voluptatem alias sed nisi expedita
                                             veniam magni, ratione illum similique.</p>
                                     </div>
+
+                                    <form action="" class="form-button" method="post">
+                                        <div class="float-right align-content-center">
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form action="" method="post">
-                                    <div class="float-right align-content-center">
-                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                    </div>
-                                </form>
                             </div>
 
                             <form action="" method="POST">
@@ -182,8 +185,10 @@
             <div class="col-md-3 pb-3">
                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                     <div class="list-card-image">
-                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
-                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
+                        <div class="star position-absolute"><span class="badge badge-success"><i
+                                    class="feather-star"></i> 3.1 (300+)</span></div>
+                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i
+                                    class="feather-heart"></i></a></div>
                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                         <a href="restaurant.html">
                             <img alt="#" src="img/popular2.png" class="img-fluid item-img w-100">
@@ -191,7 +196,8 @@
                     </div>
                     <div class="p-3 position-relative">
                         <div class="list-card-body">
-                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian Cuisine</a></h6>
+                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian
+                                    Cuisine</a></h6>
                             <p class="text-gray mb-1 small">• Indian • Pure veg</p>
                             <p class="text-gray mb-1 rating">
                             </p>
@@ -215,8 +221,10 @@
             <div class="col-md-3 pb-3">
                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                     <div class="list-card-image">
-                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
-                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
+                        <div class="star position-absolute"><span class="badge badge-success"><i
+                                    class="feather-star"></i> 3.1 (300+)</span></div>
+                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i
+                                    class="feather-heart"></i></a></div>
                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                         <a href="restaurant.html">
                             <img alt="#" src="img/popular2.png" class="img-fluid item-img w-100">
@@ -224,7 +232,8 @@
                     </div>
                     <div class="p-3 position-relative">
                         <div class="list-card-body">
-                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian Cuisine</a></h6>
+                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian
+                                    Cuisine</a></h6>
                             <p class="text-gray mb-1 small">• Indian • Pure veg</p>
                             <p class="text-gray mb-1 rating">
                             </p>
@@ -248,8 +257,10 @@
             <div class="col-md-3 pb-3">
                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                     <div class="list-card-image">
-                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
-                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
+                        <div class="star position-absolute"><span class="badge badge-success"><i
+                                    class="feather-star"></i> 3.1 (300+)</span></div>
+                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i
+                                    class="feather-heart"></i></a></div>
                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                         <a href="restaurant.html">
                             <img alt="#" src="img/popular2.png" class="img-fluid item-img w-100">
@@ -257,7 +268,8 @@
                     </div>
                     <div class="p-3 position-relative">
                         <div class="list-card-body">
-                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian Cuisine</a></h6>
+                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian
+                                    Cuisine</a></h6>
                             <p class="text-gray mb-1 small">• Indian • Pure veg</p>
                             <p class="text-gray mb-1 rating">
                             </p>
@@ -281,8 +293,10 @@
             <div class="col-md-3 pb-3">
                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                     <div class="list-card-image">
-                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
-                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
+                        <div class="star position-absolute"><span class="badge badge-success"><i
+                                    class="feather-star"></i> 3.1 (300+)</span></div>
+                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i
+                                    class="feather-heart"></i></a></div>
                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                         <a href="restaurant.html">
                             <img alt="#" src="img/popular2.png" class="img-fluid item-img w-100">
@@ -290,7 +304,8 @@
                     </div>
                     <div class="p-3 position-relative">
                         <div class="list-card-body">
-                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian Cuisine</a></h6>
+                            <h6 class="mb-1"><a href="restaurant.html" class="text-black">Thai Famous Indian
+                                    Cuisine</a></h6>
                             <p class="text-gray mb-1 small">• Indian • Pure veg</p>
                             <p class="text-gray mb-1 rating">
                             </p>
