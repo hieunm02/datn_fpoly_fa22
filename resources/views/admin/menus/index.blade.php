@@ -13,7 +13,7 @@
                 </nav>
             </div> --}}
             @if (session()->has('success'))
-                <p class="text-white alert bg-success m-0">
+                <p id="setout" class="text-white alert bg-success m-0">
                     {{ session()->get('success') }}
                 </p>
             @endif
@@ -118,3 +118,8 @@
         </div>
     </div>
 @endsection
+<script>
+    setTimeout(() => {
+        document.getElementById('setout').classList.add('d-none');
+    }, 5000);
+</script>

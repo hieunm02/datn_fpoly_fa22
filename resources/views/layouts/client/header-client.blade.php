@@ -156,19 +156,3 @@
     </div>
 </div>
 {{-- end-header-footer --}}
-<script>
-    window.addEventListener('scroll', function(ev) {
- 
- var someDiv = document.getElementById('headerScroll');
- var distanceToTop = someDiv.getBoundingClientRect().top;
- function scrollFunction() {
-        // do your stuff here;
-        document.getElementById('nav-bottom').classList.remove('d-none');
-        if (distanceToTop == 0 || distanceToTop > -80) {
-        document.getElementById('nav-bottom').classList.add('d-none');
-        }
-    }
-    window.onscroll = scrollFunction;
-//  console.log(distanceToTop);
-});
-</script>
