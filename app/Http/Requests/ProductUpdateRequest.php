@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class ProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class ProductRequest extends FormRequest
                 'name' => 'required' . $this->route('products'),
                 'content' => 'required|min:6',
                 'desc' => 'required|min:6',
-                'thumb' => 'required|image',
                 'quantity' => 'required|integer|min:1'
             ];
         }
@@ -37,7 +36,6 @@ class ProductRequest extends FormRequest
             'name' => 'required',
             'content' => 'required|min:6',
             'desc' => 'required|min:6',
-            'thumb' => 'required|image',
             'quantity' => 'required|integer|min:1'
         ];
     }
@@ -51,8 +49,6 @@ class ProductRequest extends FormRequest
             'desc.required' => 'Mô tả chi tiết không được để trống!',
             'desc.min' => 'Mô tả chi tiết phải lớn hơn 6 kí tự!',
 
-            'thumb.image' => 'Phải là file ảnh!',
-            'thumb.required' => 'Ảnh sản phẩm không được để trống!',
             'quantity.required' => 'Số lượng sản phẩm không được để trống!',
             'quantity.integer' => 'Số lượng sản phẩm phải là số! ',
             'quantity.min' => 'Số lượng sản phẩm phải lớn hơn 1!',

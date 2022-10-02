@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -24,6 +28,7 @@ class ProductController extends Controller
     {
         $products = $this->productService->getAll();
         return view('admin.products.index', [
+            'title' => 'Danh sách sản phẩm',
             'products' => $products
         ]);
     }
@@ -35,7 +40,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $title = 'Tạo mới sản phẩm';
+        $prices = $this->productService->getPrice();
+        $menus = $this->productService->getMenu();
+        return view('admin.products.create', compact('prices', 'menus', 'title'));
     }
 
     /**
@@ -44,10 +52,10 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $this->productService->create($request);
-        return redirect()->back();
+        return redirect()->route('products.index');
     }
 
     /**
@@ -69,7 +77,15 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.products.edit');
+        $data['title'] = 'Cập nhật sản phẩm';
+        $data['product'] = $this->productService->getById($id);
+        $data['prices'] = $this->productService->getPrice();
+        $data['menus'] = $this->productService->getMenu();
+        $data['thumbnails'] = $this->productService->getThumbByProduct($id);
+        return view(
+            'admin.products.edit',
+            $data
+        );
     }
 
     /**
@@ -79,8 +95,11 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
+        $this->productService->update($request, $id);
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -91,6 +110,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->productService->delete($id);
+
+        return back();
     }
 }

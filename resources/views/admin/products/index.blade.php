@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-master')
-@section('title', 'Products')
+@section('title', $title)
 @section('content')
     <div class="main-content">
         <div class="page-header">
@@ -13,6 +13,12 @@
                 </nav>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i>
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -37,12 +43,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 text-right">
-                        <button class="btn btn-primary">
+                    <a class="col-lg-4 text-right" href="{{ route('products.create') }}">
+                        <button class="btn btn-primary" type="button">
                             <i class="anticon anticon-plus-circle m-r-5"></i>
                             <span>Add Product</span>
                         </button>
-                    </div>
+                    </a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover e-commerce-table">
@@ -84,34 +90,49 @@
                                         </div>
                                     </td>
                                     <td>{{ $product->menu->name }}</td>
-                                    <td>${{ $product->price }}</td>
-                                    <td>100</td>
+                                    <td>${{ $product->price->original }}</td>
+                                    <td>{{ $product->quantity }}</td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            @if ($product->active === 1)
-                                                <div class="badge badge-success badge-dot m-r-10"></div>
-                                                <div>In Stock</div>
-                                            @else
-                                                <div class="badge badge-danger badge-dot m-r-10"></div>
-                                                <div>Out Of Stock</div>
-                                            @endif
-                                        </div>
+                                        <form method="POST" class="inline-block"
+                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
+                                            action="{{ route('products.active', $product->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="d-flex align-items-center" style="cursor: pointer">
+                                                @if ($product->active === 1)
+                                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                                    <div>In Stock</div>
+                                                @else
+                                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                    <div>Out Of Stock</div>
+                                                @endif
+                                            </div>
+                                        </form>
+
                                     </td>
                                     <td class="text-right">
-                                        <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                            <i class="anticon anticon-edit"></i>
-                                        </button>
-                                        <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                            <i class="anticon anticon-delete"></i>
-                                        </button>
+                                        <a href="{{ route('products.edit', $product->id) }}">
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                                <i class="anticon anticon-edit"></i>
+                                            </button>
+                                        </a>
+                                        <form method="POST" class="inline-block"
+                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
+                                            action="{{ route('products.destroy', $product->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-delete"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
-                        <div>
-                            {{ $products->links() }}
-                        </div>
                     </table>
+                    <div class="text-right">
+                        {{ $products->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UploadThumbController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,7 +46,7 @@ Route::prefix('/')->group(function () {
     Route::get('/list-products', function () {
         return view('client.list-products');
     });
-    
+
     Route::get('/login', function () {
         return view('client.login');
     });
@@ -67,11 +70,11 @@ Route::prefix('/')->group(function () {
     Route::get('/search', function () {
         return view('client.search');
     });
-    
+
     Route::get('/status', function () {
         return view('client.status');
     });
-    
+
     Route::get('/successful', function () {
         return view('client.successful');
     });
@@ -80,11 +83,22 @@ Route::prefix('/')->group(function () {
         return view('client.term');
     });
 
+    Route::get('/product-detail', function () {
+        return view('client.product-detail');
+    });
+
     Route::get('/verification', function () {
         return view('client.verification');
     });
-
 });
 
+// Admin
+Route::prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class);
 
-Route::resource('products', ProductController::class);
+    // Danh mục
+    Route::resource('menus', MenuController::class);
+
+    //upload thumb
+    Route::post('upload/services', [UploadThumbController::class, 'store']);
+});
