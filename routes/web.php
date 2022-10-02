@@ -92,13 +92,6 @@ Route::prefix('/')->group(function () {
     });
 });
 
-<<<<<<< HEAD
-//Admin
-Route::prefix('/admin')->group(function () {
-    Route::resource('products', ProductController::class);
-    Route::resource('news', NewsController::class);
-});
-=======
 
 
 // Admin
@@ -107,8 +100,8 @@ Route::prefix('admin')->group(function () {
 
     // Danh mục 
     Route::resource('menus', MenuController::class);
+    Route::resource('news', NewsController::class);
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
 });
->>>>>>> ef0d6ac369e9d14a61aa832c94d37ed82bdd7a1f

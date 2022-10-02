@@ -5,10 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
+use App\Services\News\NewsServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Event;
+use PhpParser\Node\Expr\AssignOp\Mod;
 
 class NewsController extends Controller
 {
+    public function __construct(NewsServices $newsServices)
+    {
+        $this->newsServices = $newsServices;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +26,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::all();
-        $title = 'List news';
+        $news = $this->newsServices->getAll();
+        $title = 'Danh sách bài viết';
         return view('admin.news.index', compact('news', 'title'));
     }
 
@@ -28,7 +38,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create');
+        $title = 'Thêm mới bài viết';
+        return view('admin.news.create', compact('title'));
     }
 
     /**
@@ -39,20 +50,7 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        $data = $request->all();
-        $data['view'] = 0;
-        $data['user_id'] = 1;
-        $data['active'] = 0;
-
-        if ($request->hasFile('image_path')) {
-            $image_path = $data['image_path'];
-            $image_path_name = $image_path->getClientOriginalName();
-            $image_path->move(public_path('/img/news/'), $image_path_name);
-            $data['image_path'] = $image_path->getClientOriginalName();
-        }
-        session()->flash('success', 'Create successfully!');
-        News::create($data);
-
+        $this->newsServices->create($request);
         return redirect()->route('news.index');
     }
 
@@ -64,7 +62,11 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+        $news = News::find($id);
+        if (Cookie::get($news->id) != '') {
+            Cookie::set('$news->id', '1', 60);
+        }
+        return view('admin.news.test', compact('news'));
     }
 
     /**
@@ -75,7 +77,9 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $title = 'Cập nhật bài viết';
+        $news = News::find($id);
+        return view('admin.news.edit', compact('news', 'title'));
     }
 
     /**
@@ -85,9 +89,14 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(NewsRequest $request, $id)
     {
-        //
+        $news = News::find($id);
+        if (!$request['image_path']) {
+            $request['image_path'] = $news['image_path'];
+        }
+        $this->newsServices->update($request, $id);
+        return redirect()->route('news.index');
     }
 
     /**
@@ -98,6 +107,8 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $news = News::find($id);
+        $news->delete();
+        return response()->json(['news' => $news]);
     }
 }
