@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-master')
-@section('title', 'Products')
+@section('title', $title)
 @section('content')
     <div class="main-content">
         <div class="page-header">
@@ -13,6 +13,12 @@
                 </nav>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i>
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -37,70 +43,96 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 text-right">
-                        <button class="btn btn-primary">
+                    <a class="col-lg-4 text-right" href="{{ route('products.create') }}">
+                        <button class="btn btn-primary" type="button">
                             <i class="anticon anticon-plus-circle m-r-5"></i>
                             <span>Add Product</span>
                         </button>
-                    </div>
+                    </a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover e-commerce-table">
                         <thead>
-                        <tr>
-                            <th>
-                                <div class="checkbox">
-                                    <input id="checkAll" type="checkbox">
-                                    <label for="checkAll" class="m-b-0"></label>
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>Product</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Stock Left</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    <div class="checkbox">
+                                        <input id="checkAll" type="checkbox">
+                                        <label for="checkAll" class="m-b-0"></label>
+                                    </div>
+                                </th>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock Left</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <input id="check-item-1" type="checkbox">
-                                    <label for="check-item-1" class="m-b-0"></label>
-                                </div>
-                            </td>
-                            <td>
-                                #31
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="img-fluid rounded" src="" style="max-width: 60px" alt="">
-                                    <h6 class="m-b-0 m-l-10">Gray Sofa</h6>
-                                </div>
-                            </td>
-                            <td>Home Decoration</td>
-                            <td>$912.00</td>
-                            <td>20</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="badge badge-success badge-dot m-r-10"></div>
-                                    <div>In Stock</div>
-                                </div>
-                            </td>
-                            <td class="text-right">
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                    <i class="anticon anticon-edit"></i>
-                                </button>
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                    <i class="anticon anticon-delete"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            @foreach ($products as $index => $product)
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input id="check-item-{{ $index + 1 }}" name="{{ $product->id }}"
+                                                type="checkbox">
+                                            <label for="check-item-{{ $index + 1 }}" class="m-b-0"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        #{{ $product->id }}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img class="img-fluid rounded" src="" style="max-width: 60px"
+                                                alt="">
+                                            <h6 class="m-b-0 m-l-10">{{ $product->name }}</h6>
+                                        </div>
+                                    </td>
+                                    <td>{{ $product->menu->name }}</td>
+                                    <td>${{ $product->price->original }}</td>
+                                    <td>{{ $product->quantity }}</td>
+                                    <td>
+                                        <form method="POST" class="inline-block"
+                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
+                                            action="{{ route('products.active', $product->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="d-flex align-items-center" style="cursor: pointer">
+                                                @if ($product->active === 1)
+                                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                                    <div>In Stock</div>
+                                                @else
+                                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                    <div>Out Of Stock</div>
+                                                @endif
+                                            </div>
+                                        </form>
 
+                                    </td>
+                                    <td class="text-right">
+                                        <a href="{{ route('products.edit', $product->id) }}">
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                                <i class="anticon anticon-edit"></i>
+                                            </button>
+                                        </a>
+                                        <form method="POST" class="inline-block"
+                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
+                                            action="{{ route('products.destroy', $product->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-delete"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    <div class="text-right">
+                        {{ $products->links() }}
+                    </div>
                 </div>
             </div>
         </div>

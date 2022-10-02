@@ -100,13 +100,11 @@ Route::prefix('/')->group(function () {
     });
 });
 
-
-
 // Admin
 Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
 
-    // Danh mục 
+    // Danh mục
     Route::resource('menus', MenuController::class);
     Route::resource('news', NewsController::class);
 

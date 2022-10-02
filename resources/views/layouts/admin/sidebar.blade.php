@@ -15,10 +15,10 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{route('products.index')}}">List Products</a>
+                        <a href="{{route('products.index')}}">Danh sách sản phẩm</a>
                     </li>
                     <li>
-                        <a href="{{route('products.create')}}">Create Products</a>
+                        <a href="{{route('products.create')}}">Tạo mới sản phẩm</a>
                     </li>
                 </ul>
             </li>
