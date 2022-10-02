@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MenuRequest;
 use App\Services\Menu\MenuServices;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,7 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuRequest $request)
     {
         $this->menuService->create($request);
         return redirect()->back();
@@ -73,7 +74,14 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $menu_parent = $this->menuService->getParent();
+        $data = $this->menuService->getId($id);
+        // \dd($data);
+        return view('admin.menus.edit', [
+            'title' => 'Sửa menu',
+            'menus' => $menu_parent,
+            'data' => $data,
+        ]);
     }
 
     /**
@@ -83,9 +91,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MenuRequest $request, $id)
     {
-        //
+        $this->menuService->update($request,$id);
+        return redirect()->route('menus.index');
     }
 
     /**
@@ -96,6 +105,8 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+    //    echo "xoa";
+        $this->menuService->destroyId($id);
+        return redirect()->route('menus.index');
     }
 }

@@ -47,6 +47,14 @@ Route::prefix('/')->group(function () {
         return view('client.list-products');
     });
 
+    Route::get('/news', function () {
+        return view('client.news');
+    });
+
+    Route::get('/news-detail', function () {
+        return view('client.news-detail');
+    });
+
     Route::get('/login', function () {
         return view('client.login');
     });
@@ -100,6 +108,9 @@ Route::prefix('admin')->group(function () {
 
     // Danh mục 
     Route::resource('menus', MenuController::class);
+    Route::resource('news', NewsController::class);
+
+    // news
     Route::resource('news', NewsController::class);
 
     //upload thumb
