@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Thumb;
+use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     protected $productService;
+    protected $menuService;
 
-    public function __construct(ProductServices $productService)
+    public function __construct(ProductServices $productService, MenuServices $menuService)
     {
         $this->productService = $productService;
+        $this->menuService = $menuService;
     }
 
     /**
@@ -25,7 +28,8 @@ class HomeController extends Controller
     {
         $products = $this->productService->getAll();
         $productBtm = $this->productService->getAll();
-        return view('client.index', compact('products', 'productBtm'));
+        $menus = $this->menuService->getMenuIndex();
+        return view('client.index', compact('products', 'productBtm', 'menus'));
     }
 
     /**

@@ -131,9 +131,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="text-right">
-                        {{ $products->links() }}
-                    </div>
+                </div>
+                <div class="text-right">
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>
