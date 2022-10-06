@@ -4,7 +4,10 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +60,11 @@ Route::prefix('/')->group(function () {
 
     Route::get('/login', function () {
         return view('client.login');
+    });
+
+    Route::get('/logout', function () {
+        Session::forget('user_name');
+        return back();
     });
 
     Route::get('/my-order', function () {
@@ -114,3 +122,8 @@ Route::prefix('admin')->group(function () {
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
 });
+
+
+//login with google
+Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
+Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
