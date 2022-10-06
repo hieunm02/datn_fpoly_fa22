@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\Homepage\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        return view('client.index');
-    });
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -90,11 +90,7 @@ Route::prefix('/')->group(function () {
     Route::get('/term', function () {
         return view('client.term');
     });
-
-    Route::get('/product-detail', function () {
-        return view('client.product-detail');
-    });
-
+    
     Route::get('/verification', function () {
         return view('client.verification');
     });

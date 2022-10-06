@@ -92,10 +92,11 @@
                                     <td>{{ $product->menu->name }}</td>
                                     <td>${{ $product->price->original }}</td>
                                     <td>{{ $product->quantity }}</td>
+                                    <td><img src="{{asset($product->thumb)}}"></td>
                                     <td>
                                         <form method="POST" class="inline-block"
                                             onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                                            action="{{ route('products.active', $product->id) }}">
+                                            >
                                             @csrf
                                             @method('PUT')
                                             <div class="d-flex align-items-center" style="cursor: pointer">
@@ -110,7 +111,7 @@
                                         </form>
 
                                     </td>
-                                    <td class="text-right">
+                                    <td class="text-right">    
                                         <a href="{{ route('products.edit', $product->id) }}">
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                                 <i class="anticon anticon-edit"></i>
