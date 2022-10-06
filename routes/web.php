@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
-use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Route; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,3 +88,5 @@ Route::prefix('/')->group(function () {
 
 
 Route::resource('products', ProductController::class);
+
+Route::resource('prices', PriceController::class);

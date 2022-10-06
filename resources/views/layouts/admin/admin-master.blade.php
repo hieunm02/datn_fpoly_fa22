@@ -47,6 +47,25 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-appstore"></i>
+                                </span>
+                            <span class="title">Giá sản phẩm</span>
+                            <span class="arrow">
+                                    <i class="arrow-icon"></i>
+                                </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{route('prices.index')}}">Danh sách giá sản phẩm</a>
+                            </li>
+                            <li>
+                                <a href="{{route('prices.create')}}">Thêm mới giá sản phẩm</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
