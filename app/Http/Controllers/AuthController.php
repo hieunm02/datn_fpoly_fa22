@@ -35,6 +35,7 @@ class AuthController extends Controller
             $user->name = $userdata->name;
             $user->email = $userdata->email;
             $user->password = Hash::make($uuid.now());
+            $user->role = 1;
             $user->auth_type = 'google';
             $user->save();
             return redirect('/');
