@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UploadThumbController;
 use Illuminate\Support\Facades\Route;
 
@@ -95,10 +96,19 @@ Route::prefix('/')->group(function () {
 // Admin
 Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
-
+    Route::prefix('product')->group(function () {
+        Route::get('active', [ProductController::class, 'changeActive']);
+        Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+    });
     // Danh mục
     Route::resource('menus', MenuController::class);
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
+
+    //Slides
+    Route::resource('slides', SlideController::class);
+    Route::prefix('slide')->group(function () {
+        Route::get('active', [SlideController::class, 'changeActive']);
+    });
 });

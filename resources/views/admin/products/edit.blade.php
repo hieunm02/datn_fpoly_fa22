@@ -1,6 +1,7 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/product/style.css') }}">
     <div class="main-content">
         <form action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" method="post">
             @csrf
@@ -13,22 +14,6 @@
                                 style="cursor: pointer" id="avatar" src="{{ asset($product->thumb) }}" />
                             <input id="fileinput" onchange="loadFile(event)" accept=".jpg" type="file" name="thumb"
                                 style="display:none; cursor: pointer" />
-                            <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-                            <script>
-                                $(function() {
-                                    $('#avatar').on('click', function() {
-                                        $('#fileinput').trigger('click');
-                                    });
-                                });
-                                var loadFile = function(event) {
-                                    var output = document.querySelector('#avatar');
-                                    console.log(output);
-                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                    output.onload = function() {
-                                        URL.revokeObjectURL(output.src)
-                                    }
-                                };
-                            </script>
                         </div>
 
                         <div class="m-l-15">
@@ -81,7 +66,7 @@
                                     <label class="font-weight-semibold" for="productCategory">Menu</label>
                                     <select class="custom-select" name="menu_id" id="productCategory">
                                         @foreach ($menus as $menu)
-                                            @if ($product->menu_id === $menu)
+                                            @if ($product->menu_id === $menu->id)
                                                 <option value="{{ $menu->id }}" selected>{{ $menu->name }}</option>
                                             @else
                                                 <option value="{{ $menu->id }}">{{ $menu->name }}</option>
@@ -105,7 +90,8 @@
                                     <label class="font-weight-semibold" for="productBrand">Mô tả ngắn</label>
                                     @if ($errors->first('content'))
                                         <input type="text" placeholder="Content" name="content"
-                                            value="{{ old('content') }}" class="form-control is-invalid" id="productBrand">
+                                            value="{{ old('content') }}" class="form-control is-invalid"
+                                            id="productBrand">
                                         <div class="invalid-feedback">{{ $errors->first('content') }}</div>
                                     @else
                                         <input type="text" class="form-control" name="content" id="productName"
@@ -140,116 +126,9 @@
                                                 src="https://www.lifewire.com/thmb/blKERZhp27lzE_9SjqlnovU0v-s=/1768x1326/smart/filters:no_upscale()/cloud-upload-a30f385a928e44e199a62210d578375a.jpg" />
                                             <input id="files" type="file" name="image[]"
                                                 style="display:none; cursor: pointer" multiple />
-                                            <script>
-                                                $(function() {
-                                                    $('#thumb').on('click', function() {
-                                                        $('#files').trigger('click');
-                                                    });
-                                                });
-                                            </script>
-                                            <style>
-                                                input[type="file"] {
-                                                    display: block;
-                                                }
-
-                                                .imageThumb,
-                                                .thumbUpdate {
-
-                                                    max-height: 95px;
-                                                    padding: 1px;
-                                                    cursor: pointer;
-                                                }
-
-                                                .imageThumb,
-                                                .thumbUpdate:hover {
-                                                    max-height: 95px;
-                                                    padding: 1px;
-                                                    background-color: indianred;
-                                                }
-
-                                                .pip {
-                                                    display: inline-block;
-                                                    margin: 10px 10px 0 0;
-                                                }
-
-                                                .remove {
-                                                    margin-bottom: 60px;
-                                                    display: block;
-                                                    color: rgb(223, 30, 30);
-                                                    text-align: center;
-                                                    cursor: pointer;
-                                                }
-
-                                                .remove:hover {
-                                                    background: white;
-                                                    color: black;
-                                                }
-                                            </style>
                                             <input type="hidden" id="thumbnail" name="thumbnail"
                                                 value="{{ $thumbnails }}">
                                             <input type="hidden" name="image_update" id="image_update">
-                                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-                                            <script>
-                                                $(document).ready(function() {
-                                                    if (window.File && window.FileList && window.FileReader) {
-
-                                                        var thumbs = $('#thumbnail').val();
-                                                        var origin = window.location.origin + '/';
-                                                        if (thumbs) {
-                                                            var convertThumbsJson = $.parseJSON(thumbs)
-                                                            convertThumbsJson.forEach(element => {
-                                                                $("<img></img>", {
-                                                                    class: "thumbUpdate",
-                                                                    src: origin + element,
-                                                                    title: "Click to remove"
-                                                                }).insertAfter("#files").click(function() {
-                                                                    $(this).remove();
-                                                                });
-                                                            });
-
-                                                        }
-                                                        //
-                                                        $('.submit-form').click(function() {
-                                                            var srcThumbs = $('.thumbUpdate').map((_, {
-                                                                src
-                                                            }) => src).get()
-                                                            $('#image_update').val(srcThumbs)
-                                                            var s = $('#image_update').val()
-                                                                .replaceAll(origin, '')
-                                                            $('#image_update').val(s)
-                                                        })
-
-                                                        //
-                                                        $("#files").on("change", function(e) {
-                                                            var files = e.target.files,
-                                                                filesLength = files.length;
-                                                            for (var i = 0; i < filesLength; i++) {
-                                                                var f = files[i]
-                                                                var fileReader = new FileReader();
-                                                                fileReader.onload = (function(e) {
-                                                                    var file = e.target;
-
-                                                                    // Old code here
-                                                                    $("<img></img>", {
-                                                                        class: "imageThumb",
-                                                                        src: e.target.result,
-                                                                        title: f.name + " | Click to remove"
-                                                                    }).insertAfter("#files").click(function() {
-                                                                        $(this).remove();
-                                                                        f = ''
-                                                                    });
-
-                                                                });
-                                                                fileReader.readAsDataURL(f);
-                                                                console.log(f);
-                                                            }
-
-                                                            console.log($("#files").val())
-
-                                                        });
-                                                    }
-                                                });
-                                            </script>
                                         </div>
                                         <div>
                                             <h6 class="mb-0">Ảnh chi tiết sản phẩm</h6>
@@ -273,10 +152,6 @@
 
         </form>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script>
-            $('#productName').change(function() {
-                $('#outPut').html($(this).val());
-            });
-        </script>
+        <script type="text/javascript" src="{{ asset('js/handleGeneral/product/handleEdit.js') }}"></script>
     </div>
 @endsection

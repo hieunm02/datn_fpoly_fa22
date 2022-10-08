@@ -1,6 +1,7 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>;
     <div class="main-content">
         <div class="page-header">
             <h2 class="header-title">Orders List</h2>
@@ -9,7 +10,7 @@
                     <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
                     <a class="breadcrumb-item" href="#">Apps</a>
                     <a class="breadcrumb-item" href="#">E-commerce</a>
-                    <span class="breadcrumb-item active">Orders List</span>
+                    <span class="breadcrumb-item active">Slides List</span>
                 </nav>
             </div>
         </div>
@@ -24,23 +25,6 @@
                 <div class="row m-b-30">
                     <div class="col-lg-7">
                         <div class="d-md-flex">
-                            <div class="m-b-10 m-r-15">
-                                <select class="custom-select select-massaction" style="min-width: 180px;">
-                                    <option selected>MassAction</option>
-                                    <option id="check-select" value="select-page">Select Page</option>
-                                    <option value="select-all">Select All</option>
-                                    <option value="un-select">UnSelected</option>
-                                </select>
-                            </div>
-                            <div class="m-b-10 m-r-15">
-                                <select class="custom-select" style="min-width: 180px;">
-                                    <option selected>Catergory</option>
-                                    <option value="all">All</option>
-                                    <option value="homeDeco">Home Decoration</option>
-                                    <option value="eletronic">Eletronic</option>
-                                    <option value="jewellery">Jewellery</option>
-                                </select>
-                            </div>
                             <div class="m-b-10">
                                 <select class="custom-select" style="min-width: 180px;">
                                     <option selected>Status</option>
@@ -52,16 +36,10 @@
                         </div>
                     </div>
                     <div class="col-lg-5  text-right">
-                        <a class="delete-action">
-                            <button class="btn btn-danger" type="button">
-                                <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Delete</span>
-                            </button>
-                        </a>
-                        <a class="" href="{{ route('products.create') }}">
+                        <a class="" href="{{ route('slides.create') }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add Product</span>
+                                <span>Add Slide</span>
                             </button>
                         </a>
                     </div>
@@ -77,72 +55,76 @@
                                     </div>
                                 </th>
                                 <th>ID</th>
+                                <th>Name</th>
                                 <th>Product</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock Left</th>
+                                <th>Sort By</th>
                                 <th>Status</th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $index => $product)
+                            @foreach ($slides as $index => $slide)
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <input id="check-item-{{ $index + 1 }}" class="check-item"
-                                                onclick="checkBox({{ $product->id }})" value="{{ $product->id }}"
-                                                name="{{ $product->id }}" type="checkbox">
+                                                onclick="checkBox({{ $slide->id }})" value="{{ $slide->id }}"
+                                                name="{{ $slide->id }}" type="checkbox">
                                             <label for="check-item-{{ $index + 1 }}" class="m-b-0"></label>
                                         </div>
                                     </td>
                                     <td>
-                                        #{{ $product->id }}
+                                        #{{ $slide->id }}
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <img class="img-fluid rounded" src="" style="max-width: 60px"
                                                 alt="">
-                                            <h6 class="m-b-0 m-l-10">{{ $product->name }}</h6>
+                                            <h6 class="m-b-0 m-l-10">{{ $slide->name }}</h6>
                                         </div>
                                     </td>
-                                    <td>{{ $product->menu->name }}</td>
-                                    <td>${{ $product->price->original }}</td>
-                                    <td>{{ $product->quantity }}</td>
+                                    <td>{{ $slide->product->name }}</td>
+                                    <td>
+                                        @if ($slide->sort_by === 1)
+                                            {{ 'ASC' }}
+                                        @else
+                                            {{ 'DESC' }}
+                                        @endif
+                                    </td>
                                     <td>
                                         <form method="POST" class="inline-block"
                                             onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
                                             @csrf
                                             @method('PUT')
                                             <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($product->active === 1)
-                                                    <div id="icon-active{{ $product->id }}"
+                                                @if ($slide->active === 1)
+                                                    <div id="icon-active{{ $slide->id }}"
                                                         class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $product->id }}"
-                                                        value="{{ $product->active }}">
-                                                    <div class="btn-status btn-active{{ $product->id }}"
-                                                        data-id="{{ $product->id }}">In Stock</div>
+                                                    <input type="hidden" id="is-active{{ $slide->id }}"
+                                                        value="{{ $slide->active }}">
+                                                    <div class="btn-status btn-active{{ $slide->id }}"
+                                                        data-id="{{ $slide->id }}">Actived</div>
                                                 @else
-                                                    <div id="icon-active{{ $product->id }}"
+                                                    <div id="icon-active{{ $slide->id }}"
                                                         class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $product->id }}"
-                                                        value="{{ $product->active }}">
-                                                    <div class="btn-status btn-active{{ $product->id }}"
-                                                        data-id="{{ $product->id }}">Out Of Stock
+                                                    <input type="hidden" id="is-active{{ $slide->id }}"
+                                                        value="{{ $slide->active }}">
+                                                    <div class="btn-status btn-active{{ $slide->id }}"
+                                                        data-id="{{ $slide->id }}">Deactive
                                                     </div>
                                                 @endif
                                             </div>
                                         </form>
                                     </td>
                                     <td class="text-right">
-                                        <a href="{{ route('products.edit', $product->id) }}">
+                                        <a href="{{ route('slides.edit', $slide->id) }}">
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                                 <i class="anticon anticon-edit"></i>
                                             </button>
                                         </a>
                                         <form method="POST" class="inline-block"
                                             onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                                            action="{{ route('products.destroy', $product->id) }}">
+                                            action="{{ route('slides.destroy', $slide->id) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded">
@@ -155,14 +137,11 @@
                         </tbody>
                     </table>
                     <div style="display: flex; justify-content: center">
-                        {{ $products->links() }}
+                        {{ $slides->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ asset('js/handleGeneral/product/changeStatusProduct.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/handleGeneral/product/checkboxProduct.js') }}"></script>
-    <script></script>
+    <script type="text/javascript" src="{{ asset('js/handleGeneral/changeStatusSlide.js') }}"></script>
 @endsection
