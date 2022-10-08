@@ -1323,6 +1323,21 @@ footer .text-muted {
         flex: unset !important;
         max-width: 100%;
     }
+
+    /* sửa css */
+    .avatar > img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    .mr-2 {
+        margin-right: 4px !important;
+    }
+    /* .px-3 {
+        padding: 0px 4px 0px 4px !important;
+    } */
+    .justify-content-center {
+        justify-content: start!important;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1398,4 +1413,36 @@ footer .text-muted {
         flex: unset !important;
         max-width: 100%;
     }
+
+    /* sửa css */
+    .col-md-12.d-flex {
+        flex-direction: column!important;
+    }
+    .col-md-12.p-0.d-flex {
+        flex-direction: row !important;
+    }
+    .setCt {
+        text-align: center !important;
+    }
+    .form-button {
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .content.mx-4.my-auto {
+        margin: 0px !important;
+    }
+}
+.newsHide {
+    display: block;
+    display: -webkit-box;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;  /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top:10px;
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
 }

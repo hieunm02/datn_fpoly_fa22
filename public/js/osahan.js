@@ -178,7 +178,7 @@ Version: 1.0
     var Nav = $main_nav.hcOffcanvasNav(defaultOptions);
 
 })(jQuery); // End of use strict
-
+//javascript cho các trang dao diện ng dùng
 function changeImage(a) {
     console.log(document.getElementById("imgClick").src = a);
     document.getElementById("imgClick").src = a;
@@ -211,3 +211,18 @@ function tru() {
         document.getElementById("quantity").value = parseInt(val) - 1;
     }
 }
+
+window.addEventListener('scroll', function(ev) {
+ 
+    var someDiv = document.getElementById('headerScroll');
+    var distanceToTop = someDiv.getBoundingClientRect().top;
+    function scrollFunction() {
+           // do your stuff here;
+           document.getElementById('nav-bottom').classList.remove('d-none');
+           if (distanceToTop == 0 || distanceToTop > -80) {
+           document.getElementById('nav-bottom').classList.add('d-none');
+           }
+       }
+       window.onscroll = scrollFunction;
+   //  console.log(distanceToTop);
+   });

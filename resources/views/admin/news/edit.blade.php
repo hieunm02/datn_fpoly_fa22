@@ -1,97 +1,94 @@
 @extends('layouts.admin.admin-master')
-@section('title', ' Edit Products')
+@section('title', $title)
 @section('content')
-    <div class="main-content">
-        <form>
-            <div class="page-header no-gutters has-tab">
-                <div class="d-md-flex m-b-15 align-items-center justify-content-between">
-                    <div class="media align-items-center m-b-15">
-                        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-                            <img src="" alt="">
-                        </div>
-                        <div class="m-l-15">
-                            <h4 class="m-b-0" id="outPut"></h4>
-                            <p class="text-muted m-b-0">Code: #5325</p>
+<div class="main-content">
+    <form action="{{route('news.update',$news->id)}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="page-header no-gutters has-tab">
+            <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+                <div class="media align-items-center m-b-15">
+                    <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                        <div>
+                            <img src="{{$news->image_path}}" alt="">
                         </div>
                     </div>
-                    <div class="m-b-15">
-                        <button class="btn btn-primary">
-                            <i class="anticon anticon-save"></i>
-                            <span>Save</span>
-                        </button>
+                    <div class="m-l-15">
+                        <p class="text-muted m-b-0" id="name-thumbnail"></p>
                     </div>
                 </div>
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Product Info</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#product-edit-description">Description</a>
-                    </li>
-                </ul>
+                <div class="m-b-15">
+                    <button class="btn btn-primary">
+                        <i class="anticon anticon-save"></i>
+                        <span>Save</span>
+                    </button>
+                </div>
             </div>
-            <div class="tab-content m-t-15">
-                <div class="tab-pane fade show active" id="product-edit-basic">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="font-weight-semibold" for="productName">Product Name</label>
-                                <input type="text" class="form-control" id="productName" placeholder="Product Name"
-                                       value="">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">News Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#product-edit-description">Description</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content m-t-15">
+            <div class="tab-pane fade show active" id="product-edit-basic">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>" id="upload">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="hidden" name="image_path" id="thumb">
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-semibold" for="productPrice">Price</label>
-                                <select class="custom-select" id="productCategory">
-                                    <option value="cloths" selected>Cloths</option>
-                                    <option value="homeDecoration">Home Decoration</option>
-                                    <option value="eletronic">Eletronic</option>
-                                    <option value="jewellery">Jewellery</option>
-                                </select>
+                            @if ($errors->first('image_path'))
+                            <div class="invalid-feedback">
+                                {{$errors->first('image_path')}}
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-semibold" for="productCategory">Menu</label>
-                                <select class="custom-select" id="productCategory">
-                                    <option value="cloths" selected>12.000 --> 11.000</option>
-                                    <option value="cloths">13.000 --> 11.000</option>
-                                    <option value="cloths">15.000 --> 11.000</option>
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-semibold" for="productBrand">Content</label>
-                                <input type="text" class="form-control" id="productBrand" placeholder="Brand"
-                                       value="H&M">
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-semibold" for="productStatus">Status</label>
-                                <select class="custom-select" id="productStatus">
-                                    <option value="inStock" selected>In Stock</option>
-                                    <option value="outOfStock">Out of Stock</option>
-                                    <option value="pending">Pending</option>
-                                </select>
-                            </div>
+                            @endif
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="product-edit-description">
-                    <div class="card">
-                        <div class="card-body">
-                            <textarea name="editor1"></textarea>
+                        <div id="image_show"></div>
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="titleNews">News title</label>
+                            <input type="text" name="title" class="form-control <?php echo $errors->first('title') ? 'is-invalid' : ''; ?>" id="titleNews" placeholder="News title" value="{{$news->title}}">
+                            @if ($errors->first('title'))
+                            <div class="invalid-feedback">
+                                {{$errors->first('title')}}
+                            </div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="short_desc">Short description</label>
+                            <textarea name="short_desc">{{$news->short_desc}}</textarea>
                             <script>
-                                CKEDITOR.replace('editor1');
+                                CKEDITOR.replace('short_desc');
                             </script>
-
+                            @if ($errors->first('short_desc'))
+                            <div class="invalid-feedback">
+                                {{$errors->first('short_desc')}}
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-    <script>
-        $('#productName').change(function () {
-            $('#outPut').html($(this).val());
-        });
-    </script>
+            <div class="tab-pane fade" id="product-edit-description">
+                <div class="form-group">
+                    <label class="font-weight-semibold" for="content">Content</label>
+                    <textarea name="content">{{$news->content}}</textarea>
+                    <script>
+                        CKEDITOR.replace('content');
+                    </script>
+                    @if ($errors->first('content'))
+                    <div class="invalid-feedback">
+                        {{$errors->first('content')}}
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 @endsection

@@ -2,7 +2,7 @@
     <div class="logo logo-dark">
         <a href="index.html">
             <img src="{{asset('assets/images/logo/logo.png')}}" alt="Logo">
-            <img class="logo-fold" src="assets/images/logo/logo-fold.png" alt="Logo">
+            <img class="logo-fold" src="{{asset('assets/images/logo/logo-fold.png')}}" alt="Logo">
         </a>
     </div>
     <div class="logo logo-white">

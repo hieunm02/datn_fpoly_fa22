@@ -28,7 +28,6 @@ class NewsRequest extends FormRequest
                 'title' => 'required|min:6|unique:news,title,' . $this->route('news'),
                 'short_desc' => 'required',
                 'content' => 'required',
-                'image_path' => 'required',
             ];
         }
         

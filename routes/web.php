@@ -5,7 +5,11 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\Homepage\HomeController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        return view('client.index');
-    });
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -48,8 +51,21 @@ Route::prefix('/')->group(function () {
         return view('client.list-products');
     });
 
+    Route::get('/news', function () {
+        return view('client.news');
+    });
+
+    Route::get('/news-detail', function () {
+        return view('client.news-detail');
+    });
+
     Route::get('/login', function () {
         return view('client.login');
+    });
+
+    Route::get('/logout', function () {
+        Session::forget('user_name');
+        return back();
     });
 
     Route::get('/my-order', function () {
@@ -84,10 +100,6 @@ Route::prefix('/')->group(function () {
         return view('client.term');
     });
 
-    Route::get('/product-detail', function () {
-        return view('client.product-detail');
-    });
-
     Route::get('/verification', function () {
         return view('client.verification');
     });
@@ -102,6 +114,10 @@ Route::prefix('admin')->group(function () {
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
+    Route::resource('news', NewsController::class);
+
+    // news
+    Route::resource('news', NewsController::class);
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
@@ -112,3 +128,8 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [SlideController::class, 'changeActive']);
     });
 });
+
+
+//login with google
+Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
+Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);

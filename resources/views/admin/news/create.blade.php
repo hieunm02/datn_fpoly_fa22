@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-master')
-@section('title', ' Create News')
+@section('title', $title)
 @section('content')
 <div class="main-content">
     <form action="{{route('news.store')}}" method="POST" enctype="multipart/form-data">
@@ -8,7 +8,7 @@
             <div class="d-md-flex m-b-15 align-items-center justify-content-between">
                 <div class="media align-items-center m-b-15">
                     <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-                        <img id="output" src="" alt="">
+                        <div id="image_show"></div>
                     </div>
                     <div class="m-l-15">
                         <p class="text-muted m-b-0" id="name-thumbnail"></p>
@@ -36,15 +36,15 @@
                     <div class="card-body">
                         <div class="form-group">
                             <div class="custom-file">
-                                <label class="font-weight-semibold" for="">Thumbnail News</label>
-                                <input type="file" name="image_path" onchange="loadFile(event)" class="custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>" id="customFile">
+                                <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>" id="upload">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
-                                @if ($errors->first('image_path'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('image_path')}}
-                                </div>
-                                @endif
+                                <input type="hidden" name="image_path" id="thumb">
                             </div>
+                            @if ($errors->first('image_path'))
+                            <div class="invalid-feedback">
+                                {{$errors->first('image_path')}}
+                            </div>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label class="font-weight-semibold" for="titleNews">News title</label>
@@ -87,14 +87,4 @@
         </div>
     </form>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
-    var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function() {
-            URL.revokeObjectURL(output.src) // free memory
-        }
-    };
-</script>
 @endsection
