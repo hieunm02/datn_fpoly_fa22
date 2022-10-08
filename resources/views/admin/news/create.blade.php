@@ -57,7 +57,7 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-semibold" for="short_desc">Short description</label>
-                            <textarea value="{{old('short_desc')}}" name="short_desc"></textarea>
+                            <textarea name="short_desc">{{ old('short_desc') }}</textarea>
                             <script>
                                 CKEDITOR.replace('short_desc');
                             </script>
@@ -73,7 +73,7 @@
             <div class="tab-pane fade" id="product-edit-description">
                 <div class="form-group">
                     <label class="font-weight-semibold" for="content">Content</label>
-                    <textarea name="content" value="{{old('content')}}"></textarea>
+                    <textarea name="content">{{ old('content') }}</textarea>
                     <script>
                         CKEDITOR.replace('content');
                     </script>

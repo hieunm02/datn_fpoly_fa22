@@ -23,4 +23,9 @@ class Menu extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class);
+    }
 }
