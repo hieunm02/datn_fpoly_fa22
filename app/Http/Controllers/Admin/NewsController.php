@@ -63,9 +63,11 @@ class NewsController extends Controller
     public function show($id)
     {
         $news = News::find($id);
-        if (Cookie::get($news->id) != '') {
-            Cookie::set('$news->id', '1', 60);
+        if (!Cookie::get('ddd')) {
+            $cookie = cookie('ddd',$news->id, '1', 1);
+            return response()->view('admin.news.test', compact('news'))->withCookie($cookie);
         }
+
         return view('admin.news.test', compact('news'));
     }
 

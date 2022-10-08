@@ -45,7 +45,6 @@
             {{-- End Menus  --}}
 
             {{-- News  --}}
-
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -66,6 +65,28 @@
                 </ul>
             </li>
             {{-- End News  --}}
+
+            {{-- Vouchers  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-percent"></i>
+                    </span>
+                    <span class="title">Mã giảm giá</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{route('vouchers.index')}}">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="{{route('vouchers.create')}}">Tạo mới</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Vouchers  --}}
 
         </ul>
     </div>

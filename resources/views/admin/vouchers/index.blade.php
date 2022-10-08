@@ -13,9 +13,10 @@
             </nav>
         </div>
     </div>
-    @if (session()->has('success'))
-    <div class="text-white alert bg-success">
-        {{ session()->get('success') }}
+    @if (session('success'))
+    <div class="alert alert-success">
+        <i class="fa fa-check"></i>
+        {{ session('success') }}
     </div>
     @endif
     <div class="card">
@@ -42,12 +43,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-right">
-                    <a href="{{route('news.create')}}" class="btn btn-primary">
+                <a class="col-lg-4 text-right" href="{{ route('vouchers.create') }}">
+                    <button class="btn btn-primary" type="button">
                         <i class="anticon anticon-plus-circle m-r-5"></i>
-                        <span>Add</span>
-                    </a>
-                </div>
+                        <span>Add voucher</span>
+                    </button>
+                </a>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">
@@ -60,46 +61,55 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Title</th>
+                            <th>Code</th>
                             <th>Thumbnail</th>
-                            <th>Active</th>
-                            <th colspan="2"></th>
+                            <th>Loai</th>
+                            <th>Giảm giá</th>
+                            <th>Trạng thái</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($news as $item)
-                        <tr id="id{{$item->id}}">
+                        @foreach ($vouchers as $index => $voucher)
+                        <tr id="id{{$voucher->id}}">
                             <td>
                                 <div class="checkbox">
-                                    <input id="check-item-1" type="checkbox">
-                                    <label for="check-item-1" class="m-b-0"></label>
+                                    <input id="check-item-{{ $index + 1 }}" name="{{ $voucher->id }}" type="checkbox">
+                                    <label for="check-item-{{ $index + 1 }}" class="m-b-0"></label>
                                 </div>
                             </td>
-                            <td>{{$item->id}}</td>
-                            <td>{{$item->title}}</td>
-                            <td><img width="100px" src="{{$item->image_path}}" alt=""></td>
-                            @if($item->active === 0)
+                            <td>
+                                #{{ $voucher->id }}
+                            </td>
+                            <td>
+                                {{ $voucher->code }}
+                            </td>
                             <td>
                                 <div class="d-flex align-items-center">
+                                    <img class="img-fluid rounded" src="{{$voucher->thumb}}" style="max-width: 60px" alt="">
+                                </div>
+                            </td>
+                            <td>{{ $voucher->menu->name }}</td>
+                            <td>{{ $voucher->discount }} %</td>
+                            <td>
+                                <div class="d-flex align-items-center" style="cursor: pointer">
+                                    @if ($voucher->active === 1)
                                     <div class="badge badge-danger badge-dot m-r-10"></div>
-                                    <div>Private</div>
-                                </div>
-                            </td>
-                            @else
-                            <td>
-                                <div class="d-flex align-items-center">
+                                    <div>Hết hạn</div>
+                                    @else
                                     <div class="badge badge-success badge-dot m-r-10"></div>
-                                    <div>Public</div>
+                                    <div>Còn hạn</div>
+                                    @endif
                                 </div>
+                                </form>
+
                             </td>
-                            @endif
                             <td class="text-right">
-                                <a href="{{route('news.edit',$item->id)}}" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                    <i class="anticon anticon-edit"></i>
+                                <a href="{{ route('vouchers.edit', $voucher->id) }}">
+                                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </button>
                                 </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded" data-id="{{$item->id}}" id="deleteNews">
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded deleteVoucher" data-id="{{$voucher->id}}">
                                     <i class="anticon anticon-delete"></i>
                                 </button>
                             </td>
@@ -107,6 +117,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="text-right">
+                    {{ $vouchers->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -121,12 +134,12 @@
     });
 
     //Delete ajax
-    $("#deleteNews").click(function() {
+    $(".deleteVoucher").click(function() {
         var id = $(this).data("id");
         var token = $(this).data("token");
         if (confirm('Bạn có chắc chắn muốn xóa?')) {
             $.ajax({
-                url: "news/" + id,
+                url: "vouchers/" + id,
                 type: 'POST',
                 dataType: "JSON",
                 data: {
@@ -135,13 +148,13 @@
                     "_token": token,
                 },
                 success: function(data) {
-                    console.log(data.news);
+                    console.log(data.voucher);
                     Swal.fire(
                         'Successful!',
                         'Student delete successfully!',
                         'success'
                     )
-                    $('#id' + data.news.id).remove();
+                    $('#id' + data.voucher.id).remove();
                 }
             });
         }

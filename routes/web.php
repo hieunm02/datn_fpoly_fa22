@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -106,10 +107,13 @@ Route::prefix('admin')->group(function () {
 
     // Danh mục
     Route::resource('menus', MenuController::class);
+
+    // News
     Route::resource('news', NewsController::class);
 
-    // news
-    Route::resource('news', NewsController::class);
+    // Vouchers
+    Route::resource('vouchers', VoucherController::class);
+        
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
