@@ -65,6 +65,7 @@
             {{-- End News  --}}
 
             {{-- Slides  --}}
+            {{-- Users  --}}
 
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -72,6 +73,9 @@
                         <i class="bi bi-layers-half"></i>
                     </span>
                     <span class="title">Slides</span>
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span class="title">Tài khoản</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
@@ -83,6 +87,14 @@
                 </ul>
             </li>
             {{-- End Slides  --}}
+                        <a href="{{route('users.index')}}">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="{{route('users.create')}}">Tạo mới</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Users  --}}
 
         </ul>
     </div>
