@@ -79,15 +79,17 @@
                             </div>
                         </a>
                         <!-- signin -->
-                        <a href="login.html" class="widget-header mr-4 text-dark m-none">
+                        @if (is_null(Session::get('user_name')))
+                        <a href="/login" class="widget-header mr-4 text-dark m-none">
                             <div class="icon d-flex align-items-center">
                                 <i class="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
                             </div>
                         </a>
                         <!-- my account -->
+                        @else
                         <div class="dropdown mr-4 m-none">
                             <a href="#" class="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img alt="#" src="{{asset('img/user/1.jpg')}}" class="img-fluid rounded-circle header-user mr-2 header-user"> Hi Osahan
+                                <img alt="#" src="{{asset('img/user/1.jpg')}}" class="img-fluid rounded-circle header-user mr-2 header-user"> {{ Session::get('user_name')}}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="profile.html">My account</a>
@@ -95,9 +97,10 @@
                                 <a class="dropdown-item" href="contact-us.html">Contant us</a>
                                 <a class="dropdown-item" href="terms.html">Term of use</a>
                                 <a class="dropdown-item" href="privacy.html">Privacy policy</a>
-                                <a class="dropdown-item" href="login.html">Logout</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
                             </div>
                         </div>
+						@endif
                         <!-- signin -->
                         <a href="checkout.html" class="widget-header mr-4 text-dark">
                             <div class="icon d-flex align-items-center">

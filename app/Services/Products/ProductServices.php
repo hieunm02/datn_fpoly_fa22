@@ -26,12 +26,13 @@ class ProductServices
         return Product::find($id);
     }
 
+
     public function getThumbByProduct($productId)
     {
-        $thumbnails =  Thumb::where('product_id', $productId)->get();
+        $thumbnails = Thumb::where('product_id', $productId)->get();
         $nameThumbs = [];
         foreach ($thumbnails as $thumb) {
-            $nameThumbs[]  = $thumb->image;
+            $nameThumbs[] = $thumb->image;
         }
         return json_encode($nameThumbs);
     }
@@ -86,6 +87,7 @@ class ProductServices
 
         return true;
     }
+
     public function update($request, $id)
     {
         try {
