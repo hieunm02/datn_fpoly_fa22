@@ -63,6 +63,7 @@
             </li>
             {{-- End News  --}}
 
+<<<<<<< HEAD
             {{-- Slides  --}}
             {{-- Users  --}}
 
@@ -75,6 +76,7 @@
                         <i class="fas fa-user-friends"></i>
                     </span>
                     <span class="title">Tài khoản</span>
+=======
             {{-- Vouchers  --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -82,6 +84,7 @@
                         <i class="fas fa-percent"></i>
                     </span>
                     <span class="title">Mã giảm giá</span>
+>>>>>>> trunghieu
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
