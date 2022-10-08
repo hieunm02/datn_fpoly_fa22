@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +115,9 @@ Route::prefix('admin')->group(function () {
 
     // news
     Route::resource('news', NewsController::class);
+    
+    // users
+    Route::resource('users', UserController::class);
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
