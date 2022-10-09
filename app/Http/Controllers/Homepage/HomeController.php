@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     protected $productService;
-    protected $menuService;
 
     public function __construct(ProductServices $productService, MenuServices $menuService)
     {
