@@ -40,33 +40,3 @@
 </body>
 
 </html>
-<script>
-    let subOverlay = document.getElementById('subOverlay');
-    let menu_sub = document.getElementById('menu-sub');
-    let closeSubNav = document.getElementById('closeSubNav');
-    let subClick = document.getElementById('subClick');
-    let clickNavSiderBar = document.getElementById('clickMenus');
-    let clickNavSiderBar1 = document.getElementById('clickMenus1');
-    let navSiderBar = document.getElementById('navSiderBar');
-    let ovarlay = document.getElementById('overlay');
-    clickNavSiderBar.addEventListener('click', function() {
-        navSiderBar.classList.add('nav-open');
-        ovarlay.classList.add('nav-open');
-    });
-    clickNavSiderBar1.addEventListener('click', function() {
-        navSiderBar.classList.add('nav-open');
-        ovarlay.classList.add('nav-open');
-    });
-    ovarlay.addEventListener('click', function() {
-        navSiderBar.classList.remove('nav-open');
-        ovarlay.classList.remove('nav-open');
-    });
-    subClick.addEventListener('click', function() {
-        subOverlay.classList.add('sub-level-open');
-        menu_sub.classList.add('level-open');
-    });
-    closeSubNav.addEventListener('click', function() {
-        subOverlay.classList.remove('sub-level-open');
-        menu_sub.classList.remove('level-open');
-    });
-</script>
