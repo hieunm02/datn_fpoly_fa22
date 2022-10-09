@@ -64,7 +64,6 @@
             {{-- End News  --}}
 
             {{-- Slides  --}}
-            {{-- Users  --}}
 
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -72,10 +71,21 @@
                         <i class="bi bi-layers-half"></i>
                     </span>
                     <span class="title">Slides</span>
-                        <i class="fas fa-user-friends"></i>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
                     </span>
-                    <span class="title">Tài khoản</span>
-            {{-- Vouchers  --}}
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('slides.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Slides  --}}
+
+            {{-- Voucher  --}}
+
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -85,34 +95,38 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
+                    </span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-<<<<<<< HEAD
-                        <a href="{{ route('slides.index') }}">Danh sách</a>
-                    </li>
-                </ul>
-            </li>
-            {{-- End Slides  --}}
-                        <a href="{{route('users.index')}}">Danh sách</a>
+                        <a href="{{ route('vouchers.index') }}">Danh sách</a>
                     </li>
                     <li>
-                        <a href="{{route('users.create')}}">Tạo mới</a>
+                        <a href="{{ route('vouchers.create') }}">Tạo mới</a>
                     </li>
                 </ul>
             </li>
-            {{-- End Users  --}}
-=======
-                        <a href="{{route('vouchers.index')}}">Danh sách</a>
-                    </li>
-                    <li>
-                        <a href="{{route('vouchers.create')}}">Tạo mới</a>
-                    </li>
-                </ul>
-            </li>
-            {{-- End Vouchers  --}}
->>>>>>> trunghieu
+            {{-- End Voucher  --}}
 
+
+            {{-- Users  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span class="title">Tài Khoản</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('users.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-users --}}
         </ul>
     </div>
 </div>
