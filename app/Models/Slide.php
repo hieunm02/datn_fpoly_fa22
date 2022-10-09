@@ -12,7 +12,6 @@ class Slide extends Model
     protected  $fillable = [
         'name',
         'product_id',
-        'url',
         'thumb',
         'sort_by',
         'active'
