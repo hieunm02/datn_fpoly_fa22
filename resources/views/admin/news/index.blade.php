@@ -14,13 +14,8 @@
             </div>
         </div>
         @if (session()->has('success'))
-            <div class="alert alert-success">
-                <div class="d-flex align-items-center justify-content-start">
-                    <span class="alert-icon">
-                        <i class="anticon anticon-check-o"></i>
-                    </span>
-                    <span>{{ session()->get('success') }}</span>
-                </div>
+            <div class="text-white alert bg-success">
+                {{ session()->get('success') }}
             </div>
         @endif
         <div class="card">
@@ -118,7 +113,6 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({

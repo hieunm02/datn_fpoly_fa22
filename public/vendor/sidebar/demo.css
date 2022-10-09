@@ -16,14 +16,33 @@ body.hc-nav-open {
     width: 100%;
     min-height: 100%
 }
-
+/* sửa dòng 20 đến24 */
+.nav-open {
+    display: block!important;
+}
+.fs-30 {
+    font-size: 30px !important;
+}
+.nav-wrapper.nav-wrapper-1 {
+    padding-left: 40px;
+}
+.overlay-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.2);
+}
 .hc-offcanvas-nav {
     visibility: hidden;
     display: none;
     position: fixed;
     top: 0;
     height: 100%;
-    z-index: 9999
+    z-index: 9999;
 }
 
 .hc-offcanvas-nav.is-ios * {
@@ -129,7 +148,7 @@ body.hc-nav-open {
     transition: visibility 0s ease .4s, opacity .4s ease
 }
 
-.hc-offcanvas-nav.disable-body.nav-open::after,
+/* .hc-offcanvas-nav.disable-body.nav-open::after, */
 .hc-offcanvas-nav .sub-level-open::after {
     visibility: visible;
     opacity: 1;

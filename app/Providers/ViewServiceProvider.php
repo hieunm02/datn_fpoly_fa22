@@ -9,7 +9,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     **
+     *
      * @return void
      */
     public function register()

@@ -1,0 +1,35 @@
+input[type="file"] {
+    display: block;
+}
+
+.imageThumb,
+.thumbUpdate {
+    max-height: 95px;
+    padding: 1px;
+    cursor: pointer;
+}
+
+.imageThumb,
+.thumbUpdate:hover {
+    max-height: 95px;
+    padding: 1px;
+    background-color: indianred;
+}
+
+.pip {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+}
+
+.remove {
+    margin-bottom: 60px;
+    display: block;
+    color: rgb(223, 30, 30);
+    text-align: center;
+    cursor: pointer;
+}
+
+.remove:hover {
+    background: white;
+    color: black;
+}

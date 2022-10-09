@@ -2,7 +2,7 @@
     <div class="logo logo-dark">
         <a href="index.html">
             <img src="{{asset('assets/images/logo/logo.png')}}" alt="Logo">
-            <img class="logo-fold" src="assets/images/logo/logo-fold.png" alt="Logo">
+            <img class="logo-fold" src="{{asset('assets/images/logo/logo-fold.png')}}" alt="Logo">
         </a>
     </div>
     <div class="logo logo-white">
@@ -23,11 +23,11 @@
                     <i class="anticon"></i>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="javascript:void(0);" data-toggle="modal" data-target="#search-drawer">
                     <i class="anticon anticon-search"></i>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         <ul class="nav-right">
             <li class="dropdown dropdown-animated scale-left">
