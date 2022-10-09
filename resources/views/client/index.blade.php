@@ -4,11 +4,12 @@
     <div class="bg-primary p-3 d-none">
         <div class="text-white">
             <div class="title d-flex align-items-center">
-                <a class="toggle" href="#">
-                    <span></span>
+                <a class="toggle1" id="clickMenus">
+                    <span> <i class="feather-align-justify fs-30"></i></span>
                 </a>
-                <h4 class="font-weight-bold m-0 pl-5">Browse</h4>
-                <a class="text-white font-weight-bold ml-auto" data-toggle="modal" data-target="#exampleModal" href="#">Filter</a>
+                <h4 class="font-weight-bold m-0 pl-2">Browse</h4>
+                <a class="text-white font-weight-bold ml-auto" data-toggle="modal" data-target="#exampleModal"
+                    href="#">Filter</a>
             </div>
         </div>
         <div class="input-group mt-3 rounded shadow-sm overflow-hidden">
@@ -23,13 +24,13 @@
     <div class="container">
         <div class="cat-slider">
             @foreach ($menus as $menu)
-            <div class="cat-item px-1 py-3">
-                <a class="bg-white rounded d-block p-2 text-center shadow-sm" href="trending.html">
-                    <img alt="#" src="{{ $menu->thumb }}" class="img-fluid mb-2">
-                    <p class="m-0 small">{{ $menu->name }}</p>
-                </a>
-            </div>
-        @endforeach
+                <div class="cat-item px-1 py-3">
+                    <a class="bg-white rounded d-block p-2 text-center shadow-sm" href="trending.html">
+                        <img alt="#" src="{{ $menu->thumb }}" class="img-fluid mb-2">
+                        <p class="m-0 small">{{ $menu->name }}</p>
+                    </a>
+                </div>
+            @endforeach
 
         </div>
     </div>
@@ -73,7 +74,7 @@
         </div>
         <!-- slider -->
         <div class="trending-slider">
-            @foreach($products as $products)
+            @foreach ($products as $products)
                 <div class="osahan-slider-item">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image">
@@ -83,20 +84,22 @@
                                         class="feather-heart"></i></a></div>
                             <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
                             </div>
-                            <a href="{{route('product-detail', $products->id)}}">
-                                <img alt="#" src="{{asset($products->thumb)}}" class="img-fluid item-img w-100">
+                            <a href="{{ route('product-detail', $products->id) }}">
+                                <img alt="#" src="{{ asset($products->thumb) }}" class="img-fluid item-img w-100">
                             </a>
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{$products->name}}
+                                <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{ $products->name }}
                                     </a>
                                 </h6>
-                                <p class="text-gray mb-3">{{$products->menu->name}}</p>
+                                <p class="text-gray mb-3">{{ $products->menu->name }}</p>
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-clock"></i> 15–30 min</span> <span class="float-right ml-3"><del>{{$products->price->original}}</del></span>
-                                <h6 class="float-right text-danger">{{$products->price->sale}}</h6></p>
+                                            class="feather-clock"></i> 15–30 min</span> <span
+                                        class="float-right ml-3"><del>{{ $products->price->original }}</del></span>
+                                <h6 class="float-right text-danger">{{ $products->price->sale }}</h6>
+                                </p>
                             </div>
                             <div class="list-card-badge">
                                 <span class="badge badge-danger">OFFER</span> <small> Use Coupon OSAHAN50</small>
@@ -110,13 +113,13 @@
         <!-- Most popular -->
         <div class="py-3 title d-flex align-items-center">
             <h5 class="m-0">Most popular</h5>
-            <a class="font-weight-bold ml-auto" href="most_popular.html">{{$products->count()}} show<i
+            <a class="font-weight-bold ml-auto" href="most_popular.html">{{ $products->count() }} show<i
                     class="feather-chevrons-right"></i></a>
         </div>
         <!-- Most popular -->
         <div class="most_popular">
             <div class="row">
-                @foreach($productBtm as $product)
+                @foreach ($productBtm as $product)
                     <div class="col-md-3 pb-3">
                         <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                             <div class="list-card-image">
@@ -126,16 +129,18 @@
                                             class="feather-heart"></i></a></div>
                                 <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
                                 </div>
-                                <a href="{{route('product-detail', $product->id)}}">
-                                    <img alt="#" src="{{asset($product->thumb)}}" class="img-fluid item-img w-100">
+                                <a href="{{ route('product-detail', $product->id) }}">
+                                    <img alt="#" src="{{ asset($product->thumb) }}"
+                                        class="img-fluid item-img w-100">
                                 </a>
                             </div>
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
-                                    <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{$products->name}}
+                                    <h6 class="mb-1"><a href="restaurant.html"
+                                            class="text-black">{{ $products->name }}
                                         </a>
                                     </h6>
-                                    <p class="text-gray mb-1 small">• {{$products->menu->name}}</p>
+                                    <p class="text-gray mb-1 small">• {{ $products->menu->name }}</p>
                                     <p class="text-gray mb-1 rating">
                                     </p>
                                     <ul class="rating-stars list-unstyled">
