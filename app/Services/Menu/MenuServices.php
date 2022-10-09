@@ -10,7 +10,13 @@ class MenuServices
     public function getParent(){
         return Menu::where('parent_id', 0)->get();
     }
-    
+    public function getMenuIndex()
+    {
+        return Menu::select('id', 'name', 'thumb', 'parent_id')
+            ->orderByDesc('id')
+            ->get();
+    }
+
     public function getAll()
     {
         return Menu::select('id', 'name', 'thumb', 'parent_id', 'active')
