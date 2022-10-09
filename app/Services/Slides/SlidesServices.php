@@ -11,7 +11,7 @@ class SlidesServices
     public function getListSlides()
     {
         return Slide::with('product')
-            ->select('id', 'name', 'product_id', 'url', 'thumb', 'sort_by', 'active')
+            ->select('id', 'name', 'product_id', 'thumb', 'sort_by', 'active')
             ->orderBy('id', 'ASC')->paginate(5);;
     }
 
