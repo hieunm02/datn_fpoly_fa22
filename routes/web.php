@@ -3,7 +3,10 @@
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
@@ -104,16 +107,33 @@ Route::prefix('/')->group(function () {
 // Admin
 Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
-
+    Route::prefix('product')->group(function () {
+        Route::get('active', [ProductController::class, 'changeActive']);
+        Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+    });
     // Danh mục
     Route::resource('menus', MenuController::class);
+
+    // News
     Route::resource('news', NewsController::class);
 
     // news
     Route::resource('news', NewsController::class);
+    
+    // users
+    Route::resource('users', UserController::class);
+    // Vouchers
+    Route::resource('vouchers', VoucherController::class);
+        
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
+
+    //Slides
+    Route::resource('slides', SlideController::class);
+    Route::prefix('slide')->group(function () {
+        Route::get('active', [SlideController::class, 'changeActive']);
+    });
 });
 
 

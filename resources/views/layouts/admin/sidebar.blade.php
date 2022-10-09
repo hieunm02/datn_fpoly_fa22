@@ -8,17 +8,14 @@
                     <span class="icon-holder">
                         <i class="anticon anticon-appstore"></i>
                     </span>
-                    <span class="title">Products</span>
+                    <span class="title">Sản phẩm</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{route('products.index')}}">Danh sách sản phẩm</a>
-                    </li>
-                    <li>
-                        <a href="{{route('products.create')}}">Tạo mới sản phẩm</a>
+                        <a href="{{ route('products.index') }}">Danh sách</a>
                     </li>
                 </ul>
             </li>
@@ -38,14 +35,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{route('menus.index')}}">Danh sách</a>
+                        <a href="{{ route('menus.index') }}">Danh sách</a>
                     </li>
                 </ul>
             </li>
             {{-- End Menus  --}}
 
             {{-- News  --}}
-
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -58,14 +54,64 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{route('news.index')}}">Danh sách</a>
+                        <a href="{{ route('news.index') }}">Danh sách</a>
                     </li>
                     <li>
-                        <a href="{{route('news.create')}}">Tạo mới</a>
+                        <a href="{{ route('news.create') }}">Tạo mới</a>
                     </li>
                 </ul>
             </li>
             {{-- End News  --}}
+
+            {{-- Slides  --}}
+            {{-- Users  --}}
+
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="bi bi-layers-half"></i>
+                    </span>
+                    <span class="title">Slides</span>
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span class="title">Tài khoản</span>
+            {{-- Vouchers  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-percent"></i>
+                    </span>
+                    <span class="title">Mã giảm giá</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+<<<<<<< HEAD
+                        <a href="{{ route('slides.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Slides  --}}
+                        <a href="{{route('users.index')}}">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="{{route('users.create')}}">Tạo mới</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Users  --}}
+=======
+                        <a href="{{route('vouchers.index')}}">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="{{route('vouchers.create')}}">Tạo mới</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Vouchers  --}}
+>>>>>>> trunghieu
 
         </ul>
     </div>

@@ -107,8 +107,8 @@
                                 <i class="feather-shopping-cart h6 mr-2 mb-0"></i> <span>Cart</span>
                             </div>
                         </a>
-                        <a class="toggle" href="#">
-                            <span></span>
+                        <a class="toggle1" id="clickMenus1">
+                            <span> <i class="feather-align-justify fs-30"></i></span>
                         </a>
                     </div>
                     <!-- widgets-wrap.// -->
@@ -120,10 +120,10 @@
         <!-- container.// -->
     </section>
     <!-- header-main .// -->
-   
+
 </header>
- {{-- header-footer --}}
- <div id="nav-bottom" class="osahan-menu-fotter fixed-bottom bg-white px-3 py-2 text-center d-none">
+{{-- header-footer --}}
+<div id="nav-bottom" class="osahan-menu-fotter fixed-bottom bg-white px-3 py-2 text-center d-none">
     <div class="row">
         <div class="col">
             <a href="home.html" class="text-dark small font-weight-bold text-decoration-none">
@@ -159,3 +159,84 @@
     </div>
 </div>
 {{-- end-header-footer --}}
+{{-- siderbar nav --}}
+<nav id="navSiderBar" class="hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body"
+    style="visibility: visible;">
+    <div class="nav-container" style="">
+        <div id="subOverlay" class="nav-wrapper nav-wrapper-0"> {{-- edit  sub-level-open--}}
+            <div class="nav-content">
+                <h2>Askbootstrap</h2>
+                <ul>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="home.html" class="nav-item"><i
+                                    class="feather-home mr-2"></i> Homepage</a></div>
+                    </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="my_order.html" class="nav-item"><i
+                                    class="feather-list mr-2"></i> My Orders</a></div>
+                    </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="favorites.html" class="nav-item"><i
+                                    class="feather-heart mr-2"></i> Favorites</a></div>
+                    </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="trending.html" class="nav-item"><i
+                                    class="feather-trending-up mr-2"></i> Trending</a></div>
+                    </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="checkout.html" class="nav-item"><i
+                                    class="feather-list mr-2"></i> Checkout</a></div>
+                    </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="map.html" class="nav-item"><i
+                                    class="feather-map-pin mr-2"></i> Live Map</a></div>
+                    </li>
+                    <li id="menu-sub" class="nav-parent"><input type="checkbox" id="hc-nav-1-1-1" value="g6ckvfwmm5e"> {{-- edit  level-open--}}
+                        <div class="nav-item-wrapper"><a href="#" id="subClick" class="nav-item"><i
+                                    class="feather-grid mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
+                        <div class="nav-wrapper nav-wrapper-1">
+                            <div class="nav-content">
+                                <h2>Danh muc</h2>
+                                <ul>
+                                    <li class="nav-back">
+                                        <div id="closeSubNav" class="nav-item-wrapper"><a href="#">Askbootstrap<span></span></a>
+                                        </div>
+                                    </li>
+                                    <?php 
+                                        $menus = DB::table('menus')->get();
+                                    ?>
+                                    @foreach ($menus as $menu)
+                                    <li>
+                                        <div class="nav-item-wrapper"><a href="privacy.html" class="nav-item">{{ $menu->name }}</a></div>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="bottom-nav">
+                    <li class="email">
+                        <div class="nav-item-wrapper"><a class="text-danger nav-item" href="home.html">
+                                <p class="h5 m-0"><i class="feather-home text-danger"></i></p>
+                                Home
+                            </a></div>
+                    </li>
+                    <li class="github">
+                        <div class="nav-item-wrapper"><a href="faq.html" class="nav-item">
+                                <p class="h5 m-0"><i class="feather-message-circle"></i></p>
+                                FAQ
+                            </a></div>
+                    </li>
+                    <li class="ko-fi">
+                        <div class="nav-item-wrapper"><a href="contact-us.html" class="nav-item">
+                                <p class="h5 m-0"><i class="feather-phone"></i></p>
+                                Help
+                            </a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="overlay" class="overlay-nav"></div>

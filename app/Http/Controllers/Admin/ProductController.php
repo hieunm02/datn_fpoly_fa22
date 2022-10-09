@@ -8,6 +8,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
@@ -77,6 +78,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+
         $data['title'] = 'Cập nhật sản phẩm';
         $data['product'] = $this->productService->getById($id);
         $data['prices'] = $this->productService->getPrice();
@@ -113,5 +115,44 @@ class ProductController extends Controller
         $this->productService->delete($id);
 
         return back();
+    }
+
+    public function changeActive(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        if ($request->active == 1) {
+            $product->active = 0;
+            $value = $product->active;
+            $title = 'Out Of Stock';
+            $btnActive = 'badge-danger';
+            $btnRemove = 'badge-success';
+        } else {
+            $product->active = 1;
+            $value = $product->active;
+            $title = 'In Stock';
+            $btnActive = 'badge-success';
+            $btnRemove = 'badge-danger';
+        }
+        $product->save();
+        return response()->json([
+            'title' => $title,
+            'btnActive' => $btnActive,
+            'btnRemove' => $btnRemove,
+            'value' => $value,
+        ]);
+    }
+
+    public function deleteAllPage(Request $request)
+    {
+        try {
+            foreach ($request->product_ids as $item) {
+                Product::find($item)->delete();
+            }
+            return response()->json([
+                'success' => 'Xóa thành công.'
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }

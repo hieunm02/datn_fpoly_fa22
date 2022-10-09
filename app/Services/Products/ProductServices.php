@@ -47,7 +47,6 @@ class ProductServices
 
     public function create($request)
     {
-
         try {
             $product = new Product();
             $product->fill($request->all());
@@ -79,7 +78,6 @@ class ProductServices
                 }
             }
             Session::flash('success', 'Tạo mới thành công');
-            return redirect()->route('products.index');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -133,7 +131,6 @@ class ProductServices
             $product = Product::find($id);
             $product->delete();
             Session::flash('success', 'Xóa sản phẩm thành công.');
-            return redirect()->route('products.index');
         } catch (\Throwable $th) {
             Session::flash('error', $th->getMessage());
             return false;
