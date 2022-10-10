@@ -75,11 +75,8 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-<<<<<<< HEAD
                     <span class="title">Tài khoản</span>
-=======
             {{-- Vouchers  --}}
-=======
                     </span>
                 </a>
                 <ul class="dropdown-menu">
@@ -92,14 +89,12 @@
 
             {{-- Voucher  --}}
 
->>>>>>> dev
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                         <i class="fas fa-percent"></i>
                     </span>
                     <span class="title">Mã giảm giá</span>
->>>>>>> trunghieu
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
