@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\AssignOp\Mod;
 
 class NewsController extends Controller
 {
+    protected $newsServices;
     public function __construct(NewsServices $newsServices)
     {
         $this->newsServices = $newsServices;
@@ -111,6 +112,6 @@ class NewsController extends Controller
     {
         $news = News::find($id);
         $news->delete();
-        return response()->json(['news' => $news]);
+        return response()->json(['model' => $news]);
     }
 }

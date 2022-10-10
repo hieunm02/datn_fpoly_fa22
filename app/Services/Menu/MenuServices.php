@@ -5,12 +5,13 @@ namespace App\Services\Menu;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Session;
 
-class MenuServices 
+class MenuServices
 {
-    public function getParent(){
+    public function getParent()
+    {
         return Menu::where('parent_id', 0)->get();
     }
-    
+
     public function getAll()
     {
         return Menu::select('id', 'name', 'thumb', 'parent_id', 'active')
@@ -18,7 +19,8 @@ class MenuServices
             ->paginate(5);
     }
 
-    public function create($request){
+    public function create($request)
+    {
         try {
             Menu::create([
                 'name' => (string) $request->input('name'),
@@ -36,7 +38,8 @@ class MenuServices
         return true;
     }
 
-    public function update($request, $id){
+    public function update($request, $id)
+    {
         try {
             $data = Menu::find($id);
             // dd($data);
@@ -61,14 +64,16 @@ class MenuServices
         return true;
     }
 
-    public function getId($id) {
+    public function getId($id)
+    {
         return Menu::find($id);
     }
 
-    public function destroyId($id) {
-    // dd($id);
-       $data = Menu::find($id);
-       $data->delete();
-       Session::flash('success', 'Xóa danh mục thành công');
+    public function destroyId($id)
+    {
+        // dd($id);
+        $data = Menu::find($id);
+        $data->delete();
+        Session::flash('success', 'Xóa danh mục thành công');
     }
-} 
+}

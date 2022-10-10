@@ -93,7 +93,7 @@ class MenuController extends Controller
      */
     public function update(MenuRequest $request, $id)
     {
-        $this->menuService->update($request,$id);
+        $this->menuService->update($request, $id);
         return redirect()->route('menus.index');
     }
 
@@ -105,8 +105,9 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-    //    echo "xoa";
+        //    echo "xoa";
         $this->menuService->destroyId($id);
-        return redirect()->route('menus.index');
+        $menu = $this->menuService->getId($id);
+        return response()->json(['model' => $menu]);
     }
 }
