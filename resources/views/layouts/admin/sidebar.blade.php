@@ -63,6 +63,7 @@
             </li>
             {{-- End News  --}}
 
+<<<<<<< HEAD
             {{-- Slides  --}}
 
             <li class="nav-item dropdown">
@@ -74,6 +75,8 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
+                    <span class="title">Tài khoản</span>
+            {{-- Vouchers  --}}
                     </span>
                 </a>
                 <ul class="dropdown-menu">

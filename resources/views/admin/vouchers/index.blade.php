@@ -13,10 +13,9 @@
             </nav>
         </div>
     </div>
-    @if (session('success'))
-    <div class="alert alert-success">
-        <i class="fa fa-check"></i>
-        {{ session('success') }}
+    @if (session()->has('success'))
+    <div class="text-white alert bg-success">
+        {{ session()->get('success') }}
     </div>
     @endif
     <div class="card">
@@ -109,7 +108,7 @@
                                         <i class="anticon anticon-edit"></i>
                                     </button>
                                 </a>
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded deleteVoucher" data-id="{{$voucher->id}}">
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded" onclick="deleteAjax('vouchers',<?php echo $voucher->id ?>)">
                                     <i class="anticon anticon-delete"></i>
                                 </button>
                             </td>
@@ -131,33 +130,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    });
-
-    //Delete ajax
-    $(".deleteVoucher").click(function() {
-        var id = $(this).data("id");
-        var token = $(this).data("token");
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            $.ajax({
-                url: "vouchers/" + id,
-                type: 'POST',
-                dataType: "JSON",
-                data: {
-                    "id": id,
-                    "_method": 'DELETE',
-                    "_token": token,
-                },
-                success: function(data) {
-                    console.log(data.voucher);
-                    Swal.fire(
-                        'Successful!',
-                        'Student delete successfully!',
-                        'success'
-                    )
-                    $('#id' + data.voucher.id).remove();
-                }
-            });
-        }
     });
 </script>
 @endsection

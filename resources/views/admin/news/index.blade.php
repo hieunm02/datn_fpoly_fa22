@@ -99,7 +99,7 @@
                                 </a>
                             </td>
                             <td>
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded" data-id="{{$item->id}}" id="deleteNews">
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded" onclick="deleteAjax('news',<?php echo $item->id ?>)">
                                     <i class="anticon anticon-delete"></i>
                                 </button>
                             </td>
@@ -118,33 +118,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    });
-
-    //Delete ajax
-    $("#deleteNews").click(function() {
-        var id = $(this).data("id");
-        var token = $(this).data("token");
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            $.ajax({
-                url: "news/" + id,
-                type: 'POST',
-                dataType: "JSON",
-                data: {
-                    "id": id,
-                    "_method": 'DELETE',
-                    "_token": token,
-                },
-                success: function(data) {
-                    console.log(data.news);
-                    Swal.fire(
-                        'Successful!',
-                        'Student delete successfully!',
-                        'success'
-                    )
-                    $('#id' + data.news.id).remove();
-                }
-            });
-        }
     });
 </script>
 @endsection
