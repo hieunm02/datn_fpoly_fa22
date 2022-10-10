@@ -58,14 +58,6 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label class="font-weight-semibold" for="url">Url ảnh</label>
-                                    <input type="text" class="form-control <?php echo $errors->first('url') ? 'is-invalid' : ''; ?>" id="menuName"
-                                        name="url" placeholder="Nhập url slide" value="{{ $slide->url }}">
-                                    @if ($errors->has('url'))
-                                        <p class="text-danger">{{ $errors->first('url') }}</p>
-                                    @endif
-                                </div>
-                                <div class="form-group">
                                     <label class="font-weight-semibold " for="">Sắp xếp</label> <br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="sort_by" id="inlineRadio1"

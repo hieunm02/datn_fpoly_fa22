@@ -3,8 +3,8 @@
 @section('content')
 <div class="d-none">
     <div class="bg-primary p-3 d-flex align-items-center">
-        <a class="toggle togglew toggle-2" href="#"><span></span></a>
-        <h4 class="font-weight-bold m-0 text-white">Search</h4>
+        <h4 class="font-weight-bold m-0 text-white flex-fill">Search</h4>
+        <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
     </div>
 </div>
 <div class="osahan-popular">

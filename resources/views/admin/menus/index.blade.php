@@ -50,6 +50,9 @@
                         </button>
                     </a>
                 </div>
+                <div>
+                    {{ $menus->links() }}
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">

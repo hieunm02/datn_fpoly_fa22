@@ -6,9 +6,10 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UploadThumbController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Homepage\ClientNewsController;
+use App\Http\Controllers\Admin\VoucherController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -53,13 +54,9 @@ Route::prefix('/')->group(function () {
         return view('client.list-products');
     });
 
-    Route::get('/news', function () {
-        return view('client.news');
-    });
+    Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
 
-    Route::get('/news-detail', function () {
-        return view('client.news-detail');
-    });
+    Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
     Route::get('/login', function () {
         return view('client.login');
@@ -122,12 +119,12 @@ Route::prefix('admin')->group(function () {
 
     // news
     Route::resource('news', NewsController::class);
-    
+
     // users
     Route::resource('users', UserController::class);
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
-        
+
 
     //upload thumb
     Route::post('upload/services', [UploadThumbController::class, 'store']);
