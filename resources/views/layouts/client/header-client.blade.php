@@ -165,7 +165,7 @@
     <div class="nav-container" style="">
         <div id="subOverlay" class="nav-wrapper nav-wrapper-0"> {{-- edit  sub-level-open--}}
             <div class="nav-content">
-                <h2>Askbootstrap</h2>
+                <h2>BeeFood</h2>
                 <ul>
                     <li>
                         <div class="nav-item-wrapper"><a href="home.html" class="nav-item"><i
@@ -199,7 +199,7 @@
                                 <h2>Danh muc</h2>
                                 <ul>
                                     <li class="nav-back">
-                                        <div id="closeSubNav" class="nav-item-wrapper"><a href="#">Askbootstrap<span></span></a>
+                                        <div id="closeSubNav" class="nav-item-wrapper"><a href="#">BeeFood<span></span></a>
                                         </div>
                                     </li>
                                     <?php 
