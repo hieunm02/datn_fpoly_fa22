@@ -40,7 +40,6 @@
                 </ul>
             </li>
             {{-- End Menus  --}}
-
             {{-- News  --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -63,7 +62,6 @@
             </li>
             {{-- End News  --}}
 
-<<<<<<< HEAD
             {{-- Slides  --}}
 
             <li class="nav-item dropdown">

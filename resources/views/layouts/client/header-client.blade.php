@@ -1,14 +1,14 @@
 <header class="section-header" id="headerScroll">
     <section class="header-main shadow-sm bg-white">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center py-3">
                 <div class="col-1">
                     <a href="home.html" class="brand-wrap mb-0">
                         <img alt="#" class="img-fluid" src="{{asset('img/logo_web.png')}}">
                     </a>
                     <!-- brand-wrap.// -->
                 </div>
-                <div class="col-3 d-flex align-items-center m-none">
+                {{-- <div class="col-3 d-flex align-items-center m-none">
                     <div class="dropdown mr-3">
                         <a class="text-dark dropdown-toggle d-flex align-items-center py-3" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div><i class="feather-map-pin mr-2 bg-light rounded-pill p-2 icofont-size"></i></div>
@@ -62,12 +62,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- col.// -->
-                <div class="col-8">
-                    <div class="d-flex align-items-center justify-content-end pr-5">
+                <div class="col-11">
+                    <div class="d-flex align-items-center justify-content-end">
                         <!-- search -->
-                        <a href="search.html" class="widget-header mr-4 text-dark">
+                        {{-- <a href="search.html" class="widget-header mr-4 text-dark">
                             <div class="icon d-flex align-items-center">
                                 <i class="feather-search h6 mr-2 mb-0"></i> <span>Search</span>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="icon d-flex align-items-center">
                                 <i class="feather-disc h6 mr-2 mb-0"></i> <span>Offers</span>
                             </div>
-                        </a>
+                        </a> --}}
                         <!-- signin -->
                         @if (is_null(Session::get('user_name')))
                         <a href="/login" class="widget-header mr-4 text-dark m-none">
@@ -196,7 +196,7 @@
                                     class="feather-grid mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
                         <div class="nav-wrapper nav-wrapper-1">
                             <div class="nav-content">
-                                <h2>Danh muc</h2>
+                                <h2>Danh mục</h2>
                                 <ul>
                                     <li class="nav-back">
                                         <div id="closeSubNav" class="nav-item-wrapper"><a href="#">BeeFood<span></span></a>
