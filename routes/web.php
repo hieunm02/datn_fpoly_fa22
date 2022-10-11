@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
@@ -137,6 +138,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('slide')->group(function () {
         Route::get('active', [SlideController::class, 'changeActive']);
     });
+
+    //Contact
+    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
 });
 
 
