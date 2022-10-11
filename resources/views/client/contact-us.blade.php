@@ -97,24 +97,25 @@
                     <div class="flex-column">
                         <h6 class="font-weight-bold">Liên hệ với chúng tôi</h6>
                         <p class="text-muted">Bạn có thắc mắc hay góp ý, hãy liên hệ với chúng tôi.</p>
-                        <form>
+                        <form action="" method="POST">
+                            @csrf
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" class="small font-weight-bold">Tên của bạn</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nguyễn Trung Hiếu">
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name="name" placeholder="Nguyễn Trung Hiếu">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlInput2" class="small font-weight-bold">Email</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="hieunt@gmail.com">
+                                <input type="email" class="form-control" id="exampleFormControlInput2" name="email" placeholder="hieunt@gmail.com">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlInput3" class="small font-weight-bold">Số điện thoại</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput3" placeholder="0123456789">
+                                <input type="number" class="form-control" id="exampleFormControlInput3" name="phone" placeholder="0123456789">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1" class="small font-weight-bold">Chúng tôi có thể giúp gì cho bạn</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Nội dung ..." rows="3"></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="content" placeholder="Nội dung ..." rows="3"></textarea>
                             </div>
-                            <a class="btn btn-primary btn-block" href="#">Liên hệ</a>
+                            <button type="submit" class="btn btn-primary btn-block">Liên hệ</button>
                         </form>
                         <!-- Map -->
                         <div class="mapouter pt-3">
