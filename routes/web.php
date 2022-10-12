@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
@@ -140,7 +141,10 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
+
+    //Comment
+    Route::resource('comments', CommentController::class);
 });
 
 
