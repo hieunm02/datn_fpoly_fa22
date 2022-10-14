@@ -105,6 +105,6 @@ class StaffController extends Controller
         }
         Session::flash('success', 'Xóa thành công');
 
-        return response()->json(['staff' => $staff]);
+        return response()->json(['model' => $staff]);
     }
 }

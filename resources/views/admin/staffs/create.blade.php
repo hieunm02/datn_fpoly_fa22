@@ -35,7 +35,7 @@
                                 <div class="custom-file">
                                     <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>"
                                         id="upload">
-                                    <label class="custom-file-label" for="customFile">Choose Avatar</label>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
                                     <input type="hidden" name="image_path" id="thumb">
                                 </div>
                                 @if ($errors->first('image_path'))

@@ -17,12 +17,12 @@ $('#upload').change(function () {
         data: form,
         url: '/admin/upload/services',
 
-        success: function(results){
-            if(results.error == false) {
+        success: function (results) {
+            if (results.error == false) {
                 $('#image_show').html('<a href="' + results.url + '" target="_blank">' +
                     '<img src="' + results.url + '" width="100px"></a> ');
 
-                    $('#thumb').val(results.url);
+                $('#thumb').val(results.url);
             } else {
                 alert("Upload file lỗi");
             }
@@ -32,10 +32,11 @@ $('#upload').change(function () {
 
 function deleteAjax(parameter, id) {
     var token = $(this).data("token");
+
     if (confirm('Bạn có chắc chắn muốn xóa?')) {
         $.ajax({
-            url: parameter + "/" + id,
-            type: 'POST',
+            url: `${parameter}` + "/" + `${id}`,
+            type: 'DELETE',
             dataType: "JSON",
             data: {
                 "id": id,
@@ -43,12 +44,12 @@ function deleteAjax(parameter, id) {
                 "_token": token,
             },
             success: function (data) {
-                console.log(data.model);
                 Swal.fire(
                     'Successful!',
                     'Student delete successfully!',
                     'success'
                 )
+                console.log(data.model.id);
                 $('#id' + data.model.id).remove();
             }
         });

@@ -17,7 +17,7 @@ class StaffServices
 
     public function getStaff()
     {
-        return User::select('id', 'name', 'email', 'role', 'active')
+        return User::select('id', 'name', 'email', 'role', 'active', 'avatar')
             ->where('role', '=', '1')
             ->orderByDesc('id')
             ->paginate(5);
@@ -25,6 +25,7 @@ class StaffServices
 
     public function create($request)
     {
+        // dd((string) $request->input('image_path'));
         try {
             User::create([
                 'name' => (string) $request->input('name'),
@@ -51,7 +52,7 @@ class StaffServices
                 'name' => (string) $request->name,
                 'email' => (string) $request->email,
                 'role' => 1,
-                'avatar' => (string) $request->image_path,
+                'avatar' => (string) $request->input('image_path'),
             ]);
             Session::flash('success', 'Cập nhật thành công');
         } catch (\Exception $err) {
