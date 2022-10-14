@@ -178,3 +178,82 @@ Version: 1.0
     var Nav = $main_nav.hcOffcanvasNav(defaultOptions);
 
 })(jQuery); // End of use strict
+//javascript cho các trang dao diện ng dùng
+function changeImage(a) {
+    console.log(document.getElementById("imgClick").src = a);
+    document.getElementById("imgClick").src = a;
+}
+
+function clickComment() {
+    var click = document.getElementById("clickComment");
+    var comment = document.getElementById("comment");
+    var content = document.getElementById("content");
+    content.style.display = 'none';
+    comment.style.display = 'block';
+}
+function clickContent() {
+    var click = document.getElementById("clickContent");
+    var comment = document.getElementById("comment");
+    var content = document.getElementById("content");
+    content.classList.remove('d-none');
+    content.style.display = 'block';
+    comment.style.display = 'none';
+}
+
+function cong() {
+    var val = document.getElementById("quantity").value;
+    document.getElementById("quantity").value = parseInt(val) + 1;
+}
+
+function tru() {
+    var val = document.getElementById("quantity").value;
+    if (parseInt(val) > 1) {
+        document.getElementById("quantity").value = parseInt(val) - 1;
+    }
+}
+
+window.addEventListener('scroll', function(ev) {
+ 
+    var someDiv = document.getElementById('headerScroll');
+    var distanceToTop = someDiv.getBoundingClientRect().top;
+    function scrollFunction() {
+           // do your stuff here;
+           document.getElementById('nav-bottom').classList.remove('d-none');
+           if (distanceToTop == 0 || distanceToTop > -80) {
+           document.getElementById('nav-bottom').classList.add('d-none');
+           }
+       }
+       window.onscroll = scrollFunction;
+   //  console.log(distanceToTop);
+   });
+
+//    sidebar nav 
+let subOverlay = document.getElementById('subOverlay');
+    let menu_sub = document.getElementById('menu-sub');
+    let closeSubNav = document.getElementById('closeSubNav');
+    let subClick = document.getElementById('subClick');
+    let clickNavSiderBar = document.getElementById('clickMenus');
+    let clickNavSiderBar1 = document.getElementById('clickMenus1');
+    let navSiderBar = document.getElementById('navSiderBar');
+    let ovarlay = document.getElementById('overlay');
+    clickNavSiderBar.addEventListener('click', function() {
+        navSiderBar.classList.add('nav-open');
+        ovarlay.classList.add('nav-open');
+    });
+    clickNavSiderBar1.addEventListener('click', function() {
+        navSiderBar.classList.add('nav-open');
+        ovarlay.classList.add('nav-open');
+    });
+    ovarlay.addEventListener('click', function() {
+        navSiderBar.classList.remove('nav-open');
+        ovarlay.classList.remove('nav-open');
+    });
+    subClick.addEventListener('click', function() {
+        subOverlay.classList.add('sub-level-open');
+        menu_sub.classList.add('level-open');
+    });
+    closeSubNav.addEventListener('click', function() {
+        subOverlay.classList.remove('sub-level-open');
+        menu_sub.classList.remove('level-open');
+    });
+    // end siderbar nav

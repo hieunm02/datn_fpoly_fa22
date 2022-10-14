@@ -1,9 +1,28 @@
 <?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Route; 
+=======
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\UploadThumbController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Homepage\HomeController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Homepage\ClientNewsController;
+use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\ContactController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+
+>>>>>>> dev
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +36,8 @@ use Illuminate\Support\Facades\Route;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        return view('client.index');
-    });
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -37,6 +55,8 @@ Route::prefix('/')->group(function () {
         return view('client.contact-us');
     });
 
+    Route::post('/contact-us', [ContactController::class, "store"]);
+
     Route::get('/faq', function () {
         return view('client.faq');
     });
@@ -44,9 +64,18 @@ Route::prefix('/')->group(function () {
     Route::get('/list-products', function () {
         return view('client.list-products');
     });
-    
+
+    Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
+
+    Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
+
     Route::get('/login', function () {
         return view('client.login');
+    });
+
+    Route::get('/logout', function () {
+        Session::forget('user_name');
+        return back();
     });
 
     Route::get('/my-order', function () {
@@ -68,11 +97,11 @@ Route::prefix('/')->group(function () {
     Route::get('/search', function () {
         return view('client.search');
     });
-    
+
     Route::get('/status', function () {
         return view('client.status');
     });
-    
+
     Route::get('/successful', function () {
         return view('client.successful');
     });
@@ -84,12 +113,52 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+});
 
+// Admin
+Route::prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class);
+    Route::prefix('product')->group(function () {
+        Route::get('active', [ProductController::class, 'changeActive']);
+        Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+    });
+    // Danh mục
+    Route::resource('menus', MenuController::class);
+
+    // News
+    Route::resource('news', NewsController::class);
+
+    // news
+    Route::resource('news', NewsController::class);
+
+    // users
+    Route::resource('users', UserController::class);
+    // Vouchers
+    Route::resource('vouchers', VoucherController::class);
+
+
+    //upload thumb
+    Route::post('upload/services', [UploadThumbController::class, 'store']);
+
+    //Slides
+    Route::resource('slides', SlideController::class);
+    Route::prefix('slide')->group(function () {
+        Route::get('active', [SlideController::class, 'changeActive']);
+    });
+
+    //Contact
+    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
 });
 
 
+<<<<<<< HEAD
 Route::resource('products', ProductController::class);
 
 Route::resource('prices', PriceController::class);
 
 Route::resource('profile', ProfileController::class);
+=======
+//login with google
+Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
+Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
+>>>>>>> dev
