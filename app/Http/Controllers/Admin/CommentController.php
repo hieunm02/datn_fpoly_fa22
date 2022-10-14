@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Comment\AdminCommentService;
+
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -15,6 +16,7 @@ class CommentController extends Controller
     {
         $this->commentService = $commentService;
     }
+
     /**
      * Display a listing of the resource.
      *

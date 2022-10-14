@@ -11,6 +11,7 @@ class Comment extends Model
 
     protected $fillable = [
         'content',
+        'user_id',
         'product_id',
         'parent_id',
         'active'
@@ -19,5 +20,10 @@ class Comment extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

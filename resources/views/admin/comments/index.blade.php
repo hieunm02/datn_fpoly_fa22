@@ -47,8 +47,9 @@
                                     </div>
                                 </th>
                                 <th>ID</th>
-                                <th>Content</th>
                                 <th>Product</th>
+                                <th>UserName</th>
+                                <th>Content</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -67,10 +68,10 @@
                                     <td>
                                         #{{ $comment->id }}
                                     </td>
-                                    <td>
-                                        {{ $comment->content }}
-                                    </td>
+
                                     <td>{{ $comment->product->name }}</td>
+                                    <td>{{ $comment->user->name }}</td>
+                                    <td>{{ $comment->content }}</td>
                                     <td>
                                         <form method="POST" class="inline-block"
                                             onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">

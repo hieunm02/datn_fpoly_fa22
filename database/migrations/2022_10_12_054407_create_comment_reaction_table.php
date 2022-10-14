@@ -15,10 +15,6 @@ class CreateCommentReactionTable extends Migration
     {
         Schema::create('comment_reaction', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unsigned();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('comment_id')->unsigned();
             $table->foreign('comment_id')
                 ->references('id')
