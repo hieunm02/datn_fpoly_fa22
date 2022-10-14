@@ -3,19 +3,24 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
+use App\Models\Product;
+use App\Models\Reaction;
 use App\Models\Thumb;
+use App\Services\Comments\CommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $productService;
+    protected $productService, $commentService;
 
-    public function __construct(ProductServices $productService, MenuServices $menuService)
+    public function __construct(ProductServices $productService, MenuServices $menuService, CommentService $commentService)
     {
         $this->productService = $productService;
         $this->menuService = $menuService;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -59,10 +64,21 @@ class HomeController extends Controller
      */
     public function show($id)
     {
+        $react = $this->commentService->getReact(); // lấy ra icon like có id là 1
+
         $product = $this->productService->getById($id);
-        $products = $this->productService->getAll();
+
         $thumb = Thumb::where('product_id', $id)->get();
-        return view('client.product-detail', compact('product', 'thumb', 'products'));
+        $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
+        $products = $this->productService->getAll();
+//        foreach ($comment as $key) {
+//            $countReact = $key->reactions->count();
+//            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react', 'countReact'));
+//        }
+        if ($comment) {
+            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react' ));
+        }
+        return view('client.product-detail', compact('product', 'thumb', 'products', 'comment', 'react'));
     }
 
     /**
@@ -98,4 +114,36 @@ class HomeController extends Controller
     {
         //
     }
+
+    public function comment(Request $request)
+    {
+        $this->commentService->create($request);
+        return redirect()->back();
+    }
+
+    public function editCmt($product, $id)
+    {
+        $comment = Comment::find($id);
+        $product = Product::find($product);
+        return response()->json([
+            'product' => $product->id,
+            'comment' => $comment,
+            'id' => $comment->id,
+        ]);
+    }
+
+    public function updateCmt(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+        $comment->update($request->all());
+        return response()->json(['data' => $comment, 'comment' => $request->all(), 'commentid' => $id], 200);
+    }
+
+    public function react(Request $request)
+    {
+        $comment = new Comment();
+        $comment->reactions()->attach(1, ['comment_id' => $request->comment_id]);
+        return redirect()->back();
+    }
+
 }

@@ -31,6 +31,12 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
+    Route::post('comments/{product}/comments', [HomeController::class, 'comment'])->name('product-comment');
+
+    Route::get('products/{product}/edit-comment/{id}', [HomeController::class, 'editCmt'])->name('rep-comment');
+    Route::put('products/{product}/rep-comments/{id}', [HomeController::class, 'updateCmt']);
+
+    Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -140,7 +146,7 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
 });
 
 

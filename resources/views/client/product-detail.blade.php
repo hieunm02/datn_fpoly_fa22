@@ -70,7 +70,7 @@
                         <h3 class="text-primary font-weight-bold pt-3">{{$product->price->original}}
                             - {{$product->price->sale}}</h3>
                         <h5 class="text-dark font-weight-light">Loại: {{$product->menu->name}}</h5>
-                        <p class="text-break">{!! $product->desc !!}</p>
+                        <p class="text-break">{{$product->content}}</p>
                     </div>
                     <div class="p-3">
                         <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
@@ -103,43 +103,99 @@
                                 <h2>Bình luận</h2>
                                 {{-- {{ Auth::user()->id }} --}}
                             </div>
-                            {{-- @foreach ($comments as $item) --}}
-                            <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
-                                <div class="col-md-12 d-flex">
-                                    <div class="avatar setCt mr-2">
-                                        <img
-                                            src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
-                                            style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
-                                            alt="">
-                                    </div>
-                                    <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
-                                        <h6 class="mb-0">Khách hàng</h6>
-                                        <div class="text-warning">
-                                            <i class="feather-star mr-n1"></i>
-                                            <i class="feather-star mr-n1"></i>
-                                            <i class="feather-star mr-n1"></i>
-                                            <i class="feather-star mr-n1"></i>
-                                            <i class="feather-star mr-n1"></i>
+                            @foreach($comment as $cmt)
+                                <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
+                                    <div class="col-md-12 d-flex">
+                                        <div class="avatar setCt mr-2">
+                                            <img
+                                                src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
+                                                style="width: 60px; height: 60px; object-fit: cover;"
+                                                class="rounded-circle"
+                                                alt="">
                                         </div>
-                                        <p class="text-black-50"> 30/09/2022</p>
-                                    </div>
-                                    <div class="content mx-4 my-auto">
-                                        <p class="text-black-50 font-weight-bold"> Lorem, ipsum dolor sit amet
-                                            consectetur
-                                            adipisicing elit. Ducimus tempore placeat architecto, iste sit pariatur
-                                            obcaecati cumque molestias, quo dolorem voluptatem alias sed nisi expedita
-                                            veniam magni, ratione illum similique.</p>
-                                    </div>
+                                        <script
+                                            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+                                            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+                                            crossorigin="anonymous"></script>
+                                        <script
+                                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+                                            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+                                            crossorigin="anonymous"></script>
 
-                                    <form action="" class="form-button" method="post">
-                                        <div class="float-right align-content-center">
-                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        <div class="setCt d-flex flex-column justify-content-center"
+                                             style="flex: none;">
+                                            <h6 class="mb-0">{{$cmt->user->name}}</h6>
+                                            <h9 class="text-black-50"> 30/09/2022</h9>
+                                            <h7 id="id{{$cmt->id}}"
+                                                class="text-black-100 font-weight-bold"> {{$cmt->content}}
+                                                <a
+                                                    onclick="update({{ $cmt->id }})"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#edit-bookmark" id="editStudent"
+                                                    data-id="{{ $cmt->id }}">
+                                                    <img src="https://img.icons8.com/officexs/2x/edit.png" width="20px">
+                                                </a>
+                                            </h7>
+                                            <form action="{{route('react-cmt')}}" method="post">
+                                                @csrf
+                                                <div class="text-warning" id="icon">
+                                                    @foreach($react as $rct)
+                                                        <style>
+                                                            .example {
+                                                                background: url({{$rct->icon}}) no-repeat;
+                                                                cursor: pointer;;
+                                                                width: 32px;
+                                                                height: 32px;
+                                                                border: none;
+                                                            }
+                                                        </style>
+                                                        <input hidden name="comment_id" value="{{$cmt->id}}">
+                                                        <input hidden name="reaction_id" value="1">
+                                                        <input type="submit" class="example" value=""/> {{$cmt->reactions->count()}}
+                                                    @endforeach
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <div class="modal fade modal-bookmark" id="edit-bookmark" tabindex="-1"
+                                 style="display: none;"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">chỉnh sửa bình luận</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-bookmark needs-validation" novalidate="">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <div
+                                                            class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+                                                            <input class="form-control" value="" id="content">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="comment_id" value="{{$cmt->id}}"
+                                                       id="comment_id">
+                                                <br>
+                                                <button class="btn btn-secondary" type="button" id="saveUpdateForm"
+                                                        onclick="saveUpdate()">
+                                                    Lưu
+                                                </button>
+                                                <button class="btn btn-primary" data-bs-dismiss="modal"
+                                                        type="button"> Tắt
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <form action="" method="POST">
+                            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+                            <script src="{{asset('assets/js/edit_comment.js')}}"></script>
+                            <form action="{{route('product-comment', $product->id)}}" method="POST">
+                                @csrf
                                 <div class="form-group d-flex">
                                     <div>
                                         <img
@@ -147,8 +203,7 @@
                                             style="width: 60px; height: auto;" class="mr-2" alt=""
                                             srcset="">
                                     </div>
-                                    <input type="hidden" value=" $dataProduct->id" name="product_id"
-                                           class="form-control mr-2" placeholder="id sản phẩm">
+                                    <input hidden name="product_id" value="{{$product->id}}">
                                     <textarea type="text" name="content" class="form-control mr-2"
                                               placeholder="Viết bình luận"></textarea>
                                     <div>
@@ -164,9 +219,9 @@
                             </div>
                             {{-- @foreach ($comments as $item) --}}
                             <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, explicabo dignissimos.
-                                    Aperiam consequatur rerum nam dignissimos officiis maxime quidem rem dolor quis in
-                                    tenetur amet provident, consectetur velit sequi eaque!</p>
+                                <p>
+                                    {!! $product->desc !!}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -174,7 +229,7 @@
             </div>
         </div>
         <div class="pb-5 row">
-           @foreach($products as $product)
+            @foreach($products as $product)
                 <div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image">
@@ -182,14 +237,16 @@
                                         class="feather-star"></i> 3.1 (300+)</span></div>
                             <div class="favourite-heart text-danger position-absolute"><a href="#"><i
                                         class="feather-heart"></i></a></div>
-                            <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                            <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
+                            </div>
                             <a href="{{route('product-detail', $product->id)}}">
                                 <img alt="#" src="{{asset($product->thumb)}}" class="img-fluid item-img w-100">
                             </a>
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="{{route('product-detail', $product->id)}}" class="text-black">{{$product->name}}</a></h6>
+                                <h6 class="mb-1"><a href="{{route('product-detail', $product->id)}}"
+                                                    class="text-black">{{$product->name}}</a></h6>
                                 <p class="text-gray mb-1 small">• {{$product->menu->name}}</p>
                                 <p class="text-gray mb-1 rating">
                                 </p>

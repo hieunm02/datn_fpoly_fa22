@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Reaction extends Model
 {
     use HasFactory;
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class);
+    }
 }
