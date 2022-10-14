@@ -73,7 +73,16 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    <span class="title">Tài khoản</span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('slides.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('slides.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
+                </a>
+            </li>
             {{-- Vouchers  --}}
                     </span>
                 </a>
@@ -90,12 +99,13 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
-                        <i class="fas fa-percent"></i>
+                        <i class="bi bi-percent"></i>
                     </span>
-                    <span class="title">Mã giảm giá</span>
+                    <span class="title">Vouchers</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
+<<<<<<< HEAD
                     </span>
                 </a>
                 <ul class="dropdown-menu">
@@ -108,6 +118,41 @@
                 </ul>
             </li>
             {{-- End Voucher  --}}
+=======
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('vouchers.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('vouchers.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
+                </a>
+            </li>
+
+            {{-- Staffs --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Staffs</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('staffs.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('staffs.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
+                </a>
+            </li>
+        </ul>
+
+>>>>>>> hoang
 
 
             {{-- Users  --}}
