@@ -77,7 +77,7 @@
                                     </td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td><img width="100px" src="{{ $item->image_path }}" alt=""></td>
+                                    <td><img width="100px" src="{{ asset($item->image_path) }}" alt=""></td>
                                     @if ($item->active === 0)
                                         <td>
                                             <div class="d-flex align-items-center">

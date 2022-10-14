@@ -29,3 +29,28 @@ $('#upload').change(function () {
         }
     })
 })
+
+function deleteAjax(parameter, id) {
+    var token = $(this).data("token");
+    if (confirm('Bạn có chắc chắn muốn xóa?')) {
+        $.ajax({
+            url: parameter + "/" + id,
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "id": id,
+                "_method": 'DELETE',
+                "_token": token,
+            },
+            success: function (data) {
+                console.log(data.model);
+                Swal.fire(
+                    'Successful!',
+                    'Student delete successfully!',
+                    'success'
+                )
+                $('#id' + data.model.id).remove();
+            }
+        });
+    }
+}

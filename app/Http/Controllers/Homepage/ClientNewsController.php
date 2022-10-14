@@ -19,6 +19,7 @@ class ClientNewsController extends Controller
         $news = $this->newsServices->getAll();
         // $authors = User::select('id', 'name')->get();
         $title = "Danh sách bài viết";
+        // dd($news);
         return view('client.news', compact('news', 'title'));
     }
 
