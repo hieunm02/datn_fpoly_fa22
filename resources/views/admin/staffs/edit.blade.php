@@ -2,8 +2,9 @@
 @section('title', $title)
 @section('content')
     <div class="main-content">
-        <form action="{{ route('staffs.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('staffs.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="page-header no-gutters has-tab">
                 <div class="d-md-flex m-b-15 align-items-center justify-content-between">
                     <div class="media align-items-center m-b-15">

@@ -98,7 +98,15 @@
     </div>
 @endsection
 <script>
-    setTimeout(() => {
-        document.getElementById('setout').classList.add('d-none');
-    }, 5000);
+    // setTimeout(() => {
+    //     document.getElementById('setout').classList.add('d-none');
+    // }, 5000);
+
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
 </script>

@@ -49,9 +49,6 @@ class StaffController extends Controller
      */
     public function store(StaffRequest $request)
     {
-        // dd($request->all());
-        // if ($request->hasFile('image_path'))
-
         $this->staffServices->create($request);
         return redirect()->route('staffs.index');
     }
@@ -89,15 +86,7 @@ class StaffController extends Controller
      */
     public function update(StaffRequest $request, $id)
     {
-        if ($request->hasFile('avatar')) {
-            $image = $request->avatar;
-            $imageName = $image->hashName();
-            dd($request->imageName);
-            $imageName = $request->name . '_' . $imageName;
-            $request->avatar = $image->storeAs('images/slides', $imageName);
-            dd($request->all());
-        }
-
+        // dd($request->all());
         $this->staffServices->update($request, $id);
         return redirect()->route('staffs.index');
     }

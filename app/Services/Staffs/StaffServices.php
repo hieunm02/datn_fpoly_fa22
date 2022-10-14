@@ -30,7 +30,7 @@ class StaffServices
                 'name' => (string) $request->input('name'),
                 'email' => (string) $request->input('email'),
                 'password' => (string) Hash::make(12345678),
-                'avatar' => (string) $request->input('path_image'),
+                'avatar' => (string) $request->input('image_path'),
                 'role' => 1,
                 'active' => 1
             ]);
@@ -46,13 +46,12 @@ class StaffServices
     public function update($request, $id)
     {
         try {
-            $newsModel = User::find($id);
-            $newsModel->update([
-                'name' => (string) $request->input('name'),
-                'email' => (string) $request->input('email'),
+            $staffModel = User::find($id);
+            $staffModel->update([
+                'name' => (string) $request->name,
+                'email' => (string) $request->email,
                 'role' => 1,
-                'avatar' => (string) $request->input('avatar'),
-                'active' => (string) $request->input('active')
+                'avatar' => (string) $request->image_path,
             ]);
             Session::flash('success', 'Cập nhật thành công');
         } catch (\Exception $err) {
@@ -63,7 +62,6 @@ class StaffServices
 
     public function findStaff($id)
     {
-
         return User::find($id);
     }
 }
