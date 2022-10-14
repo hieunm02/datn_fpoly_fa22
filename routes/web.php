@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Route; 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +91,5 @@ Route::prefix('/')->group(function () {
 Route::resource('products', ProductController::class);
 
 Route::resource('prices', PriceController::class);
+
+Route::resource('profile', ProfileController::class);

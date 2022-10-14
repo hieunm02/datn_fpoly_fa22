@@ -26,7 +26,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="profile.html" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{route('profile.index')}}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-user"></i></p>
                 Profile
             </a>
