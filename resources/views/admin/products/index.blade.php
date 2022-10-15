@@ -162,7 +162,11 @@
                     <div style="display: flex; justify-content: center">
                         {{ $products->links() }}
                     </div>
+<<<<<<< HEAD
 >>>>>>> e4ca06b83e2d3d85caaa12218d8a3b9cb2145fbf
+=======
+>>>>>>> hoang
+>>>>>>> dev
                 </div>
             </div>
         </div>

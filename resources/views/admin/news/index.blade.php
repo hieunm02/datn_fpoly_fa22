@@ -111,6 +111,83 @@
                     </table>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="checkbox">
+                                    <input id="checkAll" type="checkbox">
+                                    <label for="checkAll" class="m-b-0"></label>
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Thumbnail</th>
+                            <th>Active</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($news as $item)
+                        <tr id="id{{$item->id}}">
+                            <td>
+                                <div class="checkbox">
+                                    <input id="check-item-1" type="checkbox">
+                                    <label for="check-item-1" class="m-b-0"></label>
+                                </div>
+                            </td>
+                            <td>{{$item->id}}</td>
+                            <td>{{$item->title}}</td>
+                            <td><img width="100px" src="{{$item->image_path}}" alt=""></td>
+                            @if($item->active === 0)
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                    <div>Private</div>
+                                </div>
+                            </td>
+                            @else
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                    <div>Public</div>
+                                </div>
+                            </td>
+                            @endif
+                            <td class="text-right">
+                                <a href="{{route('news.edit',$item->id)}}" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                    <i class="anticon anticon-edit"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded" onclick="deleteAjax('news',<?php echo $item->id ?>)">
+                                    <i class="anticon anticon-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
+</script>
+@endsection
+=======
+>>>>>>> dev
         </div>
     </div>
     <script>
@@ -150,3 +227,7 @@
         });
     </script>
 @endsection
+<<<<<<< HEAD
+=======
+>>>>>>> hoang
+>>>>>>> dev
