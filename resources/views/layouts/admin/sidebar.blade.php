@@ -40,7 +40,6 @@
                 </ul>
             </li>
             {{-- End Menus  --}}
-
             {{-- News  --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -64,7 +63,6 @@
             {{-- End News  --}}
 
             {{-- Slides  --}}
-            {{-- Users  --}}
 
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -86,6 +84,18 @@
                 </a>
             </li>
             {{-- Vouchers  --}}
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('slides.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Slides  --}}
+
+            {{-- Voucher  --}}
+
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -95,6 +105,20 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
+<<<<<<< HEAD
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('vouchers.index') }}">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('vouchers.create') }}">Tạo mới</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Voucher  --}}
+=======
                     <ul class="dropdown-menu">
                         <li>
                             <a href="{{ route('vouchers.index') }}">Danh sách</a>
@@ -128,7 +152,46 @@
             </li>
         </ul>
 
+>>>>>>> hoang
 
+
+            {{-- Users  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span class="title">Tài Khoản</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('users.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-users --}}
+
+            {{-- Contacts  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-phone"></i>
+                    </span>
+                    <span class="title">Liên hệ</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('admin.contacts-index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-contacts --}}
         </ul>
     </div>
 </div>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="main-content">
     <div class="page-header d-flex align-items-center">
-        <h2 class="header-title flex-fill">Danh sách danh mục</h2>
+        <h2 class="header-title flex-fill">Danh sách liên hệ</h2>
         {{-- <div class="header-sub-title">
                 <nav class="breadcrumb breadcrumb-dash">
                     <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
@@ -42,16 +42,16 @@
                             </div>
                         </div> --}}
                 </div>
-                <div class="col-lg-4 text-right">
-                    <a href="{{ route('menus.create') }}">
+                {{-- <div class="col-lg-4 text-right">
+                    <a href="{{ route('contacts.create') }}">
                         <button class="btn btn-primary">
                             <i class="anticon anticon-plus-circle m-r-5"></i>
                             <span>Add Menu</span>
                         </button>
                     </a>
-                </div>
+                </div> --}}
                 <div>
-                    {{ $menus->links() }}
+                    {{ $contacts->links() }}
                 </div>
             </div>
             <div class="table-responsive">
@@ -66,15 +66,15 @@
                             </th>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Parent</th>
-                            <th>Thumb</th>
-                            <th>Active</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Content</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($menus as $menu)
-                        <tr id="id{{$menu->id}}">
+                        @foreach ($contacts as $contact)
+                        <tr id="id{{$contact->id}}">
                             <td>
                                 <div class="checkbox">
                                     <input id="check-item-1" type="checkbox">
@@ -82,28 +82,31 @@
                                 </div>
                             </td>
                             <td>
-                                #{{ $menu->id }}
+                                #{{ $contact->id }}
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <img class="img-fluid rounded" src="" style="max-width: 60px" alt="">
-                                    <h6 class="m-b-0 m-l-10">{{ $menu->name }}</h6>
+                                    <h6 class="m-b-0 m-l-10">{{ $contact->name }}</h6>
                                 </div>
                             </td>
-                            <td>{{ $menu->parent_id }}</td>
                             <td>
-                                <img src="{{ $menu->thumb }}" alt="" width="100px">
+                                <div class="d-flex align-items-center">
+                                    <img class="img-fluid rounded" src="" style="max-width: 60px" alt="">
+                                    <h6 class="m-b-0 m-l-10">{{ $contact->email }}</h6>
+                                </div>
                             </td>
-                            <td>{{ $menu->active }}</td>
-                            <td class="text-right">
-                                <a href="{{ route('menus.edit', $menu->id) }}">
-                                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                        <i class="anticon anticon-edit"></i>
-                                    </button>
-                                </a>
-                                <button  onclick="deleteAjax('menus',<?php echo $menu->id ?>)" class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                    <i class="anticon anticon-delete"></i>
-                                </button>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img class="img-fluid rounded" src="" style="max-width: 60px" alt="">
+                                    <h6 class="m-b-0 m-l-10">{{ $contact->phone }}</h6>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img class="img-fluid rounded" src="" style="max-width: 60px" alt="">
+                                    <h6 class="m-b-0 m-l-10">{{ $contact->content }}</h6>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

@@ -133,7 +133,8 @@ a {
 }
 
 .cat-slider img {
-    width: 38px;
+    width: 60px;
+    height: 40px;
     margin: auto;
     -webkit-filter: saturate(200%);
     filter: saturate(200%);
@@ -577,7 +578,9 @@ p {
 
 
 /* Landing Page */
-
+/* .img-fluid {
+    width: 60px;
+} */
 .landing-page-skip .img-fluid {
     max-height: 290px;
 }

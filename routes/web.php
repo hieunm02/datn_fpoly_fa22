@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
@@ -7,10 +8,11 @@ use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UploadThumbController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
+use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\ContactController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -46,6 +48,8 @@ Route::prefix('/')->group(function () {
     Route::get('/contact-us', function () {
         return view('client.contact-us');
     });
+
+    Route::post('/contact-us', [ContactController::class, "store"]);
 
     Route::get('/faq', function () {
         return view('client.faq');
@@ -126,8 +130,11 @@ Route::prefix('admin')->group(function () {
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
+<<<<<<< HEAD
+=======
     //Staff
     Route::resource('staffs', StaffController::class);
+>>>>>>> hoang
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -137,6 +144,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('slide')->group(function () {
         Route::get('active', [SlideController::class, 'changeActive']);
     });
+
+    //Contact
+    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
 });
 
 //login with google

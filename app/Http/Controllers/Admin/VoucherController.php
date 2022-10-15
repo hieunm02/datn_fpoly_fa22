@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Voucher;
 use App\Services\Menu\MenuServices;
 use App\Services\Voucher\VoucherServices;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\VoucherRequest;
 
 class VoucherController extends Controller
 {
@@ -45,7 +47,7 @@ class VoucherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VoucherRequest $request)
     {
         $this->voucherServices->create($request);
         return redirect()->route('vouchers.index');
@@ -83,7 +85,7 @@ class VoucherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VoucherRequest $request, $id)
     {
         $this->voucherServices->update($request, $id);
         return redirect()->route('vouchers.index');
@@ -99,6 +101,6 @@ class VoucherController extends Controller
     {
         $voucher = Voucher::find($id);
         $voucher->delete();
-        return response()->json(['voucher' => $voucher]);
+        return response()->json(['model' => $voucher]);
     }
 }
