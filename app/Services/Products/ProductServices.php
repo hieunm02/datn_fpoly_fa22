@@ -116,7 +116,6 @@ class ProductServices
                 }
             }
             Session::flash('success', 'Cập nhật thành công');
-            return redirect()->route('products.index');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;

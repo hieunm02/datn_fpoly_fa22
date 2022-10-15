@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Services\Comment\AdminCommentService;
 
 use Illuminate\Http\Request;
@@ -93,6 +94,32 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->commentService->removeComment($id);
+        return back();
+    }
+
+    public function changeActive(Request $request)
+    {
+        $comment = Comment::find($request->comment_id);
+        if ($request->active == 0) {
+            $comment->active = 1;
+            $value = $comment->active;
+            $title = 'Deactive';
+            $btnActive = 'badge-danger';
+            $btnRemove = 'badge-success';
+        } else {
+            $comment->active = 0;
+            $value = $comment->active;
+            $title = 'Actived';
+            $btnActive = 'badge-success';
+            $btnRemove = 'badge-danger';
+        }
+        $comment->save();
+        return response()->json([
+            'title' => $title,
+            'btnActive' => $btnActive,
+            'btnRemove' => $btnRemove,
+            'value' => $value,
+        ]);
     }
 }

@@ -78,7 +78,7 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($comment->active === 1)
+                                                @if ($comment->active === 0)
                                                     <div id="icon-active{{ $comment->id }}"
                                                         class="badge badge-success badge-dot m-r-10"></div>
                                                     <input type="hidden" id="is-active{{ $comment->id }}"
@@ -98,11 +98,6 @@
                                         </form>
                                     </td>
                                     <td class="text-right">
-                                        <a href="{{ route('comments.edit', $comment->id) }}">
-                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                                <i class="anticon anticon-edit"></i>
-                                            </button>
-                                        </a>
                                         <form method="POST" class="inline-block"
                                             onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
                                             action="{{ route('comments.destroy', $comment->id) }}">
@@ -124,5 +119,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/handleGeneral/changeStatus.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/handleGeneral/changeStatusComment.js') }}"></script>
 @endsection

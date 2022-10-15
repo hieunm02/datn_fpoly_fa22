@@ -16,7 +16,7 @@ class CommentFactory extends Factory
         return [
             'content' => $this->faker->text(50),
             'user_id' => 1,
-            'product_id' => 136,
+            'product_id' => 137,
             'parent_id' => null,
             'active' => 0,
         ];

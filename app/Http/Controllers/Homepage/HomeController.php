@@ -3,19 +3,26 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
+use App\Models\Product;
+use App\Models\Reaction;
 use App\Models\Thumb;
+use App\Services\Comments\CommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    protected $productService;
+    protected $productService, $commentService;
 
-    public function __construct(ProductServices $productService, MenuServices $menuService)
+    public function __construct(ProductServices $productService, MenuServices $menuService, CommentService $commentService)
     {
         $this->productService = $productService;
         $this->menuService = $menuService;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -59,10 +66,22 @@ class HomeController extends Controller
      */
     public function show($id)
     {
+        $react = $this->commentService->getReact(); // lấy ra icon like có id là 1
+
         $product = $this->productService->getById($id);
-        $products = $this->productService->getAll();
+
         $thumb = Thumb::where('product_id', $id)->get();
-        return view('client.product-detail', compact('product', 'thumb', 'products'));
+        $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
+        $products = $this->productService->getAll();
+
+        //        foreach ($comment as $key) {
+        //            $countReact = $key->reactions->count();
+        //            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react', 'countReact'));
+        //        }
+        if ($comment) {
+            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react'));
+        }
+        return view('client.product-detail', compact('product', 'thumb', 'products', 'react'));
     }
 
     /**
@@ -97,5 +116,36 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createComment(Request $request)
+    {
+        $comment = new Comment();
+
+        $comment->fill(
+            [
+                'content' => (string)$request->content,
+                'product_id' => (int)$request->product_id,
+                'parent_id' => isset($request->parent_id) ? $request->parent_id : null,
+                'user_id' => (int)$request->user_id,
+                'active' => 0,
+            ]
+        );
+
+        $comment->save();
+
+        return response()->json([
+            'success' => 'Bình luận sản phảm thành công.',
+            'date' => date('Y-m-d h:i:s'),
+            'user_id' => $this->commentService->getNameUser($request->user_id),
+            'comment_id' => $comment->id
+        ]);
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $comment = Comment::find($request->id);
+        $comment->delete();
+        return response()->json();
     }
 }

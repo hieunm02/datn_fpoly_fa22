@@ -5,22 +5,22 @@ $(document).ready(function () {
             return;
         }
 
-        var slide_id = $(this).data("id");
-        var active = $("#is-active" + slide_id).val();
+        var comment_id = $(this).data("id");
+        var active = $("#is-active" + comment_id).val();
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: "slide/active",
+            url: "comment/active",
             data: {
                 active: active,
-                slide_id: slide_id,
+                comment_id: comment_id,
             },
             success: function (data) {
-                $(".btn-active" + slide_id).text(data.title);
-                $("#icon-active" + slide_id)
+                $(".btn-active" + comment_id).text(data.title);
+                $("#icon-active" + comment_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);
-                $("#is-active" + slide_id).val(data.value);
+                $("#is-active" + comment_id).val(data.value);
             },
         });
     });

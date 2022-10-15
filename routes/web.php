@@ -32,6 +32,13 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
+    Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
+    Route::get('products/{product_id}/comments/delete', [HomeController::class, 'deleteComment']);
+
+    Route::get('products/{product}/edit-comment/{id}', [HomeController::class, 'editCmt'])->name('rep-comment');
+    Route::put('products/{product}/rep-comments/{id}', [HomeController::class, 'updateCmt']);
+
+    Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -145,6 +152,9 @@ Route::prefix('admin')->group(function () {
 
     //Comment
     Route::resource('comments', CommentController::class);
+    Route::prefix('comment')->group(function () {
+        Route::get('active', [CommentController::class, 'changeActive']);
+    });
 });
 
 
