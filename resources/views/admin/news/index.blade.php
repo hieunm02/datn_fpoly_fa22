@@ -112,6 +112,8 @@
                 </div>
             </div>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">
                     <thead>
@@ -185,6 +187,7 @@
 </script>
 @endsection
 =======
+>>>>>>> dev
         </div>
     </div>
     <script>
@@ -224,4 +227,7 @@
         });
     </script>
 @endsection
+<<<<<<< HEAD
+=======
 >>>>>>> hoang
+>>>>>>> dev

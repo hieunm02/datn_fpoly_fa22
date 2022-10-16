@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Services\Staffs\StaffServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
 {
@@ -25,6 +27,49 @@ class StaffController extends Controller
      */
     public function index()
     {
+        // Role::create(['name' => 'manager']);
+        // Role::create(['name' => 'staff']);
+        // Role::create(['name' => 'customer']);
+
+        // Permission::create(['name' => 'View contact']);
+
+        // Permission::create(['name' => 'Create slide']);
+        // Permission::create(['name' => 'View slide']);
+        // Permission::create(['name' => 'Edit slide']);
+        // Permission::create(['name' => 'Delete slide']);
+
+        // Permission::create(['name' => 'View bill']);
+        // Permission::create(['name' => 'Delete bill']);
+
+        // Permission::create(['name' => 'Create product']);
+        // Permission::create(['name' => 'View product']);
+        // Permission::create(['name' => 'Edit product']);
+        // Permission::create(['name' => 'Delete product']);
+        
+        // Permission::create(['name' => 'Create menu']);
+        // Permission::create(['name' => 'View menu']);
+        // Permission::create(['name' => 'Edit menu']);
+        // Permission::create(['name' => 'Delete menu']);
+        
+        // Permission::create(['name' => 'Create staff']);
+        // Permission::create(['name' => 'View staff']);
+        // Permission::create(['name' => 'Edit staff']);
+        // Permission::create(['name' => 'Delete staff']);
+
+        // Permission::create(['name' => 'View user']);
+        // Permission::create(['name' => 'Delete user']);
+
+        // Permission::create(['name' => 'View comment']);
+        // Permission::create(['name' => 'Delete comment']);
+        
+        // Permission::create(['name' => 'View statistic']);
+
+        // $role = Role::findById(1);
+        // // $per = Permission::all();
+        // // $role->givePermissionTo($per);
+        // $user = User::find(2);
+        // $user->assignRole($role);
+
         $staffs = $this->staffServices->getStaff();
         $title = "Danh sách nhân viên";
         return view('admin.staffs.index', compact('staffs', 'title'));
