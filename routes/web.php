@@ -33,7 +33,9 @@ Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
+    Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
     Route::get('products/{product_id}/comments/delete', [HomeController::class, 'deleteComment']);
+    Route::get('products/{product_id}/comments/like', [HomeController::class, 'likeComment']);
 
     Route::get('products/{product}/edit-comment/{id}', [HomeController::class, 'editCmt'])->name('rep-comment');
     Route::put('products/{product}/rep-comments/{id}', [HomeController::class, 'updateCmt']);

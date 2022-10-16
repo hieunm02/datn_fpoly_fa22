@@ -109,17 +109,38 @@
                                         <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                             <h6 class="mb-0">{{ $cmt->user->name }}</h6>
                                             <p class="text-black-50">{{ $cmt->created_at }}</p>
-                                            <p id="id{{ $cmt->id }}" class="text-black-100 font-weight-bold">
-                                                {{ $cmt->content }}
-                                            </p>
-                                            {{-- @if (Auth::user()->id === $cmt->user_id) --}}
-                                            <p style="cursor: pointer; font-size: 10px">
-                                                <span id="edcm_{{ $cmt->id }} " class="edit_comment"
-                                                    data-id="{{ $cmt->id }}" style="color: blue">Edit</span> |
-                                                <span id="dlcm_{{ $cmt->id }} " class="dele_comment"
-                                                    data-id="{{ $cmt->id }}" style="color: red">Delete</span>
-                                            </p>
-                                            {{-- @endif --}}
+                                            <div class="value_comment_{{ $cmt->id }}">
+                                                <input type="hidden" value="{{ $cmt->content }}"
+                                                    class="form-control edit-content-{{ $cmt->id }}"
+                                                    name="edit_content">
+                                                <p id="id{{ $cmt->id }}" data-id="{{ $cmt->id }}"
+                                                    class="text-black-100 font-weight-bold text_content_{{ $cmt->id }}">
+                                                    {{ $cmt->content }}
+                                                </p>
+                                            </div>
+
+                                            <div style="display:flex; cursor: pointer">
+                                                @foreach ($reacts as $react)
+                                                    <i class="{{ $react->icon }} mr-2 icon-comment"
+                                                        data-id="{{ $cmt->id }}" id="icon_cm_{{ $cmt->id }}">
+                                                        <input type="hidden" name="reaction_id"
+                                                            value="{{ $react->id }}">
+                                                        <span
+                                                            class="quan_like_{{ $cmt->id }}">{{ $cmt->reactions->count() }}</span>
+                                                    </i>
+                                                @endforeach
+                                                <i class="fas fa-reply mr-2"></i>
+                                                @if (Auth::id() === $cmt->user_id)
+                                                    <p style="cursor: pointer; font-size: 10px">
+                                                        <span id="edcm_{{ $cmt->id }} " class="edit_comment"
+                                                            data-id="{{ $cmt->id }}" style="color: blue">Edit</span>
+                                                        |
+                                                        <span id="dlcm_{{ $cmt->id }} " class="dele_comment"
+                                                            data-id="{{ $cmt->id }}"
+                                                            style="color: red">Delete</span>
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +156,7 @@
                                     <button type="button" class="btn btn-primary submit_comment">Bình luận</button>
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="user_id"
-                                        value="{{ isset(Auth::user()->id) ? Auth::user()->id : null }}">
+                                        value="{{ !empty(Auth::id()) ? Auth::id() : '' }}">
                                 </div>
                             </form>
                         </div>

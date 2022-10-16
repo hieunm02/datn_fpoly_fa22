@@ -16,7 +16,7 @@ class CommentService
     }
     public function getReact()
     {
-        return Reaction::select('icon')->Paginate(6);
+        return Reaction::get();
     }
 
     public function getComment($id)

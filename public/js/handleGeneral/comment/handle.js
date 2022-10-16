@@ -3,7 +3,6 @@ $(function () {
     $(".submit_comment").click(function () {
         productId = $("input[name=product_id]").val();
         userId = $("input[name=user_id]").val();
-        // userId = 1;
         content = $("textarea[name=content]").val();
 
         if (!content) {
@@ -46,6 +45,7 @@ $(function () {
                         </div>
                      </div>
                 `;
+                // location.reload();
             },
         });
     });
@@ -67,6 +67,66 @@ $(function () {
             },
             success: function (data) {
                 $(".ele_" + id).remove();
+            },
+        });
+    });
+
+    //View input edit comment
+
+    $(".edit_comment").click(function () {
+        if (!confirm("Thay đổi bình luận.")) {
+            return;
+        }
+        id = $(this).data("id");
+        $(".text_content_" + id).hide();
+        $(".edit-content-" + id).prop("type", "text");
+
+        //Save change edit comment
+        $("input[name=edit_content]").keypress(function (event) {
+            var keycode = event.keyCode ? event.keyCode : event.which;
+            if (keycode == "13") {
+                value = $(".edit-content-" + id).val();
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "comments/edit",
+                    data: {
+                        id: id,
+                        value: value,
+                    },
+                    success: function (data) {
+                        $(".text_content_" + id).show();
+                        $(".text_content_" + id).text(value);
+                        $(".edit-content-" + id).prop("type", "hidden");
+                    },
+                });
+            }
+        });
+    });
+
+    //Like
+
+    $(".icon-comment").click(function () {
+        user_id = $("input[name=user_id]").val();
+        id = $(this).data("id");
+        reaction_id = $("input[name=reaction_id]").val();
+        quantity_like = $(".quan_like_" + id).val();
+        if (!user_id) {
+            alert("Bạn chưa đăng nhập tài khoản.");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: "comments/like",
+            data: {
+                id: id,
+                reaction_id: reaction_id,
+                user_id: user_id,
+            },
+            success: function (data) {
+                $("#icon_cm_" + id).css("color", "red");
+                $(".quan_like_" + id).text(quantity_like + 1);
             },
         });
     });

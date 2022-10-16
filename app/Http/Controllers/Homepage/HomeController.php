@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
+use App\Models\CommentReaction;
+use App\Models\CommentRection;
 use App\Models\Product;
 use App\Models\Reaction;
 use App\Models\Thumb;
@@ -66,8 +68,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $react = $this->commentService->getReact(); // lấy ra icon like có id là 1
-
+        $reacts = $this->commentService->getReact(); // lấy ra icon like có id là 1
         $product = $this->productService->getById($id);
 
         $thumb = Thumb::where('product_id', $id)->get();
@@ -78,45 +79,10 @@ class HomeController extends Controller
         //            $countReact = $key->reactions->count();
         //            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react', 'countReact'));
         //        }
-        if ($comment) {
-            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react'));
-        }
-        return view('client.product-detail', compact('product', 'thumb', 'products', 'react'));
+        return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    //Comment
 
     public function createComment(Request $request)
     {
@@ -142,10 +108,30 @@ class HomeController extends Controller
         ]);
     }
 
+    public function editComment(Request $request)
+    {
+        $comment = Comment::find($request->id);
+
+        $comment->content = $request->value;
+        $comment->save();
+
+        return response()->json();
+    }
+
     public function deleteComment(Request $request)
     {
         $comment = Comment::find($request->id);
         $comment->delete();
+        return response()->json();
+    }
+
+    public function likeComment(Request $request)
+    {
+        $cmtReaction = new CommentReaction();
+        $cmtReaction->comment_id = $request->id;
+        $cmtReaction->reaction_id = $request->reaction_id;
+
+        $cmtReaction->save();
         return response()->json();
     }
 }

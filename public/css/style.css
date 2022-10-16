@@ -1438,5 +1438,25 @@ footer .text-muted {
     width: 50px;
     height: 50px;
 }
-.ip-comment {
+
+.icon-comment:hover {
+    color: rgb(247, 58, 58);
+}
+
+.icon-comment {
+    position: relative;
+}
+
+.icon-comment span {
+    color: #fff;
+    font-size: 11px;
+    position: absolute;
+    bottom: -5px;
+    left: 10px;
+    background-color: blue;
+    border-radius: 50%;
+}
+
+.fa-reply:hover {
+    color: blue;
 }
