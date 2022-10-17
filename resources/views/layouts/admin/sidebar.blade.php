@@ -83,15 +83,7 @@
                     </ul>
                 </a>
             </li>
-            {{-- Vouchers  --}}
-            </span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('slides.index') }}">Danh sách</a>
-                </li>
-            </ul>
-            </li>
+
             {{-- End Slides  --}}
 
             {{-- Voucher  --}}
@@ -115,6 +107,7 @@
                     </ul>
                 </a>
             </li>
+            {{-- End Voucher --}}
 
             {{-- Staffs --}}
             <li class="nav-item dropdown">
@@ -136,45 +129,64 @@
                     </ul>
                 </a>
             </li>
-        </ul>
+            {{-- End Staffs --}}
 
-        {{-- Users  --}}
-        <li class="nav-item dropdown">
-            <a class="dropdown-toggle" href="javascript:void(0);">
-                <span class="icon-holder">
-                    <i class="fas fa-user-friends"></i>
-                </span>
-                <span class="title">Tài Khoản</span>
-                <span class="arrow">
-                    <i class="arrow-icon"></i>
-                </span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('users.index') }}">Danh sách</a>
-                </li>
-            </ul>
-        </li>
-        {{-- end-users --}}
+            {{-- Users  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span class="title">Tài Khoản</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('users.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-users --}}
 
-        {{-- Contacts  --}}
-        <li class="nav-item dropdown">
-            <a class="dropdown-toggle" href="javascript:void(0);">
-                <span class="icon-holder">
-                    <i class="anticon anticon-phone"></i>
-                </span>
-                <span class="title">Liên hệ</span>
-                <span class="arrow">
-                    <i class="arrow-icon"></i>
-                </span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('admin.contacts-index') }}">Danh sách</a>
-                </li>
-            </ul>
-        </li>
-        {{-- end-contacts --}}
+            {{-- Contacts  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-phone"></i>
+                    </span>
+                    <span class="title">Liên hệ</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('admin.contacts-index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-contacts --}}
+
+            {{-- Comments  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="bi bi-box"></i>
+                    </span>
+                    <span class="title">Bình luận</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('comments.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-Comments --}}
         </ul>
     </div>
 </div>
