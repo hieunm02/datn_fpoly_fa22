@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UploadThumbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Homepage\HomeController;
@@ -139,9 +140,11 @@ Route::prefix('admin')->group(function () {
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
+    //Staff
+    Route::resource('staffs', StaffController::class);
 
     //upload thumb
-    Route::post('upload/services', [UploadThumbController::class, 'store']);
+    Route::post('/upload/services', [UploadThumbController::class, 'store']);
 
     //Slides
     Route::resource('slides', SlideController::class);
@@ -158,7 +161,6 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
 });
-
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);

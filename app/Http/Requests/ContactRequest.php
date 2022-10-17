@@ -38,7 +38,7 @@ class ContactRequest extends FormRequest
             'email.required' => 'Vui lòng nhập email!',
             'email.email' => 'Email sai định dạng!',
             'phone.required' => 'Vui lòng nhập số điện thoại!',
-            'phone.number' => 'Số điện thoại sai định dạng!',
+            'phone.numeric' => 'Số điện thoại sai định dạng!',
             'content.required' => 'Mô tả không được để trống!',
         ];
     }
