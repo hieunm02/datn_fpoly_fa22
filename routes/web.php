@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StaffController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -45,6 +47,10 @@ Route::prefix('/')->group(function () {
 
     Route::get('/checkout', function () {
         return view('client.checkout');
+    });
+
+    Route::get('/cart', function () {
+        return view('client.cart');
     });
 
     Route::get('/coming-soon', function () {
@@ -93,15 +99,12 @@ Route::prefix('/')->group(function () {
     Route::get('/privacy', function () {
         return view('client.privacy');
     });
-
-    Route::get('/profile', function () {
-        return view('client.profile');
-    });
+    
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::get('/search', function () {
         return view('client.search');
     });
-
     Route::get('/status', function () {
         return view('client.status');
     });
@@ -153,7 +156,11 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
+
+    //Price
+    Route::resource('prices', PriceController::class);
+
 
     //Comment
     Route::resource('comments', CommentController::class);
