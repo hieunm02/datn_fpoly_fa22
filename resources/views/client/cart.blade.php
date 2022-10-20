@@ -45,16 +45,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-12 py-2 row">
-                    <div class="col-12">
-                        <input type="checkbox" name="" id=""> Sản phẩm
-                    </div>
-                    <div class="col-1"> <input type="checkbox" name="" id=""></div>
-                    <div class="col-4">
-                        <img src="http://vn.blog.kkday.com/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" width="100px" alt="">
-                    </div>
-                    <div class="col-7"></div>
-                </div>
             </div>
         </div>
     </div>

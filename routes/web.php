@@ -120,6 +120,10 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
+    Route::get("/cart", function () {
+        return view('client.cart');
+    });
 });
 
 // Admin
