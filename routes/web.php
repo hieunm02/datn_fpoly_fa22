@@ -84,7 +84,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::get('/logout', function () {
-        Session::forget('user_name');
+        Auth::logout();
         return back();
     });
 
