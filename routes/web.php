@@ -156,15 +156,11 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-<<<<<<< HEAD
-    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
-=======
     Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
 
     //Price
     Route::resource('prices', PriceController::class);
-});
->>>>>>> thuy
+
 
     //Comment
     Route::resource('comments', CommentController::class);
