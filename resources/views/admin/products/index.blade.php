@@ -107,7 +107,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $product->menu->name }}</td>
-                                    <td>${{ $product->price->original }}</td>
+                                    <td>${{ $product->price }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>
                                         <form method="POST" class="inline-block"
