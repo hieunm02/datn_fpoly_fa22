@@ -36,6 +36,10 @@ Route::prefix('/')->group(function () {
         return view('client.checkout');
     });
 
+    Route::get('/cart', function () {
+        return view('client.cart');
+    });
+
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
     });

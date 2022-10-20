@@ -1449,3 +1449,6 @@ footer .text-muted {
     text-overflow: ellipsis;
     font-size: 12px;
 }
+@media (max-width: 675px) {
+    
+}
