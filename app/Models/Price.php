@@ -13,7 +13,7 @@ class Price extends Model
 
     protected $fillable = [
         'original',
-        'sales'
+        'sale'
     ];
 
     public function products()
