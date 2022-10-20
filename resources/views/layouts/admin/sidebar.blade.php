@@ -73,16 +73,17 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    <span class="title">Tài khoản</span>
-            {{-- Vouchers  --}}
-                    </span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('slides.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('slides.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="{{ route('slides.index') }}">Danh sách</a>
-                    </li>
-                </ul>
             </li>
+
             {{-- End Slides  --}}
 
             {{-- Voucher  --}}
@@ -90,25 +91,45 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
-                        <i class="fas fa-percent"></i>
+                        <i class="bi bi-percent"></i>
                     </span>
-                    <span class="title">Mã giảm giá</span>
+                    <span class="title">Vouchers</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    </span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('vouchers.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('vouchers.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="{{ route('vouchers.index') }}">Danh sách</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('vouchers.create') }}">Tạo mới</a>
-                    </li>
-                </ul>
             </li>
-            {{-- End Voucher  --}}
+            {{-- End Voucher --}}
 
+            {{-- Staffs --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Staffs</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('staffs.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('staffs.create') }}">Tạo mới</a>
+                        </li>
+                    </ul>
+                </a>
+            </li>
+            {{-- End Staffs --}}
 
             {{-- Users  --}}
             <li class="nav-item dropdown">
@@ -147,6 +168,43 @@
                 </ul>
             </li>
             {{-- end-contacts --}}
+
+<<<<<<< HEAD
+            {{-- Comments  --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="bi bi-box"></i>
+                    </span>
+                    <span class="title">Bình luận</span>
+=======
+            {{-- Prices --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-appstore"></i>
+                    </span>
+                    <span class="title">Giá sản phẩm</span>
+>>>>>>> thuy
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+<<<<<<< HEAD
+                        <a href="{{ route('comments.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-Comments --}}
+=======
+                        <a href="{{ route('prices.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-prices --}}
+>>>>>>> thuy
         </ul>
     </div>
 </div>

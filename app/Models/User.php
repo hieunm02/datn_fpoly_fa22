@@ -22,6 +22,7 @@ class User extends Authenticatable
         'password',
         'role',
         'active',
+        'avatar'
     ];
 
     /**
@@ -46,5 +47,10 @@ class User extends Authenticatable
     public function news()
     {
         $this->hasMany(News::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

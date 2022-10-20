@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UploadThumbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Homepage\HomeController;
@@ -12,6 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -31,6 +35,15 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
+    Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
+    Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
+    Route::get('products/{product_id}/comments/delete', [HomeController::class, 'deleteComment']);
+    Route::get('products/{product_id}/comments/like', [HomeController::class, 'likeComment']);
+
+    Route::get('products/{product}/edit-comment/{id}', [HomeController::class, 'editCmt'])->name('rep-comment');
+    Route::put('products/{product}/rep-comments/{id}', [HomeController::class, 'updateCmt']);
+
+    Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
@@ -86,15 +99,12 @@ Route::prefix('/')->group(function () {
     Route::get('/privacy', function () {
         return view('client.privacy');
     });
-
-    Route::get('/profile', function () {
-        return view('client.profile');
-    });
+    
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::get('/search', function () {
         return view('client.search');
     });
-
     Route::get('/status', function () {
         return view('client.status');
     });
@@ -133,9 +143,11 @@ Route::prefix('admin')->group(function () {
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
+    //Staff
+    Route::resource('staffs', StaffController::class);
 
     //upload thumb
-    Route::post('upload/services', [UploadThumbController::class, 'store']);
+    Route::post('/upload/services', [UploadThumbController::class, 'store']);
 
     //Slides
     Route::resource('slides', SlideController::class);
@@ -144,9 +156,22 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
+<<<<<<< HEAD
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
+=======
     Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
-});
 
+    //Price
+    Route::resource('prices', PriceController::class);
+});
+>>>>>>> thuy
+
+    //Comment
+    Route::resource('comments', CommentController::class);
+    Route::prefix('comment')->group(function () {
+        Route::get('active', [CommentController::class, 'changeActive']);
+    });
+});
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
