@@ -20,6 +20,10 @@ class AuthController extends Controller
     {
         $userdata = Socialite::driver('google')->user();
         $user = User::where('email', $userdata->email)->where('auth_type', 'google')->first();
+<<<<<<< HEAD
+=======
+        Session::put('user_name', $userdata->name);
+>>>>>>> trunghieu
         if ($user) {
             //do login
             Auth::login($user);
@@ -41,4 +45,20 @@ class AuthController extends Controller
             return redirect('/');
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+
+    public function handleLogin(Request $request)
+    {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = User::where('email', $request->email)->first();
+            Session::put('user_name', $user->name);
+            return redirect()->route('index');
+        } else {
+            echo "Sai";
+        }
+    }
+}
+>>>>>>> trunghieu

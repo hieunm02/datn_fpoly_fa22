@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Session;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
     Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
@@ -79,6 +79,10 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
+
+
+    //Login - Logout
+    Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
     });
@@ -127,7 +131,7 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -139,9 +143,6 @@ Route::prefix('admin')->group(function () {
     // News
     Route::resource('news', NewsController::class);
 
-    // news
-    Route::resource('news', NewsController::class);
-
     // users
     Route::resource('users', UserController::class);
     // Vouchers
@@ -149,6 +150,10 @@ Route::prefix('admin')->group(function () {
 
     //Staff
     Route::resource('staffs', StaffController::class);
+<<<<<<< HEAD
+=======
+
+>>>>>>> trunghieu
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
