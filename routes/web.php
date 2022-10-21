@@ -97,6 +97,7 @@ Route::prefix('/')->group(function () {
     });
     
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
     Route::get('/search', function () {
         return view('client.search');
@@ -152,22 +153,17 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-<<<<<<< HEAD
-    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
-=======
     Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
 
     //Price
     Route::resource('prices', PriceController::class);
 });
->>>>>>> thuy
 
     //Comment
     Route::resource('comments', CommentController::class);
     Route::prefix('comment')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
-});
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);

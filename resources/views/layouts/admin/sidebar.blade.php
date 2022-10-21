@@ -169,7 +169,6 @@
             </li>
             {{-- end-contacts --}}
 
-<<<<<<< HEAD
             {{-- Comments  --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -177,7 +176,18 @@
                         <i class="bi bi-box"></i>
                     </span>
                     <span class="title">Bình luận</span>
-=======
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('comments.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-Comments --}}
+
             {{-- Prices --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -185,26 +195,17 @@
                         <i class="anticon anticon-appstore"></i>
                     </span>
                     <span class="title">Giá sản phẩm</span>
->>>>>>> thuy
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-<<<<<<< HEAD
-                        <a href="{{ route('comments.index') }}">Danh sách</a>
-                    </li>
-                </ul>
-            </li>
-            {{-- end-Comments --}}
-=======
                         <a href="{{ route('prices.index') }}">Danh sách</a>
                     </li>
                 </ul>
             </li>
             {{-- end-prices --}}
->>>>>>> thuy
         </ul>
     </div>
 </div>
