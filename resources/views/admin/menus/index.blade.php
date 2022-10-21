@@ -94,7 +94,7 @@
                             <td>
                                 <img src="{{ $menu->thumb }}" alt="" width="100px">
                             </td>
-                            <td>{{ $menu->active }}</td>
+                            <td>{!! \App\Helpers\Helper::active( $menu->active ) !!}</td>    
                             <td class="text-right">
                                 <a href="{{ route('menus.edit', $menu->id) }}">
                                     <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">

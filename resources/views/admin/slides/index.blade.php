@@ -83,7 +83,7 @@
                                             <h6 class="m-b-0 m-l-10">{{ $slide->name }}</h6>
                                         </div>
                                     </td>
-                                    <td>{{ $slide->product->name }}</td>
+                                    <td></td>
                                     <td>
                                         @if ($slide->sort_by === 1)
                                             {{ 'ASC' }}

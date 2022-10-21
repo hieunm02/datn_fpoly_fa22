@@ -13,7 +13,7 @@ class ProductServices
 {
     public function getMenu()
     {
-        return Menu::where('active', 1)->get();
+        return Menu::where('active', 0)->get();
     }
 
     public function getPrice()
@@ -41,8 +41,8 @@ class ProductServices
     {
 
         return Product::with('menu', 'price')
-            ->select('id', 'name', 'menu_id', 'price_id', 'quantity', 'thumb', 'active')
-            ->orderBy('id', 'ASC')->paginate(5);
+            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
+            ->orderBy('id', 'DESC')->paginate(5);
     }
 
     public function create($request)
@@ -59,7 +59,6 @@ class ProductServices
                 $product->desc = $request->desc;
                 $product->quantity = $request->quantity;
                 $product->name = $request->name;
-                $product->price_id = $request->price_id;
                 $product->menu_id = $request->menu_id;
                 $product->active = 1;
                 $product->save();
@@ -116,7 +115,6 @@ class ProductServices
                 }
             }
             Session::flash('success', 'Cập nhật thành công');
-            return redirect()->route('products.index');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;

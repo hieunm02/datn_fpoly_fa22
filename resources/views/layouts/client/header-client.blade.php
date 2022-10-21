@@ -79,7 +79,7 @@
                             </div>
                         </a> --}}
                         <!-- signin -->
-                        @if (is_null(Session::get('user_name')))
+                        @if (is_null(Auth::user()))
                         <a href="/login" class="widget-header mr-4 text-dark m-none">
                             <div class="icon d-flex align-items-center">
                                 <i class="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
@@ -89,10 +89,10 @@
                         @else
                         <div class="dropdown mr-4 m-none">
                             <a href="#" class="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img alt="#" src="{{asset('img/user/1.jpg')}}" class="img-fluid rounded-circle header-user mr-2 header-user"> {{ Session::get('user_name')}}
+                                <img alt="#" src="{{ Auth::user()->avatar}}" class="img-fluid rounded-circle header-user mr-2 header-user"> {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="profile.html">My account</a>
+                                <a class="dropdown-item" href="{{route('profile.index')}}">My account</a>
                                 <a class="dropdown-item" href="faq.html">Delivery support</a>
                                 <a class="dropdown-item" href="contact-us.html">Contant us</a>
                                 <a class="dropdown-item" href="terms.html">Term of use</a>
@@ -151,7 +151,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="profile.html" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{route('profile.index')}}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-user"></i></p>
                 Profile
             </a>

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StaffController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -32,9 +35,22 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
+    Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
+    Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
+    Route::get('products/{product_id}/comments/delete', [HomeController::class, 'deleteComment']);
+    Route::get('products/{product_id}/comments/like', [HomeController::class, 'likeComment']);
+
+    Route::get('products/{product}/edit-comment/{id}', [HomeController::class, 'editCmt'])->name('rep-comment');
+    Route::put('products/{product}/rep-comments/{id}', [HomeController::class, 'updateCmt']);
+
+    Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
     Route::get('/checkout', function () {
         return view('client.checkout');
+    });
+
+    Route::get('/cart', function () {
+        return view('client.cart');
     });
 
     Route::get('/coming-soon', function () {
@@ -72,7 +88,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::get('/logout', function () {
-        Session::forget('user_name');
+        Auth::logout();
         return back();
     });
 
@@ -88,14 +104,11 @@ Route::prefix('/')->group(function () {
         return view('client.privacy');
     });
 
-    Route::get('/profile', function () {
-        return view('client.profile');
-    });
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::get('/search', function () {
         return view('client.search');
     });
-
     Route::get('/status', function () {
         return view('client.status');
     });
@@ -111,10 +124,14 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
+    Route::get("/cart", function () {
+        return view('client.cart');
+    });
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -146,6 +163,16 @@ Route::prefix('admin')->group(function () {
 
     //Contact
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
+
+    //Price
+    Route::resource('prices', PriceController::class);
+
+
+    //Comment
+    Route::resource('comments', CommentController::class);
+    Route::prefix('comment')->group(function () {
+        Route::get('active', [CommentController::class, 'changeActive']);
+    });
 });
 
 //login with google
