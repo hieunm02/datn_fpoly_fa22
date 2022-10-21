@@ -113,6 +113,7 @@
                                                     </div>
                                                 </td>
                                             @endif
+                                            @role('manager')
                                             <td class="text-right">
                                                 <a href="{{ route('staffs.edit', $item->id) }}">
                                                     <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
@@ -126,6 +127,7 @@
                                                     <i class="anticon anticon-delete"></i>
                                                 </button>
                                             </td>
+                                            @endrole
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -126,9 +126,6 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     // News
     Route::resource('news', NewsController::class);
 
-    // news
-    Route::resource('news', NewsController::class);
-
     // users
     Route::resource('users', UserController::class);
     // Vouchers

@@ -31,15 +31,22 @@ class StaffController extends Controller
         // Role::create(['name' => 'staff']);
         // Role::create(['name' => 'customer']);
 
+        // Permission::create(['name' => 'Create contact']);
         // Permission::create(['name' => 'View contact']);
+        // Permission::create(['name' => 'Edit contact']);
+        // Permission::create(['name' => 'Delete contact']);
 
         // Permission::create(['name' => 'Create slide']);
         // Permission::create(['name' => 'View slide']);
         // Permission::create(['name' => 'Edit slide']);
         // Permission::create(['name' => 'Delete slide']);
 
+        // Permission::create(['name' => 'Create news']);
+        // Permission::create(['name' => 'View news']);
+        // Permission::create(['name' => 'Edit news']);
+        // Permission::create(['name' => 'Delete news']);
+
         // Permission::create(['name' => 'View bill']);
-        // Permission::create(['name' => 'Delete bill']);
 
         // Permission::create(['name' => 'Create product']);
         // Permission::create(['name' => 'View product']);
@@ -56,17 +63,16 @@ class StaffController extends Controller
         // Permission::create(['name' => 'Edit staff']);
         // Permission::create(['name' => 'Delete staff']);
 
-        // Permission::create(['name' => 'View user']);
-        // Permission::create(['name' => 'Delete user']);
-
+        // Permission::create(['name' => 'Create comment']);
         // Permission::create(['name' => 'View comment']);
+        // Permission::create(['name' => 'Edit comment']);
         // Permission::create(['name' => 'Delete comment']);
         
         // Permission::create(['name' => 'View statistic']);
 
-        // $role = Role::findById(1);
-        // // $per = Permission::all();
-        // // $role->givePermissionTo($per);
+        // $role = Role::findById(2);
+        // // // $per = Permission::all();
+        // // // $role->givePermissionTo($per);
         // $user = User::find(2);
         // $user->assignRole($role);
 
