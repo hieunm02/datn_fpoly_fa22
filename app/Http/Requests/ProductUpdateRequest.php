@@ -28,7 +28,8 @@ class ProductUpdateRequest extends FormRequest
                 'name' => 'required' . $this->route('products'),
                 'content' => 'required|min:6',
                 'desc' => 'required|min:6',
-                'quantity' => 'required|integer|min:1'
+                'quantity' => 'required|integer|min:1',
+                'price' => 'required',
             ];
         }
 
@@ -36,7 +37,8 @@ class ProductUpdateRequest extends FormRequest
             'name' => 'required',
             'content' => 'required|min:6',
             'desc' => 'required|min:6',
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:1',
+            'price.required' => 'Giá sản phẩm không được để trống!',
         ];
     }
 
@@ -52,6 +54,7 @@ class ProductUpdateRequest extends FormRequest
             'quantity.required' => 'Số lượng sản phẩm không được để trống!',
             'quantity.integer' => 'Số lượng sản phẩm phải là số! ',
             'quantity.min' => 'Số lượng sản phẩm phải lớn hơn 1!',
+            'price.required' => 'Giá sản phẩm phải là số!'
 
         ];
     }

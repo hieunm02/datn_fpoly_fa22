@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Session;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
     Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
@@ -47,6 +47,10 @@ Route::prefix('/')->group(function () {
 
     Route::get('/checkout', function () {
         return view('client.checkout');
+    });
+
+    Route::get('/cart', function () {
+        return view('client.cart');
     });
 
     Route::get('/coming-soon', function () {
@@ -75,12 +79,16 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
+
+
+    //Login - Logout
+    Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
     });
 
     Route::get('/logout', function () {
-        Session::forget('user_name');
+        Auth::logout();
         return back();
     });
 
@@ -117,10 +125,14 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
+    Route::get("/cart", function () {
+        return view('client.cart');
+    });
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -132,9 +144,6 @@ Route::prefix('admin')->group(function () {
     // News
     Route::resource('news', NewsController::class);
 
-    // news
-    Route::resource('news', NewsController::class);
-
     // users
     Route::resource('users', UserController::class);
     // Vouchers
@@ -142,6 +151,10 @@ Route::prefix('admin')->group(function () {
 
     //Staff
     Route::resource('staffs', StaffController::class);
+<<<<<<< HEAD
+=======
+
+>>>>>>> trunghieu
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -157,7 +170,11 @@ Route::prefix('admin')->group(function () {
 
     //Price
     Route::resource('prices', PriceController::class);
+<<<<<<< HEAD
 });
+=======
+
+>>>>>>> 4e287853acc4737de0f6de7a24c2a6eb29674b6d
 
     //Comment
     Route::resource('comments', CommentController::class);

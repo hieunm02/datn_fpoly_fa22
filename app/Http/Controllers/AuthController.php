@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -20,9 +19,11 @@ class AuthController extends Controller
     public function googlecallback(Request $request)
     {
         $userdata = Socialite::driver('google')->user();
-
         $user = User::where('email', $userdata->email)->where('auth_type', 'google')->first();
+<<<<<<< HEAD
+=======
         Session::put('user_name', $userdata->name);
+>>>>>>> trunghieu
         if ($user) {
             //do login
             Auth::login($user);
@@ -38,9 +39,26 @@ class AuthController extends Controller
             $user->role = 1;
             $user->active = 1;
             $user->auth_type = 'google';
+            $user->avatar = $userdata->avatar;
             $user->save();
             Auth::login($user);
             return redirect('/');
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+
+    public function handleLogin(Request $request)
+    {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = User::where('email', $request->email)->first();
+            Session::put('user_name', $user->name);
+            return redirect()->route('index');
+        } else {
+            echo "Sai";
+        }
+    }
+}
+>>>>>>> trunghieu

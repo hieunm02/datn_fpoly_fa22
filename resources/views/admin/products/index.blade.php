@@ -107,7 +107,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $product->menu->name }}</td>
-                                    <td>${{ $product->price->original }}</td>
+                                    <td>${{ $product->price }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>
                                         <form method="POST" class="inline-block"
@@ -157,6 +157,18 @@
                 </div>
                 <div class="text-right">
                     {{ $products->links() }}
+<<<<<<< HEAD
+=======
+=======
+                    <div style="display: flex; justify-content: center">
+                        {{ $products->links() }}
+                    </div>
+<<<<<<< HEAD
+>>>>>>> e4ca06b83e2d3d85caaa12218d8a3b9cb2145fbf
+=======
+>>>>>>> hoang
+>>>>>>> dev
+>>>>>>> trunghieu
                 </div>
             </div>
         </div>
