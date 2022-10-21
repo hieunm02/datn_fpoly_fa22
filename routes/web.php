@@ -114,7 +114,7 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-Route::prefix('admin')->middleware('role:admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -126,17 +126,14 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     // News
     Route::resource('news', NewsController::class);
 
-    // news
-    Route::resource('news', NewsController::class);
-
     // users
     Route::resource('users', UserController::class);
+
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
     //Staff
     Route::resource('staffs', StaffController::class);
-
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -148,7 +145,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
 });
 
 //login with google
