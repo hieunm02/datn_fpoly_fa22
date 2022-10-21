@@ -13,7 +13,7 @@ class ProductServices
 {
     public function getMenu()
     {
-        return Menu::where('active', 1)->get();
+        return Menu::where('active', 0)->get();
     }
 
     public function getPrice()
@@ -50,6 +50,8 @@ class ProductServices
         try {
             $product = new Product();
             $product->fill($request->all());
+            
+
             if ($request->hasFile('thumb')) {
                 $image = $request->thumb;
                 $imageName = $image->hashName();
@@ -61,6 +63,7 @@ class ProductServices
                 $product->name = $request->name;
                 $product->menu_id = $request->menu_id;
                 $product->active = 1;
+                // \dd($product);
                 $product->save();
             }
             $productId = $product->id;

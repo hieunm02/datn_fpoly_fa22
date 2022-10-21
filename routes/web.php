@@ -150,10 +150,6 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 
     //Staff
     Route::resource('staffs', StaffController::class);
-<<<<<<< HEAD
-=======
-
->>>>>>> trunghieu
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
