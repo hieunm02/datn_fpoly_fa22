@@ -207,7 +207,7 @@
                                     ?>
                                     @foreach ($menus as $menu)
                                     <li>
-                                        <div class="nav-item-wrapper"><a href="privacy.html" class="nav-item">{{ $menu->name }}</a></div>
+                                        <div class="nav-item-wrapper"><a href="{{ route('list-products', $menu->id) }}" class="nav-item">{{ $menu->name }}</a></div>
                                     </li>
                                     @endforeach
                                 </ul>

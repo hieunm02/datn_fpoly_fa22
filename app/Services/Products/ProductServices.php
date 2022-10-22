@@ -70,6 +70,8 @@ class ProductServices
         try {
             $product = new Product();
             $product->fill($request->all());
+            
+
             if ($request->hasFile('thumb')) {
                 $image = $request->thumb;
                 $imageName = $image->hashName();

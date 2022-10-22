@@ -156,9 +156,6 @@
                 </div>
                 <div class="text-right">
                     {{ $products->links() }}
-                    <div style="display: flex; justify-content: center">
-                        {{ $products->links() }}
-                    </div>
                 </div>
             </div>
         </div>

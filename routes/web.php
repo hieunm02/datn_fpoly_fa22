@@ -15,7 +15,9 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,13 +48,7 @@ Route::prefix('/')->group(function () {
 
     Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
-    Route::get('/checkout', function () {
-        return view('client.checkout');
-    });
-
-    Route::get('/cart', function () {
-        return view('client.cart');
-    });
+    Route::resource('carts', CartController::class);
 
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
@@ -72,15 +68,13 @@ Route::prefix('/')->group(function () {
         return view('client.faq');
     });
 
-    Route::get('/list-products', function () {
-        return view('client.list-products');
-    });
+    //ListProducts
+    Route::get('/list-products', [ListProductController::class, 'getList']);
+    Route::get('/list-products/{id}', [ListProductController::class, 'getListMenu'])->name('list-products');
 
     Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
-
-
 
     //Login - Logout
     Route::post('/login', [AuthController::class, 'handleLogin']);
@@ -126,14 +120,10 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
-
-    Route::get("/cart", function () {
-        return view('client.cart');
-    });
 });
 
 // Admin
-
+// ->middleware('role:admin')
 Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {

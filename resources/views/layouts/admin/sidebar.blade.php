@@ -205,7 +205,6 @@
                 </ul>
             </li>
             {{-- end-prices --}}
-
         </ul>
     </div>
 </div>

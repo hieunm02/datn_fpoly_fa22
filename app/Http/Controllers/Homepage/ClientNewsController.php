@@ -26,6 +26,7 @@ class ClientNewsController extends Controller
     public function show($id)
     {
         $news = News::find($id);
+
         $title = "Chi tiet bài viết";
 
         return view('client.news-detail', compact('news', 'title'));
