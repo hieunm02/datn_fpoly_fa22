@@ -63,8 +63,8 @@
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
                     <div class="p-3">
-                        <h3 class="text-primary font-weight-bold pt-3">{{ $product->price->original }}
-                            - {{ $product->price->sale }}</h3>
+                        <h3 class="text-primary font-weight-bold pt-3">{{ $product->price }}
+                            - {{ $product->price }}</h3>
                         <h5 class="text-dark font-weight-light">Loại: {{ $product->menu->name }}</h5>
                         <p class="text-break">{{ $product->content }}</p>
                     </div>

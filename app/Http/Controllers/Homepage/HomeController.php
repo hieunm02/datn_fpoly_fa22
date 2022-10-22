@@ -10,7 +10,7 @@ use App\Models\CommentRection;
 use App\Models\Product;
 use App\Models\Reaction;
 use App\Models\Thumb;
-use App\Services\Comments\CommentService;
+use App\Services\Comment\AdminCommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    protected $productService, $commentService;
+    protected $productService;
+    protected $commentService;
 
-    public function __construct(ProductServices $productService, MenuServices $menuService, CommentService $commentService)
-    {
+    public function __construct(
+        ProductServices $productService,
+        MenuServices $menuService,
+        AdminCommentService $commentService
+    ) {
         $this->productService = $productService;
         $this->menuService = $menuService;
         $this->commentService = $commentService;
@@ -68,7 +72,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $reacts = $this->commentService->getReact(); // lấy ra icon like có id là 1
+        $reacts = Reaction::all(); // lấy ra icon like có id là 1
         $product = $this->productService->getById($id);
 
         $thumb = Thumb::where('product_id', $id)->get();
