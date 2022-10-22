@@ -14,7 +14,7 @@ class ProductServices
 {
     public function getMenu()
     {
-        return Menu::where('active', 1)->get();
+        return Menu::where('active', 0)->get();
     }
 
     public function getPrice()
@@ -80,7 +80,7 @@ class ProductServices
                 $product->quantity = $request->quantity;
                 $product->name = $request->name;
                 $product->menu_id = $request->menu_id;
-                $product->active = 1;
+                $product->active = 0;
                 $product->save();
             }
             $productId = $product->id;
@@ -98,7 +98,6 @@ class ProductServices
             }
             Session::flash('success', 'Tạo mới thành công');
         } catch (\Exception $err) {
-            dd('ba');
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());
             return false;
