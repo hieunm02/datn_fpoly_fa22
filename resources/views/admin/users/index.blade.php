@@ -63,8 +63,8 @@
                                             <h6 class="m-b-0">{{ $user->auth_type }}</h6>
                                         </div>
                                     </td>
-                                    <td>{!! \App\Helpers\Helper::active( $user->active ) !!}</td>    
-                                    
+                                    <td>{!! \App\Helpers\Helper::active($user->active) !!}</td>
+
                                 </tr>
                             @endforeach
                         </tbody>

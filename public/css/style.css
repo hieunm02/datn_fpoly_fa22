@@ -1460,3 +1460,9 @@ footer .text-muted {
 .fa-reply:hover {
     color: blue;
 }
+
+/* //icon lock */
+
+.bi-unlock-fill {
+    font-size: 18px;
+}

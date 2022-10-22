@@ -110,29 +110,28 @@
                                     <td>${{ $product->price }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>
-                                        <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($product->active === 1)
-                                                    <div id="icon-active{{ $product->id }}"
-                                                        class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $product->id }}"
-                                                        value="{{ $product->active }}">
-                                                    <div class="btn-status btn-active{{ $product->id }}"
-                                                        data-id="{{ $product->id }}">In Stock</div>
-                                                @else
-                                                    <div id="icon-active{{ $product->id }}"
-                                                        class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $product->id }}"
-                                                        value="{{ $product->active }}">
-                                                    <div class="btn-status btn-active{{ $product->id }}"
-                                                        data-id="{{ $product->id }}">Out Of Stock
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </form>
+
+                                        <div class="d-flex align-items-center" style="cursor: pointer">
+                                            @if ($product->active === 0)
+                                                <div class="m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $product->id }}"
+                                                    value="{{ $product->active }}">
+                                                <div class="btn-status" data-id="{{ $product->id }}">
+                                                    <i style="color: green"
+                                                        class="bi bi-lock-fill btn-active{{ $product->id }}"
+                                                        id="icon-active{{ $product->id }}"></i>
+                                                </div>
+                                            @else
+                                                <div class="m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $product->id }}"
+                                                    value="{{ $product->active }}">
+                                                <div class="btn-status" data-id="{{ $product->id }}">
+                                                    <i style="color: red"
+                                                        class="bi bi-unlock-fill btn-active{{ $product->id }}"
+                                                        id="icon-active{{ $product->id }}"></i>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="text-right">
                                         <a href="{{ route('products.edit', $product->id) }}">

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -98,8 +99,9 @@ Route::prefix('/')->group(function () {
     Route::get('/privacy', function () {
         return view('client.privacy');
     });
-    
+
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
     Route::get('/search', function () {
         return view('client.search');
@@ -123,7 +125,8 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
+
+Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -153,18 +156,18 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class , 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
 
     //Price
     Route::resource('prices', PriceController::class);
-
-
-    //Comment
-    Route::resource('comments', CommentController::class);
-    Route::prefix('comment')->group(function () {
-        Route::get('active', [CommentController::class, 'changeActive']);
-    });
 });
+
+//Comment
+Route::resource('comments', CommentController::class);
+Route::prefix('comment')->group(function () {
+    Route::get('active', [CommentController::class, 'changeActive']);
+});
+
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
