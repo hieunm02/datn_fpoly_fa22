@@ -25,7 +25,7 @@
         <div class="cat-slider">
             @foreach ($menus as $menu)
                 <div class="cat-item px-1 py-3">
-                    <a class="bg-white rounded d-block p-2 text-center shadow-sm" href="trending.html">
+                    <a class="bg-white rounded d-block p-2 text-center shadow-sm" href="{{ route('list-products', $menu->id) }}">
                         <img alt="#" src="{{ $menu->thumb }}" class="img-fluid mb-2">
                         <p class="m-0 small">{{ $menu->name }}</p>
                     </a>
