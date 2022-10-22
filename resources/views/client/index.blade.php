@@ -38,31 +38,13 @@
     <div class="bg-white">
         <div class="container">
             <div class="offer-slider">
-                <div class="cat-item px-1 py-3">
-                    <a class="d-block text-center shadow-sm" href="trending.html">
-                        <img alt="#" src="img/pro1.jpg" class="img-fluid rounded">
-                    </a>
-                </div>
-                <div class="cat-item px-1 py-3">
-                    <a class="d-block text-center shadow-sm" href="trending.html">
-                        <img alt="#" src="img/pro2.jpg" class="img-fluid rounded">
-                    </a>
-                </div>
-                <div class="cat-item px-1 py-3">
-                    <a class="d-block text-center shadow-sm" href="trending.html">
-                        <img alt="#" src="img/pro3.jpg" class="img-fluid rounded">
-                    </a>
-                </div>
-                <div class="cat-item px-1 py-3">
-                    <a class="d-block text-center shadow-sm" href="trending.html">
-                        <img alt="#" src="img/pro4.jpg" class="img-fluid rounded">
-                    </a>
-                </div>
-                <div class="cat-item px-1 py-3">
-                    <a class="d-block text-center shadow-sm" href="trending.html">
-                        <img alt="#" src="img/pro2.jpg" class="img-fluid rounded">
-                    </a>
-                </div>
+                @foreach ($slides ?? '' as $slide)
+                    <div class="cat-item px-1 py-3">
+                        <a class="d-block text-center shadow-sm" href="{{ route('product-detail', $slide->product->id) }}">
+                            <img alt="#" src="{{ $slide->thumb }}" class="img-fluid rounded">
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -97,6 +79,8 @@
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                             class="feather-clock"></i> 15–30 min</span>
+                                    <span class="float-right text-black-50 d-block">{{ $products->price }}
+                                        VND</span>
                                 </p>
                             </div>
                             <div class="list-card-badge">
