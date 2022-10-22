@@ -70,6 +70,7 @@ Route::prefix('/')->group(function () {
 
     //ListProducts
     Route::get('/list-products', [ListProductController::class, 'getList']);
+    Route::get('/list-products/{id}', [ListProductController::class, 'getListMenu'])->name('list-products');
 
     Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
 
