@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -131,7 +132,8 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-Route::prefix('admin')->middleware('role:manager')->group(function () {
+Route::prefix('admin')->group(function () {
+    Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -173,6 +175,8 @@ Route::prefix('admin')->middleware('role:manager')->group(function () {
     Route::prefix('comment')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
+
+    //s
 });
 
 //login with google

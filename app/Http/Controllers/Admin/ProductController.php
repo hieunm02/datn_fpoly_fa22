@@ -55,7 +55,10 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        dd($this->productService->create($request));
+        $data = $this->productService->create($request);
+        if (!$data) {
+            return redirect()->back();
+        }
         return redirect()->route('products.index');
     }
 
@@ -84,10 +87,7 @@ class ProductController extends Controller
         $data['prices'] = $this->productService->getPrice();
         $data['menus'] = $this->productService->getMenu();
         $data['thumbnails'] = $this->productService->getThumbByProduct($id);
-        return view(
-            'admin.products.edit',
-            $data
-        );
+        return view('admin.products.edit', $data);
     }
 
     /**
@@ -123,22 +123,22 @@ class ProductController extends Controller
         if ($request->active == 1) {
             $product->active = 0;
             $value = $product->active;
-            $title = 'Out Of Stock';
-            $btnActive = 'badge-danger';
-            $btnRemove = 'badge-success';
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'green';
         } else {
             $product->active = 1;
             $value = $product->active;
-            $title = 'In Stock';
-            $btnActive = 'badge-success';
-            $btnRemove = 'badge-danger';
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'red';
         }
         $product->save();
         return response()->json([
-            'title' => $title,
             'btnActive' => $btnActive,
             'btnRemove' => $btnRemove,
             'value' => $value,
+            'color' => $color,
         ]);
     }
 
