@@ -96,9 +96,7 @@
                                 <p class="text-gray mb-3">{{ $products->menu->name }}</p>
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-clock"></i> 15–30 min</span> <span
-                                        class="float-right ml-3"><del>{{ $products->price->original }}</del></span>
-                                <h6 class="float-right text-danger">{{ $products->price->sale }}</h6>
+                                            class="feather-clock"></i> 15–30 min</span> 
                                 </p>
                             </div>
                             <div class="list-card-badge">

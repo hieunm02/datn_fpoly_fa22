@@ -162,7 +162,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ route('admin.contacts-index') }}">Danh sách</a>
+                        <a href="{{ route('admin.contacts.index') }}">Danh sách</a>
                     </li>
                 </ul>
             </li>

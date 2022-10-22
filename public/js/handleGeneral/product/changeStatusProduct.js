@@ -16,7 +16,7 @@ $(document).ready(function () {
                 product_id: product_id,
             },
             success: function (data) {
-                $(".btn-active" + product_id).text(data.title);
+                $(".btn-active" + product_id).css("color", data.color);
                 $("#icon-active" + product_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);

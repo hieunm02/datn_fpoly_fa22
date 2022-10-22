@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Thumb;
+use Illuminate\Support\Facades\Log;
 use Response;
 use Illuminate\Support\Facades\Session;
 
@@ -13,7 +14,7 @@ class ProductServices
 {
     public function getMenu()
     {
-        return Menu::where('active', 1)->get();
+        return Menu::where('active', 0)->get();
     }
 
     public function getPrice()
@@ -26,6 +27,22 @@ class ProductServices
         return Product::find($id);
     }
 
+    protected function isValidPrice($request)
+    {
+        if (
+            $request->price != 0 &&
+            $request->price_sales != 0 &&
+            $request->price_sales >= $request->price
+        ) {
+            Session::flash('price_sales', 'Giá giảm phải nhỏ hơn giá gốc');
+            return false;
+        }
+        if ($request->price_sales != 0 && $request->price == 0) {
+            Session::flash('price_sales', 'Vui lòng nhập giá gốc');
+            return false;
+        }
+        return true;
+    }
 
     public function getThumbByProduct($productId)
     {
@@ -47,6 +64,9 @@ class ProductServices
 
     public function create($request)
     {
+        $isValidPrice = $this->isValidPrice($request);
+        if ($isValidPrice == false)
+            return false;
         try {
             $product = new Product();
             $product->fill($request->all());
@@ -60,7 +80,7 @@ class ProductServices
                 $product->quantity = $request->quantity;
                 $product->name = $request->name;
                 $product->menu_id = $request->menu_id;
-                $product->active = 1;
+                $product->active = 0;
                 $product->save();
             }
             $productId = $product->id;
@@ -78,7 +98,8 @@ class ProductServices
             }
             Session::flash('success', 'Tạo mới thành công');
         } catch (\Exception $err) {
-            Session::flash('error', $err->getMessage());
+            Session::flash('error', 'Không thể thêm mới sản phẩm');
+            Log::info($err->getMessage());
             return false;
         }
 
@@ -102,14 +123,13 @@ class ProductServices
             $this->removeThumbsUpdate($id);
             //
             $this->keepThumbsUpdate($request, $id);
+
             if ($request->hasFile('image')) {
                 foreach ($request->image as $file) {
                     $imageNew = new Thumb();
                     if (isset($file)) {
                         $imageNew->image = $file->storeAs('images/products/details', $file->hashName());
                         $imageNew->product_id = $productId;
-                        // $imageNew = $file->storeAs('images/products', $imageNew);
-                        // $file->move('images/imagedetails', $file->hashName());
                         $imageNew->save();
                     }
                 }
@@ -150,7 +170,6 @@ class ProductServices
     public function keepThumbsUpdate($request, $id)
     {
         $thumbsUpdate = $request->image_update;
-
         if ($thumbsUpdate) {
             $arr = explode(',', $thumbsUpdate);
             foreach ($arr as $thumb) {

@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\Orders\AdminOrderService;
 
 class OrderController extends Controller
 {
+
+    protected $orderService;
+
+    public function __construct(AdminOrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $data['title'] = 'Quản lý đơn hàng.';
+        $data['orders'] = $this->orderService->getAll();
+
+
+        return view('admin.orders.index', $data);
     }
 
     /**
