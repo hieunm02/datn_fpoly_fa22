@@ -14,4 +14,19 @@ class UserServices
             ->orderByDesc('id')
             ->paginate(5);
     }
+
+    public function update($request, $id){
+        try {
+            $data = User::find($id);
+            $data->update([
+                'phone' => (string) $request->input('phone'),
+            ]);
+
+            Session::flash('success', 'Cập nhập profile thành công');
+        } catch (\Exception $err) {
+            Session::flash('error', $err->getMessage());
+            return false;
+        }
+        return true;
+    }
 }

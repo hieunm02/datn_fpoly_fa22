@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Session;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
     Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
@@ -80,12 +80,16 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
+
+
+    //Login - Logout
+    Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
     });
 
     Route::get('/logout', function () {
-        Session::forget('user_name');
+        Auth::logout();
         return back();
     });
 
@@ -102,6 +106,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
     Route::get('/search', function () {
         return view('client.search');
@@ -121,11 +126,15 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
+    Route::get("/cart", function () {
+        return view('client.cart');
+    });
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
-    Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
+
+Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -135,9 +144,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('menus', MenuController::class);
 
     // News
-    Route::resource('news', NewsController::class);
-
-    // news
     Route::resource('news', NewsController::class);
 
     // users
@@ -162,16 +168,14 @@ Route::prefix('admin')->group(function () {
 
     //Price
     Route::resource('prices', PriceController::class);
-
-
-    //Comment
-    Route::resource('comments', CommentController::class);
-    Route::prefix('comment')->group(function () {
-        Route::get('active', [CommentController::class, 'changeActive']);
-    });
-
-    //s
 });
+
+//Comment
+Route::resource('comments', CommentController::class);
+Route::prefix('comment')->group(function () {
+    Route::get('active', [CommentController::class, 'changeActive']);
+});
+
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);

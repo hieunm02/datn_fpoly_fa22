@@ -27,14 +27,15 @@ class StaffServices
     {
         // dd((string) $request->input('image_path'));
         try {
-            User::create([
+            $user = User::create([
                 'name' => (string) $request->input('name'),
                 'email' => (string) $request->input('email'),
                 'password' => (string) Hash::make(12345678),
                 'avatar' => (string) $request->input('image_path'),
-                'role' => 1,
-                'active' => 1
+                'active' => 1,
+                'role' => 1
             ]);
+            $user->assignRole('staff');
             Session::flash('success', 'Tạo thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
