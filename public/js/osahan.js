@@ -257,3 +257,6 @@ let subOverlay = document.getElementById('subOverlay');
         menu_sub.classList.remove('level-open');
     });
     // end siderbar nav
+    setTimeout(() => {
+        document.getElementById('setout').classList.add('d-none');
+    }, 5000);

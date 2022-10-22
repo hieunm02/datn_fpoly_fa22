@@ -14,6 +14,7 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -45,13 +46,7 @@ Route::prefix('/')->group(function () {
 
     Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
-    Route::get('/checkout', function () {
-        return view('client.checkout');
-    });
-
-    Route::get('/cart', function () {
-        return view('client.cart');
-    });
+    Route::resource('carts', CartController::class);
 
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
@@ -125,13 +120,10 @@ Route::prefix('/')->group(function () {
         return view('client.verification');
     });
 
-    Route::get("/cart", function () {
-        return view('client.cart');
-    });
 });
 
 // Admin
-Route::prefix('admin')->middleware('role:admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
