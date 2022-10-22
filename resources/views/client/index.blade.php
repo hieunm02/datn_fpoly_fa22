@@ -59,7 +59,7 @@
             @foreach ($products as $products)
                 <div class="osahan-slider-item">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                        <div class="list-card-image">
+                        <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 192px">
                             <div class="star position-absolute"><span class="badge badge-success"><i
                                         class="feather-star"></i> 3.1 (300+)</span></div>
                             <div class="favourite-heart text-danger position-absolute"><a href="#"><i
@@ -105,7 +105,7 @@
                 @foreach ($productBtm as $product)
                     <div class="col-md-3 pb-3">
                         <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                            <div class="list-card-image">
+                            <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
                                 <div class="star position-absolute"><span class="badge badge-success"><i
                                             class="feather-star"></i> 3.1 (300+)</span></div>
                                 <div class="favourite-heart text-danger position-absolute"><a href="#"><i

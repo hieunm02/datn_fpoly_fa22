@@ -4,6 +4,7 @@ namespace App\Services\Staffs;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class StaffServices
@@ -39,6 +40,7 @@ class StaffServices
             Session::flash('success', 'Tạo thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
+            Log::info($err->getMessage());
             return false;
         }
 

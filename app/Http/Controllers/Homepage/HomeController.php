@@ -106,7 +106,8 @@ class HomeController extends Controller
             'success' => 'Bình luận sản phảm thành công.',
             'date' => date('Y-m-d h:i:s'),
             'user_id' => $this->commentService->getNameUser($request->user_id),
-            'comment_id' => $comment->id
+            'comment_id' => $comment->id,
+            'avatar' => $comment->user->avatar
         ]);
     }
 
