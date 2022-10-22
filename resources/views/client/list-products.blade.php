@@ -36,7 +36,8 @@
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                             class="feather-clock"></i>
-                                        15–25 min</span> <span class="float-right text-black-50">{{ $product->name }}
+                                        15–25 min</span> <span
+                                        class="float-right text-black-50 d-block">{{ $product->price }}
                                         VND</span></p>
                             </div>
                             <div class="list-card-badge">
