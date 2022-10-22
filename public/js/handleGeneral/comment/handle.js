@@ -27,7 +27,7 @@ $(function () {
                     <div class="product-item px-3 py-2 my-1 d-flex justify-content-between info-comment ele_${data.comment_id}">
                         <div class="col-md-12 d-flex">
                             <div class="avatar setCt mr-2">
-                                <img src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
+                                <img src="${data.avatar}"
                                     style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
                                     alt="">
                             </div>
