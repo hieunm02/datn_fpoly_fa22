@@ -124,9 +124,9 @@ Route::prefix('/')->group(function () {
 
 });
 
-// Admin
+// Admin ->middleware('role:admin')
 
-Route::prefix('admin')->middleware('role:admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);

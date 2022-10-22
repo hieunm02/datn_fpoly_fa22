@@ -856,7 +856,9 @@ p {
 }
 
 /* Most Popular */
-
+.slick-track {
+    margin-left: 0;
+}
 .most_popular .trending-slider img {
     border-radius: 10px;
     padding: 0px 4px;

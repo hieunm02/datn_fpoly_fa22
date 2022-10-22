@@ -45,7 +45,7 @@ $(function () {
                         </div>
                      </div>
                 `;
-                // location.reload();
+                location.reload();
             },
         });
     });

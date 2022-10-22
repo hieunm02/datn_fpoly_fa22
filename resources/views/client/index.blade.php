@@ -136,8 +136,7 @@
                             </div>
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
-                                    <h6 class="mb-1"><a href="restaurant.html"
-                                            class="text-black">{{ $products->name }}
+                                    <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{ $products->name }}
                                         </a>
                                     </h6>
                                     <p class="text-gray mb-1 small">• {{ $products->menu->name }}</p>
