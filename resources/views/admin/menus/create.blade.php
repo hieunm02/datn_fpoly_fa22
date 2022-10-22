@@ -26,13 +26,13 @@
             </div>
             <div class="tab-content m-t-15">
                 <div class="tab-pane fade show active" id="product-edit-basic">
-                    <div class="card">
-                        <div class="row p-3">
+                    <div class="card p-3">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="font-weight-semibold" for="menuName">Tên danh mục</label>
-                                    <input type="text" class="form-control <?php echo $errors->first('name') ? 'is-invalid' : ''; ?>" id="menuName" name="name"
-                                        placeholder="Nhập tên danh mục" value="{{ old('name') }}">
+                                    <input type="text" class="form-control <?php echo $errors->first('name') ? 'is-invalid' : ''; ?>" id="menuName"
+                                        name="name" placeholder="Nhập tên danh mục" value="{{ old('name') }}">
                                     @if ($errors->has('name'))
                                         <p class="text-danger">{{ $errors->first('name') }}</p>
                                     @endif
@@ -64,13 +64,13 @@
                                 <div class="form-group">
                                     <label class="font-weight-semibold" for="menuActive">Kích hoạt</label>
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input <?php echo $errors->first('active') ? 'is-invalid' : ''; ?>" type="radio" id="active"
-                                            value="0" name="active" checked="">
+                                        <input class="custom-control-input <?php echo $errors->first('active') ? 'is-invalid' : ''; ?>" type="radio"
+                                            id="active" value="0" name="active" checked="">
                                         <label for="active" class="custom-control-label">Có</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input <?php echo $errors->first('active') ? 'is-invalid' : ''; ?>" type="radio" id="no_active"
-                                            value="1" name="active">
+                                        <input class="custom-control-input <?php echo $errors->first('active') ? 'is-invalid' : ''; ?>" type="radio"
+                                            id="no_active" value="1" name="active">
                                         <label for="no_active" class="custom-control-label">Không</label>
                                     </div>
                                     @if ($errors->has('active'))

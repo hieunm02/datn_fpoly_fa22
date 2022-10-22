@@ -38,27 +38,26 @@ $("#upload").change(function () {
 
 function deleteAjax(parameter, id) {
     var token = $(this).data("token");
-
-    if (confirm("Bạn có chắc chắn muốn xóa?")) {
+    if (confirm('Bạn có chắc chắn muốn xóa?')) {
         $.ajax({
             url: `${parameter}` + "/" + `${id}`,
-            type: "DELETE",
+            type: 'DELETE',
             dataType: "JSON",
             data: {
                 id: id,
                 _method: "DELETE",
                 _token: token,
             },
+
             success: function (data) {
-                console.log(data.model);
                 Swal.fire(
-                    "Successful!",
-                    "Student delete successfully!",
-                    "success"
-                );
+                    'Successful!',
+                    'Student delete successfully!',
+                    'success'
+                )
                 console.log(data.model.id);
-                $("#id" + data.model.id).remove();
-            },
+                $('#id' + data.model.id).remove();
+            }
         });
     }
 }

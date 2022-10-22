@@ -14,6 +14,7 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ use Illuminate\Support\Facades\Session;
 
 // Client
 Route::prefix('/')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
     Route::get('products/{product_id}/comments/edit', [HomeController::class, 'editComment']);
@@ -45,13 +46,7 @@ Route::prefix('/')->group(function () {
 
     Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
-    Route::get('/checkout', function () {
-        return view('client.checkout');
-    });
-
-    Route::get('/cart', function () {
-        return view('client.cart');
-    });
+    Route::resource('carts', CartController::class);
 
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
@@ -79,12 +74,16 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
+
+
+    //Login - Logout
+    Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
     });
 
     Route::get('/logout', function () {
-        Session::forget('user_name');
+        Auth::logout();
         return back();
     });
 
@@ -120,6 +119,7 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
 });
 
 // Admin
@@ -133,9 +133,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('menus', MenuController::class);
 
     // News
-    Route::resource('news', NewsController::class);
-
-    // news
     Route::resource('news', NewsController::class);
 
     // users

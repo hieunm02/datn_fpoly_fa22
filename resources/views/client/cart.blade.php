@@ -14,7 +14,7 @@
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <thead>
-                            <tr>
+                            <tr style="border:1px solid black;">
                                 <th><input type="checkbox" name="" id=""></th>
                                 <th colspan="2">Sản Phẩm</th>
                                 <th>Đơn Giá</th>
@@ -24,36 +24,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input type="checkbox" name="" id=""></td>
-                                <td><img src="http://vn.blog.kkday.com/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
-                                        width="100px" alt=""></td>
-                                <td>Danh mục: Bánh mì</td>
-                                <td>100.000 <sup>Đ</sup></td>
-                                <td>
-                                    <span class="count-number">
-                                        <button type="button" class="btn-sm left dec btn btn-outline-secondary"> <i
-                                                class="feather-minus"></i> </button><input class="count-number-input"
-                                            type="text" readonly="" value="2"><button type="button"
-                                            class="btn-sm right inc btn btn-outline-secondary"> <i class="feather-plus"></i>
-                                        </button>
-                                    </span>
-                                </td>
-                                <td class="text-danger">200.000 <sup>Đ</sup></td>
-                                <td>1</td>
-                            </tr>
+                            @if ($carts)
+                                @foreach ($carts as $cart)
+                                    <tr>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><img src="{{ asset($cart->thumb) }}" width="100px" alt=""></td>
+                                        <td>{{ $cart->name }}</td>
+                                        <td>{{ $cart->price }} <sup>Đ</sup></td>
+                                        <td>
+                                            <span class="count-number">
+                                                <input class="count-number-input" width="50px" type="number" name="quantity"
+                                                    value="{{ $cart->quantity }}" id="quantity">
+                                                <button type="button" class="btn-sm right inc btn btn-outline-secondary">
+                                                    <i class="feather-check"></i>
+                                                </button>
+                                            </span>
+                                        </td>
+                                        <td class="text-danger">{{ $cart->quantity * $cart->price }}<sup>Đ</sup></td>
+                                        <td>
+                                            <form action="{{ url('carts', $cart->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button><i class="feather-delete"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            @if (isset($carts))
+                                <tr>
+                                    <th colspan="7"><h2 class="text-center">Chưa có sản phẩm nào</h2></th>
+                                </tr>
+                            @endif 
+
                         </tbody>
                     </table>
-                </div>
-                <div class="col-12 py-2 row">
-                    <div class="col-12">
-                        <input type="checkbox" name="" id=""> Sản phẩm
-                    </div>
-                    <div class="col-1"> <input type="checkbox" name="" id=""></div>
-                    <div class="col-4">
-                        <img src="http://vn.blog.kkday.com/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" width="100px" alt="">
-                    </div>
-                    <div class="col-7"></div>
                 </div>
             </div>
         </div>
