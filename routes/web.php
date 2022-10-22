@@ -16,6 +16,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -72,15 +73,12 @@ Route::prefix('/')->group(function () {
         return view('client.faq');
     });
 
-    Route::get('/list-products', function () {
-        return view('client.list-products');
-    });
+    //ListProducts
+    Route::get('/list-products', [ListProductController::class, 'getList']);
 
     Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
-
-
 
     //Login - Logout
     Route::post('/login', [AuthController::class, 'handleLogin']);
@@ -133,8 +131,8 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-
-Route::prefix('admin')->middleware('role:admin')->group(function () {
+// ->middleware('role:admin')
+Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
