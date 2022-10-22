@@ -132,7 +132,7 @@ Route::prefix('/')->group(function () {
 });
 
 // Admin
-Route::prefix('admin')->middleware('role:admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -151,10 +151,6 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 
     //Staff
     Route::resource('staffs', StaffController::class);
-<<<<<<< HEAD
-=======
-
->>>>>>> trunghieu
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -170,11 +166,8 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 
     //Price
     Route::resource('prices', PriceController::class);
-<<<<<<< HEAD
 });
-=======
 
->>>>>>> 4e287853acc4737de0f6de7a24c2a6eb29674b6d
 
     //Comment
     Route::resource('comments', CommentController::class);

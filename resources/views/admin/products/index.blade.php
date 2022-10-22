@@ -157,18 +157,9 @@
                 </div>
                 <div class="text-right">
                     {{ $products->links() }}
-<<<<<<< HEAD
-=======
-=======
                     <div style="display: flex; justify-content: center">
                         {{ $products->links() }}
                     </div>
-<<<<<<< HEAD
->>>>>>> e4ca06b83e2d3d85caaa12218d8a3b9cb2145fbf
-=======
->>>>>>> hoang
->>>>>>> dev
->>>>>>> trunghieu
                 </div>
             </div>
         </div>

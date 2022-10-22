@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 
@@ -20,10 +21,7 @@ class AuthController extends Controller
     {
         $userdata = Socialite::driver('google')->user();
         $user = User::where('email', $userdata->email)->where('auth_type', 'google')->first();
-<<<<<<< HEAD
-=======
-        Session::put('user_name', $userdata->name);
->>>>>>> trunghieu
+        // Session::put('user_name', $userdata->name);
         if ($user) {
             //do login
             Auth::login($user);
@@ -45,9 +43,6 @@ class AuthController extends Controller
             return redirect('/');
         }
     }
-<<<<<<< HEAD
-}
-=======
 
 
     public function handleLogin(Request $request)
@@ -61,4 +56,3 @@ class AuthController extends Controller
         }
     }
 }
->>>>>>> trunghieu
