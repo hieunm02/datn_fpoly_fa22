@@ -20,7 +20,7 @@
                     <div class="osahan-cart-item mb-3 rounded shadow-sm bg-white overflow-hidden">
                         <div class="osahan-cart-item-profile bg-white p-3">
                             <div class="d-flex flex-column">
-                                <h6 class="mb-3 font-weight-bold btn btn-primary">Chi tiết thanh toán</h6>
+                                <h6 class="mb-3 font-weight-bold display-5 py-3 rounded text-center btn-primary">Chi tiết thanh toán</h6>
                                 <div class="row">
                                     <div class="col-md-12 form-group">
                                         <label class="form-label font-weight-bold">Họ và tên <span
@@ -97,7 +97,7 @@
                 <div class="osahan-cart-item rounded rounded shadow-sm overflow-hidden bg-white sticky_sidebar">
                     <div class="d-flex border-bottom osahan-cart-item-profile bg-white p-3">
                         <div class="d-flex col-md-12 flex-column p-0">
-                            <h6 class="mb-3 font-weight-bold btn btn-primary">Đơn hàng của bạn</h6>
+                            <h6 class="mb-3 font-weight-bold text-center display-5 py-3 rounded btn-primary">Đơn hàng của bạn</h6>
                         </div>
                     </div>
                     <div class="bg-white border-bottom py-2">

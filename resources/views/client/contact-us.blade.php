@@ -9,99 +9,17 @@
     </div>
     <!-- profile -->
     <div class="container position-relative">
+        @if (session()->has('success'))
+                <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
+                    {{ session()->get('success') }}
+                    {{-- {{ Session::forget('success') }} --}}
+                </div>
+            @endif
         <div class="py-5 osahan-profile row">
-            {{-- <div class="col-md-4 mb-3">
-            <div class="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-                <a href="profile.html" class="">
-                    <div class="d-flex align-items-center p-3">
-                        <div class="left mr-3">
-                            <img alt="#" src="img/user1.jpg" class="rounded-circle">
-                        </div>
-                        <div class="right">
-                            <h6 class="mb-1 font-weight-bold">Gurdeep Singh <i class="feather-check-circle text-success"></i></h6>
-                            <p class="text-muted m-0 small">iamosahan@gmail.com</p>
-                        </div>
-                    </div>
-                </a>
-                <div class="osahan-credits d-flex align-items-center p-3 bg-light">
-                    <p class="m-0">Accounts Credits</p>
-                    <h5 class="m-0 ml-auto text-primary">$52.25</h5>
-                </div>
-                <!-- profile-details -->
-                <div class="bg-white profile-details">
-                    <a data-toggle="modal" data-target="#paycard" class="d-flex w-100 align-items-center border-bottom p-3">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold mb-1 text-dark">Payment Cards</h6>
-                            <p class="small text-muted m-0">Add a credit or debit card</p>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a data-toggle="modal" data-target="#exampleModal" class="d-flex w-100 align-items-center border-bottom p-3">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold mb-1 text-dark">Address</h6>
-                            <p class="small text-muted m-0">Add or remove a delivery address</p>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a class="d-flex align-items-center border-bottom p-3" data-toggle="modal" data-target="#inviteModal">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold mb-1">Refer Friends</h6>
-                            <p class="small text-primary m-0">Get $10.00 FREE</p>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a href="faq.html" class="d-flex w-100 align-items-center border-bottom px-3 py-4">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold m-0 text-dark"><i class="feather-truck bg-danger text-white p-2 rounded-circle mr-2"></i> Delivery Support</h6>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a href="contact-us.html" class="d-flex w-100 align-items-center border-bottom px-3 py-4">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold m-0 text-dark"><i class="feather-phone bg-primary text-white p-2 rounded-circle mr-2"></i> Contact</h6>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a href="terms.html" class="d-flex w-100 align-items-center border-bottom px-3 py-4">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold m-0 text-dark"><i class="feather-info bg-success text-white p-2 rounded-circle mr-2"></i> Term of use</h6>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                    <a href="privacy.html" class="d-flex w-100 align-items-center px-3 py-4">
-                        <div class="left mr-3">
-                            <h6 class="font-weight-bold m-0 text-dark"><i class="feather-lock bg-warning text-white p-2 rounded-circle mr-2"></i> Privacy policy</h6>
-                        </div>
-                        <div class="right ml-auto">
-                            <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div> --}}
             <div class="col-md-6 mb-3">
                 <div class="rounded shadow-sm">
                     <div class="osahan-cart-item-profile bg-white rounded shadow-sm p-4">
                         <div class="flex-column">
-                            <div class="col-md-12 p-0 pb-2">
-                                @if (session()->has('success'))
-                                    <p id="setout" class="text-white alert bg-success m-0">
-                                        {{ session()->get('success') }}
-                                    </p>
-                                @endif
-                            </div>
                             <h6 class="font-weight-bold">Liên hệ với chúng tôi</h6>
                             <p class="text-muted">Bạn có thắc mắc hay góp ý, hãy liên hệ với chúng tôi.</p>
                             <form action="" method="POST">

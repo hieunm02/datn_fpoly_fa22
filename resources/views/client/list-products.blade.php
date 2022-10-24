@@ -9,7 +9,7 @@
     </div>
     <!-- Most popular -->
     <div class="container most_popular py-5">
-        <h2 class="font-weight-bold mb-3">Favorites</h2>
+        <h2 class="font-weight-bold mb-3">{{ $name }}</h2>
         <div class="row">
             @foreach ($products as $product)
                 <div class="col-md-4 mb-3">

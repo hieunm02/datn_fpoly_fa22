@@ -11,7 +11,7 @@ class NewsServices
 {
     public function getAll()
     {
-        return News::select('id', 'title', 'image_path', 'active')
+        return News::select('id', 'title', 'user_id', 'image_path', 'active')
             ->orderByDesc('id')
             ->paginate(5);
     }

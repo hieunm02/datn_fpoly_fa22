@@ -26,7 +26,7 @@
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{ $item->title }}
+                                <h6 class="mb-1"><a href="{{ route('news-detail', $item->id) }}" class="text-black">{{ $item->title }}
                                     </a>
                                 </h6>
                                 <p class="mb-3 newsHide">{{ $item->short_desc }}</p>
