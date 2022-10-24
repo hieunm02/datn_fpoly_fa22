@@ -124,7 +124,7 @@
                                                 <i class="feather-check"></i>
                                             </button>
                                     </span>
-                                    <p class="text-gray mb-0 float-right ml-2 text-muted small">{{ $cart->quantity * $cart->price }} <sup>đ</sup></p>
+                                    <p class="text-gray mb-0 float-right ml-2 text-muted small">{{ number_format($cart->quantity * $cart->price) }} <sup>đ</sup></p>
                                 </div>
                             </div>
                         @endforeach
@@ -137,12 +137,12 @@
                         </div>
                     </div>
                     <div class="bg-white p-3 clearfix border-bottom">
-                        <p class="mb-1">Tổng <span class="float-right text-dark">{{  $total }} <sup>đ</sup></span></p>
+                        <p class="mb-1">Tổng <span class="float-right text-dark">{{  number_format($total) }} <sup>đ</sup></span></p>
                         <p class="mb-1">Shipping<span class="text-info ml-1"><i class="feather-info"></i></span><span
                                 class="float-right text-dark">Free</span></p>
-                        <p class="mb-1 text-success">Giảm voucher<span class="float-right text-success">$1884</span></p>
+                        <p class="mb-1 text-success">Giảm voucher<span class="float-right text-success">{{  number_format(0) }} <sup>đ</sup></span></p>
                         <hr>
-                        <h6 class="font-weight-bold mb-0">Thanh toán <span class="float-right">{{  $total }} <sup>đ</sup></span></h6>
+                        <h6 class="font-weight-bold mb-0">Thanh toán <span class="float-right">{{  number_format($total) }} <sup>đ</sup></span></h6>
                         <div class="form-group mt-1 d-flex align-items-center">
                             <input type="checkbox" name="" id="checkin">
                             <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>

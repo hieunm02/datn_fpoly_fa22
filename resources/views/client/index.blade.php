@@ -22,10 +22,16 @@
     </div>
     <!-- Filters -->
     <div class="container">
+        @if (session()->has('error'))
+            <div id="setout" class="text-white alert bg-danger position-fixed" style="right: 8px; z-index: 9999;">
+                {{ session()->get('error') }}
+            </div>
+        @endif
         <div class="cat-slider">
             @foreach ($menus as $menu)
                 <div class="cat-item px-1 py-3">
-                    <a class="bg-white rounded d-block p-2 text-center shadow-sm" href="{{ route('list-products', $menu->id) }}">
+                    <a class="bg-white rounded d-block p-2 text-center shadow-sm"
+                        href="{{ route('list-products', $menu->id) }}">
                         <img alt="#" src="{{ $menu->thumb }}" class="img-fluid mb-2">
                         <p class="m-0 small">{{ $menu->name }}</p>
                     </a>
@@ -90,7 +96,8 @@
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="{{ route('product-detail', $products->id) }}" class="text-black">{{ $products->name }}
+                                <h6 class="mb-1"><a href="{{ route('product-detail', $products->id) }}"
+                                        class="text-black">{{ $products->name }}
                                     </a>
                                 </h6>
                                 <p class="text-gray mb-3">{{ $products->menu->name }}</p>
@@ -136,7 +143,8 @@
                             </div>
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
-                                    <h6 class="mb-1"><a href="restaurant.html" class="text-black">{{ $products->name }}
+                                    <h6 class="mb-1"><a href="restaurant.html"
+                                            class="text-black">{{ $products->name }}
                                         </a>
                                     </h6>
                                     <p class="text-gray mb-1 small">• {{ $products->menu->name }}</p>
