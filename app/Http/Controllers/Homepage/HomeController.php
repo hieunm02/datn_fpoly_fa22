@@ -9,6 +9,7 @@ use App\Models\CommentReaction;
 use App\Models\CommentRection;
 use App\Models\Product;
 use App\Models\Reaction;
+use App\Models\Slide;
 use App\Models\Thumb;
 use App\Services\Comment\AdminCommentService;
 use App\Services\Menu\MenuServices;
@@ -41,7 +42,8 @@ class HomeController extends Controller
         $products = $this->productService->getAll();
         $productBtm = $this->productService->getAll();
         $menus = $this->menuService->getMenuIndex();
-        return view('client.index', compact('products', 'productBtm', 'menus'));
+        $slides = Slide::with('product')->get();
+        return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
     }
 
     /**
@@ -79,10 +81,6 @@ class HomeController extends Controller
         $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
         $products = $this->productService->getAll();
 
-        //        foreach ($comment as $key) {
-        //            $countReact = $key->reactions->count();
-        //            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react', 'countReact'));
-        //        }
         return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts'));
     }
 
@@ -108,7 +106,8 @@ class HomeController extends Controller
             'success' => 'Bình luận sản phảm thành công.',
             'date' => date('Y-m-d h:i:s'),
             'user_id' => $this->commentService->getNameUser($request->user_id),
-            'comment_id' => $comment->id
+            'comment_id' => $comment->id,
+            'avatar' => $comment->user->avatar
         ]);
     }
 

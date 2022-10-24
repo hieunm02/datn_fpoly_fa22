@@ -112,7 +112,7 @@
                                     class="product-item px-3 py-2 my-1 d-flex justify-content-between ele_{{ $cmt->id }}">
                                     <div class="col-md-12 d-flex">
                                         <div class="avatar setCt mr-2">
-                                            <img src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
+                                            <img src="{{ $cmt->user->avatar }}"
                                                 style="width: 60px; height: 60px; object-fit: cover;"
                                                 class="rounded-circle" alt="">
                                         </div>
@@ -159,8 +159,11 @@
                             <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
                             <form action="" method="POST">
                                 @csrf
+                                @if (!Auth::user())
+                                    <p>Vui lòng đăng nhập để bình luận!</p>
+                                @else
                                 <div class="form-comment">
-                                    <img src="https://images.foody.vn/res/g100/996223/prof/s640x400/foody-upload-api-foody-mobile-kham-pha-3-quan-che--200102135359.jpg"
+                                    <img src="{{ Auth::user()->avatar }}"
                                         style="" class="mr-2" alt="" srcset="">
                                     <textarea type="text" name="content" class="form-control mr-2" placeholder="Viết bình luận"></textarea>
                                     <button type="button" class="btn btn-primary submit_comment">Bình luận</button>
@@ -168,6 +171,7 @@
                                     <input type="hidden" name="user_id"
                                         value="{{ !empty(Auth::id()) ? Auth::id() : '' }}">
                                 </div>
+                                @endif
                             </form>
                         </div>
                         <script type="text/javascript" src="{{ asset('js/handleGeneral/comment/handle.js') }}"></script>

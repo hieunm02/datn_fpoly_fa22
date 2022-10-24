@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         $userdata = Socialite::driver('google')->user();
         $user = User::where('email', $userdata->email)->where('auth_type', 'google')->first();
-        Session::put('user_name', $userdata->name);
+        // Session::put('user_name', $userdata->name);
         if ($user) {
             //do login
             Auth::login($user);
@@ -44,6 +44,7 @@ class AuthController extends Controller
             return redirect('/');
         }
     }
+
 
     public function handleLogin(Request $request)
     {
