@@ -38,6 +38,7 @@ class AuthController extends Controller
             $user->active = 1;
             $user->auth_type = 'google';
             $user->avatar = $userdata->avatar;
+            $user->phone = '';
             $user->save();
             Auth::login($user);
             return redirect('/');

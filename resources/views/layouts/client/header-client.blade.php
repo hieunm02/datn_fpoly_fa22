@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row align-items-center py-3">
                 <div class="col-1">
-                    <a href="home.html" class="brand-wrap mb-0">
+                    <a href="{{ url('/') }}" class="brand-wrap mb-0">
                         <img alt="#" class="img-fluid" src="{{asset('img/logo_web.png')}}">
                     </a>
                     <!-- brand-wrap.// -->
@@ -102,7 +102,7 @@
                         </div>
 						@endif
                         <!-- signin -->
-                        <a href="checkout.html" class="widget-header mr-4 text-dark">
+                        <a href="{{ url('carts') }}" class="widget-header mr-4 text-dark">
                             <div class="icon d-flex align-items-center">
                                 <i class="feather-shopping-cart h6 mr-2 mb-0"></i> <span>Cart</span>
                             </div>
@@ -126,26 +126,26 @@
 <div id="nav-bottom" class="osahan-menu-fotter fixed-bottom bg-white px-3 py-2 text-center d-none">
     <div class="row">
         <div class="col">
-            <a href="home.html" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{ url('/') }}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-home text-dark"></i></p>
-                Home
+                Trang chủ
             </a>
         </div>
         <div class="col">
-            <a href="most_popular.html" class="text-dark small font-weight-bold text-decoration-none">
-                <p class="h4 m-0"><i class="feather-map-pin"></i></p>
-                Trending
+            <a href="{{ url('offers') }}" class="text-dark small font-weight-bold text-decoration-none">
+                <p class="h4 m-0"><i class="feather-percent"></i></p>
+                Giảm giá
             </a>
         </div>
         <div class="col bg-white rounded-circle mt-n4 px-3 py-2">
             <div class="bg-danger rounded-circle mt-n0 shadow">
-                <a href="checkout.html" class="text-white small font-weight-bold text-decoration-none">
+                <a href="{{ url('carts') }}" class="text-white small font-weight-bold text-decoration-none">
                     <i class="feather-shopping-cart"></i>
                 </a>
             </div>
         </div>
-        <div class="col selected">
-            <a href="favorites.html" class="text-danger small font-weight-bold text-decoration-none">
+        <div class="col">
+            <a href="favorites.html" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-heart"></i></p>
                 Favorites
             </a>
@@ -168,24 +168,24 @@
                 <h2>BeeFood</h2>
                 <ul>
                     <li>
-                        <div class="nav-item-wrapper"><a href="home.html" class="nav-item"><i
-                                    class="feather-home mr-2"></i> Homepage</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ url('/') }}" class="nav-item"><i
+                                    class="feather-home mr-2"></i> Trang chủ</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="my_order.html" class="nav-item"><i
-                                    class="feather-list mr-2"></i> My Orders</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('listProducts') }}" class="nav-item"><i
+                                    class="feather-grid mr-2"></i> Sản phẩm</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="favorites.html" class="nav-item"><i
-                                    class="feather-heart mr-2"></i> Favorites</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('news') }}" class="nav-item"><i
+                                    class="feather-book-open mr-2"></i> Bài viết</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="trending.html" class="nav-item"><i
-                                    class="feather-trending-up mr-2"></i> Trending</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('offers') }}" class="nav-item"><i
+                                    class="feather-percent mr-2"></i> Mã giảm giá</a></div>
                     </li>
                     <li>
                         <div class="nav-item-wrapper"><a href="checkout.html" class="nav-item"><i
-                                    class="feather-list mr-2"></i> Checkout</a></div>
+                                    class="feather-activity mr-2"></i> Checkout</a></div>
                     </li>
                     <li>
                         <div class="nav-item-wrapper"><a href="map.html" class="nav-item"><i
@@ -193,7 +193,7 @@
                     </li>
                     <li id="menu-sub" class="nav-parent"><input type="checkbox" id="hc-nav-1-1-1" value="g6ckvfwmm5e"> {{-- edit  level-open--}}
                         <div class="nav-item-wrapper"><a href="#" id="subClick" class="nav-item"><i
-                                    class="feather-grid mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
+                                    class="feather-list mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
                         <div class="nav-wrapper nav-wrapper-1">
                             <div class="nav-content">
                                 <h2>Danh mục</h2>
@@ -217,9 +217,9 @@
                 </ul>
                 <ul class="bottom-nav">
                     <li class="email">
-                        <div class="nav-item-wrapper"><a class="text-danger nav-item" href="home.html">
+                        <div class="nav-item-wrapper"><a class="text-danger nav-item" href="{{ url('/') }}">
                                 <p class="h5 m-0"><i class="feather-home text-danger"></i></p>
-                                Home
+                                Trang chủ
                             </a></div>
                     </li>
                     <li class="github">

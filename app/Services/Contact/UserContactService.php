@@ -15,7 +15,7 @@ class UserContactService
             Contact::create($request->all());
             Session::flash('success', "Đã liên hệ với quản trị viên, vui lòng chờ phản hồi");
         } catch (\Exception $err) {
-            Session::flash('error', "Liến hệ không thành công, vui lòng thử lại");
+            Session::flash('error', "Liên hệ không thành công, vui lòng thử lại");
             Log::info($err->getMessage());
             return false;
         }

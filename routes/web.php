@@ -69,7 +69,7 @@ Route::prefix('/')->group(function () {
     });
 
     //ListProducts
-    Route::get('/list-products', [ListProductController::class, 'getList']);
+    Route::get('/list-products', [ListProductController::class, 'getList'])->name('listProducts');
     Route::get('/list-products/{id}', [ListProductController::class, 'getListMenu'])->name('list-products');
 
     Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
@@ -93,7 +93,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/offers', function () {
         return view('client.offers');
-    });
+    })->name('offers');
 
     Route::get('/privacy', function () {
         return view('client.privacy');

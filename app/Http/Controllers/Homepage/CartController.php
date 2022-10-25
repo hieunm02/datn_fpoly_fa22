@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Services\Carts\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -22,10 +23,15 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = $this->CartServices->getCartUser();
-        $total = 0;
-        // \dd($carts);
-        return view('client.checkout', compact('carts', 'total'));
+        if (Auth::user()) {
+            $carts = $this->CartServices->getCartUser();
+            $total = 0;
+            // \dd($carts);
+            return view('client.checkout', compact('carts', 'total'));
+        } else {
+            Session::flash('error', 'Bạn chưa đăng nhập');
+            return redirect('/');
+        }
     }
 
     /**
@@ -35,7 +41,6 @@ class CartController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
