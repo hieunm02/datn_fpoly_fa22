@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
+use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +36,10 @@ use Illuminate\Support\Facades\Session;
 */
 
 // Client
+
 Route::prefix('/')->group(function () {
+    Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -50,6 +54,7 @@ Route::prefix('/')->group(function () {
 
     Route::resource('carts', CartController::class);
 
+    Route::resource('orders', HomepageOrderController::class);
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
     });

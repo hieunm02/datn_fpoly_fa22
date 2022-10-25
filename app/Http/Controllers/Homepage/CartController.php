@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Floor;
+use App\Models\Room;
 use App\Services\Carts\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,15 +27,32 @@ class CartController extends Controller
     {
         if (Auth::user()) {
             $carts = $this->CartServices->getCartUser();
+            $buildings = $this->CartServices->getBuilding();
+            // $floors = $this->CartServices->getFloor();
+            // $rooms = $this->CartServices->getRoom();
             $total = 0;
+            // return response()->json($buildings, 200);
             // \dd($carts);
-            return view('client.checkout', compact('carts', 'total'));
+            return view('client.checkout', compact('carts', 'total', 'buildings'));
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
             return redirect('/');
         }
     }
 
+    public function getFloor(Request $request)
+    {
+        $id = $request->id;
+        $floor = Floor::where('building_id', $id)->get();
+        return response()->json($floor, 200);
+    }
+    public function getRoom(Request $request)
+    {
+        $floor_id = $request->floor_id;
+        // $building_id = $request->building_id;->where('building_id', $building_id)
+        $room = Room::where('floor_id', $floor_id)->get();
+        return response()->json($room, 200);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -51,8 +70,13 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $this->CartServices->create($request);
-        return redirect()->back();
+        if (Auth::user()) {
+            $this->CartServices->create($request);
+            return redirect()->back();
+        } else {
+            Session::flash('error', 'Bạn chưa đăng nhập');
+            return redirect('/');
+        }
     }
 
     /**

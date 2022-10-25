@@ -25,13 +25,13 @@ class VoucherRequest extends FormRequest
     {
         if ($this->route('voucher')) {
             return [
-                'code' => 'required|min:6|max:6|unique:vouchers,code,' . $this->route('voucher'),
+                'code' => 'required|min:5|unique:vouchers,code,' . $this->route('voucher'),
                 'active' => 'required',
                 'discount' => 'integer|required|numeric',
             ];
         }
         return [
-            'code' => 'required|min:6|max:6|unique:vouchers',
+            'code' => 'required|min:5|unique:vouchers',
             'active' => 'required',
             'discount' => 'integer|required|numeric',
         ];
@@ -41,7 +41,6 @@ class VoucherRequest extends FormRequest
     {
         return [
             'code.required' => 'Code không được để trống',
-            'code.min' => 'Code tối thiểu 5 kí tự',
             'code.min' => 'Code tối thiểu 5 kí tự',
             'code.unique' => 'Code đã tồn tại',
             'active.required' => 'Trạng thái không được để trống',
