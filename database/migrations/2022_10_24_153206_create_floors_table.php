@@ -17,6 +17,7 @@ class CreateFloorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('building_id');
+            $table->integer('active');
             $table->timestamps();
         });
     }

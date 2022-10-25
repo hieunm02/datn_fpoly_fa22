@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class AddColumnNoteVourcheToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('building_id');
-            $table->string('floor_id');
-            $table->integer('active');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('voucher');
+            $table->string('note');
         });
     }
 
@@ -30,6 +26,8 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }
