@@ -16,7 +16,9 @@ class CreateFloorsTable extends Migration
         Schema::create('floors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('building_id');
+            $table->unsignedBigInteger('building_id')->unsigned();
+            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
+
             $table->integer('active');
             $table->timestamps();
         });
