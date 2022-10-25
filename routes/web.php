@@ -158,13 +158,19 @@ Route::prefix('admin')->group(function () {
 
     //Price
     Route::resource('prices', PriceController::class);
+
+    //Comment
+    Route::resource('comments', CommentController::class);
+    Route::prefix('comment')->group(function () {
+        Route::get('active', [CommentController::class, 'changeActive']);
+    });
+
+    Route::get('building', function () {
+        return view('admin.building.create', [$title = 'Helllo']);
+    });
 });
 
-//Comment
-Route::resource('comments', CommentController::class);
-Route::prefix('comment')->group(function () {
-    Route::get('active', [CommentController::class, 'changeActive']);
-});
+
 
 
 //login with google
