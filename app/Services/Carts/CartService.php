@@ -2,8 +2,11 @@
 
 namespace App\Services\Carts;
 
+use App\Models\Building;
 use App\Models\Cart;
+use App\Models\Floor;
 use App\Models\Product;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,8 +15,23 @@ use Illuminate\Support\Facades\Session;
 
 class CartService
 {
+    public function getBuilding()
+    {
+        return Building::with('floors', 'rooms')->get();
+    }
+    // public function getFloor()
+    // {
+    //     return Floor::with('rooms')->get();
+    // }
+    // public function getRoom()
+    // {
+    //     return Room::all();
+    // }
     public function getCartUser()
     {
+        $buildings = Building::all();
+        $floors = Floor::all();
+        $rooms = Room::all();
         return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.id', 'carts.quantity')->where('user_id', '=', Auth::user()->id)->get();
     }
     public function create($request)
