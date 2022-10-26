@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
+use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +36,10 @@ use Illuminate\Support\Facades\Session;
 */
 
 // Client
+
 Route::prefix('/')->group(function () {
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -50,6 +54,7 @@ Route::prefix('/')->group(function () {
 
     Route::resource('carts', CartController::class);
 
+    Route::resource('orders', HomepageOrderController::class);
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
     });
@@ -167,11 +172,24 @@ Route::prefix('admin')->group(function () {
 
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
+        //Building
         Route::get('buildings', [AddressController::class, 'getBuildings'])->name('building.index');
+        Route::get('buildings/create', [AddressController::class, 'createBuilding'])->name('building.create');
+        Route::post('buildings/create', [AddressController::class, 'storeBuilding'])->name('building.store');
+        Route::get('buildings/update/{id}', [AddressController::class, 'editBuilding'])->name('building.edit');
+        Route::put('buildings/update/{id}', [AddressController::class, 'updateBuilding'])->name('building.update');
+        Route::delete('buildings/delete/{id}', [AddressController::class, 'destroyBuilding'])->name('building.destroy');
+        //Floor
         Route::get('buildings/{id}', [AddressController::class, 'getFloorsBuilding'])->name('building.floors');
-        Route::get('buildings/floors/{id}', [AddressController::class, 'getRoomsFloor'])->name('floor.rooms');
         Route::get('buildings/floors/create/{id}', [AddressController::class, 'createFloor'])->name('floor.create');
+        Route::post('buildings/floors/create/unique', [AddressController::class, 'uniqueFloor']);
+        Route::post('buildings/floors/update/unique', [AddressController::class, 'uniqueFloor']);
         Route::post('buildings/floors/create', [AddressController::class, 'storeFloor'])->name('floor.store');
+        Route::get('buildings/floors/update/{id}', [AddressController::class, 'editFloor'])->name('floor.edit');
+        Route::put('buildings/floors/update/{id}', [AddressController::class, 'updateFloor'])->name('floor.update');
+        Route::delete('buildings/floors/delete/{id}', [AddressController::class, 'destroyFloor'])->name('floor.destroy');
+        //Room
+        Route::get('buildings/floors/{id}', [AddressController::class, 'getRoomsFloor'])->name('floor.rooms');
     });
 });
 

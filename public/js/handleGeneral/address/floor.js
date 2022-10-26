@@ -6,12 +6,39 @@ $(function () {
 
     //
     $("#name_floor").keyup(function () {
-        if ($("#name_floor").val()) {
-            $(".add_room").css("display", "block");
+        val = $("#name_floor").val();
+        id = $(this).data("id");
+        if (val) {
+            //validate
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "unique",
+                data: {
+                    name: val,
+                    id: id,
+                },
+                success: function (res) {
+                    if (res.errors) {
+                        console.log(res.errors);
+                        $(".submit_form").prop("disabled", true);
+                        $(".log_error").text(
+                            "Tên tầng đã tồn tại or đang để trống."
+                        );
+                        $("#name_floor").addClass("is-invalid");
+                    } else {
+                        $(".log_error").text("");
+                        $("#name_floor").removeClass("is-invalid");
+                        $(".add_room").css("display", "block");
+                        $(".submit_form").prop("disabled", false);
+                    }
+                },
+            });
+            //
         } else {
             $(".add_room").css("display", "none");
         }
-        $("input[name=name_floor_hd]").val($("#name_floor").val());
+        $("input[name=name_floor_hd]").val(val);
     });
 
     countRoom = 0;
@@ -36,20 +63,12 @@ $(function () {
         e.preventDefault();
         $(this).parent("div").remove(); //Remove field html
         countRoom--;
+        console.log(countRoom);
         if (countRoom == 0) {
             $(".label_room").text("");
             $("#name_floor").prop("disabled", false);
         }
     });
 
-    // //Floor
-
-    // $(floor_group).on(function () {
-    //     gf_id = $(this).parent("div").data("id");
-    //     $("#name_floor" + gf_id).keyup(function () {
-    //         floor_value = $("#name_floor" + gf_id).val();
-
-    //         console.log(floor_value);
-    //     });
-    // });
+    //Submit
 });
