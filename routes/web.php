@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -165,8 +165,13 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
 
-    Route::get('building', function () {
-        return view('admin.building.create', [$title = 'Helllo']);
+    //Address Building Floor Room
+    Route::prefix('address')->group(function () {
+        Route::get('buildings', [AddressController::class, 'getBuildings'])->name('building.index');
+        Route::get('buildings/{id}', [AddressController::class, 'getFloorsBuilding'])->name('building.floors');
+        Route::get('buildings/floors/{id}', [AddressController::class, 'getRoomsFloor'])->name('floor.rooms');
+        Route::get('buildings/floors/create/{id}', [AddressController::class, 'createFloor'])->name('floor.create');
+        Route::post('buildings/floors/create', [AddressController::class, 'storeFloor'])->name('floor.store');
     });
 });
 

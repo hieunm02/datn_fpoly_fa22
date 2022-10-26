@@ -10,7 +10,7 @@
                     <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
                     <a class="breadcrumb-item" href="#">Apps</a>
                     <a class="breadcrumb-item" href="#">E-commerce</a>
-                    <span class="breadcrumb-item active">Slides List</span>
+                    <span class="breadcrumb-item active">Floors Of Building</span>
                 </nav>
             </div>
         </div>
@@ -36,10 +36,10 @@
                         </div>
                     </div>
                     <div class="col-lg-5  text-right">
-                        <a class="" href="{{ route('slides.create') }}">
+                        <a class="" href="{{ route('floor.create', $buildind_id) }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add Slide</span>
+                                <span>Add Floor</span>
                             </button>
                         </a>
                     </div>
@@ -55,41 +55,33 @@
                                     </div>
                                 </th>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Product</th>
-                                <th>Sort By</th>
+                                <th>Tòa</th>
+                                <th>Tầng</th>
+                                <th>Số Phòng</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($slides as $index => $slide)
+                            @foreach ($floors as $index => $floor)
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <input id="check-item-{{ $index + 1 }}" class="check-item"
-                                                onclick="checkBox({{ $slide->id }})" value="{{ $slide->id }}"
-                                                name="{{ $slide->id }}" type="checkbox">
+                                                onclick="checkBox({{ $floor->id }})" value="{{ $floor->id }}"
+                                                name="{{ $floor->id }}" type="checkbox">
                                             <label for="check-item-{{ $index + 1 }}" class="m-b-0"></label>
                                         </div>
                                     </td>
                                     <td>
-                                        #{{ $slide->id }}
+                                        #{{ $floor->id }}
+                                    </td>
+                                    <td>{{ $floor->building->name }}</td>
+                                    <td>
+                                        {{ $floor->name }}
                                     </td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <img class="img-fluid rounded" src="" style="max-width: 60px"
-                                                alt="">
-                                            <h6 class="m-b-0 m-l-10">{{ $slide->name }}</h6>
-                                        </div>
-                                    </td>
-                                    <td>{{ $slide->product->name }}</td>
-                                    <td>
-                                        @if ($slide->sort_by === 1)
-                                            {{ 'ASC' }}
-                                        @else
-                                            {{ 'DESC' }}
-                                        @endif
+                                        {{ $floor->rooms->count() }}
                                     </td>
                                     <td>
                                         <form method="POST" class="inline-block"
@@ -97,34 +89,36 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($slide->active === 1)
-                                                    <div id="icon-active{{ $slide->id }}"
+                                                @if ($floor->active === 0)
+                                                    <div id="icon-active{{ $floor->id }}"
                                                         class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $slide->id }}"
-                                                        value="{{ $slide->active }}">
-                                                    <div class="btn-status btn-active{{ $slide->id }}"
-                                                        data-id="{{ $slide->id }}">Actived</div>
+                                                    <input type="hidden" id="is-active{{ $floor->id }}"
+                                                        value="{{ $floor->active }}">
+                                                    <div class="btn-status btn-active{{ $floor->id }}"
+                                                        data-id="{{ $floor->id }}">Actived</div>
                                                 @else
-                                                    <div id="icon-active{{ $slide->id }}"
+                                                    <div id="icon-active{{ $floor->id }}"
                                                         class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $slide->id }}"
-                                                        value="{{ $slide->active }}">
-                                                    <div class="btn-status btn-active{{ $slide->id }}"
-                                                        data-id="{{ $slide->id }}">Deactive
+                                                    <input type="hidden" id="is-active{{ $floor->id }}"
+                                                        value="{{ $floor->active }}">
+                                                    <div class="btn-status btn-active{{ $floor->id }}"
+                                                        data-id="{{ $floor->id }}">Deactive
                                                     </div>
                                                 @endif
                                             </div>
                                         </form>
                                     </td>
-                                    <td class="text-right">
-                                        <a href="{{ route('slides.edit', $slide->id) }}">
+                                    <td class="text-center">
+                                        <a href="{{ route('floor.rooms', $floor->id) }}">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="">
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                                 <i class="anticon anticon-edit"></i>
                                             </button>
                                         </a>
                                         <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                                            action="{{ route('slides.destroy', $slide->id) }}">
+                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded">
@@ -137,11 +131,10 @@
                         </tbody>
                     </table>
                     <div style="display: flex; justify-content: center">
-                        {{ $slides->links() }}
+                        {{ $floors->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/handleGeneral/changeStatusSlide.js') }}"></script>
 @endsection
