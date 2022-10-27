@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\BillController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
+use App\Models\Bill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -38,10 +40,10 @@ use Illuminate\Support\Facades\Session;
 // Client
 
 Route::prefix('/')->group(function () {
-    Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
-    Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
-    Route::put('/carts/update/{id}',[CartController::class, 'update']);
-    Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
+    Route::put('/carts/update/{id}', [CartController::class, 'update']);
+    Route::delete('/carts/delete/{id}', [CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -173,6 +175,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('comment')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
+
+    //Bill
+    Route::resource('bills', BillController::class);
 
     //Address Building Floor Room
     Route::prefix('address')->group(function () {

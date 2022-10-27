@@ -21,11 +21,11 @@ $("#upload").change(function () {
             if (results.error == false) {
                 $("#image_show").html(
                     '<a href="' +
-                        results.url +
-                        '" target="_blank">' +
-                        '<img src="' +
-                        results.url +
-                        '" width="100px"></a> '
+                    results.url +
+                    '" target="_blank">' +
+                    '<img src="' +
+                    results.url +
+                    '" width="100px"></a> '
                 );
 
                 $("#thumb").val(results.url);
@@ -61,6 +61,38 @@ function deleteAjax(parameter, id) {
         });
     }
 }
-{/* <script> */}
-    CKEDITOR.replace('content');
-{/* </script> */}
+
+// View detail bill
+function viewBillDetail(id) {
+    $.ajax({
+        url: "/admin/bills/" + id,
+        type: "GET",
+        data: {
+            id: id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            var tr = '';
+            data.bill.forEach(element => {
+                tr += `
+                    <tr>
+                        <td>${element['id']}</td>
+                        <td>${element['email']}</td>
+                        <td>${element['code']}</td>
+                        <td>${element['name']}</td>
+                        <td>${element['phone']}</td>
+                        <td>${element['address']}</td>
+                        <td>${element['shipper']}</td>
+                        <td>${element['voucher']}</td>
+                        <td>${element['note']}</td>
+                    </tr>
+                `
+            });
+            $('#table-bill-detail').html(tr);
+        }
+    })
+}
+{/* <script> */ }
+CKEDITOR.replace('content');
+{/* </script> */ }
