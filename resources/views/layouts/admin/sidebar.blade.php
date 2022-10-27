@@ -162,7 +162,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ route('admin.contacts-index') }}">Danh sách</a>
+                        <a href="{{ route('admin.contacts.index') }}">Danh sách</a>
                     </li>
                 </ul>
             </li>
@@ -186,6 +186,25 @@
                 </ul>
             </li>
             {{-- end-Comments --}}
+
+            {{-- Prices --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-appstore"></i>
+                    </span>
+                    <span class="title">Giá sản phẩm</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('prices.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-prices --}}
         </ul>
     </div>
 </div>

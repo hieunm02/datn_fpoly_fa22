@@ -12,4 +12,9 @@ class AdminOrderService
     {
         return Order::with('status')->paginate(5);
     }
+
+    public function getByStatusId($status_id)
+    {
+        return Order::where('status_id', '=', $status_id)->get();
+    }
 }

@@ -9,8 +9,9 @@ use App\Models\CommentReaction;
 use App\Models\CommentRection;
 use App\Models\Product;
 use App\Models\Reaction;
+use App\Models\Slide;
 use App\Models\Thumb;
-use App\Services\Comments\CommentService;
+use App\Services\Comment\AdminCommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
@@ -18,10 +19,14 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    protected $productService, $commentService;
+    protected $productService;
+    protected $commentService;
 
-    public function __construct(ProductServices $productService, MenuServices $menuService, CommentService $commentService)
-    {
+    public function __construct(
+        ProductServices $productService,
+        MenuServices $menuService,
+        AdminCommentService $commentService
+    ) {
         $this->productService = $productService;
         $this->menuService = $menuService;
         $this->commentService = $commentService;
@@ -37,7 +42,8 @@ class HomeController extends Controller
         $products = $this->productService->getAll();
         $productBtm = $this->productService->getAll();
         $menus = $this->menuService->getMenuIndex();
-        return view('client.index', compact('products', 'productBtm', 'menus'));
+        $slides = Slide::with('product')->get();
+        return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
     }
 
     /**
@@ -68,17 +74,13 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $reacts = $this->commentService->getReact(); // lấy ra icon like có id là 1
+        $reacts = Reaction::all(); // lấy ra icon like có id là 1
         $product = $this->productService->getById($id);
 
         $thumb = Thumb::where('product_id', $id)->get();
         $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
         $products = $this->productService->getAll();
 
-        //        foreach ($comment as $key) {
-        //            $countReact = $key->reactions->count();
-        //            return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'react', 'countReact'));
-        //        }
         return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts'));
     }
 
@@ -104,7 +106,8 @@ class HomeController extends Controller
             'success' => 'Bình luận sản phảm thành công.',
             'date' => date('Y-m-d h:i:s'),
             'user_id' => $this->commentService->getNameUser($request->user_id),
-            'comment_id' => $comment->id
+            'comment_id' => $comment->id,
+            'avatar' => $comment->user->avatar
         ]);
     }
 

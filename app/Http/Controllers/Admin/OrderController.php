@@ -23,11 +23,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Quản lý đơn hàng.';
-        $data['orders'] = $this->orderService->getAll();
+        $wait_confirm = $this->orderService->getByStatusId(1);
+        $doing = $this->orderService->getByStatusId(2);
+        $delivering = $this->orderService->getByStatusId(3);
+        $successful = $this->orderService->getByStatusId(4);
+        $cancelled = $this->orderService->getByStatusId(5);
+        $title = "Quản lý đơn hàng";
 
-
-        return view('admin.orders.index', $data);
+        return view('admin.orders.index', compact('wait_confirm', 'delivering', 'successful', 'cancelled', 'title'));
     }
 
     /**
@@ -80,10 +83,6 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

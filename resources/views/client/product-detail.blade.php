@@ -32,6 +32,11 @@
                     </div>
                 </div>
             </div>
+            @if (session()->has('success'))
+                <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
             <div class="col-md-6">
                 <div class="osahan-cart-item rounded rounded shadow-sm overflow-hidden bg-white">
                     <div class="d-flex osahan-cart-item-profile bg-white p-3">
@@ -41,7 +46,7 @@
                                     <a href="#" class="breadcrumb-item"><i
                                             class="anticon anticon-home m-r-5"></i>Home</a>
                                     <a class="breadcrumb-item" href="#">Products</a>
-                                    <span class="breadcrumb-item active">Product Detail</span>
+                                    <span class="breadcrumb-item">Product Detail</span>
                                 </nav>
                             </div>
                         </div>
@@ -63,18 +68,23 @@
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
                     <div class="p-3">
-                        <h3 class="text-primary font-weight-bold pt-3">{{ $product->price->original }}
-                            - {{ $product->price->sale }}</h3>
+                        <h3 class="text-primary font-weight-bold pt-3">{{ $product->price }}
+                            - {{ $product->price }}</h3>
                         <h5 class="text-dark font-weight-light">Loại: {{ $product->menu->name }}</h5>
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
                     <div class="p-3">
-                        <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                        <input name="quantity" style="width: 40px;" class="input-qty btn btn-default" id="quantity"
-                            min="1" type="text" value="1">
-                        <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                        <a class="btn btn-success" href="successful.html">Đặt hàng<i class="feather-arrow-right"></i></a>
-                        {{-- <a class="btn btn-outline-success" href="#"><i class="feather-heart h6"></i></a> --}}
+                        <form action="{{ url('carts') }}" method="POST">
+                            @csrf
+                            <input type="text" hidden name="product_id" value="{{ $product->id }}">
+                            <input type="text" hidden name="user_id" value="{{ Auth::user() ? Auth::user()->id : '' }}">
+                            <input type="text" hidden name="date" value="{{ date('Y-m-d') }}">
+                            <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
+                            <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="quantity"
+                                min="1" type="text" value="1">
+                            <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                            <button class="btn btn-success">Đặt hàng<i class="feather-arrow-right"></i></button>
+                        </form>
                     </div>
 
                 </div>
@@ -102,9 +112,9 @@
                                     class="product-item px-3 py-2 my-1 d-flex justify-content-between ele_{{ $cmt->id }}">
                                     <div class="col-md-12 d-flex">
                                         <div class="avatar setCt mr-2">
-                                            <img src="https://images.foody.vn/res/g105/1048075/prof/s640x400/foody-upload-api-foody-mobile-c3-200924105851.jpg"
-                                                style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
-                                                alt="">
+                                            <img src="{{ $cmt->user->avatar }}"
+                                                style="width: 60px; height: 60px; object-fit: cover;"
+                                                class="rounded-circle" alt="">
                                         </div>
                                         <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                             <h6 class="mb-0">{{ $cmt->user->name }}</h6>
@@ -149,8 +159,11 @@
                             <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
                             <form action="" method="POST">
                                 @csrf
+                                @if (!Auth::user())
+                                    <p>Vui lòng đăng nhập để bình luận!</p>
+                                @else
                                 <div class="form-comment">
-                                    <img src="https://images.foody.vn/res/g100/996223/prof/s640x400/foody-upload-api-foody-mobile-kham-pha-3-quan-che--200102135359.jpg"
+                                    <img src="{{ Auth::user()->avatar }}"
                                         style="" class="mr-2" alt="" srcset="">
                                     <textarea type="text" name="content" class="form-control mr-2" placeholder="Viết bình luận"></textarea>
                                     <button type="button" class="btn btn-primary submit_comment">Bình luận</button>
@@ -158,6 +171,7 @@
                                     <input type="hidden" name="user_id"
                                         value="{{ !empty(Auth::id()) ? Auth::id() : '' }}">
                                 </div>
+                                @endif
                             </form>
                         </div>
                         <script type="text/javascript" src="{{ asset('js/handleGeneral/comment/handle.js') }}"></script>

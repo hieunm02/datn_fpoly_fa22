@@ -15,7 +15,10 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
+use App\Http\Controllers\Homepage\ListProductController;
+use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +36,10 @@ use Illuminate\Support\Facades\Session;
 */
 
 // Client
+
 Route::prefix('/')->group(function () {
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -46,14 +52,9 @@ Route::prefix('/')->group(function () {
 
     Route::post('reaction', [HomeController::class, 'react'])->name('react-cmt');
 
-    Route::get('/checkout', function () {
-        return view('client.checkout');
-    });
+    Route::resource('carts', CartController::class);
 
-    Route::get('/cart', function () {
-        return view('client.cart');
-    });
-
+    Route::resource('orders', HomepageOrderController::class);
     Route::get('/coming-soon', function () {
         return view('errors.coming-soon');
     });
@@ -72,15 +73,13 @@ Route::prefix('/')->group(function () {
         return view('client.faq');
     });
 
-    Route::get('/list-products', function () {
-        return view('client.list-products');
-    });
+    //ListProducts
+    Route::get('/list-products', [ListProductController::class, 'getList'])->name('listProducts');
+    Route::get('/list-products/{id}', [ListProductController::class, 'getListMenu'])->name('list-products');
 
     Route::get('/news', [ClientNewsController::class, 'index'])->name('news');
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
-
-
 
     //Login - Logout
     Route::post('/login', [AuthController::class, 'handleLogin']);
@@ -99,13 +98,14 @@ Route::prefix('/')->group(function () {
 
     Route::get('/offers', function () {
         return view('client.offers');
-    });
+    })->name('offers');
 
     Route::get('/privacy', function () {
         return view('client.privacy');
     });
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
     Route::get('/search', function () {
         return view('client.search');
@@ -125,15 +125,11 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
-
-    Route::get("/cart", function () {
-        return view('client.cart');
-    });
 });
 
 // Admin
+// ->middleware('role:admin')
 Route::prefix('admin')->group(function () {
-    Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
@@ -164,11 +160,10 @@ Route::prefix('admin')->group(function () {
     });
 
     //Contact
-    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts-index');
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
 
     //Price
     Route::resource('prices', PriceController::class);
-
 
     //Comment
     Route::resource('comments', CommentController::class);
@@ -176,8 +171,18 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
 
-    //s
+    Route::get('building', function () {
+        return view('admin.building.create', [$title = 'Helllo']);
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/update-status', [OrderController::class, 'updateStatus']);
+    });
 });
+
+
+
 
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);

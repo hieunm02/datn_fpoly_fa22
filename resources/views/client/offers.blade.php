@@ -375,7 +375,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade show active py-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade show active py-4" style="background-color: #f5f5f5;" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h5 class="mb-3 mt-0">Available Coupons</h5>
             <div class="row">
                 <div class="col-md-4 mb-3">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Http\Request;
 use App\Services\User\UserServices;
 
@@ -22,6 +23,12 @@ class ProfileController extends Controller
     {
         $profiles = $this->userService->getAll();
         return view('client.profile', compact('profiles'));
+    }
+
+    public function updateProfile(ProfileRequest $request)
+    {
+        $this->userService->update($request, $request->id);
+        return redirect()->route('profile.index');
     }
 
     /**

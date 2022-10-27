@@ -90,9 +90,29 @@
                                             <td>
                                                 <img src="{{ asset($item->avatar) }}" alt="" width="100">
                                             </td>
+<<<<<<< HEAD
                                             <td>{!! \App\Helpers\Helper::active($item->active) !!}</td>
 
                                             <td>
+=======
+                                            @if ($item->active === 0)
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                        <div>Private</div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                                        <div>Public</div>
+                                                    </div>
+                                                </td>
+                                            @endif
+                                            @role('manager')
+                                            <td class="text-right">
+>>>>>>> dev
                                                 <a href="{{ route('staffs.edit', $item->id) }}">
                                                     <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                                         <i class="anticon anticon-edit"></i>
@@ -103,6 +123,7 @@
                                                     <i class="anticon anticon-delete"></i>
                                                 </button>
                                             </td>
+                                            @endrole
                                         </tr>
                                     @endforeach
                                 </tbody>

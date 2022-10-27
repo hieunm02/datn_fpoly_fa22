@@ -19,7 +19,9 @@ class Order extends Model
         'address',
         'user_id',
         'status_id',
-        'shipper_id'
+        'shipper_id',
+        'voucher',
+        'note',
     ];
 
     public function status()
