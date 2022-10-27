@@ -16,7 +16,7 @@
                         <a href="#" class="">
                             <div class="d-flex align-items-center p-3">
                                 <div class="left mr-3">
-                                    <img alt="#" src="{{ asset('img/user1.jpg') }}" class="rounded-circle">
+                                    <img alt="#" src="{{ Auth::user()->avatar }}" class="rounded-circle">
                                 </div>
                                 <div class="right">
                                     <h6 class="mb-1 font-weight-bold">{{ Auth::user()->name }}

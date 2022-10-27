@@ -108,6 +108,13 @@
                                     <h6 class="m-b-0 m-l-10">{{ $contact->content }}</h6>
                                 </div>
                             </td>
+                            <td style="max-width: 100px;">
+                                @if ($contact->status == 0)
+                                    <a href="{{ route('admin.contacts.show', $contact->id) }}" class="btn btn-success"><i class="bi bi-send"></i> Send</a></h6>
+                                @elseif ($contact->status == 1)
+                                    <p class="text-success"><i class="bi bi-check"></i>Đã Send</p>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -127,5 +134,5 @@
     });
     setTimeout(() => {
         document.getElementById('setout').classList.add('d-none');
-    }, 5000);
+    }, 3000);
 </script>

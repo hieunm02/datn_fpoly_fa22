@@ -49,7 +49,7 @@ class ClientOrderService
                 $del = Cart::find($it);
                 $del->delete();
             }
-            Session::flash('success', 'Tạo mới thành công');
+            Session::flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());

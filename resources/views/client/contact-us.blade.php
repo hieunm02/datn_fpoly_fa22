@@ -36,6 +36,7 @@
                                     <div class="form-group col-md-6 p-0 pl-1">
                                         <label for="exampleFormControlInput3" class="small font-weight-bold">Số điện
                                             thoại</label>
+                                            <input type="hidden" name="status" value="0">
                                         <input type="number" class="form-control  <?php echo $errors->first('phone') ? 'is-invalid': '' ?>" id="exampleFormControlInput3" value="{{ old('phone') }}" name="phone"
                                             placeholder="0123456789">
                                             @if ($errors->has('phone'))

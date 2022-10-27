@@ -108,9 +108,20 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request)
     {
-        //
+        if (Auth::user()) {
+            $this->CartServices->update($request);
+            $carts = $this->CartServices->getCartUser();
+            $mess = "Cập nhật số lượng thành công!";
+            return response()->json([
+                'mess' => $mess,
+                'carts' => $carts
+            ], 200);
+        } else {
+            Session::flash('error', 'Bạn chưa đăng nhập');
+            return redirect('/');
+        }
     }
 
     /**
@@ -123,7 +134,11 @@ class CartController extends Controller
     {
         $data = Cart::find($cart);
         $data->delete();
-        Session::flash('success', 'Xóa thành công');
-        return redirect()->back();
+        $carts = $this->CartServices->getCartUser();
+        $mess = "Xóa sản phẩm thành công!";
+        return response()->json([
+            'mess' => $mess,
+            'carts' => $carts
+        ], 200);
     }
 }

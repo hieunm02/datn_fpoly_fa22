@@ -40,6 +40,8 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
     Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
+    Route::put('/carts/update/{id}',[CartController::class, 'update']);
+    Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -160,6 +162,8 @@ Route::prefix('admin')->group(function () {
 
     //Contact
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
+    Route::get('contacts/{id}', [AdminContactController::class, 'show'])->name('admin.contacts.show');
+    Route::post('send-email', [AdminContactController::class, 'sendMail'])->name('admin.contacts.send-mail');
 
     //Price
     Route::resource('prices', PriceController::class);

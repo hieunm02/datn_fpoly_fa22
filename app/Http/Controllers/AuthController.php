@@ -35,7 +35,7 @@ class AuthController extends Controller
             $user->email = $userdata->email;
             $user->password = Hash::make($uuid . now());
             $user->role = 1;
-            $user->active = 1;
+            $user->active = 0;
             $user->auth_type = 'google';
             $user->avatar = $userdata->avatar;
             $user->phone = '';
