@@ -12,6 +12,16 @@ class Room extends Model
         'id',
         'name',
         'building_id',
-        'floor_id'
+        'floor_id',
+        'active'
     ];
+
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+    public function floor()
+    {
+        return $this->belongsTo(Floor::class);
+    }
 }

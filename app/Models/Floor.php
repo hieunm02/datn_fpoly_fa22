@@ -11,12 +11,15 @@ class Floor extends Model
     protected $fillable = [
         'id',
         'name',
-        'building_id'
+        'building_id',
+        'active'
     ];
-    public function buildings() {
-        return $this->hasMany(Building::class);
+    public function building()
+    {
+        return $this->belongsTo(Building::class, 'building_id', 'id');
     }
-    public function rooms() {
+    public function rooms()
+    {
         return $this->hasMany(Room::class);
     }
 }

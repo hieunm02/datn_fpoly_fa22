@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -174,8 +174,26 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
 
-    Route::get('building', function () {
-        return view('admin.building.create', [$title = 'Helllo']);
+    //Address Building Floor Room
+    Route::prefix('address')->group(function () {
+        //Building
+        Route::get('buildings', [AddressController::class, 'getBuildings'])->name('building.index');
+        Route::get('buildings/create', [AddressController::class, 'createBuilding'])->name('building.create');
+        Route::post('buildings/create', [AddressController::class, 'storeBuilding'])->name('building.store');
+        Route::get('buildings/update/{id}', [AddressController::class, 'editBuilding'])->name('building.edit');
+        Route::put('buildings/update/{id}', [AddressController::class, 'updateBuilding'])->name('building.update');
+        Route::delete('buildings/delete/{id}', [AddressController::class, 'destroyBuilding'])->name('building.destroy');
+        //Floor
+        Route::get('buildings/{id}', [AddressController::class, 'getFloorsBuilding'])->name('building.floors');
+        Route::get('buildings/floors/create/{id}', [AddressController::class, 'createFloor'])->name('floor.create');
+        Route::post('buildings/floors/create/unique', [AddressController::class, 'uniqueFloor']);
+        Route::post('buildings/floors/update/unique', [AddressController::class, 'uniqueFloor']);
+        Route::post('buildings/floors/create', [AddressController::class, 'storeFloor'])->name('floor.store');
+        Route::get('buildings/floors/update/{id}', [AddressController::class, 'editFloor'])->name('floor.edit');
+        Route::put('buildings/floors/update/{id}', [AddressController::class, 'updateFloor'])->name('floor.update');
+        Route::delete('buildings/floors/delete/{id}', [AddressController::class, 'destroyFloor'])->name('floor.destroy');
+        //Room
+        Route::get('buildings/floors/{id}', [AddressController::class, 'getRoomsFloor'])->name('floor.rooms');
     });
 });
 
