@@ -187,6 +187,25 @@
             </li>
             {{-- end-Comments --}}
 
+            {{-- Adress --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="bi bi-boxes"></i>
+                    </span>
+                    <span class="title">Địa chỉ</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('building.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Adress --}}
+
             {{-- Prices --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
