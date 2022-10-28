@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Floor;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -37,19 +38,26 @@ class ClientOrderService
             $order->shipper_id = 1;
             $order->voucher = 'voucher';
             $order->note = $request->note;
+            $order->active = 0;
             // dd($order);
             $order->save();
             $count = $request->product_id;
             foreach($count as $it) {
+                $del = Cart::find($it);
+                $prd = Product::find($del->product_id);
+                // dd($prd);
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
-                // dd($data->product_id);
+                $data->nameProduct = $prd->name;
+                $data->thumb = $prd->thumb;
+                $data->quantity = $del->quantity;
+                $data->price = $prd->price;
+                $data->total = $del->quantity * $prd->price;
                 $data->save();
-                $del = Cart::find($it);
                 $del->delete();
             }
-            Session::flash('success', 'Tạo mới thành công');
+            Session::flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());

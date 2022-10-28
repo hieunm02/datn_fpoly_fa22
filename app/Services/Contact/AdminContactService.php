@@ -8,8 +8,12 @@ class AdminContactService
 {
     public function getAll()
     {
-        return Contact::select('id', 'name', 'email', 'phone', 'content')
+        return Contact::select('id', 'name', 'email', 'phone', 'content', 'status')
                         ->orderByDesc('id')
                         ->paginate(10);
+    }
+    public function getId($id)
+    {
+        return Contact::find($id);
     }
 }

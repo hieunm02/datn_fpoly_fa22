@@ -8,6 +8,9 @@
                     </a>
                     <!-- brand-wrap.// -->
                 </div>
+                <?php 
+                    $menus = DB::table('menus')->get();
+                ?>
                 {{-- <div class="col-3 d-flex align-items-center m-none">
                     <div class="dropdown mr-3">
                         <a class="text-dark dropdown-toggle d-flex align-items-center py-3" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -104,7 +107,15 @@
                         <!-- signin -->
                         <a href="{{ url('carts') }}" class="widget-header mr-4 text-dark">
                             <div class="icon d-flex align-items-center">
-                                <i class="feather-shopping-cart h6 mr-2 mb-0"></i> <span>Cart</span>
+                                <i class="feather-shopping-cart h6 mr-2 mb-0 position-relative">
+                                    <?php if(Auth::user()) { 
+                                        $carts = DB::table('carts')->where('user_id', Auth::user()->id)->get();
+                                    ?>
+                                    <div id="count_cart" class="position-absolute border-dark border bg-secondary text-white text-center" style="top: -8px; right: -8px; width: 16px; height: 16px; font-size: 10px; border-radius: 50%;">
+                                           {{ count($carts) }}
+                                        </div>
+                                    <?php } ?>
+                                </i> <span>Cart</span>                                    
                             </div>
                         </a>
                         <a class="toggle1" id="clickMenus1">
@@ -202,9 +213,6 @@
                                         <div id="closeSubNav" class="nav-item-wrapper"><a href="#">BeeFood<span></span></a>
                                         </div>
                                     </li>
-                                    <?php 
-                                        $menus = DB::table('menus')->get();
-                                    ?>
                                     @foreach ($menus as $menu)
                                     <li>
                                         <div class="nav-item-wrapper"><a href="{{ route('list-products', $menu->id) }}" class="nav-item">{{ $menu->name }}</a></div>

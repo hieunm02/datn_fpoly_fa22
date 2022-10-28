@@ -61,3 +61,6 @@ function deleteAjax(parameter, id) {
         });
     }
 }
+{/* <script> */}
+    CKEDITOR.replace('content');
+{/* </script> */}

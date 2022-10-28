@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="img/fav.png">
     <title>BeeFood - @yield('title-page')</title>
     <!-- Slick Slider -->
@@ -41,6 +42,7 @@
     <script type="text/javascript" src="{{ asset('vendor/sidebar/hc-offcanvas-nav.js') }}"></script>
     <!-- Custom scripts for all pages-->
     <script type="text/javascript" src="{{ asset('js/osahan.js') }}"></script>
+    <script src="{{ asset('js\handleGeneral\checkout\select.js') }}"></script>
 
 
 </body>

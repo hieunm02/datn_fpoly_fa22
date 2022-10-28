@@ -58,7 +58,17 @@ class CartService
         }
         return true;
     }
-    public function destroyId($id)
+    public function update($request)
     {
+        try {
+            $data = Cart::find($request->cart_id);
+            $data->quantity = $request->quantity;
+            $data->save();
+        } catch (\Exception $err) {
+            Session::flash('error', "Vui lòng thử lại");
+            Log::info($err->getMessage());
+            return false;
+        }
+        return true;
     }
 }
