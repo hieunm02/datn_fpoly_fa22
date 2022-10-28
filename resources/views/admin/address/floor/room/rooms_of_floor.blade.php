@@ -9,7 +9,7 @@
                 <nav class="breadcrumb breadcrumb-dash">
                     <a href="{{ route('building.index') }}" class="breadcrumb-item"><i
                             class="anticon anticon-home m-r-5"></i>Buildings</a>
-                    <a class="breadcrumb-item" href="{{ route('building.floors', $room->building->id) }}">Floors</a>
+                    <a class="breadcrumb-item" href="{{ route('building.floors', $floor_id) }}">Floors</a>
                     <span class="breadcrumb-item active">Rooms</span>
                 </nav>
             </div>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5  text-right">
-                        <a class="" href="{{ route('room.create', $room->floor->id) }}">
+                        <a class="" href="{{ route('room.create', $floor_id) }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
                                 <span>Thêm phòng</span>

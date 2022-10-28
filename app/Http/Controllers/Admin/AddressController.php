@@ -153,6 +153,8 @@ class AddressController extends Controller
         $data['title'] = 'Quản lí phòng';
         $data['rooms'] = $this->roomService->getRooms($id);
         $data['room'] = $this->roomService->getRoom($id);
+        $data['floor_id'] = $id;
+
 
         return view('admin.address.floor.room.rooms_of_floor', $data);
     }
