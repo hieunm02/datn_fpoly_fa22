@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BuildingRequest;
 use App\Http\Requests\FloorRequest;
+use App\Http\Requests\RoomRequest;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Services\Address\BuildingService;
 use App\Services\Address\FloorServices;
+use App\Services\Address\RoomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -19,13 +21,16 @@ class AddressController extends Controller
 
     protected $buildingService;
     protected $floorService;
+    protected $roomService;
 
     public function __construct(
         BuildingService $buildingService,
         FloorServices $floorService,
+        RoomService $roomService,
     ) {
         $this->buildingService = $buildingService;
         $this->floorService = $floorService;
+        $this->roomService = $roomService;
     }
     //Building 
     public function getBuildings()
@@ -110,7 +115,7 @@ class AddressController extends Controller
         return view('admin.address.floor.create_floor', $data);
     }
 
-    public function storeFloor(FloorRequest $request)
+    public function storeFloor(Request $request)
     {
 
         $this->floorService->create($request);
@@ -130,19 +135,62 @@ class AddressController extends Controller
 
     public function updateFloor(FloorRequest $request, $id)
     {
-        $this->buildingService->update($request, $id);
+        $this->floorService->update($request, $id);
 
-        return redirect()->route('building.index');
+        return redirect()->route('building.floors', [$request->building_id]);
     }
 
+    public function destroyFloor($id)
+    {
+        $this->floorService->delete($id);
+
+        return back();
+    }
 
     //room
     public function getRoomsFloor(Request $request, $id)
     {
         $data['title'] = 'Quản lí phòng';
-        $data['rooms'] = Room::with(['building', 'floor'])->where('floor_id', $id)->paginate(6);
-        $data['room'] = Room::with(['building', 'floor'])->where('floor_id', $id)->first();
+        $data['rooms'] = $this->roomService->getRooms($id);
+        $data['room'] = $this->roomService->getRoom($id);
 
-        return view('admin.address..floor.room.rooms_of_floor', $data);
+        return view('admin.address.floor.room.rooms_of_floor', $data);
+    }
+
+    public function createRoom($id)
+    {
+        $data['title'] = 'Thêm phòng';
+        $data['floor'] = Floor::find($id);
+
+        return view('admin.address.floor.room.create', $data);
+    }
+
+    public function storeRoom(RoomRequest $request)
+    {
+        $this->roomService->create($request);
+
+        return redirect()->route('floor.rooms', [$request->floor_id]);
+    }
+
+    public function editRoom($id)
+    {
+        $data['title'] = 'Sửa phòng';
+        $data['room'] = Room::find($id);
+
+        return view('admin.address.floor.room.update', $data);
+    }
+
+    public function updateRoom(RoomRequest $request, $id)
+    {
+        $this->roomService->update($request, $id);
+
+        return redirect()->route('floor.rooms', [$request->floor_id]);
+    }
+
+    public function destroy($id)
+    {
+        $this->roomService->delete($id);
+
+        return back();
     }
 }

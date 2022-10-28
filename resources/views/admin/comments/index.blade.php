@@ -73,29 +73,24 @@
                                     <td>{{ $comment->user->name }}</td>
                                     <td>{{ $comment->content }}</td>
                                     <td>
-                                        <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($comment->active === 0)
-                                                    <div id="icon-active{{ $comment->id }}"
-                                                        class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $comment->id }}"
-                                                        value="{{ $comment->active }}">
-                                                    <div class="btn-status btn-active{{ $comment->id }}"
-                                                        data-id="{{ $comment->id }}">Actived</div>
-                                                @else
-                                                    <div id="icon-active{{ $comment->id }}"
-                                                        class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $comment->id }}"
-                                                        value="{{ $comment->active }}">
-                                                    <div class="btn-status btn-active{{ $comment->id }}"
-                                                        data-id="{{ $comment->id }}">Deactive
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </form>
+                                        <div class="d-flex align-items-center" style="cursor: pointer">
+                                            @if ($comment->active === 0)
+                                                <div id="icon-active{{ $comment->id }}"
+                                                    class="badge badge-success badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $comment->id }}"
+                                                    value="{{ $comment->active }}">
+                                                <div class="btn-status btn-active{{ $comment->id }}"
+                                                    data-id="{{ $comment->id }}">Actived</div>
+                                            @else
+                                                <div id="icon-active{{ $comment->id }}"
+                                                    class="badge badge-danger badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $comment->id }}"
+                                                    value="{{ $comment->active }}">
+                                                <div class="btn-status btn-active{{ $comment->id }}"
+                                                    data-id="{{ $comment->id }}">Deactive
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="text-right">
                                         <form method="POST" class="inline-block"

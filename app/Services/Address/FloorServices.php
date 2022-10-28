@@ -45,4 +45,24 @@ class FloorServices
             return false;
         }
     }
+
+    public function update($request, $id)
+    {
+        try {
+            $floor = Floor::find($id);
+            $floor->fill($request->all());
+            $floor->save();
+            Session::flash('success', 'Cập nhật thành công');
+        } catch (\Throwable $th) {
+            Session::flash('error', $th->getMessage());
+            return false;
+        }
+    }
+
+    public function delete($id)
+    {
+        Floor::find($id)->delete();
+
+        Session::flash('success', 'Xóa dữ liệu thành công');
+    }
 }

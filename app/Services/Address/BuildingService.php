@@ -3,6 +3,7 @@
 namespace App\Services\Address;
 
 use App\Models\Building;
+use App\Models\Floor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;

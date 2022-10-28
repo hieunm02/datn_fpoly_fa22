@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FloorRequest extends FormRequest
+class RoomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,15 @@ class FloorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:floors,name,' . $this->id
+            'name' => 'required|unique:rooms,name,' . $this->id
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Tên tầng không được để trống.',
-            'name.unique' => 'Tên tầng đã tồn tại.',
+            'name.required' => 'Tên phòng không được để trống.',
+            'name.unique' => 'Tên phòng đã tồn tại',
         ];
     }
 }

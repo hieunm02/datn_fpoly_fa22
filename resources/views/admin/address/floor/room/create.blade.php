@@ -4,9 +4,8 @@
     <link rel="stylesheet" href="{{ asset('css/address/building.css') }}">
 
     <div class="main-content">
-        <form action="{{ route('floor.update', $floor->id) }}" enctype="multipart/form-data" method="POST">
+        <form action="{{ route('room.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
-            @method('PUT')
             <div class="page-header no-gutters has-tab">
                 <div class="d-md-flex m-b-15 align-items-center justify-content-between">
                     <div class="m-b-15">
@@ -33,14 +32,17 @@
                                         placeholder="Nhập tên tòa" value="{{ $floor->building->name }}" disabled>
                                     <input type="hidden" name="building_id" value="{{ $floor->building->id }}">
                                 </div>
-                                <div class="form-group floor_group ">
-                                    <label class="font-weight-semibold " for="name_floor">Tên Tầng</label>
-                                    <div class="floor_input ">
-                                        <input type="text" data-id="{{ $floor->id }}"
-                                            class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                            value="{{ $floor->name }}" id="name" name="name"
-                                            placeholder="Nhập tên tầng">
-                                    </div>
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="">Tên Tầng</label>
+                                    <input type="text" class="form-control" name="floor_name" placeholder="Nhập tên tầng"
+                                        value="{{ $floor->name }}" disabled>
+                                    <input type="hidden" name="floor_id" value="{{ $floor->id }}">
+                                </div>
+                                <div class="form-group ">
+                                    <label class="font-weight-semibold " for="name">Tên phòng</label>
+                                    <input type="text"
+                                        class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" id="name_floor"
+                                        name="name" placeholder="Nhập tên phòng">
                                     <p class="text-danger log_error">
                                         @error('name')
                                             {{ $message }}

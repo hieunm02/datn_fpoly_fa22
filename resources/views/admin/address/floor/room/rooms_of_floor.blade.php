@@ -36,10 +36,10 @@
                         </div>
                     </div>
                     <div class="col-lg-5  text-right">
-                        <a class="" href="">
+                        <a class="" href="{{ route('room.create', $room->floor->id) }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add Floor</span>
+                                <span>Thêm phòng</span>
                             </button>
                         </a>
                     </div>
@@ -105,13 +105,14 @@
                                         </form>
                                     </td>
                                     <td class="text-center">
-                                        <a href="">
+                                        <a href="{{ route('room.edit', $room->id) }}">
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                                 <i class="anticon anticon-edit"></i>
                                             </button>
                                         </a>
                                         <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
+                                            onsubmit="return confirm('Xác nhận xóa dữ liệu.')"
+                                            action="{{ route('room.delete', $room->id) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-icon btn-hover btn-sm btn-rounded">
