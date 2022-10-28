@@ -205,6 +205,25 @@
                 </ul>
             </li>
             {{-- end-prices --}}
+
+            {{-- Prices --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-container"></i>
+                    </span>
+                    <span class="title">Đơn hàng</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('orders.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-prices --}}
         </ul>
     </div>
 </div>

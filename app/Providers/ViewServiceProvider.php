@@ -24,19 +24,20 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // single view bind
-        // View::composer(
-        //     '*', // view name
-        //     'App\Libraries\ViewComposers\NewsComposer' // composer class name
-        // );
-
-        // multiple view bind
         View::composer(
             [
                 '*/news',
                 '*/news-detail',
+                '*/orders/*',
             ],
             'App\Libraries\ViewComposers\NewsComposer' // class name
+        );
+
+        View::composer(
+            [
+                '*/orders/*',
+            ],
+            'App\Libraries\ViewComposers\StatusComposer' // class name
         );
     }
 }

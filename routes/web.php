@@ -177,7 +177,8 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/update-status', [OrderController::class, 'updateStatus']);
+        Route::post('/update-status/{id}/{status_id}', [OrderController::class, 'updateStatus']);
+        // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
 });
 

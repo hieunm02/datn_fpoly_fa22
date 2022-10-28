@@ -23,75 +23,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $wait_confirm = $this->orderService->getByStatusId(1);
-        $doing = $this->orderService->getByStatusId(2);
-        $delivering = $this->orderService->getByStatusId(3);
-        $successful = $this->orderService->getByStatusId(4);
-        $cancelled = $this->orderService->getByStatusId(5);
+        $orders = $this->orderService->getAllOrders();
+        // $cancelled = $this->orderService->getOrderByStatus(5);
         $title = "Quản lý đơn hàng";
 
-        return view('admin.orders.index', compact('wait_confirm', 'delivering', 'successful', 'cancelled', 'title'));
+        return view('admin.orders.index', compact('title', 'orders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function updateStatus($status_id, $id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $this->orderService->updateStatus($status_id, $id);
     }
 }

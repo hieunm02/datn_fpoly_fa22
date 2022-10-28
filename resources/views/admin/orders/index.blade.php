@@ -37,55 +37,67 @@
                     </div>
                 </div>
 
-                {{-- <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <img src="img_w3slogo.gif" draggable="true" ondragstart="drag(event)" id="drag1" width="88"
-                        height="31">
-                </div>
-
-                <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div> --}}
-                <div class="row m-b-30 " style="height: 200px">
-                    <div class="col border border-danger px-md-5" id="div1" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
-                        <div class="m-5">
-                            <h4>Chờ xác nhận</h4>
-                        </div>
-                        <div>
-                            <div class="row">
-                                <div class="col">ID</div>
-                                <div class="col">Code</div>
-                                <div class="col">Name</div>
-                                <div class="col">abc</div>
-                            </div>
-                        </div>
-                        <hr>
-                        @foreach ($wait_confirm as $wait_item)
-                            <div draggable="true" ondragstart="drag(event)" id="drag1">
-                                <div class="row">
-                                    <div class="col">{{ $wait_item->code }}</div>
-                                    <div class="col">{{ $wait_item->id }}</div>
-                                    <div class="col">{{ $wait_item->name }}</div>
-                                    <div class="col">{{ $wait_item->id }}</div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="col border border-danger" id="div4" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <h4>Đang xử lý</h4>
-                        <hr>
-                    </div>
-                    <div class="col border border-danger" id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <h4>Đang giao hàng</h4>
-                        <hr>
-                    </div>
-                    <div class="col border border-danger " id="div3" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
-                        <h4>Giao hàng thành công</h4>
-                        <hr>
-                    </div>
-                    <div class="col border border-danger" id="div4" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <h4>Đã hủy</h4>
-                        <hr>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-hover e-commerce-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="checkbox">
+                                        <input id="checkAll" type="checkbox">
+                                        <label for="checkAll" class="m-b-0"></label>
+                                    </div>
+                                </th>
+                                <th>ID</th>
+                                <th>Mã đơm hàng</th>
+                                <th>Tên người nhận</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th>Ngày đặt</th>
+                                <th>Người đặt</th>
+                                <th>Ghi chú</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $item)
+                                <tr id="id{{ $item->id }}">
+                                    <td>
+                                        <div class="checkbox">
+                                            <input id="check-item-{{ $item->id }}" type="checkbox">
+                                            <label for="check-item-{{ $item->id }}" class="m-b-0"></label>
+                                        </div>
+                                    </td>
+                                    <td>#{{ $item->id }}</td>
+                                    <td>{{ $item->code }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->address }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>
+                                        @foreach ($authors as $author)
+                                            @if ($author->id == $item->user_id)
+                                                {{ $author->name }}
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $item->note }}</td>
+                                    <td>
+                                        <select name="status" id="status" class="custom-select"
+                                            style="min-width: 180px;" onchange="changeStatusAjax({{ $item->status_id }})">
+                                            @foreach ($status as $stt)
+                                                <option class="status-{{ $item->id }}" value="{{ $stt->id }}"
+                                                    {{ $stt->id == $item->status_id ? ' selected' : '' }}>
+                                                    {{ $stt->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{-- <div class="text-right">
+                        {{ $products->links() }}
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -98,21 +110,5 @@
                 }
             });
         });
-    </script>
-
-    <script>
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-        }
     </script>
 @endsection
