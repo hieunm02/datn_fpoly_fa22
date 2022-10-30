@@ -24,7 +24,7 @@ class FloorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:floors,name,' . $this->id
+            'name' => 'required'
         ];
     }
 
@@ -32,7 +32,6 @@ class FloorRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên tầng không được để trống.',
-            'name.unique' => 'Tên tầng đã tồn tại.',
         ];
     }
 }

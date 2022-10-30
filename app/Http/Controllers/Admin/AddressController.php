@@ -93,16 +93,14 @@ class AddressController extends Controller
 
     public function uniqueFloor(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [
-                'required',
-                Rule::unique('floors')->ignore($request->id),
-            ],
-        ]);
+        $building_id  = $request->building_id;
+        $data = Floor::where('building_id', $building_id)
+            ->where('name', 'like', '%' . $request->name . '%')->first();
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
+        if ($data) {
+            return response()->json(['errors' => 'Tên tầng đã tồn tại']);
         }
+
         return response()->json(['success' => 'OK']);
     }
 

@@ -24,7 +24,7 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:rooms,name,' . $this->id
+            'name' => 'required'
         ];
     }
 
@@ -32,7 +32,6 @@ class RoomRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên phòng không được để trống.',
-            'name.unique' => 'Tên phòng đã tồn tại',
         ];
     }
 }

@@ -8,6 +8,8 @@ $(function () {
     $("#name_floor").keyup(function () {
         val = $("#name_floor").val();
         id = $(this).data("id");
+        building_id = $("input[name=building_id]").val();
+
         if (val) {
             //validate
             $.ajax({
@@ -17,6 +19,7 @@ $(function () {
                 data: {
                     name: val,
                     id: id,
+                    building_id: building_id,
                 },
                 success: function (res) {
                     if (res.errors) {
