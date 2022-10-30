@@ -39,12 +39,15 @@
         <div class="container">
             <div class="offer-slider">
                 @foreach ($slides ?? '' as $slide)
+                @if ($slide->product)
                     <div class="cat-item px-1 py-3">
                         <a class="d-block text-center shadow-sm" href="{{ route('product-detail', $slide->product->id) }}">
                             <img alt="#" src="{{ $slide->thumb }}" class="img-fluid rounded">
                         </a>
                     </div>
+                    @endif
                 @endforeach
+
             </div>
         </div>
     </div>
