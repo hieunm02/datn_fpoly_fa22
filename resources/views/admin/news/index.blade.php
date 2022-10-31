@@ -3,15 +3,7 @@
 @section('content')
     <div class="main-content">
         <div class="page-header">
-            <h2 class="header-title">Orders List</h2>
-            <div class="header-sub-title">
-                <nav class="breadcrumb breadcrumb-dash">
-                    <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                    <a class="breadcrumb-item" href="#">Apps</a>
-                    <a class="breadcrumb-item" href="#">E-commerce</a>
-                    <span class="breadcrumb-item active">Orders List</span>
-                </nav>
-            </div>
+            <h2 class="header-title">{{ $title }}</h2>
         </div>
         @if (session()->has('success'))
             <div class="text-white alert bg-success">
@@ -111,7 +103,6 @@
             </div>
         </div>
     </div>
-    </div>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -122,48 +113,3 @@
         });
     </script>
 @endsection
-<script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    });
-
-    //Delete ajax
-    $("#deleteNews").click(function() {
-        var id = $(this).data("id");
-        var token = $(this).data("token");
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            $.ajax({
-                url: "news/" + id,
-                type: 'POST',
-                dataType: "JSON",
-                data: {
-                    "id": id,
-                    "_method": 'DELETE',
-                    "_token": token,
-                },
-                success: function(data) {
-                    console.log(data.news);
-                    Swal.fire(
-                        'Successful!',
-                        'Student delete successfully!',
-                        'success'
-                    )
-                    $('#id' + data.news.id).remove();
-                }
-            });
-        }
-    });
-</script>

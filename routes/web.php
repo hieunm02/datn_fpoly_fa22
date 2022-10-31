@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -42,8 +43,6 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('/')->group(function () {
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
-    Route::put('/carts/update/{id}', [CartController::class, 'update']);
-    Route::delete('/carts/delete/{id}', [CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -147,6 +146,7 @@ Route::prefix('admin')->group(function () {
 
     // users
     Route::resource('users', UserController::class);
+
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
@@ -199,6 +199,13 @@ Route::prefix('admin')->group(function () {
         Route::delete('buildings/floors/delete/{id}', [AddressController::class, 'destroyFloor'])->name('floor.destroy');
         //Room
         Route::get('buildings/floors/{id}', [AddressController::class, 'getRoomsFloor'])->name('floor.rooms');
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
+        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
 });
 
