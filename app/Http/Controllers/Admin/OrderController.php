@@ -75,4 +75,39 @@ class OrderController extends Controller
             }
         }
     }
+
+    public function searchByStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::where('status_id', $request->status_id)->get();
+            if ($orders  != null) {
+                $result = '';
+                foreach ($orders as $order) {
+                    $result .= '<tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input id="check-order-' . $order->id . '" type="checkbox">
+                                            <label for="check-order-' . $order->id . '" class="m-b-0"></label>
+                                        </div>
+                                    </td>
+                                    <td>#' . $order->id . '</td>
+                                    <td>' . $order->code . '</td>
+                                    <td>' . $order->name . '</td>
+                                    <td>' . $order->phone . '</td>
+                                    <td>' . $order->address . '</td>
+                                    <td>' . $order->created_at . '</td> ' .
+                        \App\Helpers\Helper::auth($request->code)
+                        . '<td>' . $order->note . '</td>
+                                    <td>
+                                        <select name="status" id="status" class="custom-select"
+                                            style="min-width: 180px;" onchange="changeStatusAjax(' . $order->id . ')">
+                                            ' . \App\Helpers\Helper::status($request->code) . '
+                                        </select>
+                                    </td>
+                                </tr>';
+                }
+                return response()->json(['result' => $result], 200);
+            } 
+        }
+    }
 }

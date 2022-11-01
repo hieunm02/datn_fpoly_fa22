@@ -146,10 +146,26 @@ $('#search-by-code').on('keyup', function () {
             console.log(data);
             $('#tbodyOrder').html(data.result);
         },
-        error:function (error) {
+        error: function (error) {
             console.log(error);
             $('#tbodyOrder').html(error.result);
         },
     });
 })
+
+function selectOrderByStatus() {
+    status_id = document.getElementById("status_id").value;
+    $.ajax({
+        url: '/admin/orders/search/status',
+        type: "GET",
+        dataType: "JSON",
+        data: {
+            status_id: status_id
+        },
+        success: function (data) {
+            console.log(data.result);
+            $('#tbodyOrder').html(data.result);
+        },
+    });
+}
 
