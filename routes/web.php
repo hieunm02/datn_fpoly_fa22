@@ -41,6 +41,7 @@ Route::prefix('/')->group(function () {
     Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
     Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}',[CartController::class, 'update']);
+    Route::post('storeCart',[CartController::class, 'store'])->name('carts.store');
     Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');

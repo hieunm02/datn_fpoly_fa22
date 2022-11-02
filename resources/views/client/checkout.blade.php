@@ -8,13 +8,13 @@
         </div>
     </div>
     <!-- checkout -->
-    <div id="mess">
+    {{-- <div id="mess">
         @if (session()->has('success'))
             <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
                 {{ session()->get('success') }}
             </div>
         @endif
-    </div>
+    </div> --}}
     <div class="container position-relative">
         <div class="py-5 row">
 
@@ -136,12 +136,14 @@
                                     của bạn</h6>
                             </div>
                         </div>
-                        <div class="bg-white border-bottom py-2">
+                        <div class="bg-white py-2">
                             @if (count($carts) > 0)
                                 @foreach ($carts as $cart)
                                     <div hidden>
                                         {{ $total += $cart->price * $cart->quantity }}
                                     </div>
+                                    <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
+                                        
                                     <div id="cart_item{{ $cart->id }}"
                                         class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                         <div class="media align-items-center">
@@ -179,8 +181,9 @@
                                     <p class="text-danger m-0 ml-3">{{ $message }}</p>
                                 @enderror
                             @else
-                                <p class="text-center text-danger">Chưa có sản phẩm nào</p>
+                                <div class="text-center text-danger" >Chưa có sản phẩm nào</div>
                             @endif
+                            <div class="text-center text-danger" id="cartNull"></div>
                         </div>
                         <div class="bg-white p-3 py-3 border-bottom clearfix">
                             <div class="input-group-sm mb-2 input-group">

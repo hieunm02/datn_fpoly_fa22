@@ -32,11 +32,11 @@
                     </div>
                 </div>
             </div>
-            @if (session()->has('success'))
+            {{-- @if (session()->has('success'))
                 <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
                     {{ session()->get('success') }}
                 </div>
-            @endif
+            @endif --}}
             <div class="col-md-6">
                 <div class="osahan-cart-item rounded rounded shadow-sm overflow-hidden bg-white">
                     <div class="d-flex osahan-cart-item-profile bg-white p-3">
@@ -74,7 +74,8 @@
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
                     <div class="p-3">
-                        <form action="{{ url('carts') }}" method="POST">
+                        {{-- action="{{ url('carts') }}" method="POST" --}}
+                        <form>
                             @csrf
                             <input type="text" hidden name="product_id" value="{{ $product->id }}">
                             <input type="text" hidden name="user_id" value="{{ Auth::user() ? Auth::user()->id : '' }}">
@@ -83,7 +84,7 @@
                             <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="quantity"
                                 min="1" type="text" value="1">
                             <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                            <button class="btn btn-success">Đặt hàng<i class="feather-arrow-right"></i></button>
+                            <button type="button" class="btn btn-success" id="addtocart">Đặt hàng<i class="feather-arrow-right"></i></button>
                         </form>
                     </div>
 

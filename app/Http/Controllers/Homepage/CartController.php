@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Floor;
+use App\Models\Product;
 use App\Models\Room;
 use App\Services\Carts\CartService;
 use Illuminate\Http\Request;
@@ -72,7 +73,8 @@ class CartController extends Controller
     {
         if (Auth::user()) {
             $this->CartServices->create($request);
-            return redirect()->back();
+            $carts = $this->CartServices->getCartUser();
+            return response()->json(['carts' => $carts], 200);
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
             return redirect('/');
@@ -133,12 +135,14 @@ class CartController extends Controller
     public function destroy($cart)
     {
         $data = Cart::find($cart);
+        $prd = Product::find($cart);
         $data->delete();
         $carts = $this->CartServices->getCartUser();
         $mess = "Xóa sản phẩm thành công!";
         return response()->json([
             'mess' => $mess,
-            'carts' => $carts
+            'carts' => $carts,
+            'prd' => $prd
         ], 200);
     }
 }

@@ -43,6 +43,7 @@
     <!-- Custom scripts for all pages-->
     <script type="text/javascript" src="{{ asset('js/osahan.js') }}"></script>
     <script src="{{ asset('js\handleGeneral\checkout\select.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>
