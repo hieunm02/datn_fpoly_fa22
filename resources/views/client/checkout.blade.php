@@ -189,8 +189,8 @@
                             <div class="input-group-sm mb-2 input-group">
                                 <input placeholder="Nhập mã voucher" type="text" class="form-control">
                                 <div class="input-group-append">
-                                    {{-- <button type="button" class="btn btn-primary"><i
-                                            class="feather-percent"></i> Áp dụng</button></div> --}}
+                                    <button type="button" class="btn btn-primary"><i
+                                            class="feather-percent"></i> Áp dụng</button></div>
                                 </div>
                             </div>
                             <div class="bg-white p-3 clearfix border-bottom">
