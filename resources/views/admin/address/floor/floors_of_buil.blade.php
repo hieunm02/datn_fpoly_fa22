@@ -81,29 +81,24 @@
                                         {{ $floor->rooms->count() }}
                                     </td>
                                     <td>
-                                        <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($floor->active === 0)
-                                                    <div id="icon-active{{ $floor->id }}"
-                                                        class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $floor->id }}"
-                                                        value="{{ $floor->active }}">
-                                                    <div class="btn-status btn-active{{ $floor->id }}"
-                                                        data-id="{{ $floor->id }}">Hoạt động</div>
-                                                @else
-                                                    <div id="icon-active{{ $floor->id }}"
-                                                        class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $floor->id }}"
-                                                        value="{{ $floor->active }}">
-                                                    <div class="btn-status btn-active{{ $floor->id }}"
-                                                        data-id="{{ $floor->id }}">Ngừng hoạt động
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </form>
+                                        <div class="d-flex align-items-center" style="cursor: pointer">
+                                            @if ($floor->active === 0)
+                                                <div id="icon-active{{ $floor->id }}"
+                                                    class="badge badge-success badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $floor->id }}"
+                                                    value="{{ $floor->active }}">
+                                                <div class="btn-status btn-active{{ $floor->id }}"
+                                                    data-id="{{ $floor->id }}">Hoạt động</div>
+                                            @else
+                                                <div id="icon-active{{ $floor->id }}"
+                                                    class="badge badge-danger badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $floor->id }}"
+                                                    value="{{ $floor->active }}">
+                                                <div class="btn-status btn-active{{ $floor->id }}"
+                                                    data-id="{{ $floor->id }}">Ngừng hoạt động
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('floor.rooms', $floor->id) }}">
@@ -115,7 +110,7 @@
                                             </button>
                                         </a>
                                         <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
+                                            onsubmit="return confirm('Xác nhận xóa dữ liệu.')"
                                             action="{{ route('floor.destroy', $floor->id) }}">
                                             @csrf
                                             @method('DELETE')

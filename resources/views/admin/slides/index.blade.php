@@ -83,7 +83,11 @@
                                             <h6 class="m-b-0 m-l-10">{{ $slide->name }}</h6>
                                         </div>
                                     </td>
+                                    @if ($slide->product)
                                     <td>{{ $slide->product->name }}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
                                     <td>
                                         @if ($slide->sort_by === 1)
                                             {{ 'ASC' }}
@@ -92,29 +96,24 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="d-flex align-items-center" style="cursor: pointer">
-                                                @if ($slide->active === 1)
-                                                    <div id="icon-active{{ $slide->id }}"
-                                                        class="badge badge-success badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $slide->id }}"
-                                                        value="{{ $slide->active }}">
-                                                    <div class="btn-status btn-active{{ $slide->id }}"
-                                                        data-id="{{ $slide->id }}">Actived</div>
-                                                @else
-                                                    <div id="icon-active{{ $slide->id }}"
-                                                        class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <input type="hidden" id="is-active{{ $slide->id }}"
-                                                        value="{{ $slide->active }}">
-                                                    <div class="btn-status btn-active{{ $slide->id }}"
-                                                        data-id="{{ $slide->id }}">Deactive
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </form>
+                                        <div class="d-flex align-items-center" style="cursor: pointer">
+                                            @if ($slide->active === 1)
+                                                <div id="icon-active{{ $slide->id }}"
+                                                    class="badge badge-success badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $slide->id }}"
+                                                    value="{{ $slide->active }}">
+                                                <div class="btn-status btn-active{{ $slide->id }}"
+                                                    data-id="{{ $slide->id }}">Actived</div>
+                                            @else
+                                                <div id="icon-active{{ $slide->id }}"
+                                                    class="badge badge-danger badge-dot m-r-10"></div>
+                                                <input type="hidden" id="is-active{{ $slide->id }}"
+                                                    value="{{ $slide->active }}">
+                                                <div class="btn-status btn-active{{ $slide->id }}"
+                                                    data-id="{{ $slide->id }}">Deactive
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="text-right">
                                         <a href="{{ route('slides.edit', $slide->id) }}">
