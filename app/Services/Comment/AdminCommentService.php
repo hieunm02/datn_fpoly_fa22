@@ -40,9 +40,9 @@ class AdminCommentService
         try {
             $comment = Comment::find($id);
             $comment->delete();
-            Session::flash('success', 'Xóa bình luận thành công.');
+            notify()->success('Xóa bình luận thành công.');
         } catch (\Throwable $th) {
-            Session::flash('error', $th->getMessage());
+            notify()->error($th->getMessage());
             return false;
         }
 

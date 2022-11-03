@@ -51,8 +51,12 @@ class MenuController extends Controller
      */
     public function store(MenuRequest $request)
     {
+        $menu_parent = $this->menuService->getParent();
         $this->menuService->create($request);
-        return redirect()->back();
+        return redirect()->route('menus.index', [
+            'title' => 'Thêm mới menu',
+            'menus' => $menu_parent,
+        ]);
     }
 
     /**
@@ -106,8 +110,8 @@ class MenuController extends Controller
     public function destroy($id)
     {
         //    echo "xoa";
-        $this->menuService->destroyId($id);
         $menu = $this->menuService->getId($id);
+        $this->menuService->destroyId($id);
         return response()->json(['model' => $menu]);
     }
 }

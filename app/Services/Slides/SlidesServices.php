@@ -31,7 +31,7 @@ class SlidesServices
                 $slide->thumb = $image->storeAs('images/slides', $imageName);
             }
             $slide->save();
-            Session::flash('success', 'Tạo mới thành công');
+            notify()->success('Tạo mới thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -52,7 +52,7 @@ class SlidesServices
                 $slide->thumb = $image->storeAs('images/slides', $imageName);
             }
             $slide->save();
-            Session::flash('success', 'Sửa thành công');
+            notify()->success('Sửa thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -65,6 +65,6 @@ class SlidesServices
     {
         $slide = Slide::find($id);
         $slide->delete();
-        Session::flash('success', 'Xóa thành công.');
+        notify()->success('Xóa thành công.');
     }
 }

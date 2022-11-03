@@ -62,6 +62,16 @@
                                         @endif
                                     </div>
                                     <div class="form-group">
+                                        <label class="font-weight-semibold" for="staffphone">Phone number</label>
+                                        <input type="text" name="phone" class="form-control <?php echo $errors->first('phone') ? 'is-invalid' : ''; ?>"
+                                            id="staffphone" placeholder="Staff phone" value="{{ old('phone') }}">
+                                        @if ($errors->first('phone'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('phone') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
                                         <label class="font-weight-semibold" for="staffEmail">Email</label>
                                         <input type="text" name="email" class="form-control <?php echo $errors->first('title') ? 'is-invalid' : ''; ?>"
                                             id="staffEmail" placeholder="Staff email" value="{{ old('email') }}">

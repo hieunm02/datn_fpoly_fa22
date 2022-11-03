@@ -53,7 +53,7 @@ function deleteAjax(parameter, id) {
                 console.log(data.model);
                 Swal.fire(
                     "Successful!",
-                    "Student delete successfully!",
+                    "Xóa thành công!",
                     "success"
                 );
                 console.log(data.model.id);
@@ -168,4 +168,17 @@ function selectOrderByStatus() {
         },
     });
 }
+
+// Random code voucher
+function randomCode() {
+    length = 6;
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    $('#code-voucher').val(result);
+}
+
 

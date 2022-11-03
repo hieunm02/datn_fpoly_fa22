@@ -38,9 +38,9 @@ class FloorServices
                 }
             }
 
-            Session::flash('success', 'Thêm dữ liệu thành công.');
+            notify()->success('Thêm dữ liệu thành công.');
         } catch (\Throwable $th) {
-            Session::flash('error', $th->getMessage());
+            notify()->error($th->getMessage());
             Log::info($th->getMessage());
             return false;
         }

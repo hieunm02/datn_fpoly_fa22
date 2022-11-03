@@ -27,12 +27,14 @@ class StaffRequest extends FormRequest
             'name' => 'required|max:50|min:2',
             'email' => 'required|email',
             'image_path' => 'required',
+            'phone' => 'required',
         ];
     }
     public function messages()
     {
         return [
             'name.required' => 'Tên nhân viên không được để trống!',
+            'phone.required' => 'Số điệnh thoại nhân viên không được để trống!',
             'name.max' => 'Tên nhân viên không quá 50 kí tự!',
             'name.max' => 'Tên nhân viên không ít hơn 2 kí tự!',
             'email.required' => 'Email nhân viên không được để trống!',

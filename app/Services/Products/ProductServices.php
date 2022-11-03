@@ -75,7 +75,7 @@ class ProductServices
                 }
             }
         }
-        Session::flash('success', 'Tạo mới thành công');
+        notify()->success('Tạo mới thành công');
 
         return true;
     }
@@ -109,7 +109,7 @@ class ProductServices
                     }
                 }
             }
-            Session::flash('success', 'Cập nhật thành công');
+            notify()->success('Cập nhật thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -123,7 +123,7 @@ class ProductServices
         try {
             $product = Product::find($id);
             $product->delete();
-            Session::flash('success', 'Xóa sản phẩm thành công.');
+            notify()->success('Xóa sản phẩm thành công.');
         } catch (\Throwable $th) {
             Session::flash('error', $th->getMessage());
             return false;

@@ -34,7 +34,7 @@ class AdminOrderService
             $ordersModel = Order::find($id);
             $ordersModel->status_id = $status_id;
             $ordersModel->save();
-            Session::flash('success', 'Cập nhật thành công');
+            notify()->success('Cập nhật thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;

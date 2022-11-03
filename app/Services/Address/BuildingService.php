@@ -23,9 +23,9 @@ class BuildingService
                 'active' => 0,
             ]);
 
-            Session::flash('success', 'Thêm thành công.');
+            notify()->success('Thêm thành công.');
         } catch (\Throwable $th) {
-            Session::flash('error', $th->getMessage());
+            notify()->error($th->getMessage());
             Log::info($th->getMessage());
             return false;
         }
@@ -36,9 +36,9 @@ class BuildingService
         try {
             $building = Building::find($id);
             $building->update($request->all());
-            Session::flash('success', ' Cập nhật dữ liệu thành công.');
+            notify()->success(' Cập nhật dữ liệu thành công.');
         } catch (\Throwable $th) {
-            Session::flash('error', $th->getMessage());
+            notify()->error($th->getMessage());
             return false;
         }
     }
@@ -48,7 +48,7 @@ class BuildingService
         try {
             $building = Building::find($id);
             $building->delete();
-            Session::flash('success', ' Xóa dữ liệu thành công.');
+            notify()->success(' Xóa dữ liệu thành công.');
         } catch (\Throwable $th) {
             return false;
         }

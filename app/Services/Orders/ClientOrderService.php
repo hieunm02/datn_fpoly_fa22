@@ -13,15 +13,16 @@ use Illuminate\Support\Facades\Session;
 
 class ClientOrderService
 {
-    
+
     public function create($request)
     {
-        function rand_string( $length ) {
+        function rand_string($length)
+        {
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            $size = strlen( $chars );
+            $size = strlen($chars);
             $str = '';
-            for( $i = 0; $i < $length; $i++ ) {
-            $str .= $chars[ rand( 0, $size - 1 ) ];
+            for ($i = 0; $i < $length; $i++) {
+                $str .= $chars[rand(0, $size - 1)];
             }
             return $str;
         }
@@ -30,7 +31,7 @@ class ClientOrderService
             $floor = Floor::find($request->floor);
             $order = new Order();
             $order->fill($request->all());
-            $order->address = $building->name .' - '. $floor->name .' - '. $request->room; 
+            $order->address = $building->name . ' - ' . $floor->name . ' - ' . $request->room;
             $order->code = rand_string(12);
             $order->user_id = Auth::user()->id;
             $order->status_id = 1;
@@ -40,7 +41,7 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
-            foreach($count as $it) {
+            foreach ($count as $it) {
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
@@ -49,7 +50,7 @@ class ClientOrderService
                 $del = Cart::find($it);
                 $del->delete();
             }
-            Session::flash('success', 'Đăt hàng thành công');
+            notify()->success('Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());
