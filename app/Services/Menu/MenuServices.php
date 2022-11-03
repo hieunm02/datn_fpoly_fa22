@@ -35,7 +35,7 @@ class MenuServices
                 'active' => (string) $request->input('active'),
             ]);
 
-            Session::flash('success', 'Tạo danh mục thành công');
+            notify()->success('Tạo danh mục thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -61,7 +61,7 @@ class MenuServices
             //     'active' => (string) $request->input('active'),
             // ]);
 
-            Session::flash('success', 'Sửa danh mục thành công');
+            notify()->success('Sửa danh mục thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -80,6 +80,6 @@ class MenuServices
         // dd($id);
         $data = Menu::find($id);
         $data->delete();
-        Session::flash('success', 'Xóa danh mục thành công');
+        notify()->success('Xóa danh mục thành công');
     }
 }

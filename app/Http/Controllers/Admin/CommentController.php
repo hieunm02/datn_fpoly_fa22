@@ -94,8 +94,9 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        $commnent = Comment::find($id);
         $this->commentService->removeComment($id);
-        return back();
+        return response()->json(['model' => $commnent]);
     }
 
     public function changeActive(Request $request)

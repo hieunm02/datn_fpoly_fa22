@@ -9,4 +9,5 @@
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@notifyJs
 @yield('layouts.admin.footer')

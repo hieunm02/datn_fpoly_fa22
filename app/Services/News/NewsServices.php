@@ -28,7 +28,7 @@ class NewsServices
                 'active' => (int) $request->input('active'),
             ]);
 
-            Session::flash('success', 'Tạo thành công');
+            notify()->success('Tạo thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -49,7 +49,7 @@ class NewsServices
                 'image_path' => (string) $request->input('image_path'),
                 'active' => (int) $request->input('active'),
             ]);
-            Session::flash('success', 'Cập nhật thành công');
+            notify()->success('Cập nhật thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;

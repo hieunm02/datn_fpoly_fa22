@@ -12,11 +12,7 @@
                     <span class="breadcrumb-item active">Orders List</span>
                 </nav>
             </div> --}}
-        @if (session()->has('success'))
-        <p id="setout" class="text-white alert bg-success m-0">
-            {{ session()->get('success') }}
-        </p>
-        @endif
+            <x:notify-messages />
     </div>
     <div class="card">
         <div class="card-body">
