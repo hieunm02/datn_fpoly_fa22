@@ -13,11 +13,7 @@
             </nav>
         </div>
     </div>
-    @if (session()->has('success'))
-    <div class="text-white alert bg-success">
-        {{ session()->get('success') }}
-    </div>
-    @endif
+    <x:notify-messages />
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">

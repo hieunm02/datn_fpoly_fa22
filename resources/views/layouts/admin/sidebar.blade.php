@@ -1,7 +1,6 @@
 <div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
-
             {{-- Products --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -224,6 +223,44 @@
                 </ul>
             </li>
             {{-- end-prices --}}
+
+            {{-- Orders --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-container"></i>
+                    </span>
+                    <span class="title">Đơn hàng</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('orders.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-orders --}}
+
+            {{-- Bills --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-file-done"></i>
+                    </span>
+                    <span class="title">Hóa đơn</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('bills.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- end-bills --}}
         </ul>
     </div>
 </div>

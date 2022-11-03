@@ -22,7 +22,7 @@ class UserServices
                 'phone' => (string) $request->input('phone'),
             ]);
 
-            Session::flash('success', 'Cập nhập profile thành công');
+            notify()->success('Cập nhập profile thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;

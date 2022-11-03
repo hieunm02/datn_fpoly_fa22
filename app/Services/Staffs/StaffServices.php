@@ -26,20 +26,20 @@ class StaffServices
 
     public function create($request)
     {
-        // dd((string) $request->input('image_path'));
         try {
             $user = User::create([
                 'name' => (string) $request->input('name'),
                 'email' => (string) $request->input('email'),
+                'phone' => (string) $request->input('phone'),
                 'password' => (string) Hash::make(12345678),
                 'avatar' => (string) $request->input('image_path'),
                 'active' => 1,
                 'role' => 1
             ]);
             $user->assignRole('staff');
-            Session::flash('success', 'Tạo thành công');
+            notify()->success('Tạo thành công');
         } catch (\Exception $err) {
-            Session::flash('error', $err->getMessage());
+            notify()->error($err->getMessage());
             Log::info($err->getMessage());
             return false;
         }
@@ -57,9 +57,9 @@ class StaffServices
                 'role' => 1,
                 'avatar' => (string) $request->input('image_path'),
             ]);
-            Session::flash('success', 'Cập nhật thành công');
+            notify()->success('Cập nhật thành công');
         } catch (\Exception $err) {
-            Session::flash('error', $err->getMessage());
+            notify()->error($err->getMessage());
             return false;
         }
     }

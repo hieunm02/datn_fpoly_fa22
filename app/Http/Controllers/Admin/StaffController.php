@@ -52,12 +52,12 @@ class StaffController extends Controller
         // Permission::create(['name' => 'View product']);
         // Permission::create(['name' => 'Edit product']);
         // Permission::create(['name' => 'Delete product']);
-        
+
         // Permission::create(['name' => 'Create menu']);
         // Permission::create(['name' => 'View menu']);
         // Permission::create(['name' => 'Edit menu']);
         // Permission::create(['name' => 'Delete menu']);
-        
+
         // Permission::create(['name' => 'Create staff']);
         // Permission::create(['name' => 'View staff']);
         // Permission::create(['name' => 'Edit staff']);
@@ -67,7 +67,7 @@ class StaffController extends Controller
         // Permission::create(['name' => 'View comment']);
         // Permission::create(['name' => 'Edit comment']);
         // Permission::create(['name' => 'Delete comment']);
-        
+
         // Permission::create(['name' => 'View statistic']);
 
         // $role = Role::findById(2);

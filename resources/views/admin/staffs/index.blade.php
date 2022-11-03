@@ -6,21 +6,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="page-header">
-                    <h2 class="header-title">Orders List</h2>
-                    <div class="header-sub-title">
-                        <nav class="breadcrumb breadcrumb-dash">
-                            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                            <a class="breadcrumb-item" href="#">Apps</a>
-                            <a class="breadcrumb-item" href="#">E-commerce</a>
-                            <span class="breadcrumb-item active">Orders List</span>
-                        </nav>
-                    </div>
+                    <h2 class="header-title">Quản lý nhân viên</h2>
                 </div>
-                @if (session()->has('success'))
-                    <div class="text-white alert bg-success">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
+                <x:notify-messages />
                 <div class="card">
                     <div class="card-body">
                         <div class="row m-b-30">
@@ -64,11 +52,11 @@
                                             </div>
                                         </th>
                                         <th>ID</th>
-                                        <th>Name</th>
+                                        <th>Tên nhân viên</th>
                                         <th>Email</th>
-                                        <th>Avatar</th>
-                                        <th>Active</th>
-                                        <th></th>
+                                        <th>Ảnh đại diện</th>
+                                        <th>Trạng thái</th>
+                                        <th colspan="2">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -98,21 +86,9 @@
                                             <td>
                                                 <img src="{{ asset($item->avatar) }}" alt="" width="100">
                                             </td>
-                                            @if ($item->active === 0)
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="badge badge-danger badge-dot m-r-10"></div>
-                                                        <div>Private</div>
-                                                    </div>
-                                                </td>
-                                            @else
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="badge badge-success badge-dot m-r-10"></div>
-                                                        <div>Public</div>
-                                                    </div>
-                                                </td>
-                                            @endif
+                                            <td>{!! \App\Helpers\Helper::active($item->active) !!}</td>
+
+                                            <td>
                                             @role('manager')
                                             <td class="text-right">
                                                 <a href="{{ route('staffs.edit', $item->id) }}">
@@ -120,8 +96,6 @@
                                                         <i class="anticon anticon-edit"></i>
                                                     </button>
                                                 </a>
-                                            </td>
-                                            <td>
                                                 <button class="btn btn-icon btn-hover btn-sm btn-rounded"
                                                     onclick="deleteAjax('staffs',<?php echo $item->id; ?>)">
                                                     <i class="anticon anticon-delete"></i>
@@ -136,17 +110,19 @@
                     </div>
                 </div>
             </div>
-            <script>
-                setTimeout(() => {
-                    document.getElementById('setout').classList.add('d-none');
-                }, 5000);
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+            document.getElementById('setout').classList.add('d-none');
+        }, 5000);
 
-                $(document).ready(function() {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                });
-            </script>
-        @endsection
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+    </script>
+@endsection

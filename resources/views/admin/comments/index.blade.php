@@ -56,7 +56,7 @@
                         </thead>
                         <tbody>
                             @foreach ($comments as $index => $comment)
-                                <tr>
+                                <tr id="id{{$comment->id}}">
                                     <td>
                                         <div class="checkbox">
                                             <input id="check-item-{{ $index + 1 }}" class="check-item"
@@ -93,15 +93,9 @@
                                         </div>
                                     </td>
                                     <td class="text-right">
-                                        <form method="POST" class="inline-block"
-                                            onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                                            action="{{ route('comments.destroy', $comment->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded"  onclick="deleteAjax('comments',<?php echo $comment->id; ?>)">
                                                 <i class="anticon anticon-delete"></i>
                                             </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

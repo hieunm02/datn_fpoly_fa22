@@ -14,7 +14,7 @@ class PriceController extends Controller
 
     public function __construct(PriceServices $priceService)
     {
-        $this ->priceService = $priceService;
+        $this->priceService = $priceService;
     }
 
     /**
@@ -69,9 +69,9 @@ class PriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $prices = Price::find($id);
-        return view('admin.prices.edit',compact('prices'));
+        return view('admin.prices.edit', compact('prices'));
     }
 
     /**
@@ -84,7 +84,7 @@ class PriceController extends Controller
     public function update(PriceRequest $request, $id)
     {
         $prices = Price::find($id);
-        $this->priceService->update($request,$id);
+        $this->priceService->update($request, $id);
         return redirect()->route('prices.index');
     }
 
@@ -96,7 +96,8 @@ class PriceController extends Controller
      */
     public function destroy($id)
     {
+        $price = Price::find($id);
         $this->priceService->destroyId($id);
-        return redirect()->route('prices.index');
+        return response()->json(['model' => $price]);
     }
 }

@@ -29,7 +29,7 @@ class VoucherServices
                 'end_time' => $request->input('end_time'),
             ]);
 
-            Session::flash('success', 'Tạo thành công');
+            notify()->success('Tạo thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -52,7 +52,7 @@ class VoucherServices
             $data->start_time = $request->input('start_time');
             $data->end_time = $request->input('end_time');
             $data->save();
-            Session::flash('success', 'Sửa thành công');
+            notify()->success('Sửa thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -70,6 +70,6 @@ class VoucherServices
     {
         $data = Voucher::find($id);
         $data->delete();
-        Session::flash('success', 'Xóa thành công');
+        notify()->success('Xóa thành công');
     }
 }

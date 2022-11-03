@@ -25,7 +25,7 @@ class PriceServices
                 'original' => (float) $request->input('original'),
                 'sale' => (float) $request->input('sale'),
             ]);
-            Session::flash('success', 'Tạo mới thành công');
+            notify()->success('Tạo mới thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -34,7 +34,8 @@ class PriceServices
     }
 
 
-    public function update($request, $id){
+    public function update($request, $id)
+    {
         try {
             $data = Price::find($id);
             $data->update([
@@ -42,7 +43,7 @@ class PriceServices
                 'sale' => (float) $request->input('sale'),
             ]);
 
-            Session::flash('success', 'Sửa giá thành công');
+            notify()->success('Sửa giá thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
@@ -51,10 +52,10 @@ class PriceServices
         return true;
     }
 
-    public function destroyId($id) {
-       $data = Price::find($id);
-       $data->delete();
-       Session::flash('success', 'Xóa giá thành công');
+    public function destroyId($id)
+    {
+        $data = Price::find($id);
+        $data->delete();
+        notify()->success('Xóa giá thành công');
     }
-
 }

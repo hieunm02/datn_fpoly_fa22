@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\BillController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
+use App\Models\Bill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -38,10 +41,8 @@ use Illuminate\Support\Facades\Session;
 // Client
 
 Route::prefix('/')->group(function () {
-    Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
-    Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
-    Route::put('/carts/update/{id}',[CartController::class, 'update']);
-    Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -145,6 +146,7 @@ Route::prefix('admin')->group(function () {
 
     // users
     Route::resource('users', UserController::class);
+
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
 
@@ -174,6 +176,9 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [CommentController::class, 'changeActive']);
     });
 
+    //Bill
+    Route::resource('bills', BillController::class);
+
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
         //Building
@@ -198,6 +203,14 @@ Route::prefix('admin')->group(function () {
         Route::get('buildings/floors/rooms/update/{id}', [AddressController::class, 'editRoom'])->name('room.edit');
         Route::put('buildings/floors/rooms/update/{id}', [AddressController::class, 'updateRoom'])->name('room.update');
         Route::delete('buildings/floors/rooms/delete/{id}', [AddressController::class, 'destroy'])->name('room.delete');
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
+        Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
+        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
 });
 

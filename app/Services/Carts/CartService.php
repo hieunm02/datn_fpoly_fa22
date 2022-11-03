@@ -44,15 +44,15 @@ class CartService
                     $number = $data->quantity + $request->quantity;
                     // \dd($cartId);
                     $id = $cartId->pluck('id'); // Lấy ra mảng id
-                    Session::flash('success', "Thêm vào giỏ hàng thành công!");
+                    notify()->success('Thêm vào giỏ hàng thành công!');
                     return Cart::whereIn('id', $id)->update(['quantity' => $number]); // update các post có id trong mảng
 
                 }
             }
             Cart::create($request->all());
-            Session::flash('success', "Thêm vào giỏ hàng thành công!");
+            notify()->success('Thêm vào giỏ hàng thành công!');
         } catch (\Exception $err) {
-            Session::flash('error', "Vui lòng thử lại");
+            notify()->error("Vui lòng thử lại");
             Log::info($err->getMessage());
             return false;
         }
@@ -65,7 +65,7 @@ class CartService
             $data->quantity = $request->quantity;
             $data->save();
         } catch (\Exception $err) {
-            Session::flash('error', "Vui lòng thử lại");
+            notify()->error("Vui lòng thử lại");
             Log::info($err->getMessage());
             return false;
         }

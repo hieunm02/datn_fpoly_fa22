@@ -14,8 +14,8 @@ class AddColumnNoteVourcheToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('voucher');
-            $table->string('note');
+            $table->string('voucher')->nullable();
+            $table->string('note')->nullable();
         });
     }
 
