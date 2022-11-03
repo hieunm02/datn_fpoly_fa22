@@ -43,14 +43,10 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
-<<<<<<< HEAD
             foreach($count as $it) {
                 $del = Cart::find($it);
                 $prd = Product::find($del->product_id);
                 // dd($prd);
-=======
-            foreach ($count as $it) {
->>>>>>> trunghieu
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
