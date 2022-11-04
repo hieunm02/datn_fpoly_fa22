@@ -11,6 +11,7 @@ class UserContactService
 {
     public function create($request)
     {
+        // dd($request->all());
         try {
             Contact::create($request->all());
             notify()->success("Đã liên hệ với quản trị viên, vui lòng chờ phản hồi");

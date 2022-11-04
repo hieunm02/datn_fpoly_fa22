@@ -17,7 +17,6 @@
     </div> --}}
     <div class="container position-relative">
         <div class="py-5 row">
-
             <form action="{{ url('/orders') }}" class="row" method="post">
                 @csrf
                 @method('POST')

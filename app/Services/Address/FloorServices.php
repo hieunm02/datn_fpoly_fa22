@@ -45,7 +45,6 @@ class FloorServices
             return false;
         }
     }
-<<<<<<< HEAD
 
     public function update($request, $id)
     {
@@ -67,6 +66,3 @@ class FloorServices
         Session::flash('success', 'Xóa dữ liệu thành công');
     }
 }
-=======
-}
->>>>>>> trunghieu
