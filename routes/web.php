@@ -141,6 +141,9 @@ Route::prefix('admin')->group(function () {
 
     //dashboard 
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
+    Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
+
 
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
