@@ -15,43 +15,8 @@ class VoucherController extends Controller
 
     public function index()
     {
-        $vouchers = Voucher::with('user')->get();
-        dd($vouchers);
-        $userVoucher = [];
-        $adminVoucher = [];
-        $flag = true;
-        foreach ($vouchers as $voucher) {
-            if($voucher->user()){
-                $adminVoucher[] = $voucher;
-            }else{
-                $userVoucher[] = $voucher;
-            }
-            // foreach ($voucher->user as $a) {
-            //     dd($vouchers->count());
-            //     for ($i = 0; $i < $vouchers->count(); $i++) {
-            //         if ($a->pivot->voucher_id == $vouchers[$i]->id) {
-            //             $userVoucher[] = $vouchers[$i];
-            //             break;
-            //         } elseif ($i == $vouchers->count() - 1) {
-            //             $adminVoucher = $vouchers[$i];
-            //         }
-            //     }
-            // }
-            // if ($voucher->user()) {
-            //     $userVoucher[] = $voucher;
-            //     $flag = false;
-            // }
-        }
-        // if ($flag == false) {
-        //     foreach ($vouchers as $voucher) {
-        //         if ($voucher->user->isEmpty()) {
-        //             $adminVoucher[] = $voucher;
-        //             break;
-        //         }
-        //     }
-        // }
-        dd($userVoucher);
-        // return view('/offers', compact());
+        $vouchers = Voucher::all();
+        return view('client.offers', compact('vouchers'));
     }
     public function exchangeVoucher(Request $request)
     {
@@ -98,14 +63,15 @@ class VoucherController extends Controller
             'menu_id' => null,
             'quantity' => 1,
             'start_time' => Carbon::now(),
-            'end_time' => Carbon::now()->subHours(1),
+            'end_time' => Carbon::now()->addHour(1),
         ])->id;
 
-
+        // $vou = Voucher::find($lastInsertId);
         $user = User::find(Auth::user()->id);
-        $user->point = $user->point - $request->point_exchange;
-        $user->voucher()->attach($lastInsertId);
+        $user->point = ($user->point) - ($request->point_exchange);
+        $user->vouchers()->attach($lastInsertId);
+        // $vou->users()->attach(Auth::id());
         $user->save();
-        return response()->json([]);
+        return response()->json([], 200);
     }
 }

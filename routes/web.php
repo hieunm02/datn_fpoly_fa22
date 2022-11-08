@@ -134,7 +134,7 @@ Route::prefix('/')->group(function () {
         return view('client.verification');
     });
 
-    Route::put('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+    Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
 });
 
 // Admin
@@ -142,7 +142,7 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->group(function () {
 
     //dashboard 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {

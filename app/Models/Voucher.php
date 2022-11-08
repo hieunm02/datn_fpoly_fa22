@@ -19,8 +19,8 @@ class Voucher extends Model
         return $this->belongsTo(Menu::class);
     }
 
-    public function user(): BelongsToMany
+    public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_voucher', 'user_id', 'voucher_id');
+        return $this->belongsToMany(User::class, 'user_voucher', 'voucher_id', 'user_id');
     }
 }

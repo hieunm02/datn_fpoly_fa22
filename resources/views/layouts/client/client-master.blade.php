@@ -58,7 +58,7 @@
             console.log(point_exchange);
             $.ajax({
                 url: "/vouchers/exchange",
-                type: "PUT",
+                type: "POST",
                 data: {
                     point_exchange: point_exchange
                 },

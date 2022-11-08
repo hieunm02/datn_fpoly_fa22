@@ -57,8 +57,8 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function voucher(): BelongsToMany
+    public function vouchers(): BelongsToMany
     {
-        return $this->belongsToMany(Voucher::class, 'user_voucher', 'voucher_id', 'user_id');
+        return $this->belongsToMany(Voucher::class, 'user_voucher', 'user_id', 'voucher_id');
     }
 }
