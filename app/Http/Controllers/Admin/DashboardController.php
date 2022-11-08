@@ -58,22 +58,34 @@ class DashboardController extends Controller
 
         // }else
         if ($request->value == '7ngay') {
-            $get = OrderProduct::whereBetween('created_at', [$sub7day, $now])->orderBy('created_at', 'ASC')->get();
+            $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->whereBetween('date_order', [$sub7day, $now])
+            ->groupBy('date_order')->orderBy('date_order', 'ASC')
+            ->get();
             $start = $sub7day;
             $end = $now;
             $titleDashboard = "Thống kê trong 7 ngày qua";
         } elseif ($request->value == 'thangtruoc') {
-            $get = OrderProduct::whereBetween('created_at', [$dau_thangtruoc, $cuoi_thangtruoc])->orderBy('created_at', 'ASC')->get();
+            $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->whereBetween('date_order', [$dau_thangtruoc, $cuoi_thangtruoc])
+            ->groupBy('date_order')->orderBy('date_order', 'ASC')
+            ->get();
             $start = $dau_thangtruoc;
             $end = $cuoi_thangtruoc;
             $titleDashboard = "Thống kê trong tháng trước";
         } elseif ($request->value == 'thangnay') {
-            $get = OrderProduct::whereBetween('created_at', [$dauthangnay, $now])->orderBy('created_at', 'ASC')->get();
+            $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->whereBetween('date_order', [$dauthangnay, $now])
+            ->groupBy('date_order')->orderBy('date_order', 'ASC')
+            ->get();
             $start = $dauthangnay;
             $end = $now;
             $titleDashboard = "Thống kê trong tháng này";
         } elseif ($request->value == '365ngay') {
-            $get = OrderProduct::whereBetween('created_at', [$sub365day, $now])->orderBy('created_at', 'ASC')->get();
+            $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->whereBetween('date_order', [$sub365day, $now])
+            ->groupBy('date_order')->orderBy('date_order', 'ASC')
+            ->get();
             $start = $sub365day;
             $end = $now;
             $titleDashboard = "Thống kê trong 1 năm qua";
@@ -95,10 +107,10 @@ class DashboardController extends Controller
         }
         foreach ($get as $value) {
             $chart_data[] = array(
-                'quantity' => $value->quantity,
-                'price' => $value->price,
-                'date' => $value->created_at->toDateString(),
-                'total' => $value->total,
+                'quantity' => $value->total_quantity,
+                // 'price' => $value->price,
+                'date' => $value->date_order,
+                'total' => $value->total_price,
             );
         }
         return response()->json([
@@ -114,13 +126,14 @@ class DashboardController extends Controller
     {
         if ($request->value == 'today') {
             $now = Carbon::now();
-            $get = OrderProduct::select('nameProduct', 'price', 'quantity', 'total')
+            $get = OrderProduct::select('nameProduct as name', 'quantity as total_quantity', 'total as total_price')
             ->whereMonth('created_at', '=', $now->month)
             ->whereDay('created_at', '=', $now->day)
             ->whereYear('created_at', '=', $now->year)
             ->orderBy('created_at', 'ASC')->get();
         }else {
-            $get = OrderProduct::select('nameProduct', 'price', 'quantity', 'total')->whereBetween('created_at', [$request->from, $request->value])->orderBy('created_at', 'ASC')->get();
+            $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'nameProduct as name'])
+            ->whereBetween('date_order', [$request->from, $request->value])->groupBy('nameProduct')->orderBy('total_quantity', 'ASC')->get();
         }
         return response()->json(['data' => $get], 200);
     }

@@ -126,11 +126,11 @@
                     },
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data.data);
+                        $('#dashboardDay').html('');
                         data.data.forEach(el => {
-                            $('#dashboardDay').append('<tr><td>' + el.nameProduct +
+                            $('#dashboardDay').append('<tr><td>' + el.name +
                                 '</td><td>' + el
-                                .quantity + '</td><td>' + el.total + '</td></tr>');
+                                .total_quantity + '</td><td>' + el.total_price + '</td></tr>');
                         });
 
                     },
@@ -154,8 +154,8 @@
                 dataType: "JSON",
                 success: function(data) {
                     data.data.forEach(el => {
-                        $('#dashboardDay').append('<tr><td>' + el.nameProduct + '</td><td>' + el
-                            .quantity + '</td><td>' + el.total + '</td></tr>');
+                        $('#dashboardDay').append('<tr><td>' + el.name + '</td><td>' + el
+                            .total_quantity + '</td><td>' + el.total_price + '</td></tr>');
                     });
 
                 },

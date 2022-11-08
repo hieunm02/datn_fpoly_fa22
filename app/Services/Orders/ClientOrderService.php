@@ -43,7 +43,7 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
-            foreach($count as $it) {
+            foreach ($count as $it) {
                 $del = Cart::find($it);
                 $prd = Product::find($del->product_id);
                 // dd($prd);
@@ -55,6 +55,7 @@ class ClientOrderService
                 $data->quantity = $del->quantity;
                 $data->price = $prd->price;
                 $data->total = $del->quantity * $prd->price;
+                $data->date_order = date(now()->toDateString());
                 $data->save();
                 $del->delete();
             }
