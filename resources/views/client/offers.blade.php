@@ -378,16 +378,23 @@
         <div class="tab-pane fade show active py-4" style="background-color: #f5f5f5;" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h5 class="mb-3 mt-0">Available Coupons</h5>
             <div class="row">
+                @foreach($vouchers as $voucher)
+                <?php $diff = abs(strtotime($voucher->end_time) - strtotime($voucher->start_time));
+                $years = floor($diff / (365 * 60 * 60 * 24));
+                $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                $hours = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24 - $days * 60 * 60 * 24) / (60 * 60)); ?>
                 <div class="col-md-4 mb-3">
                     <div class="bg-white shadow-sm rounded p-4">
-                        <p class="h6 mb-3"><span class="feather-home text-primary"></span><span class="ml-3">SBI75</span></p>
-                        <p class="font-weight-bold mb-2">Get 15% discount using SBI Credit Cards</p>
-                        <p class="mb-4">Use code SBI75 and get 15% discount up to Rs.75 on orders above Rs.400</p>
-                        <p><a href="#" class="text-primary">+ MORE</a></p>
-                        <a href="#" class="btn btn-outline-primary">COPY CODE</a>
+                        <p class="h6 mb-3"><span class="feather-tag text-primary"></span><span id="p{{$voucher->id}}" class="ml-3">{{$voucher->code}}</span></p>
+                        <p class="font-weight-bold mb-2">{!!$voucher->description!!}</p>
+                        <p class="mb-4">Hạn sử dụng còn : <?php echo $days ?> ngày <?php echo $hours ?> giờ</p>
+                        <!-- <p><a href="#" class="text-primary">+ MORE</a></p> -->
+                        <a href="javascrip:void(0)" class="btn btn-outline-primary" onclick="copyToClipboard('#p{{$voucher->id}}')">COPY CODE</a>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                @endforeach
+                <!-- <div class="col-md-4 mb-3">
                     <div class="bg-white shadow-sm rounded p-4">
                         <p class="h6 mb-3"><span class="feather-home text-primary"></span><span class="ml-3">PAYZAPP100</span></p>
                         <p class="font-weight-bold mb-2">Get 15% discount using HDFC PayZapp Card</p>
@@ -404,9 +411,9 @@
                         <p><a href="#" class="text-primary">+ MORE</a></p>
                         <a href="#" class="btn btn-outline-primary">COPY CODE</a>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-4 mb-3">
                     <div class="bg-white shadow-sm rounded p-4">
                         <p class="h6 mb-3"><span class="feather-home text-primary"></span><span class="ml-3">RUPAYFEST</span></p>
@@ -425,7 +432,7 @@
                         <a href="#" class="btn btn-outline-primary">COPY CODE</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <h5 class="mb-3 mt-2">Bank Offers</h5>
             <div class="row">
                 <div class="col-md-4 mb-3">
@@ -452,4 +459,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+</script>
 @endsection

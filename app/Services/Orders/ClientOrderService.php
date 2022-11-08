@@ -8,6 +8,7 @@ use App\Models\Floor;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -43,7 +44,7 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
-            foreach($count as $it) {
+            foreach ($count as $it) {
                 $del = Cart::find($it);
                 $prd = Product::find($del->product_id);
                 // dd($prd);
@@ -55,6 +56,7 @@ class ClientOrderService
                 $data->quantity = $del->quantity;
                 $data->price = $prd->price;
                 $data->total = $del->quantity * $prd->price;
+                if($del->quantity * $prd->price);
                 $data->save();
                 $del->delete();
             }
