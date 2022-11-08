@@ -140,7 +140,7 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->group(function () {
 
     //dashboard 
-    Route::get('/dashboard',[DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
 
