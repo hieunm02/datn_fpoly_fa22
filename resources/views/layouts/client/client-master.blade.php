@@ -55,7 +55,6 @@
         });
         $('#btn-exchange-point').on('click', function() {
             var point_exchange = $('#point_exchange').val();
-            console.log(point_exchange);
             $.ajax({
                 url: "/vouchers/exchange",
                 type: "POST",
@@ -70,6 +69,9 @@
                         'Đổi thành công!',
                         'success'
                     )
+                    $('.point-user').text(data.user.point);
+                    $('.modal-backdrop').removeClass('modal-backdrop fade show');
+                    $('.modal').css("display","none");
                 },
                 error: function(errors) {
                     if (errors.responseJSON.errors.required) {

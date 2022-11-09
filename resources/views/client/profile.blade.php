@@ -34,7 +34,7 @@
                     </a>
                     <div class="osahan-credits d-flex align-items-center p-3 bg-light">
                         <p class="m-0">Điểm tích lũy: </p>
-                        <h5 class="m-0 ml-auto text-primary">{{Auth::user()->point}}</h5>
+                        <h5 class="m-0 ml-auto text-primary point-user">{{Auth::user()->point}}</h5>
                     </div>
                     <!-- profile-details -->
                     <div class="bg-white profile-details">
@@ -58,8 +58,8 @@
                         </a>
                         <a class="d-flex align-items-center text-muted border-bottom p-3" href="/offers" >
                             <div class="left mr-3">
-                                <h6 class="font-weight-bold mb-1">Giới thiệu bạn bè</h6>
-                                <p class="small text-primary m-0">Get $10.00 FREE</p>
+                                <h6 class="font-weight-bold mb-1">Kho voucher</h6>
+                                <p class="small text-primary m-0">Quản lý voucher của bạn</p>
                             </div>
                             <div class="right ml-auto">
                                 <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
