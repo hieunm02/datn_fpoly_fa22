@@ -68,8 +68,13 @@
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
                     <div class="p-3">
-                        <h3 class="text-primary font-weight-bold pt-3">{{ $product->price }}
-                            - {{ $product->price }}</h3>
+                        <h4 class="text-primary font-weight-bold pt-1">
+                            @if ($product->price_sales == 0 || $product->price_sales == null)
+                                {{ $product->price }} VND
+                            @else
+                                <del>{{ $product->price }}VND</del> - {{ $product->price_sales }} VND
+                            @endif
+                        </h4>
                         <h5 class="text-dark font-weight-light">Loại: {{ $product->menu->name }}</h5>
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
@@ -84,7 +89,8 @@
                             <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="quantity"
                                 min="1" type="text" value="1">
                             <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                            <button type="button" class="btn btn-success" id="addtocart">Đặt hàng<i class="feather-arrow-right"></i></button>
+                            <button type="button" class="btn btn-success" id="addtocart">Đặt hàng<i
+                                    class="feather-arrow-right"></i></button>
                         </form>
                     </div>
 
@@ -114,8 +120,8 @@
                                     <div class="col-md-12 d-flex">
                                         <div class="avatar setCt mr-2">
                                             <img src="{{ $cmt->user->avatar }}"
-                                                style="width: 60px; height: 60px; object-fit: cover;"
-                                                class="rounded-circle" alt="">
+                                                style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
+                                                alt="">
                                         </div>
                                         <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                             <h6 class="mb-0">{{ $cmt->user->name }}</h6>
@@ -163,15 +169,15 @@
                                 @if (!Auth::user())
                                     <p>Vui lòng đăng nhập để bình luận!</p>
                                 @else
-                                <div class="form-comment">
-                                    <img src="{{ Auth::user()->avatar }}"
-                                        style="" class="mr-2" alt="" srcset="">
-                                    <textarea type="text" name="content" class="form-control mr-2" placeholder="Viết bình luận"></textarea>
-                                    <button type="button" class="btn btn-primary submit_comment">Bình luận</button>
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="user_id"
-                                        value="{{ !empty(Auth::id()) ? Auth::id() : '' }}">
-                                </div>
+                                    <div class="form-comment">
+                                        <img src="{{ Auth::user()->avatar }}" style="" class="mr-2"
+                                            alt="" srcset="">
+                                        <textarea type="text" name="content" class="form-control mr-2" placeholder="Viết bình luận"></textarea>
+                                        <button type="button" class="btn btn-primary submit_comment">Bình luận</button>
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="user_id"
+                                            value="{{ !empty(Auth::id()) ? Auth::id() : '' }}">
+                                    </div>
                                 @endif
                             </form>
                         </div>

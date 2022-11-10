@@ -139,7 +139,7 @@
                             @if (count($carts) > 0)
                                 @foreach ($carts as $cart)
                                     <div hidden>
-                                        {{ $total += $cart->price * $cart->quantity }}
+                                        {{ ($cart->price_sales) ? $total += $cart->price_sales * $cart->quantity : $total += $cart->price * $cart->quantity }}
                                     </div>
                                     <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
                                         
@@ -169,7 +169,7 @@
                                             </span>
                                             <p id="show_total_product{{ $cart->id }}"
                                                 class="text-gray mb-0 float-right ml-2 text-muted small">
-                                                {{ number_format($cart->quantity * $cart->price) }} <sup>đ</sup></p>
+                                                {{ number_format(($cart->price_sales) ? $cart->price_sales * $cart->quantity : $cart->price * $cart->quantity ) }} <sup>đ</sup></p>
                                             <button type="button" class="border-0 text-danger bg-white deletePrd"
                                                 style="outline: none;" data-id={{ $cart->id }}><i
                                                     class="feather-x-circle"></i></button>

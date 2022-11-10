@@ -130,7 +130,7 @@ class DashboardController extends Controller
             ->whereMonth('created_at', '=', $now->month)
             ->whereDay('created_at', '=', $now->day)
             ->whereYear('created_at', '=', $now->year)
-            ->orderBy('created_at', 'ASC')->get();
+            ->orderBy('total_quantity', 'DESC')->get();
         }else {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'nameProduct as name'])
             ->whereBetween('date_order', [$request->from, $request->value])->groupBy('nameProduct')->orderBy('total_quantity', 'ASC')->get();

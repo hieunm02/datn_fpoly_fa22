@@ -22,7 +22,6 @@ class Order extends Model
         'shipper_id',
         'voucher',
         'note',
-        'active',
     ];
 
     public function status()

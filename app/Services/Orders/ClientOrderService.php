@@ -39,7 +39,6 @@ class ClientOrderService
             $order->shipper_id = 1;
             $order->voucher = 'voucher';
             $order->note = $request->note;
-            $order->active = 0;
             // dd($order);
             $order->save();
             $count = $request->product_id;
@@ -53,8 +52,13 @@ class ClientOrderService
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
-                $data->price = $prd->price;
-                $data->total = $del->quantity * $prd->price;
+                if ($prd->price_sales == 0 || $prd->price_sales == null) {
+                    $data->price = $prd->price;
+                    $data->total = $del->quantity * $prd->price;
+                } else {
+                    $data->price = $prd->price_sales;
+                    $data->total = $del->quantity * $prd->price_sales;
+                }
                 $data->date_order = date(now()->toDateString());
                 $data->save();
                 $del->delete();
