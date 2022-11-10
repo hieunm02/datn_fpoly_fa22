@@ -322,15 +322,11 @@
                             <div class="form-row">
                                 <div class="form-group col-12">
                                     <label>Điểm</label>
-                                    <input class="form-control" placeholder="Gía trị nhập là bội số của 100" name="point_exchange" id="point_exchange" type="number">
+                                    <input class="form-control" placeholder="Mời nhập số điểm quy đổi" name="point_exchange" id="point_exchange" type="number">
                                     <p class="error small m-0"  style="color:red">
 
                                     </p>
                                 </div>
-                                <!-- <div class="form-group text-right col-6">
-                                    <label>Max</label>
-                                    <input class="form-control" placeholder="$1,0000" type="number">
-                                </div> -->
                             </div>
                         </div>
                     </div>

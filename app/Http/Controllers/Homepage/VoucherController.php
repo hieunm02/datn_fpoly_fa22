@@ -35,9 +35,9 @@ class VoucherController extends Controller
             ];
             return response()->json(['errors' => $enough], 500);
         }
-        if ($request->point_exchange > 500) {
+        if ($request->point_exchange > 100) {
             $dis = [
-                'dis' => 'Điểm quy đổi không vượt quá 500 điểm!',
+                'dis' => 'Điểm quy đổi không vượt quá 100 điểm!',
             ];
             return response()->json(['errors' => $dis], 500);
         }
@@ -47,12 +47,6 @@ class VoucherController extends Controller
             ];
             return response()->json(['errors' => $required], 500);
         }
-        if ($request->point_exchange % 100 !== 0) {
-            $multiple = [
-                'multiple' => 'Gía trị nhập phải là bội số của 100!',
-            ];
-            return response()->json(['errors' => $multiple], 500);
-        }
 
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -60,7 +54,11 @@ class VoucherController extends Controller
         for ($i = 0; $i < 6; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        $discount = $request->point_exchange / 10;
+        if($request->point_exchange == 100) {
+            $discount = 99;
+        } else {
+            $discount = $request->point_exchange;
+        }
 
         $lastInsertId = Voucher::create([
             'code' => $randomString,
@@ -70,8 +68,8 @@ class VoucherController extends Controller
             'active' => 0,
             'menu_id' => null,
             'quantity' => 1,
-            'start_time' => Carbon::now()->timezone('Asia/Ho_Chi_Minh'),
-            'end_time' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->addHour(),
+            'start_time' => null,
+            'end_time' => null,
         ])->id;
         $user = User::find(Auth::user()->id);
         $user->point = ($user->point) - ($request->point_exchange);

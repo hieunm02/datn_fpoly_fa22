@@ -39,12 +39,19 @@
             <h5 class="mb-3 mt-0">Voucher sẵn có</h5>
             <div class="row">
                 @foreach($publicVouchers as $publicVoucher)
+                <?php
+                $diff = abs(strtotime($publicVoucher->end_time) - strtotime($publicVoucher->start_time));
+                $years = floor($diff / (365 * 60 * 60 * 24));
+                $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                $hours = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24 - $days * 60 * 60 * 24) / (60 * 60));
+                $minutes = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24 - $days * 60 * 60 * 24 - $hours * 60 * 60) / 60);
+                ?>
                 <div class="col-md-4 mb-3">
                     <div class="bg-white shadow-sm rounded p-4">
                         <p class="h6 mb-3"><span class="feather-tag text-primary"></span><span id="p{{$publicVoucher->id}}" class="ml-3">{{$publicVoucher->code}}</span></p>
                         <p class="font-weight-bold mb-2">{!!$publicVoucher->description!!}</p>
-                        <p class="mb-4 expire{{$publicVoucher->id}}"></p>
-                        <!-- <p><a href="#" class="text-primary">+ MORE</a></p> -->
+                        <p class="mb-4 expire">Hạn sử dụng còn: {{$days}} ngày {{$hours}} giờ {{$minutes}} phút</p>
                         <a href="javascrip:void(0)" class="btn btn-outline-primary" onclick="copyToClipboard('#p{{$publicVoucher->id}}')">COPY CODE</a>
                     </div>
                 </div>
@@ -63,7 +70,7 @@
                     <div class="bg-white shadow-sm rounded p-4">
                         <p class="h6 mb-3"><span class="feather-tag text-primary"></span><span id="p{{$privateVoucher->id}}" class="ml-3">{{$privateVoucher->code}}</span></p>
                         <p class="font-weight-bold mb-2">{!!$privateVoucher->description!!}</p>
-                        <p class="mb-4 expire{{$privateVoucher->id}}"></p>
+                        <p class="mb-4">Hạn sử dụng: vĩnh viễn</p>
                         <!-- <p><a href="#" class="text-primary">+ MORE</a></p> -->
                         <a href="javascrip:void(0)" class="btn btn-outline-primary" onclick="copyToClipboard('#p{{$privateVoucher->id}}')">COPY CODE</a>
                     </div>
@@ -75,24 +82,6 @@
 </div>
 
 <script>
-    <?php for ($i = 0; $i < count($vouchers); $i++) {  ?>
-        var timestamp = <?php echo (strtotime($vouchers[$i]->end_time) - strtotime($vouchers[$i]->start_time)) ?>;
-        timestamp /= 1000; // from ms to seconds
-
-        function component(x, v) {
-            return Math.floor(x / v);
-        }
-
-        var div = document.getElementsByClassName('expire<?php echo $vouchers[$i]->id ?>');
-        setInterval(function() {
-            timestamp--;
-            var days = component(timestamp, 24 * 60 * 60),
-                hours = component(timestamp, 60 * 60) % 24,
-                minutes = component(timestamp, 60) % 60
-            div.innerHTML = "Hạn sử dụng còn: " + days + " ngày " + hours + " giờ " + minutes + " phút";
-        }, 1000);
-    <?php } ?>
-
     function copyToClipboard(element) {
         var $temp = $("<input>");
         $("body").append($temp);
