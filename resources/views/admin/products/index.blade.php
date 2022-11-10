@@ -99,7 +99,7 @@
                                 </div>
                             </td>
                             <td>{{ $product->menu->name }}</td>
-                            <td>${{ $product->price }}</td>
+                            <td>{{ number_format($product->price, 0, ',', ',') }}₫</td>
                             <td>{{ $product->quantity }}</td>
                             <td>
 
@@ -108,13 +108,13 @@
                                     <div class="m-r-10"></div>
                                     <input type="hidden" id="is-active{{ $product->id }}" value="{{ $product->active }}">
                                     <div class="btn-status" data-id="{{ $product->id }}">
-                                        <i style="color: green" class="bi bi-lock-fill btn-active{{ $product->id }}" id="icon-active{{ $product->id }}"></i>
+                                        <i style="color: red" class="bi bi-lock-fill btn-active{{ $product->id }}" id="icon-active{{ $product->id }}"></i>
                                     </div>
                                     @else
                                     <div class="m-r-10"></div>
                                     <input type="hidden" id="is-active{{ $product->id }}" value="{{ $product->active }}">
                                     <div class="btn-status" data-id="{{ $product->id }}">
-                                        <i style="color: red" class="bi bi-unlock-fill btn-active{{ $product->id }}" id="icon-active{{ $product->id }}"></i>
+                                        <i style="color: green" class="bi bi-unlock-fill btn-active{{ $product->id }}" id="icon-active{{ $product->id }}"></i>
                                     </div>
                                     @endif
                                 </div>
