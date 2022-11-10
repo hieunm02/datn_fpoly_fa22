@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\BillController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RepMessage;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UploadThumbController;
@@ -23,11 +25,9 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
-use App\Models\Bill;
+use App\Http\Controllers\SendMessage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::middleware('role:manager')->prefix('admin')->group(function () {
 
     //dashboard 
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
@@ -178,7 +178,11 @@ Route::prefix('admin')->group(function () {
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
     Route::get('contacts/{id}', [AdminContactController::class, 'show'])->name('admin.contacts.show');
     Route::post('send-email', [AdminContactController::class, 'sendMail'])->name('admin.contacts.send-mail');
-
+   
+    //Chat
+    Route::get('chats/message/{room_id?}', [ChatController::class, 'message'])->name('admin.chats.message');
+    Route::get('chats/message', [ChatController::class, 'message'])->name('admin.chats.message');
+   
     //Price
     Route::resource('prices', PriceController::class);
 
@@ -232,3 +236,9 @@ Route::prefix('admin')->group(function () {
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
+
+// Người dùng nhắn tin 
+Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
+
+// Nhân viên phản hồi tin nhắn tới người dùng 
+Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
