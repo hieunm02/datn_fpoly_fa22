@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\BillController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -24,6 +25,9 @@ use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Models\Bill;
+use App\Models\Message;
+use App\Models\RoomChat;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -137,7 +141,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::middleware('role:manager')->prefix('admin')->group(function () {
 
     //dashboard 
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
@@ -178,7 +182,11 @@ Route::prefix('admin')->group(function () {
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
     Route::get('contacts/{id}', [AdminContactController::class, 'show'])->name('admin.contacts.show');
     Route::post('send-email', [AdminContactController::class, 'sendMail'])->name('admin.contacts.send-mail');
-
+   
+    //Chat
+    Route::get('chats/message/{room_id?}', [ChatController::class, 'message'])->name('admin.chats.message');
+    Route::get('chats/message', [ChatController::class, 'message'])->name('admin.chats.message');
+   
     //Price
     Route::resource('prices', PriceController::class);
 
@@ -232,3 +240,34 @@ Route::prefix('admin')->group(function () {
 //login with google
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
+
+
+Route::post('/send', function(Request $request){
+    $room = RoomChat::where('room_id', $request->id)->get();
+    if($room->all() == []){
+        RoomChat::create([
+            'room_id' => $request->id,
+            'name' => $request->name,
+            'avatar' => $request->avatar,
+        ]);
+    }
+    Message::create([
+        'user_id' => $request->id,
+        'room_message_id' => $request->id,
+        'message' => $request->message,
+        'avatar' => $request->avatar,
+    ]);
+
+  
+})->name('send');
+
+Route::post('/rep', function(Request $request){
+    Message::create([
+        'user_id' => $request->user_id,
+        'room_message_id' => $request->room_id,
+        'message' => $request->message,
+        'avatar' => $request->avatar,
+    ]);
+
+  
+})->name('rep');
