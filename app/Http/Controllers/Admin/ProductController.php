@@ -125,13 +125,13 @@ class ProductController extends Controller
             $value = $product->active;
             $btnActive = 'bi-lock-fill';
             $btnRemove = 'bi-unlock-fill';
-            $color = 'green';
+            $color = 'red';
         } else {
             $product->active = 1;
             $value = $product->active;
             $btnActive = 'bi-unlock-fill';
             $btnRemove = 'bi-lock-fill';
-            $color = 'red';
+            $color = 'green';
         }
         $product->save();
         return response()->json([

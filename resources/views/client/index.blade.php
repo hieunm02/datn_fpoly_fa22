@@ -89,7 +89,8 @@
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                             class="feather-clock"></i> 15–30 min</span>
-                                    <span class="float-right text-black-50 d-block">{{ $products->price }}
+                                    <span class="float-right text-black-50 d-block">
+                                        {{ number_format($products->price, 0, ',', '.') }}
                                         VND</span>
                                 </p>
                             </div>
