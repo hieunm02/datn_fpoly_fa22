@@ -6,8 +6,8 @@ use App\Models\Menu;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Thumb;
-use Response;
 use Illuminate\Support\Facades\Session;
+use Response;
 
 class ProductServices
 {
@@ -59,6 +59,8 @@ class ProductServices
             $product->quantity = $request->quantity;
             $product->name = $request->name;
             $product->menu_id = $request->menu_id;
+            $product->price_sales = filter_var($request->price_sales, FILTER_SANITIZE_NUMBER_INT);
+            $product->price = filter_var($request->price, FILTER_SANITIZE_NUMBER_INT);
             $product->active = 1;
             $product->save();
         }
