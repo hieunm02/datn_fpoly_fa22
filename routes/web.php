@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RepMessage;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UploadThumbController;
@@ -24,14 +25,9 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
-use App\Models\Bill;
-use App\Models\Message;
-use App\Models\RoomChat;
-use Illuminate\Http\Request;
+use App\Http\Controllers\SendMessage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,33 +237,8 @@ Route::middleware('role:manager')->prefix('admin')->group(function () {
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
 
+// Người dùng nhắn tin 
+Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
-Route::post('/send', function(Request $request){
-    $room = RoomChat::where('room_id', $request->id)->get();
-    if($room->all() == []){
-        RoomChat::create([
-            'room_id' => $request->id,
-            'name' => $request->name,
-            'avatar' => $request->avatar,
-        ]);
-    }
-    Message::create([
-        'user_id' => $request->id,
-        'room_message_id' => $request->id,
-        'message' => $request->message,
-        'avatar' => $request->avatar,
-    ]);
-
-  
-})->name('send');
-
-Route::post('/rep', function(Request $request){
-    Message::create([
-        'user_id' => $request->user_id,
-        'room_message_id' => $request->room_id,
-        'message' => $request->message,
-        'avatar' => $request->avatar,
-    ]);
-
-  
-})->name('rep');
+// Nhân viên phản hồi tin nhắn tới người dùng 
+Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');

@@ -13,8 +13,9 @@
                                 <i class="anticon anticon-search search-icon p-r-10 font-size-20"></i>
                                 <input placeholder="Search...">
                             </div>
-                            <div class="chat-user-list">
+                            <div class="chat-user-list" id="room_chat">
                                 @foreach($rooms as $room)
+                                <input type="hidden" name="room_id" id="room_id" value="{{ $room->room_id }}">
                                 <a class="chat-list-item p-h-25" href="/admin/chats/message/{{$room->room_id}}">
                                     <div class="media align-items-center">
                                         <div class="avatar avatar-image">
@@ -22,9 +23,6 @@
                                         </div>
                                         <div class="p-l-15">
                                             <h5 class="m-b-0">{{$room->name}}</h5>
-                                            {{-- <p class="msg-overflow m-b-0 text-muted font-size-13">
-                                                Wow, that was cool!
-                                            </p> --}}
                                         </div>
                                     </div>
                                 </a>
@@ -185,7 +183,7 @@
                 })
             }
 
-        socket.on('sendChatToClient', (message, id, room_id) => {
+        socket.on('sendChatToClient', (message, id, name, avatar, room_id) => {
             $('#chat-content').append(
                 id == $('#id').val() ? `
                     <div class="msg msg-sent">
@@ -212,6 +210,22 @@
                     </div>
                     `
             );
+            $('#room_chat').append(
+                id != $('#room_id').val() ? `
+                    <a class="chat-list-item p-h-25" href="/admin/chats/message/${id}">
+                        <div class="media align-items-center">
+                            <div class="avatar avatar-image">
+                                <img src="${avatar}" alt="">
+                            </div>
+                            <div class="p-l-15">
+                                <h5 class="m-b-0">${name}</h5>
+                            </div>
+                        </div>
+                    </a>
+                `
+                :
+                ``
+            )
         });
     });
 </script>
