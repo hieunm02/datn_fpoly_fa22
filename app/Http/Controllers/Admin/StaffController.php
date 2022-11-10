@@ -70,9 +70,9 @@ class StaffController extends Controller
 
         // Permission::create(['name' => 'View statistic']);
 
-        // $role = Role::findById(2);
-        // // // $per = Permission::all();
-        // // // $role->givePermissionTo($per);
+        // $role = Role::findById(1);
+        // $per = Permission::all();
+        // $role->givePermissionTo($per);
         // $user = User::find(2);
         // $user->assignRole($role);
 
