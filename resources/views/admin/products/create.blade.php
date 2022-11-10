@@ -44,7 +44,7 @@
                                                     id="" placeholder="Product Price" value="{{ old('price') }}">
                                                 <div class="invalid-feedback">{{ $errors->first('price') }}</div>
                                             @else
-                                                <input type="text" class="form-control" name="price" id=""
+                                                <input type="text" class="form-control money" name="price" id=""
                                                     placeholder="Product Price" value="{{ old('price') }}">
                                             @endif
                                         </div>
@@ -56,7 +56,7 @@
                                                     value="{{ old('price_sales') }}">
                                                 <div class="invalid-feedback">{{ session('price_sales') }}</div>
                                             @else
-                                                <input type="text" class="form-control" name="price_sales" id=""
+                                                <input type="text" class="form-control money" name="price_sales" id=""
                                                     placeholder="Product Price Sales" value="{{ old('price_sales') }}">
                                             @endif
                                         </div>
@@ -143,9 +143,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/handleGeneral/product/hanldeCreate.js') }}"></script>
     <script>
-        $('#productName').change(function() {
+        $('#productName').change(function () {
             $('#outPut').html($(this).val());
         });
+    </script>
+    <script type="text/javascript" src="{{ asset('assets/js/simple.money.format.js') }}"></script>
+    <script type="text/javascript">
+        $('.money').simpleMoneyFormat();
     </script>
     </div>
 @endsection
