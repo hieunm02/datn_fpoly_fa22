@@ -8,13 +8,13 @@
         </div>
     </div>
     <!-- checkout -->
-    {{-- <div id="mess">
+    <div id="mess">
         @if (session()->has('success'))
             <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
                 {{ session()->get('success') }}
             </div>
         @endif
-    </div> --}}
+    </div>
     <div class="container position-relative">
         <div class="py-5 row">
             <form action="{{ url('/orders') }}" class="row" method="post">

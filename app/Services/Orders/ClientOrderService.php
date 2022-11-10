@@ -63,7 +63,7 @@ class ClientOrderService
                 $data->save();
                 $del->delete();
             }
-            notify()->success('Đăt hàng thành công');
+            Session()->flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());
