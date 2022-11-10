@@ -68,16 +68,6 @@
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
                     <div class="p-3">
-<<<<<<< HEAD
-                        <h4 class="text-primary font-weight-bold pt-1">
-                            @if ($product->price_sales == 0 || $product->price_sales == null)
-                                {{ $product->price }} VND
-                            @else
-                                <del>{{ $product->price }}VND</del> - {{ $product->price_sales }} VND
-                            @endif
-                        </h4>
-                        <h5 class="text-dark font-weight-light">Loại: {{ $product->menu->name }}</h5>
-=======
                         @if($product->price !== $product->price_sales)
                             <h3 class="text-primary font-weight-bold pt-3">
                                 <del>{{ number_format($product->price, 0, ',', ',') }}₫</del>
@@ -91,7 +81,6 @@
                         <h6 class="text-dark font-weight-light">Loại: <a
                                 href="{{ route('list-products', $product->menu->id) }}">{{ $product->menu->name }}</a>
                         </h6>
->>>>>>> child_khanh
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
                     <div class="p-3">
