@@ -265,7 +265,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Filter</h5>
+                <h5 class="modal-title">Quy đổi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -274,7 +274,7 @@
                 <div class="osahan-filter">
                     <div class="filter">
                         <!-- SORT BY -->
-                        <div class="p-3 bg-light border-bottom">
+                        <!-- <div class="p-3 bg-light border-bottom">
                             <h6 class="m-0">SORT BY</h6>
                         </div>
                         <div class="custom-control border-bottom px-0  custom-radio">
@@ -296,9 +296,9 @@
                         <div class="custom-control border-bottom px-0  custom-radio">
                             <input type="radio" id="customRadio5f" name="location" class="custom-control-input">
                             <label class="custom-control-label py-3 w-100 px-3" for="customRadio5f">Most Popular</label>
-                        </div>
+                        </div> -->
                         <!-- Filter -->
-                        <div class="p-3 bg-light border-bottom">
+                        <!-- <div class="p-3 bg-light border-bottom">
                             <h6 class="m-0">FILTER</h6>
                         </div>
                         <div class="custom-control border-bottom px-0  custom-checkbox">
@@ -312,21 +312,20 @@
                         <div class="custom-control border-bottom px-0  custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="defaultCheck3">
                             <label class="custom-control-label py-3 w-100 px-3" for="defaultCheck3">Alcohol Served</label>
-                        </div>
+                        </div> -->
                         <!-- Filter -->
-                        <div class="p-3 bg-light border-bottom">
+                        <!-- <div class="p-3 bg-light border-bottom">
                             <h6 class="m-0">ADDITIONAL FILTERS</h6>
-                        </div>
+                        </div> -->
                         <div class="px-3 pt-3">
-                            <input type="range" class="custom-range" min="0" max="100" name="minmax">
+                            <!-- <input type="range" class="custom-range" min="0" max="100" name="minmax"> -->
                             <div class="form-row">
-                                <div class="form-group col-6">
-                                    <label>Min</label>
-                                    <input class="form-control" placeholder="$0" type="number">
-                                </div>
-                                <div class="form-group text-right col-6">
-                                    <label>Max</label>
-                                    <input class="form-control" placeholder="$1,0000" type="number">
+                                <div class="form-group col-12">
+                                    <label>Điểm</label>
+                                    <input class="form-control" placeholder="Mời nhập số điểm quy đổi" name="point_exchange" id="point_exchange" type="number">
+                                    <p class="error small m-0"  style="color:red">
+
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -335,10 +334,10 @@
             </div>
             <div class="modal-footer p-0 border-0">
                 <div class="col-6 m-0 p-0">
-                    <button type="button" class="btn border-top btn-lg btn-block" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn border-top btn-lg btn-block" data-dismiss="modal">Đóng</button>
                 </div>
                 <div class="col-6 m-0 p-0">
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Apply</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-exchange-point">Đổi</button>
                 </div>
             </div>
         </div>

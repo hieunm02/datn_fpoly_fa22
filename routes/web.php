@@ -25,7 +25,13 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
+<<<<<<< HEAD
 use App\Http\Controllers\SendMessage;
+=======
+use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
+use App\Models\Bill;
+use App\Models\Voucher;
+>>>>>>> trunghieu
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,11 +49,11 @@ use Illuminate\Support\Facades\Route;
 // Client
 
 Route::prefix('/')->group(function () {
-    Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
-    Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
-    Route::put('/carts/update/{id}',[CartController::class, 'update']);
-    Route::post('storeCart',[CartController::class, 'store'])->name('carts.store');
-    Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
+    Route::put('/carts/update/{id}', [CartController::class, 'update']);
+    Route::post('storeCart', [CartController::class, 'store'])->name('carts.store');
+    Route::delete('/carts/delete/{id}', [CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -104,9 +110,7 @@ Route::prefix('/')->group(function () {
         return view('client.my-order');
     });
 
-    Route::get('/offers', function () {
-        return view('client.offers');
-    })->name('offers');
+    Route::get('/offers', [HomepageVoucherController::class, 'index'])->name('offers');
 
     Route::get('/privacy', function () {
         return view('client.privacy');
@@ -133,6 +137,8 @@ Route::prefix('/')->group(function () {
     Route::get('/verification', function () {
         return view('client.verification');
     });
+
+    Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
 });
 
 // Admin
@@ -140,10 +146,14 @@ Route::prefix('/')->group(function () {
 Route::middleware('role:manager')->prefix('admin')->group(function () {
 
     //dashboard 
+<<<<<<< HEAD
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
 
+=======
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+>>>>>>> trunghieu
 
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {

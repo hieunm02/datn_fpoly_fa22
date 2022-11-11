@@ -8,6 +8,7 @@ use App\Models\Floor;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -52,6 +53,7 @@ class ClientOrderService
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
+<<<<<<< HEAD
                 if ($prd->price_sales == 0 || $prd->price_sales == null) {
                     $data->price = $prd->price;
                     $data->total = $del->quantity * $prd->price;
@@ -60,6 +62,11 @@ class ClientOrderService
                     $data->total = $del->quantity * $prd->price_sales;
                 }
                 $data->date_order = date(now()->toDateString());
+=======
+                $data->price = $prd->price;
+                $data->total = $del->quantity * $prd->price;
+                if($del->quantity * $prd->price);
+>>>>>>> trunghieu
                 $data->save();
                 $del->delete();
             }

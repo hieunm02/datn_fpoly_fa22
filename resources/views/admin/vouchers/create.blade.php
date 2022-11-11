@@ -17,6 +17,7 @@
                     <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin voucher</a>
                 </li>
             </ul>
+            <x:notify-messages />
             <div class="tab-content m-t-15">
                 <div class="tab-pane fade show active" id="product-edit-basic">
                     <div class="card">
@@ -72,14 +73,14 @@
 
                             <div class="form-group">
                                 <label class="font-weight-semibold" for="productName">Start time voucher</label>
-                                <input type="datetime-local" class="form-control <?php echo $errors->first('start_time') ? 'is-invalid' : ''; ?>" name="start_time" placeholder="start_time" value="{{ old('start_time') }}">
+                                <input type="datetime-local" min="{{$today}}" class="form-control <?php echo $errors->first('start_time') ? 'is-invalid' : ''; ?>" name="start_time" placeholder="start_time" value="{{ old('start_time') }}">
                                 @if ($errors->first('start_time'))
                                 <div class="invalid-feedback">{{ $errors->first('start_time') }}</div>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-semibold" for="productName">End time voucher</label>
-                                <input type="datetime-local" class="form-control <?php echo $errors->first('end_time') ? 'is-invalid' : ''; ?>" name="end_time" placeholder="end_time" value="{{ old('end_time') }}">
+                                <input type="datetime-local" min="{{$today}}" class="form-control <?php echo $errors->first('end_time') ? 'is-invalid' : ''; ?>" name="end_time" placeholder="end_time" value="{{ old('end_time') }}">
                                 @if ($errors->first('end_time'))
                                 <div class="invalid-feedback">{{ $errors->first('end_time') }}</div>
                                 @endif

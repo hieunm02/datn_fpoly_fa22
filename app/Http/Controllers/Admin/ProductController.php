@@ -112,9 +112,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $product = $this->productService->getById($id);
         $this->productService->delete($id);
-
-        return back();
+        return response()->json(['model' => $product]);
     }
 
     public function changeActive(Request $request)

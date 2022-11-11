@@ -125,7 +125,6 @@ class ProductServices
         try {
             $product = Product::find($id);
             $product->delete();
-            notify()->success('Xóa sản phẩm thành công.');
         } catch (\Throwable $th) {
             Session::flash('error', $th->getMessage());
             return false;

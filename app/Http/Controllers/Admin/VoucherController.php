@@ -8,6 +8,7 @@ use App\Services\Voucher\VoucherServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoucherRequest;
+use Carbon\Carbon;
 
 class VoucherController extends Controller
 {
@@ -36,9 +37,10 @@ class VoucherController extends Controller
      */
     public function create()
     {
+        $today = Carbon::today()->timezone('Asia/Ho_Chi_Minh');
         $title = 'Tạo mới voucher';
         $menus = $this->menuServices->getAll();
-        return view('admin.vouchers.create', compact('title', 'menus'));
+        return view('admin.vouchers.create', compact('title', 'menus','today'));
     }
 
     /**
@@ -49,6 +51,10 @@ class VoucherController extends Controller
      */
     public function store(VoucherRequest $request)
     {
+        if(strtotime($request->start_time) >= strtotime($request->end_time)){
+            notify()->error('Ngày nhập không đúng!');
+            return redirect()->route('vouchers.create');
+        }
         $this->voucherServices->create($request);
         return redirect()->route('vouchers.index');
     }
