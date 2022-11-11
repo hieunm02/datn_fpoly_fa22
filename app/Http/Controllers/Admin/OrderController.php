@@ -8,6 +8,7 @@ use App\Models\OrderStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\Orders\AdminOrderService;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -35,6 +36,16 @@ class OrderController extends Controller
     public function updateStatus(Request $request)
     {
         $order = $this->orderService->updateStatus($request->status_id, $request->id);
+
+        $user = User::find(Auth::id());
+        $flag = false;
+
+        if ($request->status_id == 5) {
+            $flag = true;
+            $user->point = $user->point + 1;
+            $user->save();
+        }
+
         return response()->json(['order' => $order]);
     }
 
@@ -107,7 +118,7 @@ class OrderController extends Controller
                                 </tr>';
                 }
                 return response()->json(['result' => $result], 200);
-            } 
+            }
         }
     }
 }

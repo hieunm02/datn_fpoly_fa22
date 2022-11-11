@@ -82,7 +82,7 @@
                     </thead>
                     <tbody>
                         @foreach ($products as $index => $product)
-                        <tr>
+                        <tr id="id{{$product->id}}">
                             <td>
                                 <div class="checkbox">
                                     <input id="check-item-{{ $index + 1 }}" class="check-item" onclick="checkBox({{ $product->id }})" value="{{ $product->id }}" name="{{ $product->id }}" type="checkbox">
@@ -125,13 +125,10 @@
                                         <i class="anticon anticon-edit"></i>
                                     </button>
                                 </a>
-                                <form method="POST" class="inline-block" onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="{{ route('products.destroy', $product->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                        <i class="anticon anticon-delete"></i>
+
+                                <buttonc onclick="deleteAjax('products',<?php echo $product->id ?>)" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                    <i class="anticon anticon-delete"></i>
                                     </button>
-                                </form>
                             </td>
                         </tr>
                         @endforeach

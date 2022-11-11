@@ -54,7 +54,7 @@ class VoucherController extends Controller
         for ($i = 0; $i < 6; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        if($request->point_exchange == 100) {
+        if ($request->point_exchange == 100) {
             $discount = 99;
         } else {
             $discount = $request->point_exchange;
@@ -62,7 +62,7 @@ class VoucherController extends Controller
 
         $lastInsertId = Voucher::create([
             'code' => $randomString,
-            'description' => 'Voucher đổi điểm',
+            'description' => 'Sử dụng voucher này để được giảm tới ' . $discount . '% giá trị đơn hàng',
             'discount' => $discount,
             'thumb' => '',
             'active' => 0,
