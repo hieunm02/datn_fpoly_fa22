@@ -35,10 +35,10 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $order = $this->orderService->updateStatus($request->status_id, $request->id);
+        $this->orderService->updateStatus($request->status_id, $request->id);
 
-        $user = User::find(Auth::id());
-        $flag = false;
+        $order = Order::find($request->id);
+        $user = User::find($order->user_id);
 
         if ($request->status_id == 5) {
             $flag = true;

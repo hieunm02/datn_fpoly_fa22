@@ -37,7 +37,8 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade py-4" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h5 class="mb-3 mt-0">Voucher sẵn có</h5>
-            <div class="row">
+            <div class="row justify-content-center">
+                @if(count($publicVouchers) > 0)
                 @foreach($publicVouchers as $publicVoucher)
                 <?php
                 $diff = abs(strtotime($publicVoucher->end_time) - strtotime($publicVoucher->start_time));
@@ -56,6 +57,11 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                <div class="my-3">
+                    <h1 class="text-danger">Chưa có voucher nào</h1>
+                </div>
+                @endif
             </div>
         </div>
 
