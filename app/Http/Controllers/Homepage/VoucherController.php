@@ -20,11 +20,16 @@ class VoucherController extends Controller
         $publicVouchers = [];
         foreach ($vouchers as $voucher) {
             if (($voucher->users)->isEmpty()) {
-                $publicVouchers[] = $voucher;
+                if(strtotime($voucher->end_time) > strtotime(Carbon::now()->timezone('Asia/Ho_Chi_Minh'))) {
+                    $publicVouchers[] = $voucher;
+                }
             } else {
                 $privateVouchers[] = $voucher;
             }
         }
+
+
+
         return view('client.offers', compact('privateVouchers', 'publicVouchers', 'vouchers'));
     }
     public function exchangeVoucher(Request $request)

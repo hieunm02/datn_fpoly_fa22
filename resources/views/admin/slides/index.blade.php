@@ -59,7 +59,7 @@
                     </thead>
                     <tbody>
                         @foreach ($slides as $index => $slide)
-                        <tr>
+                        <tr id="id{{$slide->id}}">
                             <td>
                                 <div class="checkbox">
                                     <input id="check-item-{{ $index + 1 }}" class="check-item" onclick="checkBox({{ $slide->id }})" value="{{ $slide->id }}" name="{{ $slide->id }}" type="checkbox">
@@ -107,13 +107,9 @@
                                         <i class="anticon anticon-edit"></i>
                                     </button>
                                 </a>
-                                <form method="POST" class="inline-block" onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="{{ route('slides.destroy', $slide->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                        <i class="anticon anticon-delete"></i>
-                                    </button>
-                                </form>
+                                <button onclick="deleteAjax('slides',<?php echo $slide->id ?>)" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                    <i class="anticon anticon-delete"></i>
+                                </button>
                             </td>
                         </tr>
                         @endforeach

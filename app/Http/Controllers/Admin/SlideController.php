@@ -107,8 +107,9 @@ class SlideController extends Controller
      */
     public function destroy($id)
     {
-        $this->slideServices->delete($id);
-        return back();
+        $slide = Slide::find($id);
+        $slide->delete();
+        return response()->json(['model' => $slide]);
     }
 
     public function changeActive(Request $request)
