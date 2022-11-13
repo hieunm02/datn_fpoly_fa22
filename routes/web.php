@@ -148,7 +148,7 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
     //thanh toán trực tiếp tại quầy
     Route::get('/thanh-toan-truc-tiep/getCart',[OrderController::class, 'getCart']);
-    Route::get('/thanh-toan-truc-tiep',[OrderController::class, 'payment']);
+    Route::get('/thanh-toan-truc-tiep',[OrderController::class, 'payment'])->name('admin.thanh-toan-truc-tiep');
     Route::post('/thanh-toan-truc-tiep',[OrderController::class, 'directPayment']);
     Route::post('/thanh-toan-truc-tiep/paymanet',[OrderController::class, 'pay']);
 

@@ -10,7 +10,16 @@
                     <span class="title">Dashboard</span>
                 </a>
             </li>
-            {{-- end-dashboard --}}
+            {{-- Thanh toán trực tiếp --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="{{ route('admin.thanh-toan-truc-tiep') }}">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-printer"></i>
+                    </span>
+                    <span class="title">Đặt hàng trực tiếp</span>
+                </a>
+            </li>
+            {{-- end-Thanh toán trực tiếp  --}}
 
             {{-- Products --}}
             <li class="nav-item dropdown">
