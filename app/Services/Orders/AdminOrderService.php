@@ -68,7 +68,7 @@ class AdminOrderService
             $order->address = 'Canteen BeeFood';
             $order->code = rand_string(12);
             $order->user_id = Auth::user()->id;
-            $order->status_id = 5;
+            $order->status_id = 4;
             $order->shipper_id = Auth::user()->id;
             $order->voucher = 'thanh toán tại quầy';
             $order->note = 'Mua hàng tại canteen Beefood';
