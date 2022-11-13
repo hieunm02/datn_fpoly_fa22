@@ -44,8 +44,52 @@
     <script type="text/javascript" src="{{ asset('js/osahan.js') }}"></script>
     <script src="{{ asset('js\handleGeneral\checkout\select.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.1.js"></script> -->
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+        $('#btn-exchange-point').on('click', function() {
+            var point_exchange = $('#point_exchange').val();
+            $.ajax({
+                url: "/vouchers/exchange",
+                type: "POST",
+                data: {
+                    point_exchange: point_exchange
+                },
 
-
+                dataType: 'json',
+                success: function(data) {
+                    Swal.fire(
+                        'Successful!',
+                        'Đổi thành công!',
+                        'success'
+                    )
+                    $('.point-user').text(data.user.point);
+                    $('.modal-backdrop').removeClass('modal-backdrop fade show');
+                    $('.modal').css("display","none");
+                },
+                error: function(errors) {
+                    if (errors.responseJSON.errors.required) {
+                        $('.error').text(errors.responseJSON.errors.required);
+                    }
+                    if (errors.responseJSON.errors.enough) {
+                        $('.error').text(errors.responseJSON.errors.enough);
+                    }
+                    if (errors.responseJSON.errors.multiple) {
+                        $('.error').text(errors.responseJSON.errors.multiple);
+                    }
+                    if (errors.responseJSON.errors.dis) {
+                        $('.error').text(errors.responseJSON.errors.dis);
+                    }
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>

@@ -181,4 +181,9 @@ function randomCode() {
     $('#code-voucher').val(result);
 }
 
+// Copy to clipboard
+function copyToClipboard() {
+    document.getElementById("copy_{{ $voucher->id }}").select();
+    document.execCommand('copy');
+}
 

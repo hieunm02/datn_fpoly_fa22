@@ -18,8 +18,8 @@ class CreateVouchersTable extends Migration
             $table->string('code');
             $table->string('description')->nullable();
             $table->string('thumb')->nullable();
-            $table->date('start_time')->nullable();
-            $table->date('end_time')->nullable();
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->integer('active');
             $table->integer('discount');
             $table->integer('quantity')->nullable();

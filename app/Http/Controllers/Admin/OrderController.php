@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Services\Orders\AdminOrderService;
 use App\Services\Products\ProductServices;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -43,7 +44,17 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $order = $this->orderService->updateStatus($request->status_id, $request->id);
+        $this->orderService->updateStatus($request->status_id, $request->id);
+
+        $order = Order::find($request->id);
+        $user = User::find($order->user_id);
+
+        if ($request->status_id == 5) {
+            $flag = true;
+            $user->point = $user->point + 1;
+            $user->save();
+        }
+
         return response()->json(['order' => $order]);
     }
 

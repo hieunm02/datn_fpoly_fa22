@@ -83,7 +83,11 @@
                                     <img class="img-fluid rounded" src="{{$voucher->thumb}}" style="max-width: 60px" alt="">
                                 </div>
                             </td>
+                            @if($voucher->menu_id != null)
                             <td>{{ $voucher->menu->name }}</td>
+                            @esle
+                            <td>Voucher cá nhân</td>
+                            @endif
                             <td>{{ $voucher->discount }} %</td>
                             <td>
                                 <div class="d-flex align-items-center" style="cursor: pointer">
