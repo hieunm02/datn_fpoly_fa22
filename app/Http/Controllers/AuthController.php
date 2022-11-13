@@ -39,11 +39,8 @@ class AuthController extends Controller
             $user->auth_type = 'google';
             $user->avatar = $userdata->avatar;
             $user->phone = '';
-<<<<<<< HEAD
-            $user->assignRole('cusstomer');
-=======
+            $user->assignRole('customer');
             $user->point = 10;
->>>>>>> trunghieu
             $user->save();
             Auth::login($user);
             return redirect('/');

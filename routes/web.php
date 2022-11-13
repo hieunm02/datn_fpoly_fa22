@@ -25,13 +25,10 @@ use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
 use App\Http\Controllers\Homepage\ProfileController;
-<<<<<<< HEAD
 use App\Http\Controllers\SendMessage;
-=======
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
 use App\Models\Bill;
 use App\Models\Voucher;
->>>>>>> trunghieu
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -122,6 +119,8 @@ Route::prefix('/')->group(function () {
     Route::get('/search', function () {
         return view('client.search');
     });
+
+    Route::get('/search/client', [HomeController::class, 'search']);
     Route::get('/status', function () {
         return view('client.status');
     });
@@ -146,14 +145,11 @@ Route::prefix('/')->group(function () {
 Route::middleware('role:manager')->prefix('admin')->group(function () {
 
     //dashboard 
-<<<<<<< HEAD
-    Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
-    Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
-
-=======
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
->>>>>>> trunghieu
+    Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
+    Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
+
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
@@ -188,11 +184,11 @@ Route::middleware('role:manager')->prefix('admin')->group(function () {
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
     Route::get('contacts/{id}', [AdminContactController::class, 'show'])->name('admin.contacts.show');
     Route::post('send-email', [AdminContactController::class, 'sendMail'])->name('admin.contacts.send-mail');
-   
+
     //Chat
     Route::get('chats/message/{room_id?}', [ChatController::class, 'message'])->name('admin.chats.message');
     Route::get('chats/message', [ChatController::class, 'message'])->name('admin.chats.message');
-   
+
     //Price
     Route::resource('prices', PriceController::class);
 

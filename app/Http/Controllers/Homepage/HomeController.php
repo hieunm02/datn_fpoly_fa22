@@ -137,4 +137,68 @@ class HomeController extends Controller
         $cmtReaction->save();
         return response()->json();
     }
+
+    public function search(Request $request)
+    {
+        $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->get();
+
+        if ($products) {
+            $result = '';
+
+            foreach ($products as  $product) {
+                $result .= '
+                <div class="col-md-3 pb-3">
+                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                                    <div class="list-card-image">
+                                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
+                                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
+                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                                        <a href="restaurant.html">
+                                            <img alt="#" src="' . $product->thumb . '" class="img-fluid item-img w-100">
+                                        </a>
+                                    </div>
+                                    <div class="p-3 position-relative">
+                                        <div class="list-card-body">
+                                            <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail" class="text-black">' . $product->name . '
+                                                </a>
+                                            </h6>
+                                            <p class="text-gray mb-1 small">• North • Hamburgers</p>
+                                            <p class="text-gray mb-1 rating">
+                                            <ul class="rating-stars list-unstyled">
+                                                <li>
+                                                    <i class="feather-star star_active"></i>
+                                                    <i class="feather-star star_active"></i>
+                                                    <i class="feather-star star_active"></i>
+                                                    <i class="feather-star star_active"></i>
+                                                    <i class="feather-star"></i>
+                                                </li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                        <div class="list-card-badge">
+                                            <span class="badge badge-danger">OFFER</span> <small>65% OSAHAN50</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                ';
+            }
+
+            return response()->json(['result' => $result], 200);
+        } else {
+            $result = '
+            <div class="row d-flex align-items-center justify-content-center py-5">
+                        <div class="col-md-4 py-5">
+                            <div class="text-center py-5">
+                                <p class="h4 mb-4"><i class="feather-search bg-primary text-white rounded p-2"></i></p>
+                                <p class="font-weight-bold text-dark h5">Nothing found</p>
+                                <p>we could not find anything that would match your search request, please try again.</p>
+                            </div>
+                        </div>
+                    </div>
+            ';
+
+            return response()->json(['result' => $result], 200);
+        }
+    }
 }
