@@ -137,14 +137,19 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::middleware('role:manager')->prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard 
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
+    //thanh toán trực tiếp tại quầy
+    Route::get('/thanh-toan-truc-tiep/getCart',[OrderController::class, 'getCart']);
+    Route::get('/thanh-toan-truc-tiep',[OrderController::class, 'payment']);
+    Route::post('/thanh-toan-truc-tiep',[OrderController::class, 'directPayment']);
+    Route::post('/thanh-toan-truc-tiep/paymanet',[OrderController::class, 'pay']);
 
-
+    //sản phẩm
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);

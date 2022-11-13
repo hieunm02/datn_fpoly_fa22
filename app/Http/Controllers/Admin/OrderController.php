@@ -3,20 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\Product;
 use App\Models\User;
+use App\Services\Carts\CartService;
+use App\Services\Menu\MenuServices;
 use Illuminate\Http\Request;
 use App\Services\Orders\AdminOrderService;
+use App\Services\Products\ProductServices;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
 
     protected $orderService;
 
-    public function __construct(AdminOrderService $orderService)
+    public function __construct(AdminOrderService $orderService, ProductServices $productServices, MenuServices $menuServices, CartService $cartService)
     {
         $this->orderService = $orderService;
+        $this->productServices = $productServices;
+        $this->menuServices = $menuServices;
+        $this->cartService = $cartService;
     }
     /**
      * Display a listing of the resource.
@@ -107,7 +116,80 @@ class OrderController extends Controller
                                 </tr>';
                 }
                 return response()->json(['result' => $result], 200);
-            } 
+            }
         }
+    }
+    //thanh toán trực tiếp
+    public function payment()
+    {
+        $prds = Product::all();
+        $menus = $this->menuServices->getMenuIndex();
+        return view('admin.thanh-toan-truc-tiep.index', [
+            'title' => 'Thanh toán trực tuyến',
+            'prds' => $prds,
+            'menus' => $menus,
+        ]);
+    }
+    //show cart tt
+    public function getCart()
+    {
+        $cart = $this->cartService->getCarttt();
+        $data = '';
+        $totals = 0;
+        foreach ($cart as $el) {
+            if ($el->price_sales == 0 || $el->price_sales == Null) {
+                $total = $el->price * $el->quantity;
+            } else {
+                $total = $el->price_sales * $el->quantity;
+            }
+            $totalPrd = number_format($total);
+            $data .= "<tr>
+                <td>$el->name</td>
+                <td class='d-flex align-items-center'><input style='width: 40px; background: wheat;' min='1' class='p-1 qty$el->id' type='number' name='quantity' value='$el->quantity'><button class='outline-none btn-success py-1 px-2 border border-1' onclick='updateQtyTT($el->id)'><i class='bi bi-check'></i></button></td>
+                <td>$totalPrd<sup>đ</sup></td>
+                <td>
+                    <a onclick='deleteTT($el->id)' class='deleteTT' data-id='$el->id'>
+                        <i class='bi bi-trash text-danger'></i>
+                    </a>
+                </td>
+            </tr>";
+            $totals += $total;
+        }
+        return response()->json([
+            'total' => $totals,
+            'data' => $data
+        ], 200);
+    }
+    //thêm cart tt
+    public function directPayment(Request $request)
+    {
+        $cart = Cart::where('user_id', '=', '')->get();
+        $check = 0;
+        foreach ($request->value as $el) {
+            foreach ($cart as $it) {
+                if ($it->product_id == $el) {
+                    $update = Cart::find($it->id);
+                    $update->quantity += 1;
+                    $update->save();
+                    $check = 1;
+                }
+            }
+            if ($check == 0) {
+                $data = new Cart();
+                $data->product_id = $el;
+                $data->user_id = '';
+                $data->quantity = 1;
+                $data->date = Carbon::now()->toDateString();
+                $data->save();
+            }
+            $check = 0;
+        }
+        return response()->json();
+    }
+    //thanh toán 
+    public function pay(Request $request)
+    {
+        $data = $this->orderService->createTT($request);
+        return response()->json($data);
     }
 }

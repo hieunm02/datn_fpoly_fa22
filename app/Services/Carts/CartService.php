@@ -46,7 +46,6 @@ class CartService
                     $id = $cartId->pluck('id'); // Lấy ra mảng id
                     notify()->success('Thêm vào giỏ hàng thành công!');
                     return Cart::whereIn('id', $id)->update(['quantity' => $number]); // update các post có id trong mảng
-
                 }
             }
             Cart::create($request->all());
@@ -70,5 +69,10 @@ class CartService
             return false;
         }
         return true;
+    }
+    //thannh toan truc tiep
+    public function getCarttt()
+    {
+        return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.id', 'carts.quantity')->where('user_id', '=', '')->get();
     }
 }
