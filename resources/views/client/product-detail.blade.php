@@ -68,14 +68,14 @@
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
                     <div class="p-3">
-                        @if($product->price !== $product->price_sales)
+                        @if ($product->price_sales == 0 || $product->price_sales == null)
                             <h3 class="text-primary font-weight-bold pt-3">
-                                <del>{{ number_format($product->price, 0, ',', ',') }}₫</del>
-                                - {{ number_format($product->price_sales, 0, ',', ',') }}₫
+                                {{ number_format($product->price, 0, ',', ',') }}₫
                             </h3>
                         @else
                             <h3 class="text-primary font-weight-bold pt-3">
-                                {{ number_format($product->price_sales, 0, ',', ',') }}₫
+                                <del>{{ number_format($product->price, 0, ',', ',') }}₫</del>
+                                - {{ number_format($product->price_sales, 0, ',', ',') }}₫
                             </h3>
                         @endif
                         <h6 class="text-dark font-weight-light">Loại: <a
@@ -125,8 +125,8 @@
                                     <div class="col-md-12 d-flex">
                                         <div class="avatar setCt mr-2">
                                             <img src="{{ $cmt->user->avatar }}"
-                                                style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle"
-                                                alt="">
+                                                style="width: 60px; height: 60px; object-fit: cover;"
+                                                class="rounded-circle" alt="">
                                         </div>
                                         <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                             <h6 class="mb-0">{{ $cmt->user->name }}</h6>
