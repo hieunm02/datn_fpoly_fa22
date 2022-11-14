@@ -163,7 +163,7 @@
         </div>
     </section>
 </footer>
-<nav id="main-nav">
+<nav id="main-nav"> 
     <ul class="second-nav">
         <li><a href="home.html"><i class="feather-home mr-2"></i> Homepage</a></li>
         <li><a href="my_order.html"><i class="feather-list mr-2"></i> My Orders</a></li>

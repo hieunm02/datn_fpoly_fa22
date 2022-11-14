@@ -119,6 +119,8 @@ Route::prefix('/')->group(function () {
     Route::get('/search', function () {
         return view('client.search');
     });
+
+    Route::get('/search/client', [HomeController::class, 'search']);
     Route::get('/status', function () {
         return view('client.status');
     });
@@ -187,11 +189,11 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
     Route::get('contacts/{id}', [AdminContactController::class, 'show'])->name('admin.contacts.show');
     Route::post('send-email', [AdminContactController::class, 'sendMail'])->name('admin.contacts.send-mail');
-   
+
     //Chat
     Route::get('chats/message/{room_id?}', [ChatController::class, 'message'])->name('admin.chats.message');
     Route::get('chats/message', [ChatController::class, 'message'])->name('admin.chats.message');
-   
+
     //Price
     Route::resource('prices', PriceController::class);
 
