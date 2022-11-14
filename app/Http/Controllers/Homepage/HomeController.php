@@ -140,11 +140,9 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->get();
-
-        if ($products) {
+        if ($request->result != '') {
+            $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->get();
             $result = '';
-
             foreach ($products as  $product) {
                 $result .= '
                 <div class="col-md-3 pb-3">
@@ -183,22 +181,9 @@ class HomeController extends Controller
                             </div>
                 ';
             }
-
-            return response()->json(['result' => $result], 200);
         } else {
-            $result = '
-            <div class="row d-flex align-items-center justify-content-center py-5">
-                        <div class="col-md-4 py-5">
-                            <div class="text-center py-5">
-                                <p class="h4 mb-4"><i class="feather-search bg-primary text-white rounded p-2"></i></p>
-                                <p class="font-weight-bold text-dark h5">Nothing found</p>
-                                <p>we could not find anything that would match your search request, please try again.</p>
-                            </div>
-                        </div>
-                    </div>
-            ';
-
-            return response()->json(['result' => $result], 200);
+            $result = '';
         }
+        return response()->json(['result' => $result], 200);
     }
 }
