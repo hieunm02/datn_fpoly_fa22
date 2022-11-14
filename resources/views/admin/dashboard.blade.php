@@ -111,33 +111,41 @@
             $('#dateto').change(function() {
                 var from = $('#datefrom').val();
                 var value = $(this).val();
-                console.log(from);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('admin/dashboard-filterday') }}",
-                    data: {
-                        from: from,
-                        value: value,
-                    },
-                    dataType: "JSON",
-                    success: function(data) {
-                        $('#dashboardDay').html('');
-                        data.data.forEach(el => {
-                            $('#dashboardDay').append('<tr><td>' + el.name +
-                                '</td><td>' + el
-                                .total_quantity + '</td><td>' + el.total_price + '</td></tr>');
-                        });
+                if (from > value) {
+                    $("#datefrom").addClass('is-invalid');
+                    $("#dateto").addClass('is-invalid');
+                } else {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('admin/dashboard-filterday') }}",
+                        data: {
+                            from: from,
+                            value: value,
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            $('#dashboardDay').html('');
+                            $("#datefrom").removeClass('is-invalid');
+                            $("#dateto").removeClass('is-invalid');
+                            data.data.forEach(el => {
+                                $('#dashboardDay').append('<tr><td>' + el.name +
+                                    '</td><td>' + el
+                                    .total_quantity + '</td><td>' + el.total_price +
+                                    '</td></tr>');
+                            });
 
-                    },
-                });
+                        },
+                    });
+                }
             });
         })
         dashboardDay()
+
         function dashboardDay() {
             var value = 'today';
             $.ajaxSetup({
@@ -162,6 +170,7 @@
             });
         }
         dashboard()
+
         function dashboard() {
             var value = '7ngay';
             $.ajaxSetup({
