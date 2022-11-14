@@ -145,14 +145,6 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard 
-<<<<<<< HEAD
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
-    Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
-
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-=======
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
@@ -164,7 +156,6 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //sản phẩm
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
->>>>>>> dev
     Route::resource('products', ProductController::class);
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);

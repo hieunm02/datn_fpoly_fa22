@@ -53,7 +53,6 @@ class ClientOrderService
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
-<<<<<<< HEAD
                 if ($prd->price_sales == 0 || $prd->price_sales == null) {
                     $data->price = $prd->price;
                     $data->total = $del->quantity * $prd->price;
@@ -62,11 +61,9 @@ class ClientOrderService
                     $data->total = $del->quantity * $prd->price_sales;
                 }
                 $data->date_order = date(now()->toDateString());
-=======
                 $data->price = $prd->price;
                 $data->total = $del->quantity * $prd->price;
-                if($del->quantity * $prd->price);
->>>>>>> trunghieu
+                if ($del->quantity * $prd->price);
                 $data->save();
                 $del->delete();
             }
