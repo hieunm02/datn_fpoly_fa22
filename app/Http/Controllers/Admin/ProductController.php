@@ -25,13 +25,20 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->getAll();
-        return view('admin.products.index', [
-            'title' => 'Danh sách sản phẩm',
-            'products' => $products
-        ]);
+        $products = $this->productService->getProducts($request);
+
+        if ($request->status == 200) {
+            return response()->json([
+                'products' => $products,
+            ]);
+        } else {
+            return view('admin.products.index', [
+                'title' => 'Danh sách sản phẩm',
+                'products' => $products
+            ]);
+        }
     }
 
     /**

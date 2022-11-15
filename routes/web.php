@@ -43,11 +43,11 @@ use Illuminate\Support\Facades\Session;
 // Client
 
 Route::prefix('/')->group(function () {
-    Route::get('/carts/getFloor',[CartController::class, 'getFloor']);
-    Route::get('/carts/getRoom',[CartController::class, 'getRoom']);
-    Route::put('/carts/update/{id}',[CartController::class, 'update']);
-    Route::post('storeCart',[CartController::class, 'store'])->name('carts.store');
-    Route::delete('/carts/delete/{id}',[CartController::class, 'destroy']);
+    Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
+    Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
+    Route::put('/carts/update/{id}', [CartController::class, 'update']);
+    Route::post('storeCart', [CartController::class, 'store'])->name('carts.store');
+    Route::delete('/carts/delete/{id}', [CartController::class, 'destroy']);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
@@ -140,9 +140,9 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->group(function () {
 
     //dashboard 
-    Route::get('/dashboard',[DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::post('/dashboard-filter',[DashboardController::class, 'filter']);
-    Route::post('/dashboard-filterday',[DashboardController::class, 'filterday']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
+    Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
 
 
     Route::resource('products', ProductController::class);
