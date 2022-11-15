@@ -74,9 +74,6 @@
                     <li>
                         <a href="{{ route('news.index') }}">Danh sách</a>
                     </li>
-                    <li>
-                        <a href="{{ route('news.create') }}">Tạo mới</a>
-                    </li>
                 </ul>
             </li>
             {{-- End News  --}}
@@ -92,15 +89,12 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('slides.index') }}">Danh sách</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('slides.create') }}">Tạo mới</a>
-                        </li>
-                    </ul>
                 </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('slides.index') }}">Danh sách</a>
+                    </li>
+                </ul>
             </li>
             {{-- End Slides  --}}
 
@@ -115,15 +109,12 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('vouchers.index') }}">Danh sách</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('vouchers.create') }}">Tạo mới</a>
-                        </li>
-                    </ul>
                 </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('vouchers.index') }}">Danh sách</a>
+                    </li>
+                </ul>
             </li>
             {{-- End Voucher --}}
 
@@ -137,15 +128,12 @@
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('staffs.index') }}">Danh sách</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('staffs.create') }}">Tạo mới</a>
-                        </li>
-                    </ul>
                 </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('staffs.index') }}">Danh sách</a>
+                    </li>
+                </ul>
             </li>
             {{-- End Staffs --}}
 
