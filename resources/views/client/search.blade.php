@@ -20,10 +20,7 @@
             <!-- nav tabs -->
             <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active border-0 bg-light text-dark rounded" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="feather-home mr-2"></i>Restaurants (8)</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link border-0 bg-light text-dark rounded ml-3" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="feather-disc mr-2"></i>Dishes (23)</a>
+                    <a class="nav-link active border-0 bg-light text-dark rounded" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="feather-search mr-2"></i>Kết quả tìm kiếm...</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -32,7 +29,7 @@
                     <div class="container mt-4 mb-4 p-0">
                         <!-- restaurants nearby -->
                         <div class="row" id="innerResult">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -54,6 +51,20 @@
                 result: result
             },
             success: function(data) {
+                console.log(data.result);
+                if (data.result.length <= 0) {
+                    data.result = `
+                    <div class="row d-flex align-items-center justify-content-center py-5">
+                        <div class="col-md-4 py-5">
+                            <div class="text-center py-5">
+                                <p class="h4 mb-4"><i class="feather-search bg-primary text-white rounded p-2"></i></p>
+                                <p class="font-weight-bold text-dark h5">Không tìm thấy</p>
+                                <p>Chúng tôi không tìm thấy sản phâm, xin mời thử lại.</p>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }
                 $('#innerResult').html(data.result);
             },
         });
