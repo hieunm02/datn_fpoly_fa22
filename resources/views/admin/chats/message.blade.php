@@ -3,7 +3,6 @@
 @section('content')
 <div class="app">
     <div class="layout">
-            
             <!-- Content Wrapper START -->
             <div class="main-content">
                 <div class="container-fluid p-h-0">
@@ -56,7 +55,7 @@
                                         {{-- <div class="msg justify-content-center">
                                             <div class="font-weight-semibold font-size-12"> 7:57PM </div>
                                         </div> --}}
-                                        @if ($message->user_id != 2)
+                                        @if ($message->user_id == Auth::user()->id)
                                             <div class="msg msg-sent">
                                                 <div class="bubble">
                                                     <div class="bubble-wrapper">
@@ -80,10 +79,10 @@
                                         @endif
                                         @endforeach
                                     </div> 
-
                                     <div class="conversation-footer">
-                                        <input type="hidden" value="{{$room_id}}" id="room_id">
+                                        <input type="hidden" id="room_chat_id" value="{{ $room_id }}">
                                         <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
+                                        <input type="hidden" id="user_name" value="{{ Auth::user()->name }}">
                                         <input type="hidden" id="user_id" value="{{ Auth::user()->id }}">
 
                                         <div class="chat-input" id="chatInput" type="text" placeholder="Type a message..." contenteditable=""></div>
@@ -130,15 +129,13 @@
         let socket = io(ip_address + ':' + socket_port);
 
         let chatInput = $('#chatInput');
-
         chatInput.keypress(function(e) {
             let message = $(this).html();
             let user_id = $('#user_id').val();
-            const avatar = $('#avatar').val()
-            let room_id = $('#room_id').val()
-            console.log(message);
-            console.log(room_id);
-      
+            let avatar = $('#avatar').val()
+            let user_name = $('#user_name').val()
+            let room_id = $('#room_chat_id').val()
+
             if(e.which === 13 && !e.shiftKey) {
                 $('#chat-content').append(`
                 <div class="msg msg-sent">
@@ -149,14 +146,18 @@
                     </div>
                 </div>
                 `);
-                socket.emit('sendChatToServer', message);
+                //Gửi dữ liệu lên server
+                socket.emit('sendChatToServer', message, user_id, user_name, avatar, room_id);
                 chatInput.html('');
-                sendMessage(message, user_id, room_id, avatar)
+                // Kéo thanh scroll xuống xuối
+                var messageBody = document.getElementById('chat-content');
+                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                sendMessage(message, user_id, avatar, room_id)
                 return false;
             }
         });
 
-        function sendMessage(message, user_id, room_id, avatar) {
+        function sendMessage(message, user_id, avatar, room_id) {
                 let url = "{{ route('rep') }}"
                 let form = $(this)
                 let formData = new FormData()
@@ -182,24 +183,18 @@
                     }
                 })
             }
-
+            // socket.on('isTyping', (typing) => {
+            //     $('#chat-content').append(
+            //         `${typing}`
+            //     )
+            // })
         socket.on('sendChatToClient', (message, id, name, avatar, room_id) => {
             $('#chat-content').append(
-                id == $('#id').val() ? `
-                    <div class="msg msg-sent">
-                        <div class="bubble">
-                            <div class="bubble-wrapper">
-                                <span>${message}</span>
-                            </div>
-                        </div>
-                    </div>
-                    `
-                    :
-                    `
+                room_id == $('#room_chat_id').val() && id != $('#user_id').val() ? `
                     <div class="msg msg-recipient">
                         <div class="m-r-10">
                             <div class="avatar avatar-image">
-                                <img src="assets/images/avatars/thumb-1.jpg" alt="">
+                                <img src="${avatar}" alt="">
                             </div>
                         </div>
                         <div class="bubble">
@@ -209,6 +204,8 @@
                         </div>
                     </div>
                     `
+                    : 
+                    ``
             );
             $('#room_chat').append(
                 id != $('#room_id').val() ? `
@@ -228,6 +225,10 @@
             )
         });
     });
+</script>
+<script>
+    var messageBody = document.getElementById('chat-content');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 </script>
 @endsection
 

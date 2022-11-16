@@ -1,8 +1,3 @@
-{{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
-<!------ Include the above in your HEAD tag ---------->
-
 <?php
 use App\Models\Message;
     $messages = Message::where('room_message_id', Auth::user()->id)->get();
@@ -16,12 +11,6 @@ use App\Models\Message;
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js">
-    </script>
 </head>
 <!--Coded With Love By Mutiullah Samim-->
 
@@ -99,12 +88,12 @@ use App\Models\Message;
 
             chatInput.keypress(function(e) {
                 let message = $(this).html();
-                const id = $('#id').val()
-                const name = $('#name').val()
-                const avatar = $('#avatar').val()
+                let id = $('#id').val()
+                let room_id = $('#id').val()
+                let name = $('#name').val()
+                let avatar = $('#avatar').val()
                 console.log(message);
-                console.log(id);
-                console.log(avatar);
+
                 if(e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                             <div class="d-flex justify-content-end mb-4">
@@ -113,13 +102,22 @@ use App\Models\Message;
                                 </div>
                             </div>
                     `);
-                    socket.emit('sendChatToServer', message, id, name, avatar);
+                    // Gửi dữ liệu lên server 
+                    socket.emit('sendChatToServer', message, id, name, avatar, room_id);
                     chatInput.html('');
+                    // Kéo thanh scroll xuống xuối
+                    var messageBody = document.getElementById('chat-content');
+                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
                     sendMessage(message, id, name, avatar)
                     return false;
                 }
             });
 
+            // chatInput.onChange(function(e) {
+            //     let typing = 'Đang nhập...'
+            //     socket.emit('isTyping' , typing);
+            // })
             function sendMessage(message, id, name, avatar) {
                     let url = "{{ route('send') }}"
                     let form = $(this)
@@ -147,20 +145,9 @@ use App\Models\Message;
                     })
                 }
 
-            socket.on('sendChatToClient', (message, id, name, avatar) => {
+            socket.on('sendChatToClient', (message, id, name, avatar, room_id) => {
                 $('#chat-content').append(
-                    id == $('#id').val() ? `
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
-                                            ${message}
-                                </div>
-                                <div class="img_cont_msg">
-                                    <img src="${avatar}" class="rounded-circle user_img_msg">
-                                </div>
-                            </div>
-                        `
-                        :
-                        `
+                    room_id == $('#id').val() && id != $('#id').val() ? `
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
                                     <img src="${avatar}" class="rounded-circle user_img_msg">
@@ -170,6 +157,8 @@ use App\Models\Message;
                                 </div>
                             </div>
                         `
+                        : 
+                        ``
                 );
             });
         });
@@ -181,6 +170,10 @@ use App\Models\Message;
     $(document).ready(function() {
         $('#action_menu_btn').click(function() {
             $('.action_menu').toggle();
+            var messageBody = document.getElementById('chat-content');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         });
     });
 </script>
+
+
