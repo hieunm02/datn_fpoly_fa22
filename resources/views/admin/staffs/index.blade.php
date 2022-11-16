@@ -1,14 +1,14 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
-    {{-- @dd($staffs) --}}
     <div class="main-content">
+        <div class="page-header">
+            <h2 class="header-title">{{ $title }}</h2>
+            <x:notify-messages />
+        </div>
+        @if($staffs->count())
         <div class="card">
             <div class="card-body">
-                <div class="page-header">
-                    <h2 class="header-title">Quản lý nhân viên</h2>
-                </div>
-                <x:notify-messages />
                 <div class="card">
                     <div class="card-body">
                         <div class="row m-b-30">
@@ -111,6 +111,27 @@
                 </div>
             </div>
         </div>
+        @else
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10 text-center">
+                            <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                                <th>
+                                    chưa có nhân viên nào
+                                </th>
+                            </center>
+                        </div>
+                        <div class="col-lg-2 text-right">
+                            <a href="{{ route('staffs.create') }}" class="btn btn-primary">
+                                <i class="anticon anticon-plus-circle m-r-5"></i>
+                                <span>Add</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
     <script>
         setTimeout(() => {

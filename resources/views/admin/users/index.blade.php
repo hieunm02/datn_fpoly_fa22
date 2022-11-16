@@ -3,13 +3,14 @@
 @section('content')
     <div class="main-content">
         <div class="page-header d-flex align-items-center">
-            <h2 class="header-title flex-fill">Danh sách tài khoản</h2>
+            <h2 class="header-title">{{ $title }}</h2>
             @if (session()->has('success'))
                 <p id="setout" class="text-white alert bg-success m-0">
                     {{ session()->get('success') }}
                 </p>
             @endif
         </div>
+        @if($users->count())
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -72,6 +73,22 @@
                 </div>
             </div>
         </div>
+        @else
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                                <th>
+                                    chưa có người dùng nào
+                                </th>
+                            </center>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
 <script>

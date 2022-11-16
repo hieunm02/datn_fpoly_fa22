@@ -19,6 +19,7 @@
                 <span class="alert_success">{{ session('success') }}</span>
             </div>
         @endif
+        @if($buildings->count())
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -132,5 +133,26 @@
                 </div>
             </div>
         </div>
+        @else
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10 text-center">
+                            <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                                <th>
+                                    chưa có tòa nào được thêm
+                                </th>
+                            </center>
+                        </div>
+                        <div class="col-lg-2 text-right">
+                            <a href="{{ route('building.create') }}" class="btn btn-primary">
+                                <i class="anticon anticon-plus-circle m-r-5"></i>
+                                <span>Add</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
