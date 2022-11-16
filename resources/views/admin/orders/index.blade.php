@@ -11,6 +11,7 @@
         {{ session()->get('success') }}
     </div>
     @endif
+    @if($orders->count())
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -96,6 +97,21 @@
         </div>
     </div>
 </div>
+    @else
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                            <th>
+                                chưa có đơn hàng nào
+                            </th>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 <script>
     $(document).ready(function() {

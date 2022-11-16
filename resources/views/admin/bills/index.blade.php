@@ -4,15 +4,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>;
 <div class="main-content">
     <div class="page-header">
-        <h2 class="header-title">Bills List</h2>
-        <div class="header-sub-title">
-            <nav class="breadcrumb breadcrumb-dash">
-                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                <a class="breadcrumb-item" href="#">Apps</a>
-                <a class="breadcrumb-item" href="#">E-commerce</a>
-                <span class="breadcrumb-item active">Bills List</span>
-            </nav>
-        </div>
+        <h2 class="header-title">{{$title}}</h2>
     </div>
     @if (session('success'))
     <div class="alert alert-success">
@@ -20,6 +12,7 @@
         <span class="alert_success">{{ session('success') }}</span>
     </div>
     @endif
+    @if($bills->count())
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -114,6 +107,21 @@
             </div>
         </div>
     </div>
+    @else
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                            <th>
+                                chưa có hóa đơn hàng nào
+                            </th>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 <div style="display: flex; justify-content: center">
     {{ $bills->links() }}
