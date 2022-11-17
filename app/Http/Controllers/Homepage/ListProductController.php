@@ -9,16 +9,16 @@ use Illuminate\Http\Request;
 
 class ListProductController extends Controller
 {
-    public function getList()
+    public function getList(Request $request)
     {
-        $data['products'] = Product::with('menu')->paginate(9);
-        $data['name'] = 'Tất cả sản phẩm';
+        if ($request) {
+            $data['products'] = Product::filter($request)->with('menu')->get();
+        } 
         return view('client.list-products', $data);
     }
 
     public function getListMenu($id)
     {
-
         $data['products'] = Product::with('menu')->where('menu_id', '=', $id)->paginate(9);
         $data['name'] = Menu::find($id)->name;
         return view('client.list-products', $data);

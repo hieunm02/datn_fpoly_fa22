@@ -140,11 +140,12 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        if ($request->result != '') {
+        if ($request->ajax()) {
             $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->get();
             $result = '';
-            foreach ($products as  $product) {
-                $result .= '
+            if ($products) {
+                foreach ($products as  $product) {
+                    $result .= '
                 <div class="col-md-3 pb-3">
                                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                     <div class="list-card-image">
@@ -180,9 +181,8 @@ class HomeController extends Controller
                                 </div>
                             </div>
                 ';
+                }
             }
-        } else {
-            $result = '';
         }
         return response()->json(['result' => $result], 200);
     }

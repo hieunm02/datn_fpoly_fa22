@@ -20,4 +20,26 @@ class Product extends Model
     {
         return $this->belongsTo(Price::class);
     }
+
+    public function scopeFilter($query)
+    {
+
+        if (request('price_low_high') == 0) {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->orderBy('price', 'desc');
+        }
+
+        if (request('price_from') && request('price_to')) {
+            if (request('price_from') > request('price_to')) {
+                $query->whereBetween('price', [request('price_to'), request('price_from')]);
+            } elseif (request('price_from') == request('price_to')) {
+                $query->where('price', request('price_from'));
+            } else {
+                $query->whereBetween('price', [request('price_from'), request('price_to')]);
+            }
+        }
+
+        return $query;
+    }
 }
