@@ -20,6 +20,7 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Homepage\BillController as HomepageBillController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
@@ -51,6 +52,11 @@ Route::prefix('/')->group(function () {
     Route::put('/carts/update/{id}', [CartController::class, 'update']);
     Route::post('storeCart', [CartController::class, 'store'])->name('carts.store');
     Route::delete('/carts/delete/{id}', [CartController::class, 'destroy']);
+    //bill
+    Route::get('bills', [HomepageBillController::class, 'getBill'])->name('bills');
+    Route::get('bill/{code}', [HomepageBillController::class, 'getBillCode'])->name('billDetail');
+    Route::post('bill/change/{status}', [HomepageBillController::class, 'changstatus'])->name('changstatus');
+    //end bill
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('products/{product}/product-detail', [HomeController::class, 'show'])->name('product-detail');
     Route::get('products/{product_id}/comments/create', [HomeController::class, 'createComment']);
