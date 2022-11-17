@@ -1,31 +1,44 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
-    <div class="app">
-        <div class="layout">
-
+<div class="app">
+    <div class="layout">
             <!-- Content Wrapper START -->
             <div class="main-content">
                 <div class="container-fluid p-h-0">
-
-                    @if($rooms->count())
-                        <div class="chat chat-app row">
-                            <div class="chat-list">
-                                <div class="chat-user-tool">
-                                    <i class="anticon anticon-search search-icon p-r-10 font-size-20"></i>
-                                    <input placeholder="Search...">
-                                </div>
-                                <div class="chat-user-list" id="room_chat">
-                                    @foreach($rooms as $room)
-                                        <input type="hidden" name="room_id" id="room_id" value="{{ $room->room_id }}">
-                                        <a class="chat-list-item p-h-25" href="/admin/chats/message/{{$room->room_id}}">
-                                            <div class="media align-items-center">
-                                                <div class="avatar avatar-image">
-                                                    <img src="{{ $room->avatar }}" alt="">
-                                                </div>
-                                                <div class="p-l-15">
-                                                    <h5 class="m-b-0">{{$room->name}}</h5>
-                                                </div>
+                    <div class="chat chat-app row">
+                        <div class="chat-list">
+                            <div class="chat-user-tool">
+                                <i class="anticon anticon-search search-icon p-r-10 font-size-20"></i>
+                                <input placeholder="Search...">
+                            </div>
+                            <div class="chat-user-list" id="room_chat">
+                                @foreach($rooms as $room)
+                                <input type="hidden" name="room_id" id="room_id" value="{{ $room->room_id }}">
+                                <a class="chat-list-item p-h-25" href="/admin/chats/message/{{$room->room_id}}">
+                                    <div class="media align-items-center">
+                                        <div class="avatar avatar-image">
+                                            <img src="{{ $room->avatar }}" alt="">
+                                        </div>
+                                        <div class="p-l-15">
+                                            <h5 class="m-b-0">{{$room->name}}</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                                @endforeach
+                            </div>   
+                        </div>
+                        @if ($room_id)
+                        <div class="chat-content">
+                            <div class="conversation">
+                                <div class="conversation-wrapper">
+                                    <div class="conversation-header justify-content-between">
+                                        <div class="media align-items-center">
+                                            <a href="javascript:void(0);" class="chat-close m-r-20 d-md-none d-block text-dark font-size-18 m-t-5" >
+                                                <i class="anticon anticon-left-circle"></i>
+                                            </a>
+                                            <div class="avatar avatar-image">
+                                                <img src="{{ $room_avatar ? $room_avatar->avatar : "" }}" alt="">
                                             </div>
                                         </a>
                                     @endforeach
@@ -59,7 +72,7 @@
                                         {{-- <div class="msg justify-content-center">
                                             <div class="font-weight-semibold font-size-12"> 7:57PM </div>
                                         </div> --}}
-                                        @if ($message->user_id != 2)
+                                        @if ($message->user_id == Auth::user()->id)
                                             <div class="msg msg-sent">
                                                 <div class="bubble">
                                                     <div class="bubble-wrapper">
@@ -82,12 +95,15 @@
                                             </div>
                                             @endif
                                         @endforeach
-                                    </div>
+                                    </div> 
+                                    <div id="is-typing" style="height: 50px; width: 100%; margin-bottom: 50px; margin-left: 30px;">
 
-                                        <div class="conversation-footer">
-                                            <input type="hidden" value="{{$room_id}}" id="room_id">
-                                            <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
-                                            <input type="hidden" id="user_id" value="{{ Auth::user()->id }}">
+                                    </div>
+                                    <div class="conversation-footer">
+                                        <input type="hidden" id="room_chat_id" value="{{ $room_id }}">
+                                        <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
+                                        <input type="hidden" id="user_name" value="{{ Auth::user()->name }}">
+                                        <input type="hidden" id="user_id" value="{{ Auth::user()->id }}">
 
                                             <div class="chat-input" id="chatInput" type="text"
                                                  placeholder="Type a message..." contenteditable=""></div>
@@ -120,22 +136,16 @@
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <center
-                                            class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
-                                            <th>
-                                                chưa có tin nhắn nào được gửi đến
-                                            </th>
-                                        </center>
-                                    </div>
-                                </div>
+                        @else
+                        <div class="conversation-body" style="background-color:white; width: 70%">
+                            <div style="margin-top: 50px; text-align: center">
+                                <span style="font-size: 30px;">Chào mừng đến với <b>Bee Chat</b> !</span>
+                                <img src="{{asset('assets/images/logo/ChatApp.png')}}" style="margin-left:230px ;" alt="">
                             </div>
                         </div>
-                    @endif
+                        @endif
+
+                    </div>
                 </div>
             </div>
             <!-- Content Wrapper END -->
@@ -154,17 +164,15 @@
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port);
 
-            let chatInput = $('#chatInput');
-
-            chatInput.keypress(function (e) {
-                let message = $(this).html();
+        let chatInput = $('#chatInput');
+        chatInput.keypress(function(e) {
+            let message = $(this).html();
             let user_id = $('#user_id').val();
-            const avatar = $('#avatar').val()
-            let room_id = $('#room_id').val()
-            console.log(message);
-            console.log(room_id);
+            let avatar = $('#avatar').val()
+            let user_name = $('#user_name').val()
+            let room_id = $('#room_chat_id').val()
 
-                if(e.which === 13 && !e.shiftKey) {
+            if(e.which === 13 && !e.shiftKey) {
                 $('#chat-content').append(`
                 <div class="msg msg-sent">
                     <div class="bubble">
@@ -174,14 +182,32 @@
                     </div>
                 </div>
                 `);
-                socket.emit('sendChatToServer', message);
+                //Gửi dữ liệu lên server
+                socket.emit('sendChatToServer', message, user_id, user_name, avatar, room_id);
                 chatInput.html('');
-                sendMessage(message, user_id, room_id, avatar)
+                // Kéo thanh scroll xuống xuối
+                var messageBody = document.getElementById('chat-content');
+                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                // không đang nhập 
+                    let noTyping = ''
+                    socket.emit('isTyping' , noTyping);
+                sendMessage(message, user_id, avatar, room_id)
                 return false;
             }
         });
-
-        function sendMessage(message, user_id, room_id, avatar) {
+            // Hiệu ứng đang nhập
+            chatInput.keypress(function(e) {
+                let name = $('#user_name').val()
+                let room_id = $('#id').val()
+                if(e.which != 13 && !e.shiftKey){
+                    let typing = `
+                    <span style="float: left;margin-right: 5px; margin-bottom:10px">${name} đang soạn tin</span> 
+                    <img src="https://static.wixstatic.com/media/c29e02_814402a86a544d12a0ffb478f5c338e9~mv2.gif" width="25px" alt="">
+                    `
+                    socket.emit('isTyping' , typing, room_id);
+                }
+            })
+        function sendMessage(message, user_id, avatar, room_id) {
                 let url = "{{ route('rep') }}"
                 let form = $(this)
                 let formData = new FormData()
@@ -207,24 +233,20 @@
                     }
                 })
             }
-
+        // Đang nhập
+        socket.on('isTyping', (typing, room_id) => {
+            $('#is-typing').html(
+                room_id == $('#room_chat_id').val() ? `${typing}` : ``
+            )
+        });
+        // Nhận vào tin nhắn
         socket.on('sendChatToClient', (message, id, name, avatar, room_id) => {
             $('#chat-content').append(
-                id == $('#id').val() ? `
-                    <div class="msg msg-sent">
-                        <div class="bubble">
-                            <div class="bubble-wrapper">
-                                <span>${message}</span>
-                            </div>
-                        </div>
-                    </div>
-                    `
-                    :
-                    `
+                room_id == $('#room_chat_id').val() && id != $('#user_id').val() ? `
                     <div class="msg msg-recipient">
                         <div class="m-r-10">
                             <div class="avatar avatar-image">
-                                <img src="assets/images/avatars/thumb-1.jpg" alt="">
+                                <img src="${avatar}" alt="">
                             </div>
                         </div>
                         <div class="bubble">
@@ -234,6 +256,8 @@
                         </div>
                     </div>
                     `
+                    : 
+                    ``
             );
             $('#room_chat').append(
                 id != $('#room_id').val() ? `
@@ -253,6 +277,10 @@
             )
         });
     });
+</script>
+<script>
+    var messageBody = document.getElementById('chat-content');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 </script>
 @endsection
 
