@@ -28,6 +28,7 @@
                                 @endforeach
                             </div>   
                         </div>
+                        @if ($room_id)
                         <div class="chat-content">
                             <div class="conversation">
                                 <div class="conversation-wrapper">
@@ -114,6 +115,15 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="conversation-body" style="background-color:white; width: 70%">
+                            <div style="margin-top: 50px; text-align: center">
+                                <span style="font-size: 30px;">Chào mừng đến với <b>Bee Chat</b> !</span>
+                                <img src="{{asset('assets/images/logo/ChatApp.png')}}" style="margin-left:230px ;" alt="">
+                            </div>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
