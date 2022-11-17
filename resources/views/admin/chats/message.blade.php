@@ -79,6 +79,9 @@
                                         @endif
                                         @endforeach
                                     </div> 
+                                    <div id="is-typing" style="height: 50px; width: 100%; margin-bottom: 50px; margin-left: 30px;">
+
+                                    </div>
                                     <div class="conversation-footer">
                                         <input type="hidden" id="room_chat_id" value="{{ $room_id }}">
                                         <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
@@ -152,11 +155,25 @@
                 // Kéo thanh scroll xuống xuối
                 var messageBody = document.getElementById('chat-content');
                     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                // không đang nhập 
+                    let noTyping = ''
+                    socket.emit('isTyping' , noTyping);
                 sendMessage(message, user_id, avatar, room_id)
                 return false;
             }
         });
-
+            // Hiệu ứng đang nhập
+            chatInput.keypress(function(e) {
+                let name = $('#user_name').val()
+                let room_id = $('#id').val()
+                if(e.which != 13 && !e.shiftKey){
+                    let typing = `
+                    <span style="float: left;margin-right: 5px; margin-bottom:10px">${name} đang soạn tin</span> 
+                    <img src="https://static.wixstatic.com/media/c29e02_814402a86a544d12a0ffb478f5c338e9~mv2.gif" width="25px" alt="">
+                    `
+                    socket.emit('isTyping' , typing, room_id);
+                }
+            })
         function sendMessage(message, user_id, avatar, room_id) {
                 let url = "{{ route('rep') }}"
                 let form = $(this)
@@ -183,11 +200,13 @@
                     }
                 })
             }
-            // socket.on('isTyping', (typing) => {
-            //     $('#chat-content').append(
-            //         `${typing}`
-            //     )
-            // })
+        // Đang nhập
+        socket.on('isTyping', (typing, room_id) => {
+            $('#is-typing').html(
+                room_id == $('#room_chat_id').val() ? `${typing}` : ``
+            )
+        });
+        // Nhận vào tin nhắn
         socket.on('sendChatToClient', (message, id, name, avatar, room_id) => {
             $('#chat-content').append(
                 room_id == $('#room_chat_id').val() && id != $('#user_id').val() ? `
