@@ -29,7 +29,7 @@
                             </div>   
                         </div>
                         @if ($room_id)
-                        <div class="chat-content">
+                        {{-- <div class="chat-content">
                             <div class="conversation">
                                 <div class="conversation-wrapper">
                                     <div class="conversation-header justify-content-between">
@@ -41,9 +41,8 @@
                                                 <img src="{{ $room_avatar ? $room_avatar->avatar : "" }}" alt="">
                                             </div>
                                         </a>
-                                    @endforeach
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="chat-content">
                                 <div class="conversation">
                                     <div class="conversation-wrapper">
