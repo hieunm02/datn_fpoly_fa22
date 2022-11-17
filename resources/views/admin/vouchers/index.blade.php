@@ -3,17 +3,10 @@
 @section('content')
 <div class="main-content">
     <div class="page-header">
-        <h2 class="header-title">Orders List</h2>
-        <div class="header-sub-title">
-            <nav class="breadcrumb breadcrumb-dash">
-                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                <a class="breadcrumb-item" href="#">Apps</a>
-                <a class="breadcrumb-item" href="#">E-commerce</a>
-                <span class="breadcrumb-item active">Orders List</span>
-            </nav>
-        </div>
+        <h2 class="header-title">{{ $title }}</h2>
     </div>
     <x:notify-messages />
+    @if($vouchers->count())
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -122,9 +115,30 @@
             </div>
         </div>
     </div>
+    @else
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-10 text-center">
+                        <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                            <th>
+                                chưa có voucher nào
+                            </th>
+                        </center>
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <a href="{{ route('vouchers.create') }}" class="btn btn-primary">
+                            <i class="anticon anticon-plus-circle m-r-5"></i>
+                            <span>Add Voucher</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

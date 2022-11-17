@@ -200,7 +200,13 @@ class OrderController extends Controller
     //thanh toán 
     public function pay(Request $request)
     {
-        $data = $this->orderService->createTT($request);
-        return response()->json($data);
+        $cart = $this->cartService->getCarttt();
+        if(count($cart) > 0) {
+            $data = $this->orderService->createTT($request);
+            return response()->json($data);
+        }else {
+            $data = "Không có sản phẩm trong giỏ!";
+            return response()->json($data, 500);
+        }
     }
 }

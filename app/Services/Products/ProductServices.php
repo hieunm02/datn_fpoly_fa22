@@ -37,10 +37,21 @@ class ProductServices
         return json_encode($nameThumbs);
     }
 
+    public function getProducts($request)
+    {
+        $text_search = $request->get('text_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        return  Product::with('menu')
+            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
+            ->where('name', 'like', '%' . $text_search . '%')
+            ->orderBy('updated_at', 'DESC')->paginate(5);
+    }
+
     public function getAll()
     {
-
-        return Product::with('menu', 'price')
+        return  Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
             ->orderBy('id', 'DESC')->paginate(5);
     }

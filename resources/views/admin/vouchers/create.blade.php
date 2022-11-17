@@ -2,13 +2,6 @@
 @section('title', $title)
 @section('content')
 <div class="main-content">
-    <div class="row m-b-30">
-        <div class="col-lg-7">
-        </div>
-        <div class="col-lg-5  text-right">
-            <a class="btn btn-primary" href="#" onclick="randomCode()">Tạo mã code</a>
-        </div>
-    </div>
     <form action="{{ route('vouchers.store') }}" enctype="multipart/form-data" method="post">
         @csrf
         <div class="page-header no-gutters has-tab">
@@ -24,10 +17,18 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="font-weight-semibold" for="productName">Mã voucher</label>
-                                <input type="text" class="form-control <?php echo $errors->first('code') ? 'is-invalid' : ''; ?>" id="code-voucher" name="code" placeholder="Mã" value="{{ old('code') }}">
-                                @if ($errors->first('code'))
-                                <div class="invalid-feedback">{{ $errors->first('code') }}</div>
-                                @endif
+                                <div class="row">
+                                    <div class="col-3">
+                                        <input type="text"  class="form-control <?php echo $errors->first('code') ? 'is-invalid' : ''; ?>" id="code-voucher" name="code" placeholder="Mã" value="{{ old('code') }}">
+                                        @if ($errors->first('code'))
+                                            <div class="invalid-feedback">{{ $errors->first('code') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-primary " href="#" onclick="randomCode()">Tạo mã code</a>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="form-group">

@@ -103,28 +103,46 @@ function updateQtyTT(el) {
 }
 //thanh toán
 $("#payment").on('click', function () {
-    $.ajax({
-        type: "POST",
-        url: "/admin/thanh-toan-truc-tiep/paymanet",
-        data: {
-            name: $('input[name=name]').val(),
-            email: $('input[name=email]').val(),
-            phone: $('input[name=phone]').val()
-        },
-        dataType: "JSON",
-        success: function (response) {
-            $("#showCartTT").html('');
-            $("#total1").html('')
-            $("#total2").html('')
-            $('input[name=name]').text('')
-            $('input[name=email]').text('')
-            $('input[name=phone]').text('')
-            index()
-            Swal.fire(
-                'Successful!',
-                'Thanh toán thành công!',
-                'success'
-            )
-        }
-    });
+     if ($('input[name=name]').val() == '') {
+        $('input[name=name]').addClass('is-invalid');
+    } if ($('input[name=email]').val() == '') {
+        $('input[name=email]').addClass('is-invalid');
+    } if ($('input[name=phone]').val() == '') {
+        $('input[name=phone]').addClass('is-invalid');
+    } else {
+        $('input[name=name]').removeClass('is-invalid');
+        $('input[name=email]').removeClass('is-invalid');
+        $('input[name=phone]').removeClass('is-invalid');
+        $.ajax({
+            type: "POST",
+            url: "/admin/thanh-toan-truc-tiep/paymanet",
+            data: {
+                name: $('input[name=name]').val(),
+                email: $('input[name=email]').val(),
+                phone: $('input[name=phone]').val()
+            },
+            dataType: "JSON",
+            success: function (response) {
+                $("#showCartTT").html('');
+                $("#total1").html('')
+                $("#total2").html('')
+                $('input[name=name]').text('')
+                $('input[name=email]').text('')
+                $('input[name=phone]').text('')
+                index()
+                Swal.fire(
+                    'Successful!',
+                    'Thanh toán thành công!',
+                    'success'
+                )
+            },
+            error: function (data) {
+                Swal.fire(
+                    'Errors!',
+                    data.responseJSON,
+                    'error'
+                )
+            }
+        });
+    }
 })

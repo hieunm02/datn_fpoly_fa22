@@ -23,16 +23,18 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-12 border text-white p-0" style="height: 280px;">
-                        <div class="col-12 p-2">
-                            <div class="d-inline-block pt-1">
+                    <div class="col-md-12 text-white p-0" style="height: 280px;">
+                        <div class="col-12 p-2 table-success">
+                            <div class="d-inline-block">
                                 <a class="d-inline btn btn-primary p-1" onclick="filterPrdAll()">Tất cả</a>
                                 @foreach ($menus as $mn)
-                                    <a class="d-inline btn btn-primary p-1" onclick="filterPrd({{ $mn->id }})">{{ $mn->name }}</a>
+                                    <a class="d-inline btn btn-primary p-1"
+                                        onclick="filterPrd({{ $mn->id }})">{{ $mn->name }}</a>
                                 @endforeach
                             </div>
                         </div>
-                        <div class="col-12 py-2 table-wrapper-scroll-y my-custom-scrollbar">
+                        <div class="col-12 py-2 table-wrapper-scroll-y my-custom-scrollbar"
+                            style="background-color: rgb(234, 234, 234);">
                             <div class="row">
                                 @foreach ($prds as $it)
                                     <div class="col-md-3 text-whiter p-2 filterPrd{{ $it->menu_id }} prdTT">
