@@ -148,7 +148,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard 
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -180,7 +180,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('vouchers', VoucherController::class);
 
     //Staff
-    Route::resource('staffs', StaffController::class);
+    Route::middleware('role:manager')->resource('staffs', StaffController::class);
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
