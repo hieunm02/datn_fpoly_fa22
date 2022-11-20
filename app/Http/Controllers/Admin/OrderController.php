@@ -15,6 +15,7 @@ use App\Services\Orders\AdminOrderService;
 use App\Services\Products\ProductServices;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -134,18 +135,30 @@ class OrderController extends Controller
     public function payment()
     {
         $prds = Product::all();
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        // dd($cartOrder);
         $menus = $this->menuServices->getMenuIndex();
         return view('admin.thanh-toan-truc-tiep.index', [
             'title' => 'Thanh toán trực tuyến',
             'prds' => $prds,
             'menus' => $menus,
+            'cartOrder' => $cartOrder,
         ]);
     }
     //show cart tt
-    public function getCart()
+    public function getCart(Request $request)
     {
-        $cart = $this->cartService->getCarttt();
+        $cart = $this->cartService->getCarttt($request->order_tt);
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        $btn_order  = '';
+        foreach ($cartOrder as $index => $it) {
+            $index +=1;
+            $btn_order .= "<div class='btn btn-success mr-1 p-1' data-id='$it->order_tt'
+            onclick='showDonHang($it->order_tt)'>Đơn $index</div>";
+        }
+        $btn_order .= "<div class='btn btn-success mr-1 p-1' onclick='createOrderNew()'><i class='bi bi-plus'></i></div>";
         $data = '';
+        $order_tt = '';
         $totals = 0;
         foreach ($cart as $el) {
             if ($el->price_sales == 0 || $el->price_sales == Null) {
@@ -165,16 +178,20 @@ class OrderController extends Controller
                 </td>
             </tr>";
             $totals += $total;
+            $order_tt = $el->order_tt;
         }
         return response()->json([
             'total' => $totals,
-            'data' => $data
+            'data' => $data,
+            'order_tt' => $order_tt,
+            'btn_order' => $btn_order
         ], 200);
     }
     //thêm cart tt
     public function directPayment(Request $request)
     {
-        $cart = Cart::where('user_id', '=', '')->get();
+        $cart = Cart::where('user_id', '=', '')->where('order_tt', '=', $request->order_tt)->get();
+        // dd($cart);
         $check = 0;
         foreach ($request->value as $el) {
             foreach ($cart as $it) {
@@ -190,6 +207,7 @@ class OrderController extends Controller
                 $data->product_id = $el;
                 $data->user_id = '';
                 $data->quantity = 1;
+                $data->order_tt = $request->order_tt;
                 $data->date = Carbon::now()->toDateString();
                 $data->save();
             }
@@ -200,7 +218,7 @@ class OrderController extends Controller
     //thanh toán 
     public function pay(Request $request)
     {
-        $cart = $this->cartService->getCarttt();
+        $cart = $this->cartService->getCarttt($request->order_tt);
         if(count($cart) > 0) {
             $data = $this->orderService->createTT($request);
             return response()->json($data);

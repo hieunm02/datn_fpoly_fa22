@@ -187,4 +187,42 @@ $(function () {
             }
         });
     });
+    // thanh toán đơn hàng
+    $("#datHang").click(function () {
+        var checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
+        var arr = []
+        for (var i = 0; i < checks.length; i++) {
+            arr.push($(checks[i]).val())
+        };
+        $.ajax({
+            type: "POST",
+            url: "/orders",
+            data: {
+                name: $("input[name=name]").val(),
+                building: $("select[name=building]").val(),
+                floor: $("select[name=floor]").val(),
+                room: $("select[name=room]").val(),
+                phone: $("input[name=phone]").val(),
+                email: $("input[name=email]").val(),
+                note: $("textarea[name=note]").val(),
+                product_id: arr,
+            },
+            dataType: "JSON",
+            success: function (response) {
+                $("#showCartUser").html('');
+                $("#cartNull").html('Chưa có sản phẩm nào!');
+                $('#show_total').html('');
+                $('#show_order').html('');
+                $('#show_total').append('0<sup>đ</sup>');
+                $('#show_order').append('0<sup>đ</sup>');
+                $('#count_cart').html('');
+                $('#count_cart').append(response);
+                Swal.fire(
+                    'Successful!',
+                    'Đăt hàng thành công!',
+                    'success'
+                )
+            }
+        });
+    })
 })

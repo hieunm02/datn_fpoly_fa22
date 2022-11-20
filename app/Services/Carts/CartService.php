@@ -71,8 +71,12 @@ class CartService
         return true;
     }
     //thannh toan truc tiep
-    public function getCarttt()
+    public function getCarttt($order_tt)
     {
-        return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.id', 'carts.quantity')->where('user_id', '=', '')->get();
+        return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.order_tt', 'carts.id', 'carts.quantity')->where('user_id', '=', '')->where('order_tt', '=', $order_tt)->get();
     }
+    // public function getCarttt()
+    // {
+    //     return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.id', 'carts.quantity')->where('user_id', '=', '')->get();
+    // }
 }

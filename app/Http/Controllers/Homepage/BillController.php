@@ -14,7 +14,7 @@ class BillController extends Controller
     public function getBill()
     {
         if (Auth::check()) {
-            $bills = Order::where('user_id', Auth::user()->id)->orderby('created_at', 'DESC')->paginate(10);
+            $bills = Order::where('user_id', Auth::user()->id)->orderby('created_at', 'DESC')->get();
             $status = OrderStatus::where('id', 5)->orWhere('id', 1)->get();
             return view('client.bill', [
                 'bills' => $bills,

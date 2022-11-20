@@ -6,15 +6,32 @@ function filterPrd(el) {
     $('div').filter($('.prdTT')).css('display', 'none');
     $('div').filter($('.filterPrd' + el)).css('display', 'block');
 }
+//tạo mới đơn hàng 
+function createOrderNew() {
+    var a = Math.floor(Math.random() * 10000);
+    $("#showCartTT").html(''); 
+    $("#total1").html(0)
+    $("#total2").html(0)
+    $("#id_cartTT").html('<input type="hidden" id="orderNew" value="'+a+'">');
+}
 //showw đơn hàng
-index()
-function index() {
+function showDonHang(el) {
+    $("#id_cartTT").html('');
     $.ajax({
         type: "GET",
         url: "/admin/thanh-toan-truc-tiep/getCart",
+        data: {
+            order_tt: el
+        },
         dataType: "Json",
         success: function (response) {
+            $("#showCartTT").html('');
+            $("#cartOrder").html('')
+            $("#cartOrder").append(response.btn_order)
+            $("#id_cartTT").html('<input type="hidden" id="orderNew" value="'+response.order_tt+'">')
             $("#showCartTT").append(response.data);
+            $("#total1").html('')
+            $("#total2").html('')
             $("#total1").append(new Intl.NumberFormat('vn-VN').format(response.total));
             $("#total2").append(new Intl.NumberFormat('vn-VN').format(response.total));
         }
@@ -31,15 +48,16 @@ $("#addprd").on('click', function () {
         type: "POST",
         url: "/admin/thanh-toan-truc-tiep",
         data: {
-            value: arr
-        },
+            value: arr,
+            order_tt: $("#orderNew").val()
+},
         dataType: "JSON",
         success: function () {
             $("#showCartTT").html('');
             $("#total1").html('')
             $("#total2").html('')
             $("input[type='checkbox']").prop('checked', false);
-            index()
+            showDonHang($("#orderNew").val())
             Swal.fire(
                 'Successful!',
                 'Thêm sản phẩm thành công!',
@@ -59,13 +77,13 @@ function deleteTT(el) {
             url: "/carts/delete/" + el,
             // dataType: "JSON",
             data: {
-                'cart': el
+                'cart': el,
             },
             success: function (data) {
                 $("#showCartTT").html('');
                 $("#total1").html('')
                 $("#total2").html('')
-                index()
+                showDonHang($("#orderNew").val())
                 Swal.fire(
                     'Successful!',
                     'Xóa sản phẩm khỏi giỏ hàng thành công!',
@@ -92,7 +110,7 @@ function updateQtyTT(el) {
             $("#showCartTT").html('');
             $("#total1").html('')
             $("#total2").html('')
-            index()
+            showDonHang($("#orderNew").val())
             Swal.fire(
                 'Successful!',
                 'Cập nhật số lượng thành công!',
@@ -119,7 +137,8 @@ $("#payment").on('click', function () {
             data: {
                 name: $('input[name=name]').val(),
                 email: $('input[name=email]').val(),
-                phone: $('input[name=phone]').val()
+                phone: $('input[name=phone]').val(),
+                order_tt: $("#orderNew").val()
             },
             dataType: "JSON",
             success: function (response) {
@@ -129,7 +148,7 @@ $("#payment").on('click', function () {
                 $('input[name=name]').text('')
                 $('input[name=email]').text('')
                 $('input[name=phone]').text('')
-                index()
+                showDonHang($("#orderNew").val())
                 Swal.fire(
                     'Successful!',
                     'Thanh toán thành công!',

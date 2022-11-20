@@ -74,7 +74,7 @@ class AdminOrderService
             $order->note = 'Mua hàng tại canteen Beefood';
             // dd($order);
             $order->save();
-            $count = $this->cartService->getCarttt();
+            $count = $this->cartService->getCarttt($request->order_tt);
             // dd($count);/
             foreach ($count as $it) {
                 $del = Cart::find($it->id);

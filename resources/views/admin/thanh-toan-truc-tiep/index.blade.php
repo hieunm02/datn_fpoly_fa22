@@ -8,14 +8,27 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-md-9 pl-0" style="height: 560px;">
+                    <div class="col-12 p-0" id="cartOrder">
+                        {{-- show các đơn chưa thanh toán ở mua trực tuyến --}}
+                        @foreach ($cartOrder as $index => $or)
+                            <div class="btn btn-success p-1" data-id="{{ $or->order_tt }}"
+                                onclick="showDonHang('{{ $or->order_tt }}')">Đơn {{ $index + 1 }}</div>
+                        @endforeach
+                        <div class="btn btn-success p-1" onclick="createOrderNew()"><i class="bi bi-plus"></i></div>
+                    </div>
                     <div class="col-md-12 p-0 text-white" style="height: 280px;">
                         <div class="table-wrapper-scroll-y my-custom-scrollbar">
                             <table class="table table-bordered">
                                 <thead class="table-success">
-                                    <th>Sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Thành tiền</th>
-                                    <th></th>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr id="id_cartTT">
+
+                                    </tr>
                                 </thead>
                                 <tbody id="showCartTT">
 
