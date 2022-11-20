@@ -18,8 +18,9 @@ class ProductFactory extends Factory
             'content' => $this->faker->text,
             'thumb' => $this->faker->imageUrl($width = 200, $height = 200),
             'menu_id' => 1,
-            'price_id' => 1,
-            'active' => 1,
+            'price' => 100,
+            'price_sales' => 10,
+            'active' => 0,
             'desc' => 'abc',
             'quantity' => $this->faker->numberBetween(10, 5000)
 

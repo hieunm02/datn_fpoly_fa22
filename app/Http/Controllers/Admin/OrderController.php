@@ -34,13 +34,19 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = $this->orderService->getAllOrders();
-        // $cancelled = $this->orderService->getOrderByStatus(5);
+        $orders = $this->orderService->getOrders($request);
         $title = "Quản lý đơn hàng";
 
-        return view('admin.orders.index', compact('title', 'orders'));
+
+        if ($request->status == 200) {
+            return response()->json([
+                'orders' => $orders,
+            ]);
+        } else {
+            return view('admin.orders.index', compact('title', 'orders'));
+        }
     }
 
     public function updateStatus(Request $request)
