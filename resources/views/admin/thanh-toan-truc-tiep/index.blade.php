@@ -27,7 +27,7 @@
                                         <th></th>
                                     </tr>
                                     <tr id="id_cartTT">
-
+                                        <input type="hidden" id="orderNew" value="order_ttnum">
                                     </tr>
                                 </thead>
                                 <tbody id="showCartTT">
@@ -122,4 +122,5 @@
         }
     </style>
     <script src="{{ asset('js/handleGeneral/admin/thanh-toan-truc-tiep.js') }}"></script>
+    <script>$('#orderNew').val(Math.floor(Math.random() * 10000))</script>
 @endsection
