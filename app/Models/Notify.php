@@ -11,17 +11,13 @@ class Notify extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'order_id',
-        'notify',
-        'mark_readed',
+        'type',
+        'status',
+        'role',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
     }
 }

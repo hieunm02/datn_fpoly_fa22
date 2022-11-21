@@ -191,20 +191,6 @@
 </div>
 </div>
 @endsection
-<script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-<script>
-    $(function() {
-        let ip_address = '127.0.0.1';
-        let socket_port = '3000';
-
-        let socket = io(ip_address + ':' + socket_port);
-        $('#dathang').on('click', function() {
-            var user_id = <?php echo Auth::id() ?>;
-            socket.emit('sendNotifyToServer', user_id);
-        });
-    })
-</script>
 <style>
     .appearance-none {
         appearance: none;

@@ -16,9 +16,9 @@ class CreateNotifiesTable extends Migration
         Schema::create('notifies', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->integer('order_id')->unsigned();
-            $table->text('notify');
-            $table->integer('mark_readed');
+            $table->string('type');
+            $table->string('status')->default('pending');
+            $table->string('role')->nullable();
             $table->timestamps();
         });
     }

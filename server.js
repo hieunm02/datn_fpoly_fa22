@@ -23,10 +23,10 @@ io.on('connection', (socket) => {
     });
     // }
     // chat();
-    socket.on('sendNotifyToServer', (user_id, id, mark_readed, notify, order_id) => {
-        // io.sockets.emit('sendChatToClient', user_id);
-        socket.broadcast.emit('sendNotifyToClient', user_id, id, mark_readed, notify, order_id);
+    socket.on('sendNotifyToServer', (data) => {
+        socket.broadcast.emit('sendNotifyToClient', data);
     });
+
     // function contactUs() {
     //     socket.on('sendContacToServer', (name) => {
     //         console.log(name);

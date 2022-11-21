@@ -253,18 +253,6 @@
 
         });
     })
-
-    $(function() {
-        let ip_address = '127.0.0.1';
-        let socket_port = '3000';
-        let socket = io(ip_address + ':' + socket_port);
-        var today = new Date();
-        socket.on('sendNotifyToClient', (user_id) => {
-            <?php notify()->success('Có 1 đơn hàng mới'); ?>
-            $('#notify').prepend(`<li>Đơn từ ${user_id} vào lúc ${today.getHours()}giờ  ${today.getMinutes()} phút</li>`);
-            console.log(user_id);
-        });
-    });
 </script>
 <style>
     .my-custom-scrollbar {

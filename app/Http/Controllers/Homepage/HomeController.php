@@ -7,6 +7,7 @@ use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\CommentReaction;
 use App\Models\CommentRection;
+use App\Models\Notify;
 use App\Models\Product;
 use App\Models\Reaction;
 use App\Models\Slide;
@@ -107,7 +108,10 @@ class HomeController extends Controller
             'date' => date('Y-m-d h:i:s'),
             'user_id' => $this->commentService->getNameUser($request->user_id),
             'comment_id' => $comment->id,
-            'avatar' => $comment->user->avatar
+            'avatar' => $comment->user->avatar,
+            'id_user' => $comment->user->id,
+            'product_name' => $comment->product->name,
+            'product_id' => $comment->product->id,
         ]);
     }
 

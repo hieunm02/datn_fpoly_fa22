@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotifyController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -245,7 +246,10 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
         Route::post('/update-status', [OrderController::class, 'updateStatus']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
+
 });
+
+Route::resource('notifies', NotifyController::class);
 
 
 

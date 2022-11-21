@@ -56,11 +56,11 @@
             <path d="M947.06443,594.97939c-1.26234.216-2.68649.55668-3.30507,1.67806-.98172,1.77969.79727,3.7863,2.42071,5.0092,2.99922,2.25925,6.16039,4.47845,8.19907,7.63175s2.67912,7.5539.45056,10.576c-2.9099,3.94605-9.85229,4.79489-10.52416,9.65158-.43133,3.11795,2.26418,5.77847,4.99546,7.343,6.74142,3.86165,15.432,4.89187,20.3151,10.93461,2.02-4.15378,6.53823-6.55488,11.04189-7.58024s9.183-.94882,13.7492-1.6444c1.47405-.22454,3.13458-.67474,3.79362-2.01224,1.27644-2.59048-2.36152-5.69737-1.1059-8.298.95565-1.97936,3.763-1.82565,5.81307-2.61832,3.33807-1.29069,4.71459-5.58675,3.76717-9.038s-3.62359-6.14839-6.4377-8.3597c-7.58411-5.95952-16.70353-9.46426-25.92726-11.98516-4.2899-1.17245-9.32574-3.01108-13.78142-3.18882C956.2274,592.90716,951.32174,594.25107,947.06443,594.97939Z" transform="translate(-114.2798 -119)" fill="#eee"></path>
         </svg>
         <div class="osahan-text text-center mt-3">
-            <h3 class="text-primary">We're just tuning up a few things.</h3>
-            <p class="lead small mb-5">We apologize for the inconvenience but Front is currently undergoing planned maintenance.
+            <h3 class="text-primary">Dường như đã có lỗi xảy ra.</h3>
+            <p class="lead small mb-5">Bạn không có quyền truy cập trang này, hãy liên hệ để biết thêm chi tiết.
             </p>
-            <a href="home.html" class="btn btn-primary"> Check for Updates </a>
-            <a href="" class="btn btn-light"> Buy Now </a>
+            <a href="/" class="btn btn-primary">Quay lại</a>
+            <a href="/faq" class="btn btn-light">Trợ giúp</a>
         </div>
     </div>
 </div>
