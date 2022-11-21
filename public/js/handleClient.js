@@ -42,13 +42,13 @@ $('#btn-exchange-point').on('click', function () {
     });
 })
 
-function saveNotify(user_id) {
+function saveNotify(user_id,type) {
     let url = "/notifies";
     let formData = new FormData();
     let token = $('meta[name="csrf-token"]').attr('content')
 
     formData.append('user_id', user_id);
-    formData.append('type', 'comment');
+    formData.append('type', type);
     formData.append('_token', token);
 
     $.ajax({

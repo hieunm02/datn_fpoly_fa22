@@ -48,7 +48,7 @@ class Helper
     {
         $result = '';
         $string = '';
-        $notifies = Notify::all();
+        $notifies = Notify::select('id','user_id','role','status','type')->orderBy('created_at', 'DESC')->get();
         foreach ($notifies as $notify) {
             if ($notify->type == 'order') {
                 $string .= ' <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom">

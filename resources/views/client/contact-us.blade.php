@@ -115,7 +115,7 @@
                     var name = $('input[name=name]').val()
                     var date = new Date();
                     
-                    saveNotify(user_id);
+                    saveNotify(user_id,'contact');
                     socket.emit('sendNotifyToServer', {
                         user_name: name,
                         type: 'contact',
