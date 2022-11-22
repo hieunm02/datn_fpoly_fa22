@@ -63,7 +63,13 @@
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
-                            <div class="mx-2 p-0 px-2 text-white btn btn-warning">50+</div>
+                            @if($order->count())
+                                <div class="mx-2 p-0 px-2 text-white btn btn-warning">
+                                    Đã có {{$order->count()}} lượt đặt.
+                                </div>
+                            @else
+
+                            @endif
                         </div>
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
