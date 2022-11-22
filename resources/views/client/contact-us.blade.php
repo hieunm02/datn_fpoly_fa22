@@ -95,14 +95,12 @@
             var phone = $('input[name=phone]').val()
             var email = $('input[name=email]').val()
             var content = $('textarea[name=content]').val()
-            // alert(name + '-' + phone + '-' + email + '-' + content)
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
                 url: "/contact-us",
-                // dataType: "JSON",
                 data: {
                     name: name,
                     phone: phone,
@@ -114,8 +112,8 @@
                     var user_id = $('.auth_id').val();
                     var name = $('input[name=name]').val()
                     var date = new Date();
-                    
-                    saveNotify(user_id,'contact');
+
+                    saveNotify(user_id, 'contact', 'admin');
                     socket.emit('sendNotifyToServer', {
                         user_name: name,
                         type: 'contact',

@@ -49,7 +49,7 @@ $(function () {
                         </div>
                     </div>
                 `;
-                saveNotify(data.id_user,'comment');
+                saveNotify(data.id_user, 'comment', 'admin');
                 socket.emit('sendNotifyToServer', {
                     user_name: data.user_id, type: 'comment', product_name: data.product_name, product_id: data.product_id, date: data.date
                 });

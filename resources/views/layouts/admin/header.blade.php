@@ -35,7 +35,7 @@
                     <i class="anticon anticon-bell notification-badge"></i>
                     <div class="number-notify" style="position: absolute;top: 10px;font-size: 14px;background-color: #34c4fe;color: #fff;height: 10px;width: 10px;border-radius: 50%;right: 17px;"></div>
                 </a>
-                <div class="dropdown-menu pop-notification">
+                <div class="dropdown-menu pop-notification" style="width:450px">
                     <div class="p-v-15 p-h-25 border-bottom d-flex justify-content-between align-items-center">
                         <p class="text-dark font-weight-semibold m-b-0">
                             <i class="anticon anticon-bell"></i>
