@@ -264,10 +264,7 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
 // Nhân viên phản hồi tin nhắn tới người dùng 
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
-<<<<<<< HEAD
-=======
 
 Route::get('test', function () {
     return view('test', ['products' => Product::all()]);
 });
->>>>>>> dev
