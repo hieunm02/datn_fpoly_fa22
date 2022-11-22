@@ -14,7 +14,6 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
     console.log('connection');
 
-<<<<<<< HEAD
     // function chat() {
     socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
         console.log(message, id);
@@ -37,13 +36,6 @@ io.on('connection', (socket) => {
     //     });
     // }
     // contactUs();
-=======
-    // Chat 
-        socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-            // io.sockets.emit('sendChatToClient', message);
-            socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
-        });
->>>>>>> dev
 
 
         socket.on('isTyping', (typing, room_id) => {

@@ -15,6 +15,7 @@ use App\Models\Thumb;
 use App\Services\Comment\AdminCommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -105,7 +106,7 @@ class HomeController extends Controller
 
         return response()->json([
             'success' => 'Bình luận sản phảm thành công.',
-            'date' => date('Y-m-d h:i:s'),
+            'date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->timestamp,
             'user_id' => $this->commentService->getNameUser($request->user_id),
             'comment_id' => $comment->id,
             'avatar' => $comment->user->avatar,

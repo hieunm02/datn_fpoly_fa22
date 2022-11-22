@@ -21,6 +21,7 @@
             {{-- {{ url('/orders') }} method="post"
             @csrf
             @method('POST') --}}
+            <input type="hidden" value="{{Auth::id()}}" class="auth_id">
             <div class="col-md-6 mb-3">
                 <div>
                     <div class="osahan-cart-item mb-3 rounded shadow-sm bg-white overflow-hidden">

@@ -189,6 +189,9 @@ $(function () {
     });
     // thanh toán đơn hàng
     $("#datHang").click(function () {
+        let ip_address = '127.0.0.1';
+        let socket_port = '3000';
+        let socket = io(ip_address + ':' + socket_port);
         var checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
         var arr = []
         for (var i = 0; i < checks.length; i++) {
@@ -209,6 +212,15 @@ $(function () {
             },
             dataType: "JSON",
             success: function (response) {
+                var user_id = $('.auth_id').val();
+                var name = $("input[name=name]").val();
+                var date = new Date();
+                saveNotify(user_id, 'order', 'admin');
+                socket.emit('sendNotifyToServer', {
+                    user_name: name,
+                    type: 'order',
+                    date: date
+                });
                 $("#showCartUser").html('');
                 $("#cartNull").html('Chưa có sản phẩm nào!');
                 $('#show_total').html('');

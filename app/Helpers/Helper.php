@@ -57,8 +57,8 @@ class Helper
                                         <i class="anticon anticon-shopping-cart"></i>
                                     </div>
                                     <div class="m-l-15">
-                                        <p class="m-b-0 text-dark font-weight-semibold">Đơn hàng mới từ "' . $notify->user->name . '"</p>
-                                        <p class="m-b-0"><small>"' . $notify->created_at . '"</small></p>
+                                        <p class="m-b-0 text-dark font-weight-semibold">Đơn hàng mới từ "'. $notify->user->name . '</p>
+                                        <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
                                     </div>
                                 </div>
                             </a>';
@@ -69,8 +69,8 @@ class Helper
                                         <i class="anticon anticon-message"></i>
                                     </div>
                                     <div class="m-l-15">
-                                        <p class="m-b-0 text-dark font-weight-semibold">"' . $notify->user->name . '" đã bình luận</p>
-                                        <p class="m-b-0"><small>"' . $notify->created_at . '"</small></p>
+                                        <p class="m-b-0 text-dark font-weight-semibold">' . $notify->user->name . ' đã bình luận</p>
+                                        <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
                                     </div>
                                 </div>
                             </a>';
@@ -81,8 +81,8 @@ class Helper
                         <i class="anticon anticon-mail"></i>
                     </div>
                     <div class="m-l-15">
-                        <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ"' . $notify->user->name . '"</p>
-                        <p class="m-b-0"><small>"' . $notify->created_at . '"</small></p>
+                        <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ"'. $notify->user->name . '</p>
+                        <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
                     </div>
                 </div>
             </a>';
