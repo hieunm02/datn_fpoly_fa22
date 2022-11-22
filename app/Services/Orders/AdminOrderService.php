@@ -13,13 +13,25 @@ use Illuminate\Support\Facades\Session;
 
 class AdminOrderService
 {
-    public function __construct(CartService $cartService) {
+    public function __construct(CartService $cartService)
+    {
         $this->cartService = $cartService;
     }
     public function getAll()
     {
         return Order::with('status')->paginate(5);
     }
+
+    public function getOrders($request)
+    {
+        $text_search = $request->get('text_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        return  Order::where('code', 'like', '%' . $text_search . '%')
+            ->paginate(5);
+    }
+
 
     public function getAllOrders()
     {
@@ -49,7 +61,7 @@ class AdminOrderService
         }
     }
 
-    
+
     public function createTT($request)
     {
         function rand_string($length)
@@ -74,7 +86,7 @@ class AdminOrderService
             $order->note = 'Mua hàng tại canteen Beefood';
             // dd($order);
             $order->save();
-            $count = $this->cartService->getCarttt();
+            $count = $this->cartService->getCarttt($request->order_tt);
             // dd($count);/
             foreach ($count as $it) {
                 $del = Cart::find($it->id);

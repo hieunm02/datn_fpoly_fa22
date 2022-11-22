@@ -39,14 +39,6 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-5  text-right">
-                    <a class="" href="{{ route('slides.create') }}">
-                        <button class="btn btn-primary" type="button">
-                            <i class="anticon anticon-plus-circle m-r-5"></i>
-                            <span>Add Slide</span>
-                        </button>
-                    </a>
-                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">
@@ -87,7 +79,7 @@
                                         <h6 class="m-b-0 m-l-10">{{ $slide->name }}</h6>
                                     </div>
                                 </td>
-                                <td></td>
+                                <td>{{ $slide->product->name }}</td>
                                 <td>
                                     @if ($slide->sort_by === 1)
                                         {{ 'ASC' }}
@@ -116,18 +108,11 @@
                                                 <div class="btn-status btn-active{{ $slide->id }}"
                                                     data-id="{{ $slide->id }}">Deactive
                                                 </div>
+                                            @endif
+                                        </div>
+                                    </form>
                                 </td>
-                                <td></td>
-                                <td>
-                                    @if ($slide->sort_by === 1)
-                                        {{ 'ASC' }}
-                                    @else
-                                        {{ 'DESC' }}
-                                    @endif
-                                    <<<<<<< HEAD </div>
-                                        </form>
-                                </td>
-                                <td class="text-right">
+                                <td class="">
                                     <a href="{{ route('slides.edit', $slide->id) }}">
                                         <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                             <i class="anticon anticon-edit"></i>
@@ -144,55 +129,6 @@
                 </table>
                 <div style="display: flex; justify-content: center">
                     {{ $slides->links() }}
-                    =======
-                    </td>
-                    <td>
-                        <form method="POST" class="inline-block" onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                            action="">
-                            @csrf
-                            @method('PUT')
-                            <div class="d-flex align-items-center" style="cursor: pointer">
-                                @if ($slide->active === 1)
-                                    <div id="icon-active{{ $slide->id }}" class="badge badge-success badge-dot m-r-10">
-                                    </div>
-                                    <input type="hidden" id="is-active{{ $slide->id }}" value="{{ $slide->active }}">
-                                    <div class="btn-status btn-active{{ $slide->id }}" data-id="{{ $slide->id }}">
-                                        Actived</div>
-                                @else
-                                    <div id="icon-active{{ $slide->id }}" class="badge badge-danger badge-dot m-r-10">
-                                    </div>
-                                    <input type="hidden" id="is-active{{ $slide->id }}"
-                                        value="{{ $slide->active }}">
-                                    <div class="btn-status btn-active{{ $slide->id }}" data-id="{{ $slide->id }}">
-                                        Deactive
-                                    </div>
-                                @endif
-                            </div>
-                        </form>
-                    </td>
-                    <td class="text-right">
-                        <a href="{{ route('slides.edit', $slide->id) }}">
-                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                <i class="anticon anticon-edit"></i>
-                            </button>
-                        </a>
-                        <form method="POST" class="inline-block" onsubmit="return confirm('Xác nhận xóa sản phẩm.')"
-                            action="{{ route('slides.destroy', $slide->id) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                <i class="anticon anticon-delete"></i>
-                            </button>
-                        </form>
-                    </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                    </table>
-                    <div style="display: flex; justify-content: center">
-                        {{ $slides->links() }}
-                    </div>
-                    >>>>>>> loi
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
+    <link rel="stylesheet" href="{{ asset('/css/product/style.css') }}">
     <div class="main-content">
         <div class="page-header">
             <h2 class="header-title">Orders List</h2>
@@ -28,11 +29,10 @@
                                 </select>
                             </div>
                             <div class="m-b-10 mr-3">
-                                <select class="custom-select" style="min-width: 180px;">
-                                    <option selected>Status</option>
-                                    <option value="all">All</option>
-                                    <option value="inStock">In Stock </option>
-                                    <option value="outOfStock">Out of Stock</option>
+                                <select class="custom-select select-active" style="min-width: 180px;">
+                                    <option selected value="">Trạng thái</option>
+                                    <option value="1">Mở</option>
+                                    <option value="0">Khóa</option>
                                 </select>
                             </div>
                             <div class="m-b-10">
@@ -56,23 +56,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-5  text-right">
-                    <a class="delete-action">
-                        <button class="btn btn-danger" type="button">
-                            <i class="anticon anticon-plus-circle m-r-5"></i>
-                            <span>Delete</span>
-                        </button>
-                    </a>
-                    <a class="" href="{{ route('products.create') }}">
-                        <button class="btn btn-primary" type="button">
-                            <i class="anticon anticon-plus-circle m-r-5"></i>
-                            <span>Add Product</span>
-                        </button>
-                    </a>
-                </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover e-commerce-table">
+                <table id="table_id" class="table table-hover e-commerce-table">
                     <thead>
                         <tr>
                             <th>
@@ -82,15 +68,15 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Product</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Stock Left</th>
-                            <th>Status</th>
-                            <th></th>
+                            <th>Tên sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="products_list">
                         @foreach ($products as $index => $product)
                             <tr id="id{{ $product->id }}">
                                 <td>
@@ -112,7 +98,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $product->menu->name }}</td>
-                                <td>{{ number_format($product->price, 0, ',', ',') }}₫</td>
+                                <td>{{ number_format($product->price, 0, ',', ',') }} ₫</td>
                                 <td>{{ $product->quantity }}</td>
                                 <td>
 
@@ -143,18 +129,17 @@
                                             <i class="anticon anticon-edit"></i>
                                         </button>
                                     </a>
-
-                                    <buttonc onclick="deleteAjax('products',<?php echo $product->id; ?>)"
+                                    <button onclick="deleteAjax('products',<?php echo $product->id; ?>)"
                                         class="btn btn-icon btn-hover btn-sm btn-rounded">
                                         <i class="anticon anticon-delete"></i>
-                                        </button>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="text-right">
+            <div class="text-right pagination">
                 {{ $products->links() }}
             </div>
         </div>

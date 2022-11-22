@@ -49,8 +49,6 @@ $(function () {
         gf_id = $(this).parent("div").data("id");
         $("#name_floor" + gf_id).keyup(function () {
             floor_value = $("#name_floor" + gf_id).val();
-
-            console.log(floor_value);
         });
     });
 });

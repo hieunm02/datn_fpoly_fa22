@@ -2,6 +2,10 @@
 @section('title-page', 'Hoá đơn')
 @section('content')
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
+
     <div class="d-none">
         <div class="bg-primary border-bottom p-3 d-flex align-items-center">
             <h4 class="font-weight-bold m-0 text-white flex-fill">Giỏ hàng</h4>
@@ -14,7 +18,7 @@
             <div class="col-md-12">
                 <h3 class="text-center">Hoá đơn của bạn</h3>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="datatable">
                         <thead>
                             <tr>
                                 <th colspan="">#Mã code</th>
@@ -61,12 +65,18 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center">{{ $bills->links() }}</div>
                 </div>
             </div>
         </div>
     </div>
     <script>
+        let table1 = document.querySelector('#datatable');
+        let dataTable = new simpleDatatables.DataTable(table1);
+
+        function clickNav(el) {
+            $(".nav-link").removeClass('active')
+            $(".status" + el).addClass('active')
+        }
         $("#changeStatusBill").change(function() {
             var id = $(this).data("id");
             status = this.value;

@@ -15,6 +15,7 @@ class ChatController extends Controller
         $messages = Message::where('room_message_id', $room_id)->get();
         $room_name = RoomChat::select('name')->where('room_id', $room_id)->first();
         $room_avatar = RoomChat::select('avatar')->where('room_id', $room_id)->first();
+        $room_id = $room_id;
         return view('admin.chats.message', [
             'title' => 'Tin nhắn',
             'rooms' => $rooms,

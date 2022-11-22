@@ -30,6 +30,7 @@ use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
 use App\Models\Bill;
+use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -263,3 +264,10 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
 // Nhân viên phản hồi tin nhắn tới người dùng 
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
+<<<<<<< HEAD
+=======
+
+Route::get('test', function () {
+    return view('test', ['products' => Product::all()]);
+});
+>>>>>>> dev
