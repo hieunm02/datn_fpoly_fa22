@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\OptionDetailController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -151,7 +153,7 @@ Route::prefix('/')->group(function () {
 // ->middleware('role:admin')
 Route::prefix('admin')->group(function () {
 
-    //dashboard 
+    //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
@@ -246,6 +248,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/update-status', [OrderController::class, 'updateStatus']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
+
+    Route::resource('/options', OptionController::class);
+    Route::resource('/option-details', OptionDetailController::class);
 });
 
 
@@ -255,10 +260,10 @@ Route::prefix('admin')->group(function () {
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
 
-// Người dùng nhắn tin 
+// Người dùng nhắn tin
 Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
-// Nhân viên phản hồi tin nhắn tới người dùng 
+// Nhân viên phản hồi tin nhắn tới người dùng
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
 
 Route::get('test', function () {
