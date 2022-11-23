@@ -121,7 +121,7 @@
                             </div>
                             @foreach ($comment as $cmt)
                                 <div
-                                    class="product-item px-3 py-2 my-1 d-flex justify-content-between ele_{{ $cmt->id }}">
+                                    class="product-item px-3 py-2 my-1 d-flex justify-content-between ele_{{ $cmt->id }}" id="divCmt{{ $cmt->id }}">
                                     <div class="col-md-12 d-flex">
                                         <div class="avatar setCt mr-2">
                                             <img src="{{ $cmt->user->avatar }}"

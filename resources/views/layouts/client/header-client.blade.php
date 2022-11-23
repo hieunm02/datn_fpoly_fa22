@@ -83,29 +83,27 @@
                         </a> -->
                         <!-- signin -->
                         @if (is_null(Auth::user()))
-                            <a href="/login" class="widget-header mr-4 text-dark m-none">
-                                <div class="icon d-flex align-items-center">
-                                    <i class="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
-                                </div>
-                            </a>
-                            <!-- my account -->
-                        @else
-                            <div class="dropdown mr-4 m-none">
-                                <a href="#" class="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img alt="#" src="{{ Auth::user()->avatar }}"
-                                        class="img-fluid rounded-circle header-user mr-2 header-user">
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('profile.index') }}">My account</a>
-                                    <a class="dropdown-item" href="faq.html">Delivery support</a>
-                                    <a class="dropdown-item" href="contact-us.html">Contant us</a>
-                                    <a class="dropdown-item" href="terms.html">Term of use</a>
-                                    <a class="dropdown-item" href="privacy.html">Privacy policy</a>
-                                    <a class="dropdown-item" href="/logout">Logout</a>
-                                </div>
+                        <a href="/login" class="widget-header mr-4 text-dark m-none">
+                            <div class="icon d-flex align-items-center">
+                                <i class="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
                             </div>
+                        </a>
+                        <!-- my account -->
+                        @else
+                        <div class="dropdown mr-4 m-none">
+                            <a href="#" class="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img alt="#" src="{{ Auth::user()->avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">My account</a>
+                                <a class="dropdown-item" href="faq.html">Delivery support</a>
+                                <a class="dropdown-item" href="contact-us.html">Contant us</a>
+                                <a class="dropdown-item" href="terms.html">Term of use</a>
+                                <a class="dropdown-item" href="privacy.html">Privacy policy</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </div>
                         @endif
                         <!-- signin -->
                         <a href="{{ url('carts') }}" class="widget-header mr-4 text-dark">
@@ -114,15 +112,22 @@
                                     <?php if (Auth::user()) {
                                         $carts = DB::table('carts')->where('user_id', Auth::user()->id)->get();
                                     ?>
-                                    <div id="count_cart"
-                                        class="position-absolute border-dark border bg-secondary text-white text-center"
-                                        style="top: -8px; right: -8px; width: 16px; height: 16px; font-size: 10px; border-radius: 50%;">
-                                        {{ count($carts) }}
-                                    </div>
+                                        <div id="count_cart" class="position-absolute border-dark border bg-secondary text-white text-center" style="top: -8px; right: -8px; width: 16px; height: 16px; font-size: 10px; border-radius: 50%;">
+                                            {{ count($carts) }}
+                                        </div>
                                     <?php } ?>
                                 </i> <span>Cart</span>
                             </div>
                         </a>
+                        <a href="javascript:void()" class="widget-header mr-4 text-dark">
+                            <div class="icon d-flex align-items-center">
+                                <i class="feather-bell h6 mr-2 mb-0 position-relative">
+                                        <div id="count_notify" class="position-absolute border-dark border bg-secondary text-white text-center" style="top: -8px; right: -8px; width: 16px; height: 16px; font-size: 10px; border-radius: 50%;">
+                                            2
+                                        </div>
+                                </i>
+                            </div>
+                        </a>        
                         <a class="toggle1" id="clickMenus1">
                             <span> <i class="feather-align-justify fs-30"></i></span>
                         </a>
@@ -176,60 +181,47 @@
 </div>
 {{-- end-header-footer --}}
 {{-- siderbar nav --}}
-<nav id="navSiderBar" class="hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body"
-    style="visibility: visible;">
+<nav id="navSiderBar" class="hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body" style="visibility: visible;">
     <div class="nav-container" style="">
         <div id="subOverlay" class="nav-wrapper nav-wrapper-0"> {{-- edit  sub-level-open --}}
             <div class="nav-content">
                 <h2>BeeFood</h2>
                 <ul>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ url('/') }}" class="nav-item"><i
-                                    class="feather-home mr-2"></i> Trang chủ</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ url('/') }}" class="nav-item"><i class="feather-home mr-2"></i> Trang chủ</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ route('listProducts') }}" class="nav-item"><i
-                                    class="feather-grid mr-2"></i> Sản phẩm</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('listProducts') }}" class="nav-item"><i class="feather-grid mr-2"></i> Sản phẩm</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ route('news') }}" class="nav-item"><i
-                                    class="feather-book-open mr-2"></i> Bài viết</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('news') }}" class="nav-item"><i class="feather-book-open mr-2"></i> Bài viết</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ route('offers') }}" class="nav-item"><i
-                                    class="feather-percent mr-2"></i> Mã giảm giá</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('offers') }}" class="nav-item"><i class="feather-percent mr-2"></i> Mã giảm giá</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ route('carts.index') }}" class="nav-item"><i
-                                    class="feather-activity mr-2"></i> Checkout</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('carts.index') }}" class="nav-item"><i class="feather-activity mr-2"></i> Checkout</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="{{ route('bills') }}" class="nav-item"><i
-                                    class="feather-printer mr-2"></i> Đơn hàng</a></div>
+                        <div class="nav-item-wrapper"><a href="{{ route('bills') }}" class="nav-item"><i class="feather-printer mr-2"></i> Đơn hàng</a></div>
                     </li>
                     <li>
-                        <div class="nav-item-wrapper"><a href="map.html" class="nav-item"><i
-                                    class="feather-map-pin mr-2"></i> Live Map</a></div>
+                        <div class="nav-item-wrapper"><a href="map.html" class="nav-item"><i class="feather-map-pin mr-2"></i> Live Map</a></div>
                     </li>
-                    <li id="menu-sub" class="nav-parent"><input type="checkbox" id="hc-nav-1-1-1"
-                            value="g6ckvfwmm5e"> {{-- edit  level-open --}}
-                        <div class="nav-item-wrapper"><a href="#" id="subClick" class="nav-item"><i
-                                    class="feather-list mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
+                    <li id="menu-sub" class="nav-parent"><input type="checkbox" id="hc-nav-1-1-1" value="g6ckvfwmm5e"> {{-- edit  level-open --}}
+                        <div class="nav-item-wrapper"><a href="#" id="subClick" class="nav-item"><i class="feather-list mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
                         <div class="nav-wrapper nav-wrapper-1">
                             <div class="nav-content">
                                 <h2>Danh mục</h2>
                                 <ul>
                                     <li class="nav-back">
-                                        <div id="closeSubNav" class="nav-item-wrapper"><a
-                                                href="#">BeeFood<span></span></a>
+                                        <div id="closeSubNav" class="nav-item-wrapper"><a href="#">BeeFood<span></span></a>
                                         </div>
                                     </li>
                                     @foreach ($menus as $menu)
-                                        <li>
-                                            <div class="nav-item-wrapper"><a
-                                                    href="{{ route('list-products', $menu->id) }}"
-                                                    class="nav-item">{{ $menu->name }}</a></div>
-                                        </li>
+                                    <li>
+                                        <div class="nav-item-wrapper"><a href="{{ route('list-products', $menu->id) }}" class="nav-item">{{ $menu->name }}</a></div>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>

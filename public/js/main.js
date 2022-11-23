@@ -187,3 +187,7 @@ function copyToClipboard() {
     document.execCommand('copy');
 }
 
+$('.toggle-notify').on('click', function () {
+    $('.show-notify').css('display', 'none');
+});
+

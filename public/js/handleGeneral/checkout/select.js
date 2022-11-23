@@ -234,6 +234,29 @@ $(function () {
                     'Đăt hàng thành công!',
                     'success'
                 )
+            },
+            error: function (errors) {
+                console.log(errors.responseJSON.errors);
+                if (errors.responseJSON.errors.nameRequired ) {
+                    $('.error-name').text(errors.responseJSON.errors.nameRequired);
+                    $('.input-name').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.building) {
+                    $('.error-building').text(errors.responseJSON.errors.building);
+                    $('.input-building').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.phone) {
+                    $('.error-phone').text(errors.responseJSON.errors.phone);
+                    $('.input-phone').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.email) {
+                    $('.error-email').text(errors.responseJSON.errors.email);
+                    $('.input-email').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.productRequired) {
+                    $('.error-product').text(errors.responseJSON.errors.productRequired);
+                    $('.input-product').addClass('is-invalid')
+                }
             }
         });
     })

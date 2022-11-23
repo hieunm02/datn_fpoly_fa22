@@ -78,7 +78,12 @@ $('#btn-exchange-point').on('click', function () {
     });
 })
 
-function saveNotify(user_id, type, role) {
+function result(data) {
+    console.log(data);
+    return data;
+}
+
+function saveNotify(user_id, type, role, product_id) {
     let url = "/notifies";
     let formData = new FormData();
     let token = $('meta[name="csrf-token"]').attr('content')
@@ -86,8 +91,8 @@ function saveNotify(user_id, type, role) {
     formData.append('user_id', user_id);
     formData.append('type', type);
     formData.append('role', role);
+    formData.append('product_id', product_id);
     formData.append('_token', token);
-
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -99,8 +104,8 @@ function saveNotify(user_id, type, role) {
         contentType: false,
         dataType: 'JSON',
         success: function (data) {
-            console.log(data);
-
+            result(data);
         }
     })
 }
+
