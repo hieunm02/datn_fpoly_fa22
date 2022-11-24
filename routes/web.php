@@ -104,7 +104,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
-    });
+    })->name('login');
 
     Route::get('/logout', function () {
         Auth::logout();

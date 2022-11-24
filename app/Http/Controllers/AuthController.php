@@ -55,7 +55,7 @@ class AuthController extends Controller
             Session::put('user_name', $user->name);
             return redirect()->route('index');
         } else {
-            echo "Sai";
+            return redirect()->route('login')->with('error', 'Tên đăng nhập hoặc mật khẩu không đúng!');
         }
     }
 }
