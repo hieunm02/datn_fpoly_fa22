@@ -214,7 +214,7 @@ Route::prefix('admin')->group(function () {
 
     //Bill
     Route::resource('bills', BillController::class);
-
+    Route::get('/getOptionDetails', [ProductController::class, 'getOptionDetails']);
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
         //Building

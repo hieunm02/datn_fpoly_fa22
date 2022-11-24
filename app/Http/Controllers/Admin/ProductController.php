@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Option;
+use App\Models\OptionDetail;
 use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
@@ -18,6 +20,13 @@ class ProductController extends Controller
     public function __construct(ProductServices $productService)
     {
         $this->productService = $productService;
+    }
+
+    public function getOptionDetails(Request $request) 
+    {
+        $id = $request->id;
+        $option_details = OptionDetail::where('option_id', $id)->get();
+        return response()->json($option_details, 200);
     }
 
     /**
@@ -34,9 +43,11 @@ class ProductController extends Controller
             ]);
         } else {
             $products = $this->productService->getProducts($request)->paginate(5);
+
             return view('admin.products.index', [
                 'title' => 'Danh sách sản phẩm',
-                'products' => $products
+                'products' => $products,
+
             ]);
         }
     }
@@ -51,7 +62,9 @@ class ProductController extends Controller
         $title = 'Tạo mới sản phẩm';
         $prices = $this->productService->getPrice();
         $menus = $this->productService->getMenu();
-        return view('admin.products.create', compact('prices', 'menus', 'title'));
+        $options = Option::all();
+        $option_details = OptionDetail::all();
+        return view('admin.products.create', compact('prices', 'menus', 'title', 'options', 'option_details'));
     }
 
     /**
