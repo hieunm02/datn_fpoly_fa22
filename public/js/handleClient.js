@@ -78,10 +78,7 @@ $('#btn-exchange-point').on('click', function () {
     });
 })
 
-function result(data) {
-    console.log(data);
-    return data;
-}
+var result;
 
 function saveNotify(user_id, type, role, product_id) {
     let url = "/notifies";
@@ -97,6 +94,7 @@ function saveNotify(user_id, type, role, product_id) {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
+        async: false,
         url: url,
         type: 'POST',
         data: formData,
@@ -104,7 +102,7 @@ function saveNotify(user_id, type, role, product_id) {
         contentType: false,
         dataType: 'JSON',
         success: function (data) {
-            result(data);
+            result = data;
         }
     })
 }

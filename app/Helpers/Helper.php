@@ -51,7 +51,8 @@ class Helper
         $notifies = Notify::select('id', 'user_id', 'role', 'status', 'type', 'created_at')->orderBy('created_at', 'DESC')->limit(5)->get();
         foreach ($notifies as $notify) {
             if ($notify->type == 'order') {
-                $string .= ' <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                if ($notify->status == 'pending') {
+                    $string .= ' <a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-cyan avatar-icon">
                                         <i class="anticon anticon-shopping-cart"></i>
@@ -62,8 +63,22 @@ class Helper
                                     </div>
                                 </div>
                             </a>';
+                } else {
+                    $string .= ' <a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    <div class="d-flex">
+                        <div class="avatar avatar-cyan avatar-icon">
+                            <i class="anticon anticon-shopping-cart"></i>
+                        </div>
+                        <div class="m-l-15">
+                            <p class="m-b-0 text-dark font-weight-semibold">Đơn hàng mới từ ' . $notify->user->name . '</p>
+                            <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
+                        </div>
+                    </div>
+                </a>';
+                }
             } elseif ($notify->type == 'comment') {
-                $string .= '<a href="/products/' . $notify->product_id . '/product-detail#divCmt' . $notify->comment_id . '" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                if ($notify->status == 'pending') {
+                    $string .= '<a href="/products/' . $notify->product_id . '/product-detail#divCmt' . $notify->comment_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-gold avatar-icon">
                                         <i class="anticon anticon-message"></i>
@@ -74,8 +89,22 @@ class Helper
                                     </div>
                                 </div>
                             </a>';
+                } else {
+                    $string .= '<a href="/products/' . $notify->product_id . '/product-detail#divCmt' . $notify->comment_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                                <div class="d-flex">
+                                    <div class="avatar avatar-gold avatar-icon">
+                                        <i class="anticon anticon-message"></i>
+                                    </div>
+                                    <div class="m-l-15">
+                                        <p class="m-b-0 text-dark font-weight-semibold">' . $notify->user->name . ' đã bình luận</p>
+                                        <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
+                                    </div>
+                                </div>
+                            </a>';
+                }
             } else {
-                $string .= '<a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                if ($notify->status == 'pending') {
+                    $string .= '<a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                 <div class="d-flex">
                     <div class="avatar avatar-blue avatar-icon">
                         <i class="anticon anticon-mail"></i>
@@ -86,6 +115,19 @@ class Helper
                     </div>
                 </div>
             </a>';
+                } else {
+                    $string .= '<a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                <div class="d-flex">
+                    <div class="avatar avatar-blue avatar-icon">
+                        <i class="anticon anticon-mail"></i>
+                    </div>
+                    <div class="m-l-15">
+                        <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ"' . $notify->user->name . '</p>
+                        <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
+                    </div>
+                </div>
+            </a>';
+                }
             }
         }
         $result .= $string;

@@ -219,7 +219,8 @@ $(function () {
                 socket.emit('sendNotifyToServer', {
                     user_name: name,
                     type: 'order',
-                    date: date
+                    date: date,
+                    notify_id: result.notify.id
                 });
                 $("#showCartUser").html('');
                 $("#cartNull").html('Chưa có sản phẩm nào!');

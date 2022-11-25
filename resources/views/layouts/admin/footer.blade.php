@@ -36,7 +36,7 @@
             }, 3000);
             if (data.type == 'comment') {
                 $('#innerNotify').prepend(`
-                                        <a href="/products/${data.product_id}/product-detail#divCmt${data.comment_id}" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                                        <a href="/products/${data.product_id}/product-detail#divCmt${data.comment_id}" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
                                                 <div class="avatar avatar-gold avatar-icon">
                                                     <i class="anticon anticon-message"></i>
@@ -50,7 +50,7 @@
             `);
             } else if (data.type == 'order') {
                 $('#innerNotify').prepend(`
-                    <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    <a href="javascript:void(0);" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-cyan avatar-icon">
                                         <i class="anticon anticon-shopping-cart"></i>
@@ -64,7 +64,7 @@
             `);
             } else {
                 $('#innerNotify').prepend(`
-                                        <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                                        <a href="javascript:void(0);" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
                                                 <div class="avatar avatar-blue avatar-icon">
                                                     <i class="anticon anticon-mail"></i>

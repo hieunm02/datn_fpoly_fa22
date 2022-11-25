@@ -117,7 +117,8 @@
                     socket.emit('sendNotifyToServer', {
                         user_name: name,
                         type: 'contact',
-                        date: date
+                        date: date,
+                        notify_id: result.notify.id
                     });
                     Swal.fire(
                         'Successful!',

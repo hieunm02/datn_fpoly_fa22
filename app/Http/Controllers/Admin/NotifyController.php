@@ -77,7 +77,9 @@ class NotifyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $notify = Notify::find($request->notify_id);
+        $notify->status = 'read';
+        $notify->save();
     }
 
     /**

@@ -191,3 +191,20 @@ $('.toggle-notify').on('click', function () {
     $('.show-notify').css('display', 'none');
 });
 
+$('.notify').on('click', function () {
+    var notify_id = $(this).attr('data-id');
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'PATCH',
+        url: "/notifies/" + notify_id,
+        data: {
+            notify_id: notify_id
+        },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+});
+

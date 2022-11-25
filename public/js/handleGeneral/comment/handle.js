@@ -52,7 +52,7 @@ $(function () {
                 var date = timeDifference(Math.round(new Date().getTime() / 1000), data.date);
                 saveNotify(data.id_user, 'comment', 'admin', data.product_id);
                 socket.emit('sendNotifyToServer', {
-                    user_name: data.user_id, type: 'comment', product_name: data.product_name, product_id: data.product_id, date: date, comment_id: data.comment_id
+                    user_name: data.user_id, type: 'comment', product_name: data.product_name, product_id: data.product_id, date: date, comment_id: data.comment_id, notify_id: result.notify.id
                 });
                 // location.reload();
             },
