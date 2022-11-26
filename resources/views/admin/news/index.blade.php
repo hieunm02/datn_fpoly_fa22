@@ -50,7 +50,7 @@
                                     <th class="text-center">Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="news_list">
                                 @foreach ($news as $item)
                                     <tr id="id{{ $item->id }}">
                                         <td>
@@ -62,21 +62,29 @@
                                         <td>#{{ $item->id }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td><img width="100px" src="{{ asset($item->image_path) }}" alt=""></td>
-                                        @if ($item->active === 0)
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="badge badge-danger badge-dot m-r-10"></div>
-                                                    <div>Private</div>
-                                                </div>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="badge badge-success badge-dot m-r-10"></div>
-                                                    <div>Public</div>
-                                                </div>
-                                            </td>
-                                        @endif
+                                        <td>
+                                            <div class="text-center" style="cursor: pointer">
+                                                @if ($item->active === 0)
+                                                    <div class="m-r-10"></div>
+                                                    <input type="hidden" id="is-active{{ $item->id }}"
+                                                        value="{{ $item->active }}">
+                                                    <div class="btn-status" data-id="{{ $item->id }}">
+                                                        <i style="color: red"
+                                                            class="bi bi-lock-fill btn-active{{ $item->id }}"
+                                                            id="icon-active{{ $item->id }}"></i>
+                                                    </div>
+                                                @else
+                                                    <div class="m-r-10"></div>
+                                                    <input type="hidden" id="is-active{{ $item->id }}"
+                                                        value="{{ $item->active }}">
+                                                    <div class="btn-status" data-id="{{ $item->id }}">
+                                                        <i style="color: green"
+                                                            class="bi bi-unlock-fill btn-active{{ $item->id }}"
+                                                            id="icon-active{{ $item->id }}"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ route('news.edit', $item->id) }}"
                                                 class="btn-icon btn-hover btn-sm btn-rounded pull-right">
@@ -128,4 +136,5 @@
             });
         });
     </script>
+    <script src="{{ asset('/js/handleGeneral/new/filter.js') }}"></script>
 @endsection

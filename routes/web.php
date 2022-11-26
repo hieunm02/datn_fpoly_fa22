@@ -176,6 +176,9 @@ Route::prefix('admin')->group(function () {
 
     // News
     Route::resource('news', NewsController::class);
+    Route::prefix('new')->group(function () {
+        Route::get('active', [NewsController::class, 'changeActive']);
+    });
 
     // users
     Route::resource('users', UserController::class);
