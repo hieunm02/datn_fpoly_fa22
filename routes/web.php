@@ -25,11 +25,12 @@ use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
+use App\Http\Controllers\Homepage\OrderGroupController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
-use App\Models\Bill;
-use App\Models\Voucher;
+use App\Models\OrderGroup;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -144,6 +145,28 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+
+    //đặt hàng nhóm
+    Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
+    // xem nhanh thông tin sản phẩm 
+    Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
+    // tạo nhóm 
+    Route::post('order-group', function(Request $request) {
+        OrderGroup::create([
+            'room' => $request->room,
+            'user_id' => $request->user_id,
+            'role' => $request->role,
+        ]);
+    })->name('order-group');
+
+    //thêm sản phẩm vào giỏ hàng
+    Route::post('order-group-add-cart', function(Request $request){
+        OrderGroup::create([
+            'room' => $request->room,
+            'user_id' => $request->user_id,
+            'product_id' => $request->product_id,
+        ]);
+    })->name('order-group-add-cart');
 });
 
 // Admin

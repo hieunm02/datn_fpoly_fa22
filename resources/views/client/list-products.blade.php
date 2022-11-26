@@ -16,6 +16,7 @@
 </style>
 
 <div class="osahan-trending" style="padding-bottom: 500px;">
+    <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
     <!-- Most popular -->
     <div class="input-group mb-4">
         <input type="text" id="search" class="form-control form-control-lg input_search border-right-0" id="inlineFormInputGroup" placeholder="Tìm kiếm ở đây...">
@@ -31,6 +32,9 @@
             <div class="d-flex align-items-center mb-4">
                 <h3 class="font-weight-bold text-dark mb-0">Danh sách sản phẩm</h3>
                 <a href="#" data-toggle="modal" data-target="#filters" class="ml-auto btn btn-primary">Bộ lọc</a>
+                <div class="btn-create-order-group col-5" id="btn-create-order-group">
+                    <a href="#" data-toggle="modal" data-target="#order_group" id="btn-order_group" class="ml-auto btn btn-primary">Đặt nhóm</a>
+                </div>
             </div>
 
             <div class="row" id="innerResult">
@@ -118,6 +122,46 @@
         </div>
     </div>
 </div>
+
+{{-- Chức năng đặt hàng nhóm  --}}
+<div class="modal fade" id="order_group" style="margin-top: 8%" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đặt món theo nhóm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0 mt-3">
+                <div class="title text-center">
+                    <img alt="#" src="{{asset('assets/images/logo/order-group.png')}}" class="img-fluid item-img" width="25%">
+                    <h6><b>Chào mừng bạn đến với chức năng đặt đồ nhóm!</b></h6>
+                </div>
+                <div class="desc px-3">
+                    <span>*Nếu bạn là trưởng nhóm, hãy click vào nút <b>Tạo nhóm</b>, sau đó copy đường dẫn và gửi cho bạn bè</span><br>
+                    <span>*Nếu bạn là thành viên, hãy dán đường dẫn bạn bè gửi vào ô bên dưới, sau đó click vào nút <b>Vào nhóm</b></span>
+                </div>
+                <div class="link input-group px-3 mt-3">
+                    <div type="text" class="form-control" id="link_group" name="" contenteditable=""></div>
+                </div>
+                <div class="modal-button text-center my-3">
+                    <input type="button" id="create_group" class="btn btn-light" value="Tạo nhóm">
+                    <input type="button" id="join_group" onclick="joinGroup()" class="btn btn-light" value="Vào nhóm">
+                </div>
+            </div>
+            <div class="modal-footer p-0 border-0">
+                <div class="col-6 m-0 p-0">
+                    <a href="" class="btn border-top btn-lg btn-block" data-dismiss="modal">Thoát nhóm</a>
+                </div>
+                <div class="col-6 m-0 p-0">
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" onclick="orderGroup()" value="Tiếp tục đặt nhóm" data-dismiss="modal">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script>
     //setup before functions
@@ -168,5 +212,89 @@
             },
         });
     }
+</script>
+<script src="{{ asset('js/handleGeneral/ordergroup/order-group.js') }}"></script>
+
+{{-- đặt nhóm  --}}
+<script>
+    function rand_string(length)
+    {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+
+    var url = '';
+    $('#create_group').on('click', function() {
+        $('#link_group').html(`http://localhost:8000/order-group/` + rand_string(16)).then(
+            url = $('#link_group').html()
+        )
+    })
+
+    function orderGroup(){
+            history.pushState({}, "", url);
+            let route = "{{ route('order-group') }}"
+            let room = url
+            let user_id = $('#user_id').val()
+            let role = 'manager'
+            let formData = new FormData()
+            let token = "{{ csrf_token() }}"
+
+            formData.append('room', room)
+            formData.append('user_id', user_id)
+            formData.append('role', role)
+            formData.append('_token', token)
+
+            $.ajax({
+                url: route,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'JSON',
+                success: function(response) {
+                    if(response.success){
+                        console.log(response.data);
+                    }
+                }
+            })
+            location.reload()
+        }
+
+        function joinGroup(){
+            let url = $('#link_group').html()
+            history.pushState({}, "", url);
+            let route = "{{ route('order-group') }}"
+            let room = url
+            let user_id = $('#user_id').val()
+            let role = 'member'
+            let formData = new FormData()
+            let token = "{{ csrf_token() }}"
+
+            formData.append('room', room)
+            formData.append('user_id', user_id)
+            formData.append('role', role)
+            formData.append('_token', token)
+
+            $.ajax({
+                url: route,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'JSON',
+                success: function(response) {
+                    if(response.success){
+                        console.log(response.data);
+                    }
+                }
+            })
+            location.reload();
+        }
 </script>
 @endsection
