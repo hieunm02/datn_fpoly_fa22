@@ -170,6 +170,9 @@ Route::prefix('admin')->group(function () {
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
+    Route::prefix('menu')->group(function () {
+        Route::get('active', [MenuController::class, 'changeActive']);
+    });
 
     // News
     Route::resource('news', NewsController::class);
@@ -260,7 +263,3 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
 // Nhân viên phản hồi tin nhắn tới người dùng 
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
-
-Route::get('test', function () {
-    return view('test', ['products' => Product::all()]);
-});
