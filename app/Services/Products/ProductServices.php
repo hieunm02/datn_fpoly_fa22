@@ -40,20 +40,26 @@ class ProductServices
     public function getProducts($request)
     {
         $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
         if ($text_search == null) {
             $text_search = '';
         }
-        return  Product::with('menu')
+        $query = Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
-            ->where('name', 'like', '%' . $text_search . '%')
-            ->orderBy('updated_at', 'DESC')->paginate(5);
+            ->where('name', 'like', '%' . $text_search . '%');
+
+        if ($active_search === '0' || $active_search === '1') {
+            $query->where('active', $active_search);
+        }
+
+        return $query->orderBy('updated_at', 'DESC');
     }
 
     public function getAll()
     {
         return  Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
-            ->orderBy('id', 'DESC')->paginate(5);
+            ->orderBy('updated_at', 'DESC')->paginate(5);
     }
 
     public function create($request)

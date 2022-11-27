@@ -27,13 +27,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = $this->productService->getProducts($request);
-
         if ($request->status == 200) {
+            $products = $this->productService->getProducts($request)->get();
             return response()->json([
                 'products' => $products,
             ]);
         } else {
+            $products = $this->productService->getProducts($request)->paginate(5);
             return view('admin.products.index', [
                 'title' => 'Danh sách sản phẩm',
                 'products' => $products

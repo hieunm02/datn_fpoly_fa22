@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuRequest;
+use App\Models\Menu;
 use App\Services\Menu\MenuServices;
 use Illuminate\Http\Request;
 
@@ -20,13 +21,20 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = $this->menuService->getAll();
-        return view('admin.menus.index', [
-            'title' => 'Danh sách danh mục',
-            'menus' => $menus
-        ]);
+        if ($request->status == 200) {
+            $menus = $this->menuService->getMenus($request)->get();
+            return response()->json([
+                'menus' => $menus,
+            ]);
+        } else {
+            $menus = $this->menuService->getMenus($request)->paginate(5);
+            return view('admin.menus.index', [
+                'title' => 'Danh sách danh mục',
+                'menus' => $menus
+            ]);
+        }
     }
 
     /**
@@ -113,5 +121,30 @@ class MenuController extends Controller
         $menu = $this->menuService->getId($id);
         $this->menuService->destroyId($id);
         return response()->json(['model' => $menu]);
+    }
+
+    public function changeActive(Request $request)
+    {
+        $menu = Menu::find($request->menu_id);
+        if ($request->active == 1) {
+            $menu->active = 0;
+            $value = $menu->active;
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
+        } else {
+            $menu->active = 1;
+            $value = $menu->active;
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
+        }
+        $menu->save();
+        return response()->json([
+            'btnActive' => $btnActive,
+            'btnRemove' => $btnRemove,
+            'value' => $value,
+            'color' => $color,
+        ]);
     }
 }

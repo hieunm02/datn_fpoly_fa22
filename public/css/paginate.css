@@ -1,0 +1,23 @@
+.pagination {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+    margin-bottom: 10px;
+}
+
+.pagination li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.page-item:first-child .page-link {
+    margin-left: 0 !important;
+    border-top-left-radius: 0.25rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+}
+
+.pagination .page-item {
+    cursor: pointer;
+}

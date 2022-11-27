@@ -29,6 +29,7 @@ use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
 use App\Models\Bill;
+use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -170,9 +171,15 @@ Route::prefix('admin')->group(function () {
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
+    Route::prefix('menu')->group(function () {
+        Route::get('active', [MenuController::class, 'changeActive']);
+    });
 
     // News
     Route::resource('news', NewsController::class);
+    Route::prefix('new')->group(function () {
+        Route::get('active', [NewsController::class, 'changeActive']);
+    });
 
     // users
     Route::resource('users', UserController::class);
