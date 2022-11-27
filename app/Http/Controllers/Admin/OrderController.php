@@ -135,7 +135,7 @@ class OrderController extends Controller
     public function payment()
     {
         $prds = Product::all();
-        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt', 'DESC')->get();
         // dd($cartOrder);
         $menus = $this->menuServices->getMenuIndex();
         return view('admin.thanh-toan-truc-tiep.index', [
@@ -149,12 +149,17 @@ class OrderController extends Controller
     public function getCart(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
-        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt', 'DESC')->get();
         $btn_order  = '';
         foreach ($cartOrder as $index => $it) {
-            $index +=1;
-            $btn_order .= "<div class='btn btn-success mr-1 p-1' data-id='$it->order_tt'
-            onclick='showDonHang($it->order_tt)'>Đơn $index</div>";
+            $index += 1;
+
+            $btn_order .= "<div class='position-relative d-inline-block' style='margin: 0px 2px;'>
+                                <div class='btn btn-success py-1 px-2' data-id='$it->order_tt'
+                                    onclick='showDonHang($it->order_tt)'>Đơn $index
+                                </div>
+                                <div class='position-absolute bg-danger d-flex justify-content-center align-items-center icon-close-order' data-id='$it->order_tt'><i class='fas fa-times'></i></div>
+                            </div>";
         }
         $btn_order .= "<div class='btn btn-success mr-1 p-1' onclick='createOrderNew()'><i class='bi bi-plus'></i></div>";
         $data = '';
@@ -219,12 +224,22 @@ class OrderController extends Controller
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
-        if(count($cart) > 0) {
+        if (count($cart) > 0) {
             $data = $this->orderService->createTT($request);
             return response()->json($data);
-        }else {
+        } else {
             $data = "Không có sản phẩm trong giỏ!";
             return response()->json($data, 500);
         }
+    }
+    // xóa đơn hàng chưa thanh toán trong trang thanh toán trực tiếp
+    public function deleteCartOrder($order_tt)
+    {
+        $data = Cart::where('order_tt', '=', $order_tt)->get();
+        foreach ($data as $it) {
+            $del = Cart::find($it->id);
+            $del->delete();
+        }
+        return response()->json($data);
     }
 }
