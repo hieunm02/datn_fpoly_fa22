@@ -1,7 +1,7 @@
 $(function () {
-    var result = $("#products_list");
+    var result = $("#slides_list");
     var paginates = $(".pagination");
-    var productsAll = [];
+    var slidesAll = [];
 
     //Search with status
     $(".select-active").on("change", function (event) {
@@ -12,21 +12,21 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "products",
+            url: "slides",
             typeData: "JSON",
             data: {
                 active_search: active_search,
                 status: 200,
             },
             success: function (data) {
-                productsAll = data.products;
-                if (productsAll) {
+                slidesAll = data.slides;
+                if (slidesAll) {
                     //Pagination
-                    var productsPage = productPage(data.products, 5, 1);
-                    //Products list
-                    productsHtml(productsPage, result);
+                    var slidesPage = slidePage(data.slides, 5, 1);
+                    //slides list
+                    slidesHtml(slidesPage, result);
                     // Set numbers of pages
-                    numberPages(productsAll.length);
+                    numberPages(slidesAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -37,7 +37,7 @@ $(function () {
             },
         });
     });
-    //Search with Name Products
+    //Search with Name slides
     $('input[name="text_search"]').keyup(function () {
         $(".select-active").val("");
         var data_id = $(this).val();
@@ -50,15 +50,15 @@ $(function () {
             return;
         }
 
-        var product_id = $(this).data("id");
-        var active = $("#is-active" + product_id).val();
+        var slide_id = $(this).data("id");
+        var active = $("#is-active" + slide_id).val();
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: "product/active",
+            url: "slide/active",
             data: {
                 active: active,
-                product_id: product_id,
+                slide_id: slide_id,
             },
             success: function (data) {
                 Swal.fire(
@@ -66,28 +66,28 @@ $(function () {
                     "Thay đổi trạng thái thành công!",
                     "success"
                 );
-                $(".btn-active" + product_id).css("color", data.color);
-                $("#icon-active" + product_id)
+                $(".btn-active" + slide_id).css("color", data.color);
+                $("#icon-active" + slide_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);
-                $("#is-active" + product_id).val(data.value);
-                //Handle List products
-                console.log(productsAll);
-                for (let i = 0; i < productsAll.length; i++) {
-                    if (productsAll[i]["id"] === product_id) {
-                        productsAll[i]["active"] = data.value;
+                $("#is-active" + slide_id).val(data.value);
+                //Handle List slides
+                console.log(slidesAll);
+                for (let i = 0; i < slidesAll.length; i++) {
+                    if (slidesAll[i]["id"] === slide_id) {
+                        slidesAll[i]["active"] = data.value;
                     }
                 }
             },
         });
     });
-    //Delete product
+    //Delete slide
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
         if (confirm("Bạn có chắc chắn muốn xóa?")) {
             $.ajax({
-                url: "products/" + id,
+                url: "slides/" + id,
                 type: "DELETE",
                 dataType: "JSON",
                 data: {
@@ -98,11 +98,11 @@ $(function () {
                 success: function (data) {
                     Swal.fire("Successful!", "Xóa thành công!", "success");
                     $(".ele_" + id).remove();
-                    //Handle List products
+                    //Handle List slides
 
-                    for (let i = 0; i < productsAll.length; i++) {
-                        if (productsAll[i]["id"] === id) {
-                            productsAll.splice(i, 1);
+                    for (let i = 0; i < slidesAll.length; i++) {
+                        if (slidesAll[i]["id"] === id) {
+                            slidesAll.splice(i, 1);
                         }
                     }
                 },
@@ -115,11 +115,11 @@ $(function () {
     paginates.on("click", "#page_item", function () {
         page_id = $(this).data("id");
 
-        productsPage = productPage(productsAll, 5, page_id);
+        slidesPage = slidePage(slidesAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        slidesHtml(slidesPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(slidesAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -133,11 +133,11 @@ $(function () {
             page_id = page_id - 1;
         }
 
-        productsPage = productPage(productsAll, 5, page_id);
+        slidesPage = slidePage(slidesAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        slidesHtml(slidesPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(slidesAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -146,19 +146,19 @@ $(function () {
     //Click next
     paginates.on("click", "#next_paginate", function () {
         page_id = $(".curent_page").val();
-        if (page_id == Math.ceil(productsAll.length / 5)) {
-            page_id = Math.ceil(productsAll.length / 5);
+        if (page_id == Math.ceil(slidesAll.length / 5)) {
+            page_id = Math.ceil(slidesAll.length / 5);
         } else {
             page_id = Number(page_id) + 1;
         }
 
         console.log(page_id);
 
-        productsPage = productPage(productsAll, 5, page_id);
+        slidesPage = slidePage(slidesAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        slidesHtml(slidesPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(slidesAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -185,25 +185,25 @@ $(function () {
         </nav>
     `;
 
-    // Ajax search products
+    // Ajax search slides
     function ajax(data) {
         $.ajax({
             type: "GET",
-            url: "products",
+            url: "slides",
             typeData: "JSON",
             data: {
                 text_search: data,
                 status: 200,
             },
             success: function (data) {
-                productsAll = data.products;
-                if (productsAll) {
+                slidesAll = data.slides;
+                if (slidesAll) {
                     //Pagination
-                    var productsPage = productPage(data.products, 5, 1);
-                    //Products list
-                    productsHtml(productsPage, result);
+                    var slidesPage = slidePage(data.slides, 5, 1);
+                    //slides list
+                    slidesHtml(slidesPage, result);
                     // Set numbers of pages
-                    numberPages(productsAll.length);
+                    numberPages(slidesAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -214,24 +214,19 @@ $(function () {
             },
         });
     }
-    // Products list
-    function productsHtml(array, ele) {
+    // slides list
+    function slidesHtml(array, ele) {
         $(ele).html("");
         array.forEach((element, index) => {
             $(ele).append(
                 `
-                <tr class="ele_${element.id}">
+                <tr class="ele_${ element.id }">
                     <td>
                         <div class="checkbox">
-                            <input id="check-item-${
-                                index + 1
-                            }" class="check-item"
-                                onclick="checkBox(${element.id})"
-                                 value="${element.id}"
-                                name="${element.id}" type="checkbox">
-                            <label for="check-item-${
-                                index + 1
-                            }" class="m-b-0"></label>
+                            <input id="check-item-${index + 1}" class="check-item"
+                                onclick="checkBox({{ $slide->id }})" value="{{ $slide->id }}"
+                                name="{{ $slide->id }}" type="checkbox">
+                            <label for="check-item-${index + 1}" class="m-b-0"></label>
                         </div>
                     </td>
                     <td>
@@ -244,12 +239,7 @@ $(function () {
                             <h6 class="m-b-0 m-l-10">${element.name}</h6>
                         </div>
                     </td>
-                    <td>${element.menu.name}</td>
-                    <td class="text-center">${formatNumber(
-                        element.price,
-                        "."
-                    )} ₫</td>
-                    <td class="text-center">${element.quantity}</td>
+                    <td>${element.product.name}</td>
                     <td>
                         <div class="text-center" style="cursor: pointer">
                             ${
@@ -275,7 +265,7 @@ $(function () {
                             }
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td class="text-center">
                         <a href="products/${element.id}/edit">
                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i>
@@ -295,8 +285,8 @@ $(function () {
     }
 
     //Number pages
-    function numberPages(numberProducts, curentPage = 1) {
-        pages = Math.ceil(numberProducts / 5);
+    function numberPages(numberslides, curentPage = 1) {
+        pages = Math.ceil(numberslides / 5);
         tempt = 1;
         arr = [];
         c = curentPage;
@@ -371,7 +361,7 @@ $(function () {
     }
 });
 
-//Format price products
+//Format price slides
 function formatNumber(nStr, decSeperate, groupSeperate) {
     nStr += "";
     x = nStr.split(decSeperate);
@@ -385,7 +375,7 @@ function formatNumber(nStr, decSeperate, groupSeperate) {
 }
 
 //Paginate
-function productPage(array, page_size, page_number) {
+function slidePage(array, page_size, page_number) {
     // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
     return array.slice((page_number - 1) * page_size, page_number * page_size);
 }

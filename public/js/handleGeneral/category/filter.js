@@ -1,7 +1,7 @@
 $(function () {
-    var result = $("#products_list");
+    var result = $("#cate_list");
     var paginates = $(".pagination");
-    var productsAll = [];
+    var MenusAll = [];
 
     //Search with status
     $(".select-active").on("change", function (event) {
@@ -12,21 +12,21 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "products",
+            url: "menus",
             typeData: "JSON",
             data: {
                 active_search: active_search,
                 status: 200,
             },
             success: function (data) {
-                productsAll = data.products;
-                if (productsAll) {
+                MenusAll = data.menus;
+                if (MenusAll) {
                     //Pagination
-                    var productsPage = productPage(data.products, 5, 1);
+                    var menusPage = menuPages(data.menus, 5, 1);
                     //Products list
-                    productsHtml(productsPage, result);
+                    menuHtmls(menusPage, result);
                     // Set numbers of pages
-                    numberPages(productsAll.length);
+                    numberPages(MenusAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -50,15 +50,15 @@ $(function () {
             return;
         }
 
-        var product_id = $(this).data("id");
-        var active = $("#is-active" + product_id).val();
+        var menu_id = $(this).data("id");
+        var active = $("#is-active" + menu_id).val();
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: "product/active",
+            url: "menu/active",
             data: {
                 active: active,
-                product_id: product_id,
+                menu_id: menu_id,
             },
             success: function (data) {
                 Swal.fire(
@@ -66,16 +66,16 @@ $(function () {
                     "Thay đổi trạng thái thành công!",
                     "success"
                 );
-                $(".btn-active" + product_id).css("color", data.color);
-                $("#icon-active" + product_id)
+                $(".btn-active" + menu_id).css("color", data.color);
+                $("#icon-active" + menu_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);
-                $("#is-active" + product_id).val(data.value);
+                $("#is-active" + menu_id).val(data.value);
                 //Handle List products
-                console.log(productsAll);
-                for (let i = 0; i < productsAll.length; i++) {
-                    if (productsAll[i]["id"] === product_id) {
-                        productsAll[i]["active"] = data.value;
+                console.log(MenusAll);
+                for (let i = 0; i < MenusAll.length; i++) {
+                    if (MenusAll[i]["id"] === menu_id) {
+                        MenusAll[i]["active"] = data.value;
                     }
                 }
             },
@@ -87,7 +87,7 @@ $(function () {
         id = $(this).data("id");
         if (confirm("Bạn có chắc chắn muốn xóa?")) {
             $.ajax({
-                url: "products/" + id,
+                url: "menus/" + id,
                 type: "DELETE",
                 dataType: "JSON",
                 data: {
@@ -100,11 +100,16 @@ $(function () {
                     $(".ele_" + id).remove();
                     //Handle List products
 
-                    for (let i = 0; i < productsAll.length; i++) {
-                        if (productsAll[i]["id"] === id) {
-                            productsAll.splice(i, 1);
+                    for (let i = 0; i < MenusAll.length; i++) {
+                        if (MenusAll[i]["id"] === id) {
+                            MenusAll.splice(i, 1);
                         }
                     }
+
+                    if (MenusAll === []) {
+                        $(paginates).html("");
+                    }
+                    
                 },
             });
         }
@@ -115,11 +120,11 @@ $(function () {
     paginates.on("click", "#page_item", function () {
         page_id = $(this).data("id");
 
-        productsPage = productPage(productsAll, 5, page_id);
+        menusPage = menuPages(MenusAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        menuHtmls(menusPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(MenusAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -133,11 +138,11 @@ $(function () {
             page_id = page_id - 1;
         }
 
-        productsPage = productPage(productsAll, 5, page_id);
+        menusPage = menuPages(MenusAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        menuHtmls(menusPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(MenusAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -146,19 +151,19 @@ $(function () {
     //Click next
     paginates.on("click", "#next_paginate", function () {
         page_id = $(".curent_page").val();
-        if (page_id == Math.ceil(productsAll.length / 5)) {
-            page_id = Math.ceil(productsAll.length / 5);
+        if (page_id == Math.ceil(MenusAll.length / 5)) {
+            page_id = Math.ceil(MenusAll.length / 5);
         } else {
             page_id = Number(page_id) + 1;
         }
 
         console.log(page_id);
 
-        productsPage = productPage(productsAll, 5, page_id);
+        menusPage = menuPages(MenusAll, 5, page_id);
 
-        productsHtml(productsPage, result);
+        menuHtmls(menusPage, result);
 
-        numberPages(productsAll.length, page_id);
+        numberPages(MenusAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -189,21 +194,21 @@ $(function () {
     function ajax(data) {
         $.ajax({
             type: "GET",
-            url: "products",
+            url: "menus",
             typeData: "JSON",
             data: {
                 text_search: data,
                 status: 200,
             },
             success: function (data) {
-                productsAll = data.products;
-                if (productsAll) {
+                MenusAll = data.menus;
+                if (MenusAll) {
                     //Pagination
-                    var productsPage = productPage(data.products, 5, 1);
+                    var menusPage = menuPages(MenusAll, 5, 1);
                     //Products list
-                    productsHtml(productsPage, result);
+                    menuHtmls(menusPage, result);
                     // Set numbers of pages
-                    numberPages(productsAll.length);
+                    numberPages(MenusAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -215,7 +220,7 @@ $(function () {
         });
     }
     // Products list
-    function productsHtml(array, ele) {
+    function menuHtmls(array, ele) {
         $(ele).html("");
         array.forEach((element, index) => {
             $(ele).append(
@@ -223,15 +228,8 @@ $(function () {
                 <tr class="ele_${element.id}">
                     <td>
                         <div class="checkbox">
-                            <input id="check-item-${
-                                index + 1
-                            }" class="check-item"
-                                onclick="checkBox(${element.id})"
-                                 value="${element.id}"
-                                name="${element.id}" type="checkbox">
-                            <label for="check-item-${
-                                index + 1
-                            }" class="m-b-0"></label>
+                            <input id="check-item-1" type="checkbox">
+                            <label for="check-item-1" class="m-b-0"></label>
                         </div>
                     </td>
                     <td>
@@ -244,26 +242,25 @@ $(function () {
                             <h6 class="m-b-0 m-l-10">${element.name}</h6>
                         </div>
                     </td>
-                    <td>${element.menu.name}</td>
-                    <td class="text-center">${formatNumber(
-                        element.price,
-                        "."
-                    )} ₫</td>
-                    <td class="text-center">${element.quantity}</td>
+                    <td>${element.parent_id}</td>
+                    <td>
+                        <img src="${element.thumb}" alt="" width="68px">
+                    </td>
                     <td>
                         <div class="text-center" style="cursor: pointer">
                             ${
-                                element.active === 0
-                                    ? `<div class="m-r-10"></div>
+                                element.active === 0 ?
+                                `<div class="m-r-10"></div>
                                 <input type="hidden" id="is-active${element.id}"
                                     value="${element.active}">
                                 <div class="btn-status" data-id="${element.id}">
                                     <i style="color: red"
                                         class="bi bi-lock-fill btn-active${element.id}"
                                         id="icon-active${element.id}"></i>
-                                </div>`
-                                    : `
-                                        <div class="m-r-10"></div>
+                                </div>
+                                `: 
+                                `
+                                <div class="m-r-10"></div>
                                 <input type="hidden" id="is-active${element.id}"
                                     value="${element.active}">
                                 <div class="btn-status" data-id="${element.id}">
@@ -271,12 +268,12 @@ $(function () {
                                         class="bi bi-unlock-fill btn-active${element.id}"
                                         id="icon-active${element.id}"></i>
                                 </div>
-                                        `
+                                `
                             }
                         </div>
                     </td>
                     <td class="text-right">
-                        <a href="products/${element.id}/edit">
+                        <a href="menus/${element.id}/edit">
                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i>
                             </button>
@@ -295,8 +292,9 @@ $(function () {
     }
 
     //Number pages
-    function numberPages(numberProducts, curentPage = 1) {
-        pages = Math.ceil(numberProducts / 5);
+    function numberPages(numberSp, curentPage = 1) {
+        pages = Math.ceil(numberSp / 5);
+
         tempt = 1;
         arr = [];
         c = curentPage;
@@ -371,21 +369,8 @@ $(function () {
     }
 });
 
-//Format price products
-function formatNumber(nStr, decSeperate, groupSeperate) {
-    nStr += "";
-    x = nStr.split(decSeperate);
-    x1 = x[0];
-    x2 = x.length > 1 ? "." + x[1] : "";
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, "$1" + groupSeperate + "$2");
-    }
-    return x1 + x2;
-}
-
 //Paginate
-function productPage(array, page_size, page_number) {
+function menuPages(array, page_size, page_number) {
     // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
     return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
