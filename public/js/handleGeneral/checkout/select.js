@@ -214,8 +214,7 @@ $(function () {
             success: function (response) {
                 var user_id = $('.auth_id').val();
                 var name = $("input[name=name]").val();
-                var date = new Date();
-                saveNotify(user_id, 'order', 'admin');
+                var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
                 socket.emit('sendNotifyToServer', {
                     user_name: name,
                     type: 'order',
@@ -238,7 +237,7 @@ $(function () {
             },
             error: function (errors) {
                 console.log(errors.responseJSON.errors);
-                if (errors.responseJSON.errors.nameRequired ) {
+                if (errors.responseJSON.errors.nameRequired) {
                     $('.error-name').text(errors.responseJSON.errors.nameRequired);
                     $('.input-name').addClass('is-invalid')
                 }

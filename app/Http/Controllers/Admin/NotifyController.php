@@ -41,6 +41,7 @@ class NotifyController extends Controller
         $notify = Notify::create([
             'user_id' => $request->user_id,
             'type' => $request->type,
+            'room_id' => $request->room_id,
         ]);
 
         return response()->json(['notify' => $notify]);

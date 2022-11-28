@@ -100,13 +100,13 @@ function changeStatusAjax(id) {
     var token = $(this).data("token");
     status_id = document.getElementById("status").value;
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Bạn có chắc chắn?',
+        text: "Đang thay đổi trạng thái đơn hàng!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Change it!'
+        confirmButtonText: 'Xác nhận!'
     }).then((result) => {
         if (result.isConfirmed) {
 
@@ -123,8 +123,8 @@ function changeStatusAjax(id) {
                 success: function (data) {
                     console.log(data.model);
                     Swal.fire(
-                        'Changed!',
-                        'The status of the order has been changed',
+                        'Đã thay đổi!',
+                        'Trạng thái của đơn hàng đã được thay đổi',
                         'success'
                     )
                 },

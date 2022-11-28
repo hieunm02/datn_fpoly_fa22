@@ -1,16 +1,16 @@
 <?php
+
 use App\Models\Message;
-    $messages = Message::where('room_message_id', Auth::user()->id)->get();
+
+$messages = Message::where('room_message_id', Auth::user()->id)->get();
 ?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <title>Chat</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <!--Coded With Love By Mutiullah Samim-->
 
@@ -21,8 +21,7 @@ use App\Models\Message;
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                class="rounded-circle user_img">
+                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
@@ -33,20 +32,20 @@ use App\Models\Message;
                 <div class="card-body msg_card_body" id="chat-content">
                     @foreach ($messages as $message)
                     @if ($message->user_id == Auth::user()->id)
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="msg_cotainer_send">
-                                {{$message->message}}
-                            </div>
+                    <div class="d-flex justify-content-end mb-4">
+                        <div class="msg_cotainer_send">
+                            {{$message->message}}
                         </div>
+                    </div>
                     @else
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="img_cont_msg">
-                                <img src="{{$message->avatar}}" class="rounded-circle user_img_msg">
-                            </div>
-                            <div class="msg_cotainer_send">
-                                {{$message->message}}
-                            </div>
+                    <div class="d-flex justify-content-start mb-4">
+                        <div class="img_cont_msg">
+                            <img src="{{$message->avatar}}" class="rounded-circle user_img_msg">
                         </div>
+                        <div class="msg_cotainer_send">
+                            {{$message->message}}
+                        </div>
+                    </div>
                     @endif
                     @endforeach
 
@@ -57,13 +56,13 @@ use App\Models\Message;
                 <div class="card-footer">
                     <div class="input-group">
                         @if (isset(Auth::user()->id))
-                            <input type="hidden" id="name" value="{{ Auth::user()->name }}">
-                            <input type="hidden" id="id" value="{{ Auth::user()->id }}">
-                            <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
+                        <input type="hidden" id="name" value="{{ Auth::user()->name }}">
+                        <input type="hidden" id="id" value="{{ Auth::user()->id }}">
+                        <input type="hidden" id="avatar" value="{{ Auth::user()->avatar }}">
                         @endif
                         <div id="chatInput" class="form-control type_msg" placeholder="Type your message..." contenteditable="">
-                            
-                            
+
+
                         </div>
                         <div class="input-group-append">
                             <button class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
@@ -97,7 +96,7 @@ use App\Models\Message;
                 let avatar = $('#avatar').val()
                 console.log(message);
 
-                if(e.which === 13 && !e.shiftKey) {
+                if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                             <div class="d-flex justify-content-end mb-4">
                                 <div class="msg_cotainer_send">
@@ -108,56 +107,65 @@ use App\Models\Message;
                     // Gửi dữ liệu lên server 
                     socket.emit('sendChatToServer', message, id, name, avatar, room_id);
                     chatInput.html('');
+                    var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
+                    saveNotify(id, 'message', 'admin', room_id);
+                    socket.emit('sendNotifyToServer', {
+                        user_name: name,
+                        type: 'message',
+                        date: date,
+                        room_id: room_id,
+                        notify_id: result.notify.id
+                    });
                     // Kéo thanh scroll xuống xuối
                     var messageBody = document.getElementById('chat-content');
                     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
                     // không đang nhập 
                     let noTyping = ''
-                    socket.emit('isTyping' , noTyping);
+                    socket.emit('isTyping', noTyping);
                     sendMessage(message, id, name, avatar)
                     return false;
                 }
             });
-            
+
             // Hiệu ứng đang nhập
             chatInput.keypress(function(e) {
                 let name = $('#name').val()
                 let room_id = $('#id').val()
-                if(e.which != 13 && !e.shiftKey){
+                if (e.which != 13 && !e.shiftKey) {
                     let typing = `
                     <span style="float: left;margin-right: 5px; margin-bottom:10px">${name} đang soạn tin</span> 
                     <img src="https://static.wixstatic.com/media/c29e02_814402a86a544d12a0ffb478f5c338e9~mv2.gif" width="25px" alt="">
                     `
-                    socket.emit('isTyping' , typing, room_id);
+                    socket.emit('isTyping', typing, room_id);
                 }
             })
 
             function sendMessage(message, id, name, avatar) {
-                    let url = "{{ route('send') }}"
-                    let form = $(this)
-                    let formData = new FormData()
-                    let token = "{{ csrf_token() }}"
+                let url = "{{ route('send') }}"
+                let form = $(this)
+                let formData = new FormData()
+                let token = "{{ csrf_token() }}"
 
-                    formData.append('message', message)
-                    formData.append('name', name)
-                    formData.append('id', id)
-                    formData.append('avatar', avatar)
-                    formData.append('_token', token)
+                formData.append('message', message)
+                formData.append('name', name)
+                formData.append('id', id)
+                formData.append('avatar', avatar)
+                formData.append('_token', token)
 
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        dataType: 'JSON',
-                        success: function(response) {
-                            if(response.success){
-                                console.log(response.data);
-                            }
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response.data);
                         }
-                    })
-                }
+                    }
+                })
+            }
 
             // Đang nhập
             socket.on('isTyping', (typing, room_id) => {
@@ -177,9 +185,8 @@ use App\Models\Message;
                                             ${message}
                                 </div>
                             </div>
-                        `
-                        : 
-                        ``
+                        ` :
+                    ``
                 );
             });
         });
@@ -196,5 +203,3 @@ use App\Models\Message;
         });
     });
 </script>
-
-

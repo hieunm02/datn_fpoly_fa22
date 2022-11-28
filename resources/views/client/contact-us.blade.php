@@ -111,7 +111,8 @@
                 success: function(data) {
                     var user_id = $('.auth_id').val();
                     var name = $('input[name=name]').val()
-                    var date = new Date();
+                    var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
+
 
                     saveNotify(user_id, 'contact', 'admin');
                     socket.emit('sendNotifyToServer', {

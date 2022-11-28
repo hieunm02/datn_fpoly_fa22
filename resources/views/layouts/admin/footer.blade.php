@@ -62,7 +62,7 @@
                                 </div>
                             </a>
             `);
-            } else {
+            } else if (data.type == 'contact') {
                 $('#innerNotify').prepend(`
                                         <a href="javascript:void(0);" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
@@ -71,6 +71,20 @@
                                                 </div>
                                                 <div class="m-l-15">
                                                     <p class="m-b-0 text-dark">Liên hệ từ ${data.user_name}</p>
+                                                    <p class="m-b-0"><small>${data.date}</small></p>
+                                                </div>
+                                            </div>
+                                        </a>
+            `);
+            } else {
+                $('#innerNotify').prepend(`
+                                        <a href="/admin/chats/message/${data.room_id}" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                                            <div class="d-flex">
+                                                <div class="avatar avatar-volcano avatar-icon">
+                                                    <i class="anticon anticon-message"></i>
+                                                </div>
+                                                <div class="m-l-15">
+                                                    <p class="m-b-0 text-dark">Tin nhắn mới từ ${data.user_name}</p>
                                                     <p class="m-b-0"><small>${data.date}</small></p>
                                                 </div>
                                             </div>

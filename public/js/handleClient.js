@@ -80,7 +80,7 @@ $('#btn-exchange-point').on('click', function () {
 
 var result;
 
-function saveNotify(user_id, type, role, product_id) {
+function saveNotify(user_id, type, role, room_id) {
     let url = "/notifies";
     let formData = new FormData();
     let token = $('meta[name="csrf-token"]').attr('content')
@@ -88,7 +88,7 @@ function saveNotify(user_id, type, role, product_id) {
     formData.append('user_id', user_id);
     formData.append('type', type);
     formData.append('role', role);
-    formData.append('product_id', product_id);
+    formData.append('room_id', room_id);
     formData.append('_token', token);
     $.ajax({
         headers: {
