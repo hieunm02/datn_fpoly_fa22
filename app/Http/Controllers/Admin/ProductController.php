@@ -22,7 +22,7 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function getOptionDetails(Request $request) 
+    public function getOptionDetails(Request $request)
     {
         $id = $request->id;
         $option_details = OptionDetail::where('option_id', $id)->get();
@@ -75,6 +75,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        dd($request->all());
         $data = $this->productService->create($request);
         if (!$data) {
             return redirect()->back();

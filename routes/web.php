@@ -50,6 +50,8 @@ use Illuminate\Support\Facades\Route;
 // Client
 
 Route::prefix('/')->group(function () {
+    Route::get('/getOptionDetails', [ProductController::class, 'getOptionDetails']);
+
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}', [CartController::class, 'update']);
@@ -214,7 +216,6 @@ Route::prefix('admin')->group(function () {
 
     //Bill
     Route::resource('bills', BillController::class);
-    Route::get('/getOptionDetails', [ProductController::class, 'getOptionDetails']);
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
         //Building

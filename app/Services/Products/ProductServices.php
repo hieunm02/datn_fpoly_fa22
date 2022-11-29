@@ -5,6 +5,7 @@ namespace App\Services\Products;
 use App\Models\Menu;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductOptionDetail;
 use App\Models\Thumb;
 use Illuminate\Support\Facades\Session;
 use Response;
@@ -60,6 +61,14 @@ class ProductServices
         return  Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
             ->orderBy('updated_at', 'DESC')->paginate(5);
+    }
+
+    public function createOptionDetails($id, $data)
+    {
+        $product_option_detail = new ProductOptionDetail();
+        foreach ($data['option_detail'] as $item) {
+
+        }
     }
 
     public function create($request)

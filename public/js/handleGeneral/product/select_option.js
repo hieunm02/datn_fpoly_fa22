@@ -1,33 +1,36 @@
-$(function () {
-    $("#options").change(function () {
+$(function() {
+    $("#options").change(function() {
         // $("").on("change", function (e) {
 
-        id_building = this.value;
+        option_id = this.value;
         // }
-        var $option_details = $("#option_details");
-        $floor.empty();
+        var $option_details = $("#multiple");
+        $option_details.empty();
         $.ajax({
             type: "GET",
-            url: "",
+            url: "/getOptionDetails",
             dataType: "JSON",
             data: {
-                id: id_building,
+                id: option_id,
             },
-            success: function (data) {
+            success: function(data) {
                 // the next thing you want to do
-                var $option_details = $("#option_details");
+                var $option_details = $("#multiple");
                 $option_details.empty();
+
                 for (var i = 0; i < data.length; i++) {
                     $option_details.append(
                         "<option id=" +
-                            data[i].id +
-                            " value=" +
-                            data[i].id +
-                            ">" +
-                            data[i].name +
-                            "</option>"
+                        data[i].id +
+                        " value=" +
+                        data[i].id +
+                        ">" +
+                        data[i].value +
+                        "</option>"
                     );
+                    console.log(data[i]);
                 }
+
                 // //manually trigger a change event for the contry so that the change handler will get triggered
                 $option_details.change();
                 // $('#show_order').reload();
