@@ -78,7 +78,7 @@ class Helper
                 }
             } elseif ($notify->type == 'comment') {
                 if ($notify->status == 'pending') {
-                    $string .= '<a href="/products/' . $notify->product_id . '/product-detail#divCmt' . $notify->comment_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= '<a href="javascript:void(0)" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-gold avatar-icon">
                                         <i class="far fa-comment-alt"></i>                                               
@@ -90,7 +90,7 @@ class Helper
                                 </div>
                             </a>';
                 } else {
-                    $string .= '<a href="/products/' . $notify->product_id . '/product-detail#divCmt' . $notify->comment_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= '<a href="javascript:void(0)" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                                 <div class="d-flex">
                                     <div class="avatar avatar-gold avatar-icon">
                                         <i class="far fa-comment-alt"></i>

@@ -98,7 +98,6 @@ function viewBillDetail(id) {
 
 function changeStatusAjax(id) {
     var token = $(this).data("token");
-    status_id = document.getElementById("status").value;
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Đang thay đổi trạng thái đơn hàng!",
@@ -109,7 +108,8 @@ function changeStatusAjax(id) {
         confirmButtonText: 'Xác nhận!'
     }).then((result) => {
         if (result.isConfirmed) {
-
+            var status_id = $("#status option:selected").val();
+            console.log(status_id);
             $.ajax({
                 url: 'orders/update-status/',
                 type: "POST",
@@ -121,7 +121,25 @@ function changeStatusAjax(id) {
                     _token: token,
                 },
                 success: function (data) {
-                    console.log(data.model);
+                    let ip_address = '127.0.0.1';
+                    let socket_port = '3000';
+                    let socket = io(ip_address + ':' + socket_port);
+                    let message = '';
+                    if (data.order.status_id == 2) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                    }
+                    if (data.order.status_id == 3) {
+                        message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
+                    }
+                    if (data.order.status_id == 4) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được giao`;
+                    }
+                    if (data.order.status_id == 5) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
+                    }
+
+                    socket.emit('sendChatToServer', message, data.order.user_id, data.user.name, data.user.avatar, data.user.id);
+                    sendMessage(message, data.user.id, data.user.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',
                         'Trạng thái của đơn hàng đã được thay đổi',
@@ -203,8 +221,35 @@ $('.notify').on('click', function () {
             notify_id: notify_id
         },
         success: function (data) {
-            console.log(data);
+            $('.notify').removeClass('notify-pending');
         }
     });
 });
+
+function sendMessage(message, user_id, avatar, room_id) {
+    let url = "{{ route('send') }}"
+    let form = $(this)
+    let formData = new FormData()
+    let token = "{{ csrf_token() }}"
+
+    formData.append('user_id', user_id)
+    formData.append('message', message)
+    formData.append('room_id', room_id)
+    formData.append('avatar', avatar)
+    formData.append('_token', token)
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.success) {
+                console.log(response.data);
+            }
+        }
+    })
+}
 

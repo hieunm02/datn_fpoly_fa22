@@ -62,7 +62,7 @@ class OrderController extends Controller
             $user->save();
         }
 
-        return response()->json(['order' => $order]);
+        return response()->json(['order' => $order, 'user' => $user]);
     }
 
     public function searchByCode(Request $request)

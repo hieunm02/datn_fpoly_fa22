@@ -36,10 +36,10 @@
             }, 3000);
             if (data.type == 'comment') {
                 $('#innerNotify').prepend(`
-                                        <a href="/products/${data.product_id}/product-detail#divCmt${data.comment_id}" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                                        <a href="javascript:void(0)" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
                                                 <div class="avatar avatar-gold avatar-icon">
-                                                    <i class="anticon anticon-message"></i>
+                                                    <i class="far fa-comment-alt"></i>           
                                                 </div>
                                                 <div class="m-l-15">
                                                     <p class="m-b-0 text-dark">${data.user_name} đã bình luận</p>
