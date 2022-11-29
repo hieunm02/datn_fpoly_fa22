@@ -119,15 +119,6 @@
                                 </i> <span>Cart</span>
                             </div>
                         </a>
-                        <a href="javascript:void()" class="widget-header mr-4 text-dark">
-                            <div class="icon d-flex align-items-center">
-                                <i class="feather-bell h6 mr-2 mb-0 position-relative">
-                                        <div id="count_notify" class="position-absolute border-dark border bg-secondary text-white text-center" style="top: -8px; right: -8px; width: 16px; height: 16px; font-size: 10px; border-radius: 50%;">
-                                            2
-                                        </div>
-                                </i>
-                            </div>
-                        </a>        
                         <a class="toggle1" id="clickMenus1">
                             <span> <i class="feather-align-justify fs-30"></i></span>
                         </a>
