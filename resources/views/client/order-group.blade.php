@@ -62,7 +62,7 @@
                                 <div class="product py-3" id="cart-product" style="color: black; font-size: 20px">
                                     <input type="hidden" name="product_id" id="cart-product_id" value="{{ $cart->product_id }}">
                                     {{-- Số lượng từng sản phẩm trong giỏ hàng --}}
-                                    <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="0">
+                                    <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="">
                                     <div class="header row px-2">
                                         <div class="col-3">
                                             <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
@@ -77,11 +77,13 @@
                                         <div class="row py-3 border-bottom">
                                             @if(Auth::user() && $cart->user_id == Auth::user()->id)
                                             <div class="col-6"></div>
-                                            <div class="quantity col-6" id="cart-quantity_{{ $cart->user_id }}{{$cart->product_id}}">
-                                                <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                                                <input name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                                                    min="1" type="text" value="x{{$cart->quantity}}">
-                                                <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                                            <div class="quantity col-6" id="cart-quantity">
+                                                <div id="cart-quantity_{{ $cart->user_id }}{{$cart->product_id}}">
+                                                    <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
+                                                    <input name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                                        min="1" type="text" value="x{{$cart->quantity}}">
+                                                    <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                                                </div>
                                             </div>
                                             @endif
                                         </div>
@@ -311,12 +313,13 @@
                 let product_price = $('#product_price').val()
                 let product_id = $('#product_id').val()
                 let cart_product = $('#cart_product').val()
+                let quantity = $('#quantity').val()
                 let cart_product_quantity = $('#cart_product_quantity').val()
                 let room_id = location.href
-                console.log(user_id, user_name, user_avatar, product_name, product_price, cart_product, cart_product_quantity);
+                console.log(user_id, user_name, user_avatar, product_name, product_price, cart_product, cart_product_quantity, quantity);
 
                 // Gửi dữ liệu lên server 
-                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity);
+                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity);
                 addToCart()
                 $('#select-product').modal('toggle');
                 return false;
@@ -354,16 +357,15 @@
             }
 
                 // Nhận vào dữ liệu
-                socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity) => {
+                socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity) => {
                 // Số lượng sản phẩm lúc mua hàng 
-                let quantity = $('#quantity').val();
-
+                console.log($('#user_id').val());
                 cart_product == 'false' ?
                 $('#product-cart').append(
                      `<div class="info-cart p-3">
                             <div class="product" id="cart-product" style="color: black; font-size: 20px">
                                 <input type="hidden" name="product_id" id="cart-product_id" value="${product_id}">
-                                <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="12">
+                                <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="">
                                 <div class="header row px-2">
                                     <div class="col-3">
                                         <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
@@ -371,8 +373,8 @@
                                     <div class="col-6">
                                         ${product_name}
                                     </div>
-                                    <div class="col-3" id="cart-product_price">
-                                        ${product_price * ((cart_product_quantity * 1) + (quantity * 1))}đ
+                                    <div class="col-3" id="cart-product_price_${user_id}${product_id}">
+                                        ${product_price * (quantity * 1)}đ
                                     </div>
                                 </div>
                             </div>
@@ -381,15 +383,13 @@
                 // 
                 cart_product == 'true' ?
                 $(`#cart-product_price_${user_id}${product_id}`).html(
-                     
                     `
                         ${product_price * ((cart_product_quantity * 1) + (quantity * 1))}đ
                     ` 
                 ): ``
                 //
-                cart_product == 'true' ?
+                cart_product == 'true' && user_id == $('#user_id').val() ? 
                 $(`#cart-quantity_${user_id}${product_id}`).html(
-                    
                     `
                         <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
                         <div name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
@@ -398,19 +398,20 @@
                     `
                 ): ``
                 //
-                $('#product-cart').append(
-                    user_name == $('#user_name').val() && cart_product == 'false' ? 
-                    `<div class="row border-bottom">
-                            <div class="col-7"></div>
-                            <div class="quantity col-5">
+                cart_product == 'false' && user_id == $('#user_id').val()? 
+                $(`#product-cart`).append(
+                    `<div class="row">
+                    <div class="col-6"></div>
+                        <div class="quantity col-6" id="cart-quantity_${user_id}${product_id}">
                                 <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                                    <div name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                                        min="1" type="text">x${(cart_product_quantity * 1) + (quantity * 1)}</div>
-                                    <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                            </div>
+                                <div name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                    min="1" type="text">x${quantity}</div>
+                                <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
                         </div>
-                    `:``
-                )
+                    </div>
+                    `
+                ): ``
+ 
 
                 // $('#info-member').append(
                 //     room_id == location.href ? `
