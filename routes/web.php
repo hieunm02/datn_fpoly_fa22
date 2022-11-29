@@ -185,7 +185,9 @@ Route::prefix('admin')->group(function () {
 
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
-
+    Route::prefix('voucher')->group(function () {
+        Route::get('active', [VoucherController::class, 'changeActive']);
+    });
     //Staff
     Route::resource('staffs', StaffController::class);
 

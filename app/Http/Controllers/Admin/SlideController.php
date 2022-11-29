@@ -126,9 +126,9 @@ class SlideController extends Controller
         if ($request->active == 1) {
             $slide->active = 0;
             $value = $slide->active;
-            $btnActive = 'bi-lock-fill';
-            $btnRemove = 'bi-unlock-fill';
-            $color = 'red';
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
         } else {
             $slide->active = 1;
             $value = $slide->active;

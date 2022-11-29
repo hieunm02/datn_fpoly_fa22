@@ -36,16 +36,19 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = $this->orderService->getOrders($request);
-        $title = "Quản lý đơn hàng";
-
 
         if ($request->status == 200) {
+            $orders = $this->orderService->getOrders($request)->get();
             return response()->json([
                 'orders' => $orders,
+                'arrStatus' => OrderStatus::all(),
             ]);
         } else {
-            return view('admin.orders.index', compact('title', 'orders'));
+            $orders = $this->orderService->getOrders($request)->paginate(5);
+            return view('admin.orders.index', [
+                'title' => 'Quản lý đơn hàng',
+                'orders' => $orders
+            ]);
         }
     }
 
@@ -141,7 +144,7 @@ class OrderController extends Controller
     public function payment()
     {
         $prds = Product::all();
-        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt', 'DESC')->get();
         // dd($cartOrder);
         $menus = $this->menuServices->getMenuIndex();
         return view('admin.thanh-toan-truc-tiep.index', [
@@ -155,10 +158,10 @@ class OrderController extends Controller
     public function getCart(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
-        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt','DESC')->get();
+        $cartOrder = DB::table('carts')->select('order_tt')->where('user_id', '=', '')->groupBy('order_tt')->orderBy('order_tt', 'DESC')->get();
         $btn_order  = '';
         foreach ($cartOrder as $index => $it) {
-            $index +=1;
+            $index += 1;
             $btn_order .= "<div class='btn btn-success mr-1 p-1' data-id='$it->order_tt'
             onclick='showDonHang($it->order_tt)'>Đơn $index</div>";
         }
@@ -225,10 +228,10 @@ class OrderController extends Controller
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
-        if(count($cart) > 0) {
+        if (count($cart) > 0) {
             $data = $this->orderService->createTT($request);
             return response()->json($data);
-        }else {
+        } else {
             $data = "Không có sản phẩm trong giỏ!";
             return response()->json($data, 500);
         }

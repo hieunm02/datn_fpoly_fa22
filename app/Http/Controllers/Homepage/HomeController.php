@@ -78,7 +78,10 @@ class HomeController extends Controller
         $product = $this->productService->getById($id);
 
         $thumb = Thumb::where('product_id', $id)->get();
-        $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
+        $comment = Comment::with('user', 'reactions')
+            ->where('product_id', $product->id)
+            ->where('active', 0)
+            ->get();
         $products = $this->productService->getAll();
 
         return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts'));

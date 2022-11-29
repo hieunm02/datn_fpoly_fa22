@@ -1,7 +1,7 @@
 $(function () {
-    var result = $("#news_list");
+    var result = $("#vouchers_list");
     var paginates = $(".pagination");
-    var newsAll = [];
+    var vouchersAll = [];
 
     //Search with status
     $(".select-active").on("change", function (event) {
@@ -12,21 +12,21 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "news",
+            url: "vouchers",
             typeData: "JSON",
             data: {
                 active_search: active_search,
                 status: 200,
             },
             success: function (data) {
-                newsAll = data.news;
-                if (newsAll) {
+                vouchersAll = data.vouchers;
+                if (vouchersAll) {
                     //Pagination
-                    var newsPage = newPage(data.news, 5, 1);
-                    //news list
-                    newsHtml(newsPage, result);
+                    var vouchersPage = voucherPage(data.vouchers, 5, 1);
+                    //vouchers list
+                    vouchersHtml(vouchersPage, result);
                     // Set numbers of pages
-                    numberPages(newsAll.length);
+                    numberPages(vouchersAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -37,7 +37,7 @@ $(function () {
             },
         });
     });
-    //Search with Name news
+    //Search with Name vouchers
     $('input[name="text_search"]').keyup(function () {
         $(".select-active").val("");
         var data_id = $(this).val();
@@ -50,15 +50,15 @@ $(function () {
             return;
         }
 
-        var new_id = $(this).data("id");
-        var active = $("#is-active" + new_id).val();
+        var voucher_id = $(this).data("id");
+        var active = $("#is-active" + voucher_id).val();
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: "new/active",
+            url: "voucher/active",
             data: {
                 active: active,
-                new_id: new_id,
+                voucher_id: voucher_id,
             },
             success: function (data) {
                 Swal.fire(
@@ -66,28 +66,28 @@ $(function () {
                     "Thay đổi trạng thái thành công!",
                     "success"
                 );
-                $(".btn-active" + new_id).css("color", data.color);
-                $("#icon-active" + new_id)
+                $(".btn-active" + voucher_id).css("color", data.color);
+                $("#icon-active" + voucher_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);
-                $("#is-active" + new_id).val(data.value);
-                //Handle List news
-                console.log(newsAll);
-                for (let i = 0; i < newsAll.length; i++) {
-                    if (newsAll[i]["id"] === new_id) {
-                        newsAll[i]["active"] = data.value;
+                $("#is-active" + voucher_id).val(data.value);
+                //Handle List vouchers
+                console.log(vouchersAll);
+                for (let i = 0; i < vouchersAll.length; i++) {
+                    if (vouchersAll[i]["id"] === voucher_id) {
+                        vouchersAll[i]["active"] = data.value;
                     }
                 }
             },
         });
     });
-    //Delete new
+    //Delete voucher
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
         if (confirm("Bạn có chắc chắn muốn xóa?")) {
             $.ajax({
-                url: "news/" + id,
+                url: "vouchers/" + id,
                 type: "DELETE",
                 dataType: "JSON",
                 data: {
@@ -98,11 +98,11 @@ $(function () {
                 success: function (data) {
                     Swal.fire("Successful!", "Xóa thành công!", "success");
                     $(".ele_" + id).remove();
-                    //Handle List news
+                    //Handle List vouchers
 
-                    for (let i = 0; i < newsAll.length; i++) {
-                        if (newsAll[i]["id"] === id) {
-                            newsAll.splice(i, 1);
+                    for (let i = 0; i < vouchersAll.length; i++) {
+                        if (vouchersAll[i]["id"] === id) {
+                            vouchersAll.splice(i, 1);
                         }
                     }
                 },
@@ -115,11 +115,11 @@ $(function () {
     paginates.on("click", "#page_item", function () {
         page_id = $(this).data("id");
 
-        newsPage = newPage(newsAll, 5, page_id);
+        vouchersPage = voucherPage(vouchersAll, 5, page_id);
 
-        newsHtml(newsPage, result);
+        vouchersHtml(vouchersPage, result);
 
-        numberPages(newsAll.length, page_id);
+        numberPages(vouchersAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -133,11 +133,11 @@ $(function () {
             page_id = page_id - 1;
         }
 
-        newsPage = newPage(newsAll, 5, page_id);
+        vouchersPage = voucherPage(vouchersAll, 5, page_id);
 
-        newsHtml(newsPage, result);
+        vouchersHtml(vouchersPage, result);
 
-        numberPages(newsAll.length, page_id);
+        numberPages(vouchersAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -146,19 +146,19 @@ $(function () {
     //Click next
     paginates.on("click", "#next_paginate", function () {
         page_id = $(".curent_page").val();
-        if (page_id == Math.ceil(newsAll.length / 5)) {
-            page_id = Math.ceil(newsAll.length / 5);
+        if (page_id == Math.ceil(vouchersAll.length / 5)) {
+            page_id = Math.ceil(vouchersAll.length / 5);
         } else {
             page_id = Number(page_id) + 1;
         }
 
         console.log(page_id);
 
-        newsPage = newPage(newsAll, 5, page_id);
+        vouchersPage = voucherPage(vouchersAll, 5, page_id);
 
-        newsHtml(newsPage, result);
+        vouchersHtml(vouchersPage, result);
 
-        numberPages(newsAll.length, page_id);
+        numberPages(vouchersAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -185,25 +185,25 @@ $(function () {
         </nav>
     `;
 
-    // Ajax search news
+    // Ajax search vouchers
     function ajax(data) {
         $.ajax({
             type: "GET",
-            url: "news",
+            url: "vouchers",
             typeData: "JSON",
             data: {
                 text_search: data,
                 status: 200,
             },
             success: function (data) {
-                newsAll = data.news;
-                if (newsAll) {
+                vouchersAll = data.vouchers;
+                if (vouchersAll) {
                     //Pagination
-                    var newsPage = newPage(data.news, 5, 1);
-                    //news list
-                    newsHtml(newsPage, result);
+                    var vouchersPage = voucherPage(data.vouchers, 5, 1);
+                    //vouchers list
+                    vouchersHtml(vouchersPage, result);
                     // Set numbers of pages
-                    numberPages(newsAll.length);
+                    numberPages(vouchersAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -214,52 +214,64 @@ $(function () {
             },
         });
     }
-    // news list
-    function newsHtml(array, ele) {
+    // vouchers list
+    function vouchersHtml(array, ele) {
         $(ele).html("");
+        console.log(array);
         array.forEach((element, index) => {
             $(ele).append(
                 `
                 <tr class="ele_${ element.id }">
                     <td>
                         <div class="checkbox">
-                            <input id="check-item-1" type="checkbox">
-                            <label for="check-item-1" class="m-b-0"></label>
+                            <input id="check-item-${index + 1}" class="check-item"
+                                onclick="checkBox({{ $voucher->id }})" value="{{ $voucher->id }}"
+                                name="{{ $voucher->id }}" type="checkbox">
+                            <label for="check-item-${index + 1}" class="m-b-0"></label>
                         </div>
                     </td>
-                    <td>#${element.id}</td>
-                    <td>${element.title}</td>
-                    <td><img width="100px" src="${element.image_path}" alt=""></td>
+                    <td>
+                        #${element.id}
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid rounded" src="" style="max-width: 60px"
+                                alt="">
+                            <h6 class="m-b-0 m-l-10">${element.code}</h6>
+                        </div>
+                    </td>
+                    <td>${element.menu.name}</td>
+                    <td>${element.discount} %</td>
                     <td>
                         <div class="text-center" style="cursor: pointer">
-                        ${
-                            element.active === 1
-                                ? `<div class="m-r-10"></div>
-                            <input type="hidden" id="is-active${element.id}"
-                                value="${element.active}">
-                            <div class="btn-status" data-id="${element.id}">
-                                <i style="color: red"
-                                    class="bi bi-lock-fill btn-active${element.id}"
-                                    id="icon-active${element.id}"></i>
-                            </div>`
-                                : `
-                                    <div class="m-r-10"></div>
-                            <input type="hidden" id="is-active${element.id}"
-                                value="${element.active}">
-                            <div class="btn-status" data-id="${element.id}">
-                                <i style="color: green"
-                                    class="bi bi-unlock-fill btn-active${element.id}"
-                                    id="icon-active${element.id}"></i>
-                            </div>
-                                    `
-                        }
+                            ${
+                                element.active === 0
+                                    ? `<div class="m-r-10"></div>
+                                <input type="hidden" id="is-active${element.id}"
+                                    value="${element.active}">
+                                <div class="btn-status" data-id="${element.id}">
+                                    <i style="color: red"
+                                        class="bi bi-lock-fill btn-active${element.id}"
+                                        id="icon-active${element.id}"></i>
+                                </div>`
+                                    : `
+                                        <div class="m-r-10"></div>
+                                <input type="hidden" id="is-active${element.id}"
+                                    value="${element.active}">
+                                <div class="btn-status" data-id="${element.id}">
+                                    <i style="color: green"
+                                        class="bi bi-unlock-fill btn-active${element.id}"
+                                        id="icon-active${element.id}"></i>
+                                </div>
+                                        `
+                            }
                         </div>
                     </td>
                     <td class="text-center">
-                        <a href="news/${element.id}/edit">
-                        <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                            <i class="anticon anticon-edit"></i>
-                        </button>
+                        <a href="products/${element.id}/edit">
+                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <i class="anticon anticon-edit"></i>
+                            </button>
                         </a>
                         <button 
                             class="btn btn-icon btn-hover btn-sm btn-rounded delete" data-id="${
@@ -275,8 +287,8 @@ $(function () {
     }
 
     //Number pages
-    function numberPages(numbernews, curentPage = 1) {
-        pages = Math.ceil(numbernews / 5);
+    function numberPages(numbervouchers, curentPage = 1) {
+        pages = Math.ceil(numbervouchers / 5);
         tempt = 1;
         arr = [];
         c = curentPage;
@@ -351,7 +363,7 @@ $(function () {
     }
 });
 
-//Format price news
+//Format price vouchers
 function formatNumber(nStr, decSeperate, groupSeperate) {
     nStr += "";
     x = nStr.split(decSeperate);
@@ -365,7 +377,7 @@ function formatNumber(nStr, decSeperate, groupSeperate) {
 }
 
 //Paginate
-function newPage(array, page_size, page_number) {
+function voucherPage(array, page_size, page_number) {
     // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
     return array.slice((page_number - 1) * page_size, page_number * page_size);
 }

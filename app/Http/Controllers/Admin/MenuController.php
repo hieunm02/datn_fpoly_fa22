@@ -129,15 +129,15 @@ class MenuController extends Controller
         if ($request->active == 1) {
             $menu->active = 0;
             $value = $menu->active;
-            $btnActive = 'bi-lock-fill';
-            $btnRemove = 'bi-unlock-fill';
-            $color = 'red';
-        } else {
-            $menu->active = 1;
-            $value = $menu->active;
             $btnActive = 'bi-unlock-fill';
             $btnRemove = 'bi-lock-fill';
             $color = 'green';
+        } else {
+            $menu->active = 1;
+            $value = $menu->active;
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
         }
         $menu->save();
         return response()->json([
