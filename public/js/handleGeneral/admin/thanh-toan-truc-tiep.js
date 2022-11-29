@@ -9,10 +9,11 @@ function filterPrd(el) {
 //tạo mới đơn hàng 
 function createOrderNew() {
     var a = Math.floor(Math.random() * 10000);
-    $("#showCartTT").html(''); 
+    $("#showCartTT").html('');
     $("#total1").html(0)
     $("#total2").html(0)
-    $("#id_cartTT").html('<input type="hidden" id="orderNew" value="'+a+'">');
+    $("#tenDonHang").text('Đơn mới')
+    $("#id_cartTT").html('<input type="hidden" id="orderNew" value="' + a + '">');
 }
 //showw đơn hàng
 function showDonHang(el) {
@@ -28,7 +29,7 @@ function showDonHang(el) {
             $("#showCartTT").html('');
             $("#cartOrder").html('')
             $("#cartOrder").append(response.btn_order)
-            $("#id_cartTT").html('<input type="hidden" id="orderNew" value="'+response.order_tt+'">')
+            $("#id_cartTT").html('<input type="hidden" id="orderNew" value="' + response.order_tt + '">')
             $("#showCartTT").append(response.data);
             $("#total1").html('')
             $("#total2").html('')
@@ -50,7 +51,7 @@ $("#addprd").on('click', function () {
         data: {
             value: arr,
             order_tt: $("#orderNew").val()
-},
+        },
         dataType: "JSON",
         success: function () {
             $("#showCartTT").html('');
@@ -121,7 +122,7 @@ function updateQtyTT(el) {
 }
 //thanh toán
 $("#payment").on('click', function () {
-     if ($('input[name=name]').val() == '') {
+    if ($('input[name=name]').val() == '') {
         $('input[name=name]').addClass('is-invalid');
     } if ($('input[name=email]').val() == '') {
         $('input[name=email]').addClass('is-invalid');
@@ -165,3 +166,22 @@ $("#payment").on('click', function () {
         });
     }
 })
+// Xóa đơn hàng trong thanh toán tt
+$(document).on("click", ".icon-close-order", function () {
+    if (confirm('Bạn có chắc hủy đơn hàng này?')) {
+        $.ajax({
+            type: "DELETE",
+            url: "/admin/thanh-toan-truc-tiep/deleteCartOrder/" + $(this).data("id"),
+            // data: "data",
+            dataType: "JSON",
+            success: function (response) {
+                showDonHang($("#orderNew").val())
+                Swal.fire(
+                    'Successful!',
+                    'Xóa đơn hàng thành công!',
+                    'success'
+                )
+            }
+        });
+    }
+});
