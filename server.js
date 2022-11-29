@@ -27,11 +27,8 @@ io.on('connection', (socket) => {
         });
 
     //Đặt hàng nhóm
-    socket.on('orderGroup', (user_name, user_avatar, product_name, product_price, room_id) => {
-        io.sockets.emit('orderGroup', user_name, user_avatar, product_name, product_price, room_id);
-        console.log(user_name, user_avatar, product_name, product_price, room_id);
-
-        // socket.broadcast.emit('isTyping', typing, room_id);
+    socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity) => {
+        io.sockets.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity);
     });
     socket.on('disconnect', (socket) => {
         console.log('Disconnect');

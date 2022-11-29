@@ -19,6 +19,7 @@ class CreateOrderGroupTable extends Migration
             $table->integer('user_id');
             $table->integer('product_id')->nullable();
             $table->string('role')->default('member');
+            $table->integer('quantity')->nullable();
         });
     }
 

@@ -16,6 +16,7 @@ class OrderGroup extends Model
         'user_avatar',
         'product_id',
         'role',
+        'quantity',
     ];
 
     public $timestamps = FALSE;

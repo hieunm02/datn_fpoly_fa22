@@ -16,7 +16,9 @@
 </style>
 
 <div class="osahan-trending" style="padding-bottom: 500px;">
-    <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+    @if(Auth::user())
+        <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+    @endif
     <!-- Most popular -->
     <div class="input-group mb-4">
         <input type="text" id="search" class="form-control form-control-lg input_search border-right-0" id="inlineFormInputGroup" placeholder="Tìm kiếm ở đây...">
@@ -151,9 +153,6 @@
                 </div>
             </div>
             <div class="modal-footer p-0 border-0">
-                <div class="col-6 m-0 p-0">
-                    <a href="" class="btn border-top btn-lg btn-block" data-dismiss="modal">Thoát nhóm</a>
-                </div>
                 <div class="col-6 m-0 p-0">
                     <input type="submit" class="btn btn-primary btn-lg btn-block" onclick="orderGroup()" value="Tiếp tục đặt nhóm" data-dismiss="modal">
                 </div>
@@ -293,7 +292,7 @@
                         console.log(response.data);
                     }
                 }
-            })
+            });
             location.reload();
         }
 </script>
