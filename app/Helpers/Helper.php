@@ -52,7 +52,7 @@ class Helper
         foreach ($notifies as $notify) {
             if ($notify->type == 'order') {
                 if ($notify->status == 'pending') {
-                    $string .= ' <a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= ' <a href="/admin/orders" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-cyan avatar-icon">
                                         <i class="anticon anticon-shopping-cart"></i>
@@ -64,7 +64,7 @@ class Helper
                                 </div>
                             </a>';
                 } else {
-                    $string .= ' <a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= ' <a href="/admin/orders" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                                     <div class="d-flex">
                                         <div class="avatar avatar-cyan avatar-icon">
                                             <i class="anticon anticon-shopping-cart"></i>
@@ -78,7 +78,7 @@ class Helper
                 }
             } elseif ($notify->type == 'comment') {
                 if ($notify->status == 'pending') {
-                    $string .= '<a href="javascript:void(0)" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= '<a href="/admin/comments" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-gold avatar-icon">
                                         <i class="far fa-comment-alt"></i>                                               
@@ -90,7 +90,7 @@ class Helper
                                 </div>
                             </a>';
                 } else {
-                    $string .= '<a href="javascript:void(0)" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= '<a href="/admin/comments" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                                 <div class="d-flex">
                                     <div class="avatar avatar-gold avatar-icon">
                                         <i class="far fa-comment-alt"></i>
@@ -104,25 +104,25 @@ class Helper
                 }
             } elseif ($notify->type == 'contact') {
                 if ($notify->status == 'pending') {
-                    $string .= '<a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= '<a href="/admin/contacts" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                     <div class="d-flex">
                                         <div class="avatar avatar-blue avatar-icon">
                                             <i class="anticon anticon-mail"></i>
                                         </div>
                                         <div class="m-l-15">
-                                            <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ"' . $notify->user->name . '</p>
+                                            <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ ' . $notify->user->name . '</p>
                                             <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
                                         </div>
                                     </div>
                                 </a>';
                 } else {
-                    $string .= '<a href="javascript:void(0);" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= '<a href="/admin/contacts" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                                     <div class="d-flex">
                                         <div class="avatar avatar-blue avatar-icon">
                                             <i class="anticon anticon-mail"></i>
                                         </div>
                                         <div class="m-l-15">
-                                            <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ"' . $notify->user->name . '</p>
+                                            <p class="m-b-0 text-dark font-weight-semibold">Liên hệ từ ' . $notify->user->name . '</p>
                                             <p class="m-b-0"><small>' . $notify->created_at->diffForHumans() . '</small></p>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@ class Helper
                 }
             } else {
                 if ($notify->status == 'pending') {
-                    $string .= '<a href="/admin/chats/message/'.$notify->roomm_id.'" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= '<a href="/admin/chats/message/' . $notify->roomm_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                     <div class="d-flex">
                         <div class="avatar avatar-volcano avatar-icon">
                             <i class="anticon anticon-message"></i>
@@ -142,7 +142,7 @@ class Helper
                     </div>
                 </a>';
                 } else {
-                    $string .= '<a href="/admin/chats/message/'.$notify->roomm_id.'" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= '<a href="/admin/chats/message/' . $notify->roomm_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                     <div class="d-flex">
                         <div class="avatar avatar-volcano avatar-icon">
                             <i class="anticon anticon-message"></i>
