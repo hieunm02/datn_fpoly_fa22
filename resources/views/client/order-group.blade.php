@@ -56,9 +56,16 @@
                         <div class="col-6"></div>
                     </div>
 
+                        @php 
+                            $sumPriceCart = 0;
+                        @endphp 
+    
                         <div class="info-cart p-3">
                         @foreach($carts as $cart)
                             @if($cart->room == url()->current())
+                            @php 
+                                $sumPriceCart += (($cart->product_price) * ($cart->quantity));
+                            @endphp
                                 <div class="product py-3" id="cart-product" style="color: black; font-size: 20px">
                                     <input type="hidden" name="product_id" id="cart-product_id" value="{{ $cart->product_id }}">
                                     {{-- Số lượng từng sản phẩm trong giỏ hàng --}}
@@ -75,32 +82,27 @@
                                             </div>
                                         </div>
                                         <div class="row py-3 border-bottom">
-                                            @if(Auth::user() && $cart->user_id == Auth::user()->id)
-                                            <div class="col-6"></div>
-                                            <div class="quantity col-6" id="cart-quantity">
+                                            <div class="quantity px-3" id="cart-quantity">
                                                 <div id="cart-quantity_{{ $cart->user_id }}{{$cart->product_id}}">
-                                                    <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                                                    <input name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                                    <h6 style="color: #cfcaca">Số lượng sản phẩm: 
+                                                    <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
                                                         min="1" type="text" value="x{{$cart->quantity}}">
-                                                    <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                                                    </h6>
                                                 </div>
                                             </div>
-                                            @endif
                                         </div>
                                     </div>
                                 @endif
                             @endforeach()
                         </div>
-                    @if(empty($carts))
-                        <h6 class="p-5 text-center">Hãy chọn món yêu thích của bạn trên menu để đặt giao hàng ngay!</h6> 
-                    @endif
-                </div>
+                    </div>
                 <div class="order-cart-footer row p-3">
-                    <div class="total col-9">
+                    <div class="total col-8">
                         <h5>Tổng:</h5>
                     </div>
-                    <div class="total-price col-3 text-danger font-weight-bold">
-                        <h5>= 0 đ</h5>
+                    <div class="total-price col-4 text-danger font-weight-bold" id="total-price">
+                        <input type="hidden" name="cart_total_price" id="cart_total_price" value="{{ $sumPriceCart }}">
+                        <h5>= {{$sumPriceCart}} đ</h5>
                     </div>
                 </div>
             </div>
@@ -228,9 +230,6 @@
                                         @if(Auth::user() && $member->user_id == Auth::user()->id)
                                             <span>(Bạn)</span>
                                         @endif
-                                        @if($member->role == 'manager')
-                                            <span>(Chủ phòng)</span>
-                                        @endif
                                 </a>
                             </div>
                         @endif
@@ -289,7 +288,6 @@
                 $('#product_thumb').attr("src", data.product_thumb)
                 $('#cart_product').val(data.cart_product)
                 $('#cart_product_quantity').val(data.cart_product_quantity)
-                console.log(data);
             }
         })
     })
@@ -314,12 +312,13 @@
                 let product_id = $('#product_id').val()
                 let cart_product = $('#cart_product').val()
                 let quantity = $('#quantity').val()
+                let cart_total_price = $('#cart_total_price').val()
                 let cart_product_quantity = $('#cart_product_quantity').val()
                 let room_id = location.href
-                console.log(user_id, user_name, user_avatar, product_name, product_price, cart_product, cart_product_quantity, quantity);
+                console.log(user_id, user_name, user_avatar, product_name, product_price, cart_product, cart_product_quantity, quantity, cart_total_price);
 
                 // Gửi dữ liệu lên server 
-                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity);
+                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price);
                 addToCart()
                 $('#select-product').modal('toggle');
                 return false;
@@ -357,9 +356,8 @@
             }
 
                 // Nhận vào dữ liệu
-                socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity) => {
+                socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price) => {
                 // Số lượng sản phẩm lúc mua hàng 
-                console.log($('#user_id').val());
                 cart_product == 'false' ?
                 $('#product-cart').append(
                      `<div class="info-cart p-3">
@@ -377,6 +375,16 @@
                                         ${product_price * (quantity * 1)}đ
                                     </div>
                                 </div>
+                                <div class="row py-3 border-bottom">
+                                    <div class="quantity px-3" id="cart-quantity">
+                                        <div id="cart-quantity_${user_id}${product_id}">
+                                            <h6 style="color: #cfcaca">Số lượng sản phẩm: 
+                                                <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                                    min="1" type="text" value="x${quantity}">
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 `) : ``
@@ -388,29 +396,20 @@
                     ` 
                 ): ``
                 //
-                cart_product == 'true' && user_id == $('#user_id').val() ? 
+                cart_product == 'true' ? 
                 $(`#cart-quantity_${user_id}${product_id}`).html(
-                    `
-                        <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                        <div name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                            min="1" type="text">x${(cart_product_quantity * 1) + (quantity * 1)}</div>
-                        <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                    `<h6 style="color: #cfcaca">Số lượng sản phẩm: 
+                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                            min="1" type="text" value="x${(cart_product_quantity * 1) + (quantity * 1)}">
+                    </h6>
                     `
                 ): ``
                 //
-                cart_product == 'false' && user_id == $('#user_id').val()? 
-                $(`#product-cart`).append(
-                    `<div class="row">
-                    <div class="col-6"></div>
-                        <div class="quantity col-6" id="cart-quantity_${user_id}${product_id}">
-                                <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                                <div name="quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                                    min="1" type="text">x${quantity}</div>
-                                <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                        </div>
-                    </div>
-                    `
-                ): ``
+        
+                $('#total-price').html(
+                     `<input type="hidden" name="cart_total_price" id="cart_total_price" value="${(cart_total_price * 1) + (product_price *  quantity)}">
+                   <h5>= ${(cart_total_price * 1) + (product_price * quantity )}đ</h5>`
+                )
  
 
                 // $('#info-member').append(
@@ -424,5 +423,6 @@
                 // `:``)
             });
         });
+        console.log($('#cart_total_price').val());
     </script>
 @endsection
