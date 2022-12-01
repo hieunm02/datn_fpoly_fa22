@@ -153,6 +153,9 @@ Route::prefix('/')->group(function () {
 
     //thêm sản phẩm vào giỏ hàng
     Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+    Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+
+
 });
 
 // Admin

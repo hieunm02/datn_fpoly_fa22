@@ -108,6 +108,8 @@
             </div>
             <div class="checkout">
                     <button class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</button>
+                    <a href="#" data-toggle="modal" data-target="#order-group-checkout" id="btn-invite" class="ml-auto btn btn-primary">Checkout</a>
+
             </div>
         </div>
     </div>
@@ -260,6 +262,8 @@
         </div>
     </div>
 </div>
+
+@include('client.order-group-checkout')
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
 <script src="{{ asset('js/handleGeneral/ordergroup/order-group.js') }}"></script>
