@@ -89,6 +89,16 @@ class ProductServices
             $product->price = filter_var($request->price, FILTER_SANITIZE_NUMBER_INT);
             $product->active = 1;
             $product->save();
+            // dd($request->all());
+            if($request->option_detail) {
+                foreach($request->option_detail as $option_detail) {
+                    $data = new ProductOptionDetail();
+                    $data->product_id = $product->id;
+                    $data->option_id = $request->option;
+                    $data->option_detail_id = $option_detail;
+                    $data->save();
+                }
+            }
         }
         $productId = $product->id;
         if ($request->hasFile('image')) {

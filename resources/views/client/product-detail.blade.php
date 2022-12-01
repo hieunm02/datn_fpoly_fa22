@@ -83,6 +83,7 @@
                         </h6>
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
+                    <div class="p-3">100</div>
                     <div class="p-3">
                         {{-- action="{{ url('carts') }}" method="POST" --}}
                         <form>
