@@ -18,14 +18,21 @@ class ContactController extends Controller
     {
         $this->adminContactService = $adminContactService;
     }
-
-    public function index()
+   
+    public function index(Request $request)
     {
-        $contacts = $this->adminContactService->getAll();
-        return view('admin.contacts.index', [
-            'title' => "Danh sách liên hệ",
-            'contacts' => $contacts
-        ]);
+        if ($request->status == 200) {
+            $contacts = $this->adminContactService->getContacts($request)->get();
+            return response()->json([
+                'contacts' => $contacts,
+            ]);
+        } else {
+            $contacts = $this->adminContactService->getcontacts($request)->paginate(5);
+            return view('admin.contacts.index', [
+                'title' => 'Danh sách liên hệ',
+                'contacts' => $contacts
+            ]);
+        }
     }
     public function show($id)
     {
