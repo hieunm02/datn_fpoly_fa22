@@ -261,7 +261,7 @@ $(function () {
                                         class="bi bi-unlock-fill btn-active${element.id}"
                                         id="icon-active${element.id}"></i>
                                 </div>
-                                        `
+                                `
                             }
                         </div>
                     </td>

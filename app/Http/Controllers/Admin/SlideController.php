@@ -133,8 +133,9 @@ class SlideController extends Controller
             $slide->active = 1;
             $value = $slide->active;
             $btnActive = 'bi-unlock-fill';
-            $btnRemove = 'bi-lock-fill';
-            $color = 'green';
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
         }
         $slide->save();
         return response()->json([
