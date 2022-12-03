@@ -152,7 +152,7 @@
                                         <div class="media align-items-center">
                                             <div class="media-body d-flex">
                                                 <input type="checkbox" name="product_id[]" class="mr-1"
-                                                    value="{{ $cart->id }}">
+                                                    value="{{ $cart->product_id }}">
                                                 <p class="m-0">{{ $cart->name }}</p>
                                             </div>
                                         </div>
