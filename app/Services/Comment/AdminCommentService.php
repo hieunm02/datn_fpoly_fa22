@@ -28,6 +28,30 @@ class AdminCommentService
         return User::find($id)->name;
     }
 
+    public function getComments($request)
+    {
+        $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        $query = Comment::with(['product', 'user', 'reactions'])
+            ->join('products', 'products.id', '=', 'comments.product_id')
+            ->join('users', 'users.id', '=', 'comments.user_id')
+            ->where(function($query) use ($text_search) {
+                if ($text_search) {
+                    $query->where('products.name', 'like', '%' . $text_search . '%')
+                        ->orWhere('users.name', 'like', '%' . $text_search . '%');
+                }
+            });
+
+        if ($active_search === '0' || $active_search === '1') {
+            $query->where('comments.active', $active_search);
+        }
+
+        return $query->orderBy('comments.updated_at', 'DESC');
+    }
+
     public function getAll()
     {
         return Comment::select('id', 'content', 'user_id', 'product_id', 'parent_id', 'active')

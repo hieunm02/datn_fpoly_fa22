@@ -14,6 +14,22 @@ class VoucherServices
             ->paginate(5);
     }
 
+    public function getVouchers($request)
+    {
+        $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        $query = Voucher::with('menu')->where('code', 'like', '%' . $text_search . '%');
+
+        if ($active_search === '0' || $active_search === '1') {
+            $query->where('active', $active_search);
+        }
+
+        return $query->orderBy('updated_at', 'DESC');
+    }
+
     public function create($request)
     {
         try {

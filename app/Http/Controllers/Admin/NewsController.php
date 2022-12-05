@@ -130,15 +130,15 @@ class NewsController extends Controller
         if ($request->active == 1) {
             $new->active = 0;
             $value = $new->active;
-            $btnActive = 'bi-lock-fill';
-            $btnRemove = 'bi-unlock-fill';
-            $color = 'red';
-        } else {
-            $new->active = 1;
-            $value = $new->active;
             $btnActive = 'bi-unlock-fill';
             $btnRemove = 'bi-lock-fill';
             $color = 'green';
+        } else {
+            $new->active = 1;
+            $value = $new->active;
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
         }
         $new->save();
         return response()->json([

@@ -233,7 +233,7 @@ $(function () {
                     <td>
                         <div class="text-center" style="cursor: pointer">
                         ${
-                            element.active === 0
+                            element.active === 1
                                 ? `<div class="m-r-10"></div>
                             <input type="hidden" id="is-active${element.id}"
                                 value="${element.active}">
