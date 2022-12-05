@@ -18,13 +18,13 @@ class DashboardController extends Controller
         $month = Carbon::now()->month;
         //thống kê sản phẩm theo tháng
         $orderMonth = DB::table('orders')
-            ->whereMonth('created_at', '=', $month)->where('status_id', 1)
+            ->whereMonth('created_at', '=', $month)->where('status_id', 4)
             ->count();
 
         $productMonth = OrderProduct::select('price', 'quantity', 'total', 'orders.status_id')
             ->join('orders', 'orders.id', '=', 'order_products.order_id')
             ->whereMonth('order_products.created_at', '=', $month)
-            ->where('status_id', 1)
+            ->where('status_id', 4)
             ->get();
 
         $qty = 0; // số sản phẩm bán trong tháng
@@ -91,13 +91,13 @@ class DashboardController extends Controller
             $titleDashboard = "Thống kê trong 1 năm qua";
         }
 
-        $order = Order::whereBetween('created_at', [$start, $end])->where('status_id', 1)
+        $order = Order::whereBetween('created_at', [$start, $end])->where('status_id', 4)
             ->count();
 
         $product = OrderProduct::select('price', 'quantity', 'total', 'orders.status_id')
             ->join('orders', 'orders.id', '=', 'order_products.order_id')
             ->whereBetween('order_products.created_at', [$start, $end])
-            ->where('status_id', 1)
+            ->where('status_id', 4)
             ->get();
         $qty = 0; // số sản phẩm bán trong tháng
         $total = 0; // tổng tiền bán trong tháng

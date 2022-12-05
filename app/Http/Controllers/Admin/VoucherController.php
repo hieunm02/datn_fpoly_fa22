@@ -23,11 +23,21 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Danh sách vouchers';
-        $vouchers = $this->voucherServices->getAll();
-        return view('admin.vouchers.index', compact('title', 'vouchers'));
+
+        if ($request->status == 200) {
+            $vouchers = $this->voucherServices->getVouchers($request)->get();
+            return response()->json([
+                'vouchers' => $vouchers,
+            ]);
+        } else {
+            $vouchers = $this->voucherServices->getVouchers($request)->paginate(5);
+            return view('admin.vouchers.index', [
+                'title' => 'Danh sách vouchers',
+                'vouchers' => $vouchers
+            ]);
+        }
     }
 
     /**
@@ -40,7 +50,7 @@ class VoucherController extends Controller
         $today = Carbon::today()->timezone('Asia/Ho_Chi_Minh');
         $title = 'Tạo mới voucher';
         $menus = $this->menuServices->getAll();
-        return view('admin.vouchers.create', compact('title', 'menus','today'));
+        return view('admin.vouchers.create', compact('title', 'menus', 'today'));
     }
 
     /**
@@ -51,7 +61,7 @@ class VoucherController extends Controller
      */
     public function store(VoucherRequest $request)
     {
-        if(strtotime($request->start_time) >= strtotime($request->end_time)){
+        if (strtotime($request->start_time) >= strtotime($request->end_time)) {
             notify()->error('Ngày nhập không đúng!');
             return redirect()->route('vouchers.create');
         }
@@ -108,5 +118,30 @@ class VoucherController extends Controller
         $voucher = Voucher::find($id);
         $voucher->delete();
         return response()->json(['model' => $voucher]);
+    }
+
+    public function changeActive(Request $request)
+    {
+        $voucher = Voucher::find($request->voucher_id);
+        if ($request->active == 1) {
+            $voucher->active = 0;
+            $value = $voucher->active;
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
+        } else {
+            $voucher->active = 1;
+            $value = $voucher->active;
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
+        }
+        $voucher->save();
+        return response()->json([
+            'btnActive' => $btnActive,
+            'btnRemove' => $btnRemove,
+            'value' => $value,
+            'color' => $color,
+        ]);
     }
 }

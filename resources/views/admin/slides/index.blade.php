@@ -1,6 +1,7 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
+    <link rel="stylesheet" href="{{ asset('/css/paginate.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>;
     <div class="main-content">
         <div class="page-header">
@@ -20,13 +21,16 @@
                 <div class="row m-b-30">
                     <div class="col-lg-7">
                         <div class="d-md-flex">
-                            <div class="m-b-10">
-                                <select class="custom-select" style="min-width: 180px;">
-                                    <option selected>Status</option>
-                                    <option value="all">All</option>
-                                    <option value="inStock">In Stock </option>
-                                    <option value="outOfStock">Out of Stock</option>
+                            <div class="m-b-10 mr-3">
+                                <select class="custom-select select-active" style="min-width: 180px;">
+                                    <option selected value="">Trạng thái</option>
+                                    <option value="1">Mở</option>
+                                    <option value="0">Khóa</option>
                                 </select>
+                            </div>
+                            <div class="m-b-10">
+                                <input type="text" name="text_search" class="form-control" placeholder="Tìm kiếm..."
+                                    style="width: 180px;">
                             </div>
                         </div>
                     </div>
@@ -34,7 +38,7 @@
                         <a class="" href="{{ route('slides.create') }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add Slide</span>
+                                <span>Thêm mới</span>
                             </button>
                         </a>
                     </div>
@@ -51,14 +55,13 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Product</th>
-                            <th>Sort By</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Tên Silde</th>
+                            <th>Sản phẩm</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="slides_list">
                         @foreach ($slides as $index => $slide)
                             <tr id="id{{ $slide->id }}">
                                 <td>
@@ -80,37 +83,27 @@
                                     </div>
                                 </td>
                                 <td>{{ $slide->product->name }}</td>
-                                <td>
-                                    @if ($slide->sort_by === 1)
-                                        {{ 'ASC' }}
-                                    @else
-                                        {{ 'DESC' }}
-                                    @endif
-                                </td>
-                                <td>
-                                    <form method="POST" class="inline-block"
-                                        onsubmit="return confirm('Xác nhận xóa sản phẩm.')" action="">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="d-flex align-items-center" style="cursor: pointer">
-                                            @if ($slide->active === 1)
-                                                <div id="icon-active{{ $slide->id }}"
-                                                    class="badge badge-success badge-dot m-r-10"></div>
-                                                <input type="hidden" id="is-active{{ $slide->id }}"
-                                                    value="{{ $slide->active }}">
-                                                <div class="btn-status btn-active{{ $slide->id }}"
-                                                    data-id="{{ $slide->id }}">Actived</div>
-                                            @else
-                                                <div id="icon-active{{ $slide->id }}"
-                                                    class="badge badge-danger badge-dot m-r-10"></div>
-                                                <input type="hidden" id="is-active{{ $slide->id }}"
-                                                    value="{{ $slide->active }}">
-                                                <div class="btn-status btn-active{{ $slide->id }}"
-                                                    data-id="{{ $slide->id }}">Deactive
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </form>
+                                <td class="text-center">
+                                    <div class="text-center" style="cursor: pointer">
+                                        @if ($slide->active === 1)
+                                            <div class="m-r-10"></div>
+                                            <input type="hidden" id="is-active{{ $slide->id }}"
+                                                value="{{ $slide->active }}">
+                                            <div class="btn-status" data-id="{{ $slide->id }}">
+                                                <i style="color: red" class="bi bi-lock-fill btn-active{{ $slide->id }}"
+                                                    id="icon-active{{ $slide->id }}"></i>
+                                            </div>
+                                        @else
+                                            <div class="m-r-10"></div>
+                                            <input type="hidden" id="is-active{{ $slide->id }}"
+                                                value="{{ $slide->active }}">
+                                            <div class="btn-status" data-id="{{ $slide->id }}">
+                                                <i style="color: green"
+                                                    class="bi bi-unlock-fill btn-active{{ $slide->id }}"
+                                                    id="icon-active{{ $slide->id }}"></i>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="">
                                     <a href="{{ route('slides.edit', $slide->id) }}">
@@ -127,11 +120,11 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div style="display: flex; justify-content: center">
-                    {{ $slides->links() }}
-                </div>
+            </div>
+            <div class="text-right pagination">
+                {{ $slides->links() }}
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/handleGeneral/slide/changeStatusSlide.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/handleGeneral/slide/filter.js') }}"></script>
 @endsection

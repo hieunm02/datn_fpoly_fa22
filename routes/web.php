@@ -164,6 +164,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/thanh-toan-truc-tiep', [OrderController::class, 'payment'])->name('admin.thanh-toan-truc-tiep');
     Route::post('/thanh-toan-truc-tiep', [OrderController::class, 'directPayment']);
     Route::post('/thanh-toan-truc-tiep/paymanet', [OrderController::class, 'pay']);
+    Route::delete('/thanh-toan-truc-tiep/deleteCartOrder/{order_tt}', [OrderController::class, 'deleteCartOrder'])->name('delete.cart_tt');
 
     //sản phẩm
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -174,16 +175,24 @@ Route::prefix('admin')->group(function () {
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
+    Route::prefix('menu')->group(function () {
+        Route::get('active', [MenuController::class, 'changeActive']);
+    });
 
     // News
     Route::resource('news', NewsController::class);
+    Route::prefix('new')->group(function () {
+        Route::get('active', [NewsController::class, 'changeActive']);
+    });
 
     // users
     Route::resource('users', UserController::class);
 
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
-
+    Route::prefix('voucher')->group(function () {
+        Route::get('active', [VoucherController::class, 'changeActive']);
+    });
     //Staff
     Route::resource('staffs', StaffController::class);
 

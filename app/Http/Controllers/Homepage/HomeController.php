@@ -80,7 +80,10 @@ class HomeController extends Controller
         $product = $this->productService->getById($id);
 
         $thumb = Thumb::where('product_id', $id)->get();
-        $comment = Comment::with('user', 'reactions')->where('product_id', $product->id)->get();
+        $comment = Comment::with('user', 'reactions')
+            ->where('product_id', $product->id)
+            ->where('active', 0)
+            ->get();
         $products = $this->productService->getAll();
         $product_option_details = DB::table('product_option_details')
             ->where('product_id', $product->id)

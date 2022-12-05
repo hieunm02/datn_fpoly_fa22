@@ -18,6 +18,7 @@ class AdminOrderService
     {
         $this->cartService = $cartService;
     }
+
     public function getAll()
     {
         return Order::with('status')->paginate(5);
@@ -26,11 +27,17 @@ class AdminOrderService
     public function getOrders($request)
     {
         $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
         if ($text_search == null) {
             $text_search = '';
         }
-        return  Order::where('code', 'like', '%' . $text_search . '%')
-            ->paginate(5);
+        $query = Order::where('code', 'like', '%' . $text_search . '%');
+
+        if ($active_search) {
+            $query->where('status_id', $active_search);
+        }
+
+        return $query->orderBy('updated_at', 'DESC');
     }
 
 

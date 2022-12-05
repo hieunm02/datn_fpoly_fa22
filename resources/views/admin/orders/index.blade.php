@@ -35,6 +35,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
         @endif --}}
         <div class="card">
             <div class="card-body">
@@ -106,12 +108,13 @@
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModalScrollable-{{ $item->id }}" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalScrollableTitle-{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable-{{ $item->id }}" role="document">
+                                        <div class="modal fade" id="exampleModalScrollable-{{ $item->id }}"
+                                            tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalScrollableTitle-{{ $item->id }}">Modal title
+                                                        <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -171,7 +174,7 @@
         </div>
     </div>
     </div>
-{{-- @else --}}
+    {{-- @else --}}
     <div class="card">
         <div class="card-body">
             <div class="row">
