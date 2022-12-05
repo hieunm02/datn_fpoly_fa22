@@ -96,8 +96,12 @@ function viewBillDetail(id) {
 }
 
 
-function changeStatusAjax(id) {
+$('.custom-select').on("change", function (event) {
     var token = $(this).data("token");
+    let id = $(this).attr('data-id');
+    var status_id = $(event.target).val();
+    let admin_id = $('#user_id').val();
+    console.log(status_id);
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Đang thay đổi trạng thái đơn hàng!",
@@ -108,8 +112,6 @@ function changeStatusAjax(id) {
         confirmButtonText: 'Xác nhận!'
     }).then((result) => {
         if (result.isConfirmed) {
-            var status_id = $("#status option:selected").val();
-            console.log(status_id);
             $.ajax({
                 url: 'orders/update-status/',
                 type: "POST",
@@ -121,6 +123,7 @@ function changeStatusAjax(id) {
                     _token: token,
                 },
                 success: function (data) {
+                    console.log(data);
                     let ip_address = '127.0.0.1';
                     let socket_port = '3000';
                     let socket = io(ip_address + ':' + socket_port);
@@ -138,8 +141,8 @@ function changeStatusAjax(id) {
                         message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
                     }
 
-                    socket.emit('sendChatToServer', message, data.order.user_id, data.user.name, data.user.avatar, data.user.id);
-                    sendMessage(message, data.user.id, data.user.avatar, data.user.id)
+                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.user.avatar, data.user.id);
+                    sendMessage(message, data.user.id, data.user.name, data.user.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',
                         'Trạng thái của đơn hàng đã được thay đổi',
@@ -149,7 +152,7 @@ function changeStatusAjax(id) {
             });
         }
     })
-}
+});
 
 $('#search-by-code').on('keyup', function () {
     var code = document.querySelector('#search-by-code').value;
@@ -226,17 +229,17 @@ $('.notify').on('click', function () {
     });
 });
 
-function sendMessage(message, user_id, avatar, room_id) {
-    let url = "{{ route('send') }}"
+function sendMessage(message, user_id, name, avatar, room_id) {
+    let url = "/send"
     let form = $(this)
     let formData = new FormData()
     let token = "{{ csrf_token() }}"
 
     formData.append('user_id', user_id)
     formData.append('message', message)
-    formData.append('room_id', room_id)
+    formData.append('id', room_id)
     formData.append('avatar', avatar)
-    formData.append('_token', token)
+    formData.append('name', name)
 
     $.ajax({
         url: url,

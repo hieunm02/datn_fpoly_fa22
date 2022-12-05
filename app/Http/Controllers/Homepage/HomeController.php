@@ -158,7 +158,7 @@ class HomeController extends Controller
                                         <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
                                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                                         <a href="restaurant.html">
-                                            <img alt="#" src="' . $product->thumb . '" class="img-fluid item-img w-100">
+                                            <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '" class="img-fluid item-img w-100">
                                         </a>
                                     </div>
                                     <div class="p-3 position-relative">

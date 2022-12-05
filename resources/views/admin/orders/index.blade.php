@@ -11,6 +11,7 @@
     </div>
     @endif
     @if ($orders->count())
+    <input type="hidden" name="user_id" id="user_id" value="{{Auth::id()}}">
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -72,7 +73,7 @@
                             <td>{{ $item->user_id }}</td>
                             <td>{{ $item->note }}</td>
                             <td>
-                                <select name="status" id="status" class="custom-select" style="min-width: 180px;" onchange="changeStatusAjax({{ $item->id }})">
+                                <select name="status" id="status" class="custom-select change-status{{ $item->id }}" data-id="{{ $item->id }}" style="min-width: 180px;">
                                     @foreach ($status as $stt)
                                     <option class="status-{{ $item->id }}" value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
                                         {{ $stt->name }}

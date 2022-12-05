@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
 
     // function chat() {
     socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-        console.log(message, id);
+        console.log(message, id, name, avatar);
 
         // io.sockets.emit('sendChatToClient', message);
         socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
