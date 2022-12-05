@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
@@ -36,16 +37,18 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = $this->orderService->getOrders($request);
+        $orders = $this->orderService->getAllOrders();
+        // $orders = Order::all();
+        // dd($orders);
         $title = "Quản lý đơn hàng";
-
+        $order_products = OrderProduct::all();
 
         if ($request->status == 200) {
             return response()->json([
                 'orders' => $orders,
             ]);
         } else {
-            return view('admin.orders.index', compact('title', 'orders'));
+            return view('admin.orders.index', compact('title', 'orders', 'order_products'));
         }
     }
 
@@ -221,7 +224,7 @@ class OrderController extends Controller
         }
         return response()->json();
     }
-    //thanh toán 
+    //thanh toán
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);

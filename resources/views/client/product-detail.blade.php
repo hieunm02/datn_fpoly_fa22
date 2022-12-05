@@ -83,7 +83,16 @@
                         </h6>
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
-                    <div class="p-3">100</div>
+                    <div class="p-3">
+                        <label for="" class="text-bold">Tùy chọn</label>
+                        @foreach ($product_option_details as $item)
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" value="{{ $item->price }}">
+                                <label for="option" class="form-check-label">{{ $item->value }}
+                                    {{ number_format($item->price, 0, ',', ',') }}đ</label>
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="p-3">
                         {{-- action="{{ url('carts') }}" method="POST" --}}
                         <form>

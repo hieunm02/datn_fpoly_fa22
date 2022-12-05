@@ -137,7 +137,6 @@
                                     <div class="col-6">
                                         <label for="">Option</label>
                                         <select class="custom-select" name="option" id="options">
-                                            <option value="0" selected><-- Select --></option>
                                             @foreach ($options as $option)
                                                 <option value="{{ $option->id }}">{{ $option->name }}</option>
                                             @endforeach

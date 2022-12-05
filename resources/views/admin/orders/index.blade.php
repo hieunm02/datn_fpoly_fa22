@@ -11,7 +11,7 @@
                 {{ session()->get('success') }}
             </div>
         @endif
-        @if ($orders->count())
+        {{-- @if ($orders->count())
             <div class="card">
                 <div class="card-body">
                     <div class="row m-b-30">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-        @endif
+        @endif --}}
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -96,8 +96,58 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->user_id }}</td>
+                                    <td>{{ $item->name }}</td>
                                     <td>{{ $item->note }}</td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModalScrollable-{{ $item->id }}">
+                                            Chi tiết
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModalScrollable-{{ $item->id }}" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalScrollableTitle-{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable-{{ $item->id }}" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalScrollableTitle-{{ $item->id }}">Modal title
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <td>ID</td>
+                                                                <td>Tên sản phẩm</td>
+                                                                <td>Số lượng</td>
+                                                                <td>Giá</td>
+                                                                <td>Tổng</td>
+                                                                <td>Ngày đặt</td>
+                                                            </thead>
+                                                            <tbody>
+                                                                {{-- <tr>
+                                                                    <td>{{ $item->id }}</td>
+                                                                    <td>{{ $item->nameProduct }}</td>
+                                                                    <td>{{ $item->quantity }}</td>
+                                                                    <td>{{ $item->price }}</td>
+                                                                    <td>{{ $item->total }}</td>
+                                                                    <td>{{ $item->date_order }}</td>
+                                                                </tr> --}}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>
                                         <select name="status" id="status" class="custom-select"
                                             style="min-width: 180px;" onchange="changeStatusAjax({{ $item->id }})">
@@ -121,7 +171,7 @@
         </div>
     </div>
     </div>
-@else
+{{-- @else --}}
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -135,7 +185,7 @@
             </div>
         </div>
     </div>
-    @endif
+    {{-- @endif --}}
     </div>
     <script>
         $(document).ready(function() {

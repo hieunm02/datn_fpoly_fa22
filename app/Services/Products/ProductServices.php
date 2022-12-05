@@ -63,14 +63,6 @@ class ProductServices
             ->orderBy('updated_at', 'DESC')->paginate(5);
     }
 
-    public function createOptionDetails($id, $data)
-    {
-        $product_option_detail = new ProductOptionDetail();
-        foreach ($data['option_detail'] as $item) {
-
-        }
-    }
-
     public function create($request)
     {
         $product = new Product();
@@ -90,12 +82,13 @@ class ProductServices
             $product->active = 1;
             $product->save();
             // dd($request->all());
-            if($request->option_detail) {
-                foreach($request->option_detail as $option_detail) {
+            if ($request->option_detail) {
+                foreach ($request->option_detail as $option_detail) {
                     $data = new ProductOptionDetail();
                     $data->product_id = $product->id;
                     $data->option_id = $request->option;
                     $data->option_detail_id = $option_detail;
+                    // dd($data);
                     $data->save();
                 }
             }
