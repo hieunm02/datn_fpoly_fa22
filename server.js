@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('sendNotifyToClient', data);
     });
 
+    socket.on('handleStatusOrderServer', (data) => {
+        socket.broadcast.emit('handleStatusOrderClient', data);
+    });
+
     // function contactUs() {
     //     socket.on('sendContacToServer', (name) => {
     //         console.log(name);
@@ -38,10 +42,10 @@ io.on('connection', (socket) => {
     // contactUs();
 
 
-        socket.on('isTyping', (typing, room_id) => {
-            // io.sockets.emit('sendChatToClient', message);
-            socket.broadcast.emit('isTyping', typing, room_id);
-        });
+    socket.on('isTyping', (typing, room_id) => {
+        // io.sockets.emit('sendChatToClient', message);
+        socket.broadcast.emit('isTyping', typing, room_id);
+    });
     socket.on('disconnect', (socket) => {
         console.log('Disconnect');
     });

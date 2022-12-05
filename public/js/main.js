@@ -95,7 +95,7 @@ function viewBillDetail(id) {
     })
 }
 
-
+// update status order
 $('.custom-select').on("change", function (event) {
     var token = $(this).data("token");
     let id = $(this).attr('data-id');
@@ -123,7 +123,6 @@ $('.custom-select').on("change", function (event) {
                     _token: token,
                 },
                 success: function (data) {
-                    console.log(data);
                     let ip_address = '127.0.0.1';
                     let socket_port = '3000';
                     let socket = io(ip_address + ':' + socket_port);
@@ -141,8 +140,9 @@ $('.custom-select').on("change", function (event) {
                         message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
                     }
 
-                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.user.avatar, data.user.id);
-                    sendMessage(message, data.user.id, data.user.name, data.user.avatar, data.user.id)
+                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
+                    socket.emit('hanldeStatusOrderServer');
+                    sendMessage(message, admin_id, data.user.name, data.user.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',
                         'Trạng thái của đơn hàng đã được thay đổi',
@@ -230,10 +230,8 @@ $('.notify').on('click', function () {
 });
 
 function sendMessage(message, user_id, name, avatar, room_id) {
-    let url = "/send"
-    let form = $(this)
-    let formData = new FormData()
-    let token = "{{ csrf_token() }}"
+    let url = "/rep";
+    let formData = new FormData();
 
     formData.append('user_id', user_id)
     formData.append('message', message)
