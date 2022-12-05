@@ -15,6 +15,22 @@ class UserServices
             ->paginate(5);
     }
 
+    public function getUsers($request)
+    {
+        $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        $query = User::where('name', 'like', '%' . $text_search . '%');
+
+        if ($active_search === '0' || $active_search === '1') {
+            $query->where('active', $active_search);
+        }
+
+        return $query->orderBy('updated_at', 'DESC');
+    }
+
     public function update($request, $id){
         try {
             $data = User::find($id);
