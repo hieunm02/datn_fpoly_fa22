@@ -42,6 +42,8 @@ class OrderGroupController extends Controller
         $listMembers = DB::table('order_group')
         ->join('users', 'order_group.user_id', '=', 'users.id')
         ->select('order_group.room as room', 'order_group.role as role', 'users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar')
+        ->where('order_group.room', URL::full())
+        ->where('order_group.role', '!=', null)
         ->distinct()
         ->get();
 

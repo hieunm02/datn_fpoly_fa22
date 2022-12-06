@@ -30,7 +30,6 @@
                                     </a>
                                 </h6>
                                 <p class="text-gray mb-3">{{$product->menu->name}}</p>
-                                <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="feather-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $500 FOR TWO</span></p>
                             </div>
                         </div>
                     </div>
@@ -51,7 +50,11 @@
                 <div class="product-cart" id="product-cart" style="color: #cfcaca;">
                     <div class="row p-3">
                         <div class="btn-manage-member col-6" id="btn-manage-member">
-                            <a href="#" data-toggle="modal" data-target="#manage-member" id="btn-manage-member" class="ml-auto btn btn-primary">Quản lý thành viên</a>
+                            @foreach($listMembers as $member)
+                                @if($member->user_id == Auth::id() && $member->role == "manager")
+                                    <a href="#" data-toggle="modal" data-target="#manage-member" id="btn-manage-member" class="ml-auto btn btn-primary">Quản lý thành viên</a>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="col-6"></div>
                     </div>
@@ -107,9 +110,14 @@
                 </div>
             </div>
             <div class="checkout">
-                    <button class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</button>
-                    <a href="#" data-toggle="modal" data-target="#order-group-checkout" id="btn-invite" class="ml-auto btn btn-primary">Checkout</a>
-
+                @foreach($listMembers as $member)
+                    @if($member->user_id == Auth::id() && $member->role == "manager")
+                            <a id="btn-invite" class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</a>
+                    @endif
+                    @if($member->user_id == Auth::id() && $member->role == "member")
+                            <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>
@@ -231,6 +239,9 @@
                                     <span class="member_name">{{ $member->user_name }}</span>
                                         @if(Auth::user() && $member->user_id == Auth::user()->id)
                                             <span>(Bạn)</span>
+                                        @endif
+                                        @if($member->role == 'member')
+                                            <input class="ml-2" type="checkbox" id="success-order" value="">
                                         @endif
                                 </a>
                             </div>
@@ -354,10 +365,15 @@
                     contentType: false,
                     dataType: 'JSON',
                     success: function(data) {
-                        
                     }
                 })
             }
+
+            $('#btn-success_order').on('click', function() {
+                const message = 'Xác nhận đặt hàng xong';
+                socket.emit('successOrder', message);
+                console.log(message);
+            })
 
                 // Nhận vào dữ liệu
                 socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price) => {
@@ -426,7 +442,13 @@
                 //      </div>
                 // `:``)
             });
+
+            socket.on('successOrder', (message) => {
+                $('.checkout').html(`
+                    <a data-toggle="modal" data-target="#order-group-checkout" id="btn-invite" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>
+                `)
+            })
         });
-        console.log($('#cart_total_price').val());
+
     </script>
 @endsection

@@ -18,7 +18,7 @@ class CreateOrderGroupTable extends Migration
             $table->string('room');
             $table->integer('user_id');
             $table->integer('product_id')->nullable();
-            $table->string('role')->default('member');
+            $table->string('role')->nullable();
             $table->integer('quantity')->nullable();
         });
     }

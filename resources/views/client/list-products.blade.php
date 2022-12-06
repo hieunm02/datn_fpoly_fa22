@@ -35,7 +35,11 @@
                 <h3 class="font-weight-bold text-dark mb-0">Danh sách sản phẩm</h3>
                 <a href="#" data-toggle="modal" data-target="#filters" class="ml-auto btn btn-primary">Bộ lọc</a>
                 <div class="btn-create-order-group col-5" id="btn-create-order-group">
+                    @if(Auth::user())
                     <a href="#" data-toggle="modal" data-target="#order_group" id="btn-order_group" class="ml-auto btn btn-primary">Đặt nhóm</a>
+                    @else()
+                    <a href="#" data-toggle="modal" data-target="#check_login" id="btn-check_login" class="ml-auto btn btn-primary">Đặt nhóm</a>
+                    @endif
                 </div>
             </div>
 
@@ -161,6 +165,49 @@
         </div>
     </div>
 </div>
+
+{{-- check-login  --}}
+<div class="modal fade" id="check_login" tabindex="-1" style="margin-top: 8%" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="login-page vh-50">
+                <div class="d-flex align-items-center justify-content-center vh-50">
+                    <div class="p-5 col-md-12 ml-auto">
+                        <div class="col-12 mx-auto">
+                            <p class="text-50">Sign in to continue</p>
+                            <form class="mt-5 mb-4" action="/login" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="text-dark">Email</label>
+                                    <input type="email" name="email" placeholder="Enter Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="text-dark">Password</label>
+                                    <input type="password" name="password" placeholder="Enter Password" class="form-control" id="exampleInputPassword1">
+                                </div>
+                                <button class="btn btn-success btn-lg btn-block" type="submit">SIGN IN</button>
+                                <div class="py-2">
+                                    <a href="/auth/google/redirect">
+                                        <button type="button" class="btn btn-lg btn-primary btn-block"><i class="feather-google"></i> Connect with Google</button>
+                                    </a>
+                                </div>
+                            </form>
+                            <a href="forgot_password.html" class="text-decoration-none">
+                                <p class="text-center">Forgot your password?</p>
+                            </a>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a href="signup.html">
+                                    <p class="text-center m-0">Don't have an account? Sign up</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script>
     //setup before functions
