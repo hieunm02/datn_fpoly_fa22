@@ -29,31 +29,35 @@
         <div class="d-flex align-items-center justify-content-center vh-100">
             <div class="px-5 col-md-6 ml-auto">
                 <div class="px-5 col-10 mx-auto">
-                    <h2 class="text-dark my-0">Welcome Back</h2>
-                    <p class="text-50">Sign in to continue</p>
+                    <h2 class="text-dark my-0">Chào mừng quay trở lại</h2>
+                    <p class="text-50">Vui lòng đăng nhập để tiếp tục</p>
                     <form class="mt-5 mb-4" action="/login" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="text-dark">Email</label>
-                            <input type="email" name="email" placeholder="Enter Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="email" name="email" placeholder="Mời nhập email" value="{{old('email')}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1" class="text-dark">Password</label>
-                            <input type="password" name="password" placeholder="Enter Password" class="form-control" id="exampleInputPassword1">
+                            <label for="exampleInputPassword1" class="text-dark">Mật khẩu</label>
+                            <input type="password" name="password" placeholder="Mời nhập mật khẩu" class="form-control" id="exampleInputPassword1">
                         </div>
-                        <button class="btn btn-success btn-lg btn-block" type="submit">SIGN IN</button>
+                        @if(session()->has('error'))
+                        <p class="text-danger text-center mb-3 m-0">{{session()->get('error')}}</p>
+                        @endif
+
+                        <button class="btn btn-success btn-lg btn-block" type="submit">ĐĂNG NHẬP</button>
                         <div class="py-2">
                             <a href="/auth/google/redirect">
-                                <button type="button" class="btn btn-lg btn-primary btn-block"><i class="feather-google"></i> Connect with Google</button>
+                                <button type="button" class="btn btn-lg btn-primary btn-block"><i class="feather-google"></i> Đăng nhập với Google</button>
                             </a>
                         </div>
                     </form>
                     <a href="forgot_password.html" class="text-decoration-none">
-                        <p class="text-center">Forgot your password?</p>
+                        <p class="text-center">Quên mật khẩu?</p>
                     </a>
                     <div class="d-flex align-items-center justify-content-center">
                         <a href="signup.html">
-                            <p class="text-center m-0">Don't have an account? Sign up</p>
+                            <p class="text-center m-0">Chưa có tài khoản? Đăng kí ngay</p>
                         </a>
                     </div>
                 </div>

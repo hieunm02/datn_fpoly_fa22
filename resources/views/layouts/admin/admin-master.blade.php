@@ -2,19 +2,20 @@
 <html lang="en">
 
 <head>
-   @include('layouts.admin.head')
+    @include('layouts.admin.head')
 </head>
 
 <body>
     <div class="app">
+        <div class="notification-toast top-right" id="notification-toast"></div>
         <div class="layout">
             <!-- Header START -->
             @include('layouts.admin.header')
             <!-- Header END -->
 
-        <!-- Side Nav START -->
-        @include('layouts.admin.sidebar')
-        <!-- Side Nav END -->
+            <!-- Side Nav START -->
+            @include('layouts.admin.sidebar')
+            <!-- Side Nav END -->
 
             <!-- Page Container START -->
             <div class="page-container">
@@ -24,11 +25,11 @@
 
                 <!-- Content Wrapper END -->
 
-        </div>
-        <!-- Page Container END -->
+            </div>
+            <!-- Page Container END -->
 
-        <!-- Search Start-->
-        {{-- <div class="modal modal-left fade search" id="search-drawer">
+            <!-- Search Start-->
+            {{-- <div class="modal modal-left fade search" id="search-drawer">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header justify-content-between align-items-center">
@@ -93,128 +94,128 @@
                                 <div class="d-flex m-b-30">
                                     <div class="avatar avatar-image">
                                         <img src="{{asset('assets/images/avatars/thumb-1.jpg')}}" alt="">
-                                    </div>
-                                    <div class="m-l-15">
-                                        <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Erin
-                                            Gonzales</a>
-                                        <p class="m-b-0 text-muted font-size-13">UI/UX Designer</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex m-b-30">
-                                    <div class="avatar avatar-image">
-                                        <img src="{{asset('assets/images/avatars/thumb-2.jpg')}}" alt="">
-                                    </div>
-                                    <div class="m-l-15">
-                                        <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Darryl
-                                            Day</a>
-                                        <p class="m-b-0 text-muted font-size-13">Software Engineer</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex m-b-30">
-                                    <div class="avatar avatar-image">
-                                        <img src="{{asset('assets/images/avatars/thumb-3.jpg')}}" alt="">
-                                    </div>
-                                    <div class="m-l-15">
-                                        <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Marshall
-                                            Nichols</a>
-                                        <p class="m-b-0 text-muted font-size-13">Data Analyst</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-t-30">
-                                <h5 class="m-b-20">News</h5>
-                                <div class="d-flex m-b-30">
-                                    <div class="avatar avatar-image">
-                                        <img src="{{asset('assets/images/others/img-1.jpg')}}" alt="">
-                                    </div>
-                                    <div class="m-l-15">
-                                        <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">5 Best
-                                            Handwriting Fonts</a>
-                                        <p class="m-b-0 text-muted font-size-13">
-                                            <i class="anticon anticon-clock-circle"></i>
-                                            <span class="m-l-5">25 Nov 2018</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        <!-- Search End-->
-
-            <!-- Quick View START -->
-            <div class="modal modal-right fade quick-view" id="quick-view">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header justify-content-between align-items-center">
-                            <h5 class="modal-title">Theme Config</h5>
-                        </div>
-                        <div class="modal-body scrollable">
-                            <div class="m-b-30">
-                                <h5 class="m-b-0">Header Color</h5>
-                                <p>Config header background color</p>
-                                <div class="theme-configurator d-flex m-t-10">
-                                    <div class="radio">
-                                        <input id="header-default" name="header-theme" type="radio" checked value="default">
-                                        <label for="header-default"></label>
-                                    </div>
-                                    <div class="radio">
-                                        <input id="header-primary" name="header-theme" type="radio" value="primary">
-                                        <label for="header-primary"></label>
-                                    </div>
-                                    <div class="radio">
-                                        <input id="header-success" name="header-theme" type="radio" value="success">
-                                        <label for="header-success"></label>
-                                    </div>
-                                    <div class="radio">
-                                        <input id="header-secondary" name="header-theme" type="radio" value="secondary">
-                                        <label for="header-secondary"></label>
-                                    </div>
-                                    <div class="radio">
-                                        <input id="header-danger" name="header-theme" type="radio" value="danger">
-                                        <label for="header-danger"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div>
-                                <h5 class="m-b-0">Side Nav Dark</h5>
-                                <p>Change Side Nav to dark</p>
-                                <div class="switch d-inline">
-                                    <input type="checkbox" name="side-nav-theme-toogle" id="side-nav-theme-toogle">
-                                    <label for="side-nav-theme-toogle"></label>
-                                </div>
-                            </div>
-                            <hr>
-                            <div>
-                                <h5 class="m-b-0">Folded Menu</h5>
-                                <p>Toggle Folded Menu</p>
-                                <div class="switch d-inline">
-                                    <input type="checkbox" name="side-nav-fold-toogle" id="side-nav-fold-toogle">
-                                    <label for="side-nav-fold-toogle"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Quick View END -->
+        </div>
+        <div class="m-l-15">
+            <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Erin
+                Gonzales</a>
+            <p class="m-b-0 text-muted font-size-13">UI/UX Designer</p>
         </div>
     </div>
-
-<footer class="footer">
-    <div class="footer-content">
-        <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
-        <span>
-            <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
-            <a href="" class="text-gray">Privacy &amp; Policy</a>
-        </span>
+    <div class="d-flex m-b-30">
+        <div class="avatar avatar-image">
+            <img src="{{asset('assets/images/avatars/thumb-2.jpg')}}" alt="">
+        </div>
+        <div class="m-l-15">
+            <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Darryl
+                Day</a>
+            <p class="m-b-0 text-muted font-size-13">Software Engineer</p>
+        </div>
     </div>
-</footer>
+    <div class="d-flex m-b-30">
+        <div class="avatar avatar-image">
+            <img src="{{asset('assets/images/avatars/thumb-3.jpg')}}" alt="">
+        </div>
+        <div class="m-l-15">
+            <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">Marshall
+                Nichols</a>
+            <p class="m-b-0 text-muted font-size-13">Data Analyst</p>
+        </div>
+    </div>
+    </div>
+    <div class="m-t-30">
+        <h5 class="m-b-20">News</h5>
+        <div class="d-flex m-b-30">
+            <div class="avatar avatar-image">
+                <img src="{{asset('assets/images/others/img-1.jpg')}}" alt="">
+            </div>
+            <div class="m-l-15">
+                <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">5 Best
+                    Handwriting Fonts</a>
+                <p class="m-b-0 text-muted font-size-13">
+                    <i class="anticon anticon-clock-circle"></i>
+                    <span class="m-l-5">25 Nov 2018</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div> --}}
+    <!-- Search End-->
 
-@include('layouts.admin.footer')
+    <!-- Quick View START -->
+    <div class="modal modal-right fade quick-view" id="quick-view">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between align-items-center">
+                    <h5 class="modal-title">Theme Config</h5>
+                </div>
+                <div class="modal-body scrollable">
+                    <div class="m-b-30">
+                        <h5 class="m-b-0">Header Color</h5>
+                        <p>Config header background color</p>
+                        <div class="theme-configurator d-flex m-t-10">
+                            <div class="radio">
+                                <input id="header-default" name="header-theme" type="radio" checked value="default">
+                                <label for="header-default"></label>
+                            </div>
+                            <div class="radio">
+                                <input id="header-primary" name="header-theme" type="radio" value="primary">
+                                <label for="header-primary"></label>
+                            </div>
+                            <div class="radio">
+                                <input id="header-success" name="header-theme" type="radio" value="success">
+                                <label for="header-success"></label>
+                            </div>
+                            <div class="radio">
+                                <input id="header-secondary" name="header-theme" type="radio" value="secondary">
+                                <label for="header-secondary"></label>
+                            </div>
+                            <div class="radio">
+                                <input id="header-danger" name="header-theme" type="radio" value="danger">
+                                <label for="header-danger"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <h5 class="m-b-0">Side Nav Dark</h5>
+                        <p>Change Side Nav to dark</p>
+                        <div class="switch d-inline">
+                            <input type="checkbox" name="side-nav-theme-toogle" id="side-nav-theme-toogle">
+                            <label for="side-nav-theme-toogle"></label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <h5 class="m-b-0">Folded Menu</h5>
+                        <p>Toggle Folded Menu</p>
+                        <div class="switch d-inline">
+                            <input type="checkbox" name="side-nav-fold-toogle" id="side-nav-fold-toogle">
+                            <label for="side-nav-fold-toogle"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Quick View END -->
+    </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
+            <span>
+                <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
+                <a href="" class="text-gray">Privacy &amp; Policy</a>
+            </span>
+        </div>
+    </footer>
+
+    @include('layouts.admin.footer')
 </body>
 
 </html>

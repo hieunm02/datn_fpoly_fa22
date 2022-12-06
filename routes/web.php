@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotifyController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\OptionDetailController;
 use App\Http\Controllers\Admin\OrderController;
@@ -107,7 +108,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
-    });
+    })->name('login');
 
     Route::get('/logout', function () {
         Auth::logout();
@@ -153,7 +154,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -194,7 +195,7 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [VoucherController::class, 'changeActive']);
     });
     //Staff
-    Route::resource('staffs', StaffController::class);
+    Route::middleware('role:manager')->resource('staffs', StaffController::class);
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -262,6 +263,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('/options', OptionController::class);
     Route::resource('/option-details', OptionDetailController::class);
 });
+
+Route::resource('notifies', NotifyController::class);
 
 
 

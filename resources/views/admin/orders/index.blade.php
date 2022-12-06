@@ -11,33 +11,7 @@
                 {{ session()->get('success') }}
             </div>
         @endif
-        {{-- @if ($orders->count())
-            <div class="card">
-                <div class="card-body">
-                    <div class="row m-b-30">
-                        <div class="col-lg-8">
-                            <div class="d-md-flex">
-                                <div class="m-b-10 m-r-15">
-                                    <select id="status_id" class="custom-select" onchange="selectOrderByStatus()"
-                                        style="min-width: 180px;">
-                                        <option selected>Trạng thái</option>
-                                        @foreach ($status as $stt)
-                                            <option class="status" value="{{ $stt->id }}">
-                                                {{ $stt->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="m-b-10">
-                                    <input name="code" type="text" id="search-by-code" class="form-control"
-                                        placeholder="Search by code">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif --}}
+
         <div class="card">
             <div class="card-body">
                 <div class="row m-b-30">
@@ -173,23 +147,6 @@
             </div>
         </div>
     </div>
-    </div>
-    {{-- @else --}}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
-                        <th>
-                            chưa có đơn hàng nào
-                        </th>
-                    </center>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- @endif --}}
-    </div>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -199,4 +156,5 @@
             });
         });
     </script>
+    <script type="text/javascript" src="{{ asset('/js/handleGeneral/order/filter.js') }}"></script>
 @endsection

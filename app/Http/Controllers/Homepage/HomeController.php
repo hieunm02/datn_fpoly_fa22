@@ -7,6 +7,7 @@ use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\CommentReaction;
 use App\Models\CommentRection;
+use App\Models\Notify;
 use App\Models\Product;
 use App\Models\ProductOptionDetail;
 use App\Models\Reaction;
@@ -15,6 +16,7 @@ use App\Models\Thumb;
 use App\Services\Comment\AdminCommentService;
 use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -114,10 +116,13 @@ class HomeController extends Controller
 
         return response()->json([
             'success' => 'Bình luận sản phảm thành công.',
-            'date' => date('Y-m-d h:i:s'),
+            'date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->timestamp,
             'user_id' => $this->commentService->getNameUser($request->user_id),
             'comment_id' => $comment->id,
-            'avatar' => $comment->user->avatar
+            'avatar' => $comment->user->avatar,
+            'id_user' => $comment->user->id,
+            'product_name' => $comment->product->name,
+            'product_id' => $comment->product->id,
         ]);
     }
 
@@ -163,7 +168,7 @@ class HomeController extends Controller
                                         <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
                                         <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                                         <a href="restaurant.html">
-                                            <img alt="#" src="' . $product->thumb . '" class="img-fluid item-img w-100">
+                                            <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '" class="img-fluid item-img w-100">
                                         </a>
                                     </div>
                                     <div class="p-3 position-relative">

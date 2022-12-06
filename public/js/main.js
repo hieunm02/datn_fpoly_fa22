@@ -95,6 +95,65 @@ function viewBillDetail(id) {
     })
 }
 
+// update status order
+$('.custom-select').on("change", function (event) {
+    var token = $(this).data("token");
+    let id = $(this).attr('data-id');
+    var status_id = $(event.target).val();
+    let admin_id = $('#user_id').val();
+    console.log(status_id);
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Đang thay đổi trạng thái đơn hàng!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'orders/update-status/',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                    status_id: status_id,
+                    _method: "POST",
+                    _token: token,
+                },
+                success: function (data) {
+                    let ip_address = '127.0.0.1';
+                    let socket_port = '3000';
+                    let socket = io(ip_address + ':' + socket_port);
+                    let message = '';
+                    if (data.order.status_id == 2) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                    }
+                    if (data.order.status_id == 3) {
+                        message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
+                    }
+                    if (data.order.status_id == 4) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được giao`;
+                    }
+                    if (data.order.status_id == 5) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
+                    }
+
+                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
+                    socket.emit('hanldeStatusOrderServer');
+                    sendMessage(message, admin_id, data.user.name, data.user.avatar, data.user.id)
+                    Swal.fire(
+                        'Đã thay đổi!',
+                        'Trạng thái của đơn hàng đã được thay đổi',
+                        'success'
+                    )
+                },
+            });
+        }
+    })
+});
+
 $('#search-by-code').on('keyup', function () {
     var code = document.querySelector('#search-by-code').value;
     $.ajax({
@@ -147,5 +206,51 @@ function randomCode() {
 function copyToClipboard() {
     document.getElementById("copy_{{ $voucher->id }}").select();
     document.execCommand('copy');
+}
+
+$('.toggle-notify').on('click', function () {
+    $('.show-notify').css('display', 'none');
+});
+
+$('.notify').on('click', function () {
+    var notify_id = $(this).attr('data-id');
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'PATCH',
+        url: "/notifies/" + notify_id,
+        data: {
+            notify_id: notify_id
+        },
+        success: function (data) {
+            $('.notify').removeClass('notify-pending');
+        }
+    });
+});
+
+function sendMessage(message, user_id, name, avatar, room_id) {
+    let url = "/rep";
+    let formData = new FormData();
+
+    formData.append('user_id', user_id)
+    formData.append('message', message)
+    formData.append('id', room_id)
+    formData.append('avatar', avatar)
+    formData.append('name', name)
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.success) {
+                console.log(response.data);
+            }
+        }
+    })
 }
 
