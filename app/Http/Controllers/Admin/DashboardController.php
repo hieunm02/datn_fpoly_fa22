@@ -59,6 +59,8 @@ class DashboardController extends Controller
         // }else
         if ($request->value == '7ngay') {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereBetween('date_order', [$sub7day, $now])
             ->groupBy('date_order')->orderBy('date_order', 'ASC')
             ->get();
@@ -67,6 +69,8 @@ class DashboardController extends Controller
             $titleDashboard = "Thống kê trong 7 ngày qua";
         } elseif ($request->value == 'thangtruoc') {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereBetween('date_order', [$dau_thangtruoc, $cuoi_thangtruoc])
             ->groupBy('date_order')->orderBy('date_order', 'ASC')
             ->get();
@@ -75,6 +79,8 @@ class DashboardController extends Controller
             $titleDashboard = "Thống kê trong tháng trước";
         } elseif ($request->value == 'thangnay') {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereBetween('date_order', [$dauthangnay, $now])
             ->groupBy('date_order')->orderBy('date_order', 'ASC')
             ->get();
@@ -83,6 +89,8 @@ class DashboardController extends Controller
             $titleDashboard = "Thống kê trong tháng này";
         } elseif ($request->value == '365ngay') {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'date_order'])
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereBetween('date_order', [$sub365day, $now])
             ->groupBy('date_order')->orderBy('date_order', 'ASC')
             ->get();
@@ -99,6 +107,7 @@ class DashboardController extends Controller
             ->whereBetween('order_products.created_at', [$start, $end])
             ->where('status_id', 4)
             ->get();
+        
         $qty = 0; // số sản phẩm bán trong tháng
         $total = 0; // tổng tiền bán trong tháng
         foreach ($product as $it) {
@@ -127,12 +136,16 @@ class DashboardController extends Controller
         if ($request->value == 'today') {
             $now = Carbon::now();
             $get = OrderProduct::select('nameProduct as name', 'quantity as total_quantity', 'total as total_price')
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereMonth('created_at', '=', $now->month)
             ->whereDay('created_at', '=', $now->day)
             ->whereYear('created_at', '=', $now->year)
             ->orderBy('total_quantity', 'DESC')->get();
         }else {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'nameProduct as name'])
+            ->join('orders', 'orders.id', '=', 'order_products.order_id')
+            ->where('orders.status_id', 4)
             ->whereBetween('date_order', [$request->from, $request->value])->groupBy('nameProduct')->orderBy('total_quantity', 'ASC')->get();
         }
         return response()->json(['data' => $get], 200);
