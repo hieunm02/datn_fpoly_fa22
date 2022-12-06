@@ -51,9 +51,7 @@ class BillController extends Controller
     public function show(Request $request)
     {
         $bill = Order::find($request->id);
-        // $billDetail = OrderProduct::with('product:id')->where('order_id', '=', $request->id)->get();
-        $billDetail = OrderProduct::where('order_id', '=', $request->id)->get();
-        dd($request->id);
+        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
         return response()->json([
             'bill' => $bill,
             'billDetail' => $billDetail,
