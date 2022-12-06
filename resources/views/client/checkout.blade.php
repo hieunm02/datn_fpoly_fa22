@@ -125,7 +125,7 @@
                         <div id="cart_item{{ $cart->id }}" class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                             <div class="media align-items-center">
                                 <div class="media-body d-flex">
-                                    <input type="checkbox" name="product_id[]" class="mr-1" value="{{ $cart->id }}">
+                                    <input type="checkbox" name="product_id[]" class="mr-1" value="{{ $cart->product_id }}">
                                     <p class="m-0">{{ $cart->name }}</p>
                                 </div>
                             </div>

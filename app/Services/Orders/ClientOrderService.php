@@ -43,11 +43,11 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
-            
+            // dd($count);
             foreach ($count as $it) {
-                $del = Cart::where('product_id',$it)->where('user_id', Auth::user()->id)->first();
+                $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
+                // dd($del);
                 $prd = Product::find($del->product_id);
-                // dd($prd);
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
