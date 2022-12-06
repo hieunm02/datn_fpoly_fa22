@@ -48,10 +48,16 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $bills = OrderProduct::where('order_id',$id)->get();
-        return response()->json(['bill' => $bills]);
+        $bill = Order::find($request->id);
+        // $billDetail = OrderProduct::with('product:id')->where('order_id', '=', $request->id)->get();
+        $billDetail = OrderProduct::where('order_id', '=', $request->id)->get();
+        dd($request->id);
+        return response()->json([
+            'bill' => $bill,
+            'billDetail' => $billDetail,
+        ]);
     }
 
     /**
@@ -62,7 +68,6 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-    
     }
 
     /**

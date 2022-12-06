@@ -64,7 +64,8 @@ function deleteAjax(parameter, id) {
 }
 
 // View detail bill
-function viewBillDetail(id) {
+$('.bill-detail').on('click', function () {
+    var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
         type: "GET",
@@ -75,25 +76,23 @@ function viewBillDetail(id) {
         success: function (data) {
             console.log(data);
             var tr = '';
-            data.bill.forEach(element => {
-                tr += `
+            tr += `
                     <tr>
-                        <td>${element['id']}</td>
-                        <td>${element['email']}</td>
-                        <td>${element['code']}</td>
-                        <td>${element['name']}</td>
-                        <td>${element['phone']}</td>
-                        <td>${element['address']}</td>
-                        <td>${element['shipper']}</td>
-                        <td>${element['voucher']}</td>
-                        <td>${element['note']}</td>
+                        <td>${data.bill.id}</td>
+                        <td>${data.bill.email}</td>
+                        <td>${data.bill.code}</td>
+                        <td>${data.bill.name}</td>
+                        <td>${data.bill.phone}</td>
+                        <td>${data.bill.address}</td>
+                        <td>${data.bill.shipper}</td>
+                        <td>${data.bill.voucher}</td>
+                        <td>${data.bill.note}</td>
                     </tr>
-                `
-            });
+                `;
             $('#table-bill-detail').html(tr);
         }
-    })
-}
+    });
+});
 
 // update status order
 $('.custom-select').on("change", function (event) {
@@ -101,7 +100,6 @@ $('.custom-select').on("change", function (event) {
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
     let admin_id = $('#user_id').val();
-    console.log(status_id);
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Đang thay đổi trạng thái đơn hàng!",
@@ -114,12 +112,12 @@ $('.custom-select').on("change", function (event) {
         if (result.isConfirmed) {
             $.ajax({
                 url: 'orders/update-status/',
-                type: "POST",
+                type: "PUT",
                 dataType: "JSON",
                 data: {
                     id: id,
                     status_id: status_id,
-                    _method: "POST",
+                    _method: "PUT",
                     _token: token,
                 },
                 success: function (data) {
@@ -142,7 +140,7 @@ $('.custom-select').on("change", function (event) {
 
                     socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
                     socket.emit('hanldeStatusOrderServer');
-                    sendMessage(message, admin_id, data.user.name, data.user.avatar, data.user.id)
+                    sendMessage(message, admin_id, data.admin.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',
                         'Trạng thái của đơn hàng đã được thay đổi',
@@ -229,15 +227,14 @@ $('.notify').on('click', function () {
     });
 });
 
-function sendMessage(message, user_id, name, avatar, room_id) {
+function sendMessage(message, user_id, avatar, room_id) {
     let url = "/rep";
     let formData = new FormData();
 
     formData.append('user_id', user_id)
     formData.append('message', message)
-    formData.append('id', room_id)
+    formData.append('room_id', room_id)
     formData.append('avatar', avatar)
-    formData.append('name', name)
 
     $.ajax({
         url: url,
