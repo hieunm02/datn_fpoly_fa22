@@ -184,7 +184,10 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     // users
     Route::resource('users', UserController::class);
-
+    Route::prefix('user')->group(function () {
+        Route::get('active', [UserController::class, 'changeActive']);
+    });
+    
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
     Route::prefix('voucher')->group(function () {
