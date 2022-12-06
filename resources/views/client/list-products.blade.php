@@ -153,16 +153,16 @@
                             <div class="col-md-4 py-5">
                                 <div class="text-center py-5">
                                     <p class="h4 mb-4"><i class="feather-search bg-primary text-white rounded p-2"></i></p>
-                                    <p class="font-weight-bold text-dark h5">Nothing found</p>
-                                    <p>we could not find anything that would match your search request, please try again.</p>
+                                    <p class="font-weight-bold text-dark h5">Không có kết quả</p>
+                                    <p>Chúng tôi không tìm thấy món bạn cần, vui lòng thử lại sau.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4"></div>`;
-                        $('.loader').fadeOut(2000);
+                        $('.loader').fadeOut(1000);
                     $('#innerResult').html(string);
                 } else {
-                    $('.loader').fadeOut(2000);
+                    $('.loader').fadeOut(1000);
                     $('#innerResult').html(data.result);
                 }
             },

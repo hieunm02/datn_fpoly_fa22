@@ -119,6 +119,7 @@
             {{-- End Voucher --}}
 
             {{-- Staffs --}}
+            @role('manager')
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -136,7 +137,7 @@
                 </ul>
             </li>
             {{-- End Staffs --}}
-
+            @endrole
             {{-- Users  --}}
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">

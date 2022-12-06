@@ -1,4 +1,8 @@
 $(function () {
+    let ip_address = '127.0.0.1';
+    let socket_port = '3000';
+    let socket = io(ip_address + ':' + socket_port);
+
     //Create Comment
     $(".submit_comment").click(function () {
         productId = $("input[name=product_id]").val();
@@ -43,8 +47,13 @@ $(function () {
                                 </p>
                             </div>
                         </div>
-                     </div>
+                    </div>
                 `;
+                var date = timeDifference(Math.round(new Date().getTime() / 1000), data.date);
+                saveNotify(data.id_user, 'comment', 'admin');
+                socket.emit('sendNotifyToServer', {
+                    user_name: data.user_id, type: 'comment', date: date, comment_id: data.comment_id, notify_id: result.notify.id
+                });
                 location.reload();
             },
         });

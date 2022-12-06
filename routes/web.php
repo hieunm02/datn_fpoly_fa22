@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotifyController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -103,7 +104,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
-    });
+    })->name('login');
 
     Route::get('/logout', function () {
         Auth::logout();
@@ -149,7 +150,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard 
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -193,7 +194,7 @@ Route::prefix('admin')->group(function () {
         Route::get('active', [VoucherController::class, 'changeActive']);
     });
     //Staff
-    Route::resource('staffs', StaffController::class);
+    Route::middleware('role:manager')->resource('staffs', StaffController::class);
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -255,10 +256,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
-        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        Route::put('/update-status', [OrderController::class, 'updateStatus']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
+
 });
+
+Route::resource('notifies', NotifyController::class);
 
 
 
@@ -272,3 +276,7 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
 // Nhân viên phản hồi tin nhắn tới người dùng 
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
+
+Route::get('test', function () {
+    return view('test', ['products' => Product::all()]);
+});

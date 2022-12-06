@@ -189,6 +189,9 @@ $(function () {
     });
     // thanh toán đơn hàng
     $("#datHang").click(function () {
+        let ip_address = '127.0.0.1';
+        let socket_port = '3000';
+        let socket = io(ip_address + ':' + socket_port);
         var checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
         var arr = []
         for (var i = 0; i < checks.length; i++) {
@@ -209,6 +212,16 @@ $(function () {
             },
             dataType: "JSON",
             success: function (response) {
+                var user_id = $('.auth_id').val();
+                var name = $("input[name=name]").val();
+                var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
+                saveNotify(user_id, 'order', 'admin');
+                socket.emit('sendNotifyToServer', {
+                    user_name: name,
+                    type: 'order',
+                    date: date,
+                    notify_id: result.notify.id
+                });
                 $("#showCartUser").html('');
                 $("#cartNull").html('Chưa có sản phẩm nào!');
                 $('#show_total').html('');
@@ -222,6 +235,29 @@ $(function () {
                     'Đăt hàng thành công!',
                     'success'
                 )
+            },
+            error: function (errors) {
+                console.log(errors.responseJSON.errors);
+                if (errors.responseJSON.errors.nameRequired) {
+                    $('.error-name').text(errors.responseJSON.errors.nameRequired);
+                    $('.input-name').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.building) {
+                    $('.error-building').text(errors.responseJSON.errors.building);
+                    $('.input-building').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.phone) {
+                    $('.error-phone').text(errors.responseJSON.errors.phone);
+                    $('.input-phone').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.email) {
+                    $('.error-email').text(errors.responseJSON.errors.email);
+                    $('.input-email').addClass('is-invalid')
+                }
+                if (errors.responseJSON.errors.productRequired) {
+                    $('.error-product').text(errors.responseJSON.errors.productRequired);
+                    $('.input-product').addClass('is-invalid')
+                }
             }
         });
     })

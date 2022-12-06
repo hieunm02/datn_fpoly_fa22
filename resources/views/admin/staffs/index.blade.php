@@ -6,7 +6,7 @@
             <h2 class="header-title">{{ $title }}</h2>
             <x:notify-messages />
         </div>
-        @if($staffs->count())
+        @if(count($staffs))
         <div class="card">
             <div class="card-body">
                 <div class="card">

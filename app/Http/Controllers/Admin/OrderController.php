@@ -58,6 +58,7 @@ class OrderController extends Controller
 
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
+        $adminInfor = User::find(1);
 
         if ($request->status_id == 5) {
             $flag = true;
@@ -65,7 +66,11 @@ class OrderController extends Controller
             $user->save();
         }
 
-        return response()->json(['order' => $order]);
+        return response()->json([
+            'order' => $order,
+            'user' => $user,
+            'admin' => $adminInfor
+        ]);
     }
 
     public function searchByCode(Request $request)

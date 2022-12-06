@@ -30,19 +30,19 @@ class AdminOrderService
         if ($text_search == null) {
             $text_search = '';
         }
-        $query = Order::where('code', 'like', '%' . $text_search . '%');
+        $query = Order::where('code', 'like', '%' . $text_search . '%')->where('status_id', '!=', 4);
 
         if ($active_search) {
-            $query->where('status_id', $active_search);
+            $query->where('status_id', $active_search)->where('status_id', '!=', 4);
         }
 
-        return $query->orderBy('updated_at', 'DESC');
+        return $query->where('status_id', '!=', 4)->orderBy('updated_at', 'DESC');
     }
 
 
     public function getAllOrders()
     {
-        return Order::all();
+        return Order::where('status_id', '!=', 4)->get();
     }
 
     public function getOrderExcept($status_id)
