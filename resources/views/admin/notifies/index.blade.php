@@ -1,91 +1,75 @@
 @extends('layouts.admin.admin-master')
 @section('title', $title)
 @section('content')
-<style>
-    @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&display=swap");
-
-    :root {
-        --Red: hsl(1, 90%, 64%);
-        --Blue: hsl(219, 85%, 26%);
-        --White: hsl(0, 0%, 100%);
-        --Very-light-grayish-blue: hsl(210, 60%, 98%);
-        --Light-grayish-blue-1: hsl(211, 68%, 94%);
-        --Light-grayish-blue-2: hsl(205, 33%, 90%);
-        --Grayish-blue: hsl(219, 14%, 63%);
-        --Dark-grayish-blue: hsl(219, 12%, 42%);
-        --Very-dark-blue: hsl(224, 21%, 14%);
-    }
-    .header-noti {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
-    }
-
-    .notif_box {
-        display: flex;
-        align-items: center;
-    }
-
-    #notifes {
-        background-color: var(--Blue);
-        margin-left: 0.5rem;
-        width: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 30px;
-        color: var(--White);
-        font-weight: 800;
-        border-radius: 0.5rem;
-    }
-
-    #mark_all {
-        cursor: pointer;
-    }
-
-    #mark_all:hover {
-        color: var(--Blue);
-    }
-
-    p {
-        color: var(--Dark-grayish-blue);
-    }
-
-    main {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .notif_card {
-        display: flex;
-        align-items: center;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        cursor: pointer;
-    }
-    .description {
-        margin-left: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .unread {
-        background-color: var(--Light-grayish-blue-1) !important;
-    }
-
-    @media screen and (max-width:550px) {
-        .container {
-            margin: 0;
-        }
-    }
-</style>
-<div class="container" style="margin-top: 100px;">
-    <div class="header-noti">
-        <div class="notif_box">
-            <h2 class="title">Thông báo</h2>
+<div class="main-content">
+    <div class="page-header">
+        <h2 class="header-title">Blog List</h2>
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <a class="breadcrumb-item" href="#">Pages</a>
+                <span class="breadcrumb-item active">Blog List</span>
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="avatar avatar-icon avatar-lg avatar-blue">
+                            <i class="anticon anticon-dollar"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="m-b-10">You Should Know About Enlink</h4>
+                        <div class="d-flex align-items-center m-t-5 m-b-15">
+                            <div class="avatar avatar-image avatar-sm">
+                                <!-- <img src="assets/images/avatars/thumb-2.jpg" alt=""> -->
+                            </div>
+                            <div class="m-l-10">
+                                <span class="text-gray font-weight-semibold">Darryl Day</span>
+                                <span class="m-h-5 text-gray">|</span>
+                                <span class="text-gray">Jan 2, 2019</span>
+                            </div>
+                        </div>
+                        <p class="m-b-20">Jelly-o sesame snaps halvah croissant oat cake cookie. Cheesecake bear claw topping. Chupa chups apple pie carrot cake chocolate cake caramels</p>
+                        <div class="text-right">
+                            <a class="btn btn-hover font-weight-semibold" href="blog-post.html">
+                                <span>Read More</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" src="assets/images/others/img-3.jpg" alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="m-b-10">Enlink Has The Answer</h4>
+                        <div class="d-flex align-items-center m-t-5 m-b-15">
+                            <div class="avatar avatar-image avatar-sm">
+                                <img src="assets/images/avatars/thumb-3.jpg" alt="">
+                            </div>
+                            <div class="m-l-10">
+                                <span class="text-gray font-weight-semibold">Marshall Nichols</span>
+                                <span class="m-h-5 text-gray">|</span>
+                                <span class="text-gray">Jan 2, 2019</span>
+                            </div>
+                        </div>
+                        <p class="m-b-20">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar.</p>
+                        <div class="text-right">
+                            <a class="btn btn-hover font-weight-semibold" href="blog-post.html">
+                                <span>Read More</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <a href="" id="mark_all">Đánh dấu tất cả là đã đọc</a>
     </div>

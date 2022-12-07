@@ -2,7 +2,6 @@
 @section('title', $title)
 @section('content')
     <link rel="stylesheet" href="{{ asset('/css/product/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/paginate.css') }}">
     <div class="main-content">
         <div class="page-header">
             <h2 class="header-title">Orders List</h2>
@@ -71,10 +70,10 @@
                             <th>ID</th>
                             <th>Tên sản phẩm</th>
                             <th>Danh mục</th>
-                            <th class="text-center">Giá</th>
-                            <th class="text-center">Số lượng</th>
-                            <th class="text-center">Trạng thái</th>
-                            <th class="text-right">Thao tác</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="products_list">
@@ -99,10 +98,11 @@
                                     </div>
                                 </td>
                                 <td>{{ $product->menu->name }}</td>
-                                <td class="text-center">{{ number_format($product->price, 0, ',', ',') }} ₫</td>
-                                <td class="text-center">{{ $product->quantity }}</td>
+                                <td>{{ number_format($product->price, 0, ',', ',') }} ₫</td>
+                                <td>{{ $product->quantity }}</td>
                                 <td>
-                                    <div class="text-center" style="cursor: pointer">
+
+                                    <div class="d-flex align-items-center" style="cursor: pointer">
                                         @if ($product->active === 0)
                                             <div class="m-r-10"></div>
                                             <input type="hidden" id="is-active{{ $product->id }}"
