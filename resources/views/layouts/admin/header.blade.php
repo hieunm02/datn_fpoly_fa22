@@ -31,9 +31,9 @@
         </ul>
         <ul class="nav-right">
             <li class="dropdown dropdown-animated scale-left">
-                <a href="javascript:void(0);" data-toggle="dropdown">
+                <a class="toggle-notify" href="javascript:void(0);" data-toggle="dropdown">
                     <i class="anticon anticon-bell notification-badge"></i>
-                    <div class="number-notify" style="position: absolute;top: 10px;font-size: 14px;background-color: #34c4fe;color: #fff;height: 10px;width: 10px;border-radius: 50%;right: 17px;"></div>
+                    <div class="show-notify" style="display:none;position: absolute;top: 10px;font-size: 14px;background-color: #34c4fe;color: #fff;height: 10px;width: 10px;border-radius: 50%;right: 17px;"></div>
                 </a>
                 <div class="dropdown-menu pop-notification" style="width:450px">
                     <div class="p-v-15 p-h-25 border-bottom d-flex justify-content-between align-items-center">

@@ -61,11 +61,23 @@ $(function () {
                 product_id: product_id,
             },
             success: function (data) {
+                Swal.fire(
+                    "Successful!",
+                    "Thay đổi trạng thái thành công!",
+                    "success"
+                );
                 $(".btn-active" + product_id).css("color", data.color);
                 $("#icon-active" + product_id)
                     .addClass(data.btnActive)
                     .removeClass(data.btnRemove);
                 $("#is-active" + product_id).val(data.value);
+                //Handle List products
+                console.log(productsAll);
+                for (let i = 0; i < productsAll.length; i++) {
+                    if (productsAll[i]["id"] === product_id) {
+                        productsAll[i]["active"] = data.value;
+                    }
+                }
             },
         });
     });
@@ -87,14 +99,12 @@ $(function () {
                     Swal.fire("Successful!", "Xóa thành công!", "success");
                     $(".ele_" + id).remove();
                     //Handle List products
-                    console.log(productsAll);
 
                     for (let i = 0; i < productsAll.length; i++) {
                         if (productsAll[i]["id"] === id) {
                             productsAll.splice(i, 1);
                         }
                     }
-                    console.log(productsAll);
                 },
             });
         }
@@ -235,11 +245,10 @@ $(function () {
                         </div>
                     </td>
                     <td>${element.menu.name}</td>
-                    <td>${formatNumber(element.price, ".")} ₫</td>
+                    <td>${format_number(element.price, 0)} ₫</td>
                     <td>${element.quantity}</td>
                     <td>
-
-                        <div class="d-flex align-items-center" style="cursor: pointer">
+                        <div class="text-center" style="cursor: pointer">
                             ${
                                 element.active === 0
                                     ? `<div class="m-r-10"></div>
@@ -332,7 +341,7 @@ $(function () {
 
         // Set null paginate
         $(paginates).html("");
-        if (pages !== 0) {
+        if (pages > 1) {
             // Set btn pre
             $(paginates).append(pre);
             $(paginates).append(
@@ -360,17 +369,39 @@ $(function () {
 });
 
 //Format price products
-function formatNumber(nStr, decSeperate, groupSeperate) {
-    nStr += "";
-    x = nStr.split(decSeperate);
-    x1 = x[0];
-    x2 = x.length > 1 ? "." + x[1] : "";
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, "$1" + groupSeperate + "$2");
+function format_number(pnumber,decimals)
+{
+    if (isNaN(pnumber)) { return 0};
+    if (pnumber=='') { return 0};
+    var snum = new String(pnumber);
+    var sec = snum.split('.');
+    var whole = parseFloat(sec[0]);
+    var result = '';
+    
+    if(sec.length > 1){
+        var dec = new String(sec[1]);
+        dec = String(parseFloat(sec[1])/Math.pow(10,(dec.length - decimals)));
+        dec = String(whole + Math.round(parseFloat(dec))/Math.pow(10,decimals));
+        var dot = dec.indexOf('.');
+        if(dot == -1){
+            dec += '.';
+            dot = dec.indexOf('.');
+        }
+        while(dec.length <= dot + decimals) { dec += '0'; }
+        result = dec;
+    } else{
+        var dot;
+        var dec = new String(whole);
+        if(decimals){
+            dec += '.';
+            dot = dec.indexOf('.');       
+            while(dec.length <= dot + decimals) { dec += '0'; }
+        }
+        result = dec;
     }
-    return x1 + x2;
+    return result;
 }
+
 
 //Paginate
 function productPage(array, page_size, page_number) {

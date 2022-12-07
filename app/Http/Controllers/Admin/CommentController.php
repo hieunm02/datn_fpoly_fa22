@@ -23,12 +23,20 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['comments'] = $this->commentService->getAll();
-        $data['title'] = 'Bảng đánh giá sản phẩm';
-
-        return view('admin.comments.index', $data);
+        if ($request->status == 200) {
+            $comments = $this->commentService->getComments($request)->get();
+            return response()->json([
+                'comments' => $comments,
+            ]);
+        } else {
+            $comments = $this->commentService->getComments($request)->paginate(5);
+            return view('admin.comments.index', [
+                'title' => 'Danh sách bình luận',
+                'comments' => $comments
+            ]);
+        }
     }
 
     /**
@@ -102,25 +110,26 @@ class CommentController extends Controller
     public function changeActive(Request $request)
     {
         $comment = Comment::find($request->comment_id);
-        if ($request->active == 0) {
-            $comment->active = 1;
-            $value = $comment->active;
-            $title = 'Deactive';
-            $btnActive = 'badge-danger';
-            $btnRemove = 'badge-success';
-        } else {
+        if ($request->active == 1) {
             $comment->active = 0;
             $value = $comment->active;
-            $title = 'Actived';
-            $btnActive = 'badge-success';
-            $btnRemove = 'badge-danger';
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
+        } else {
+            $comment->active = 1;
+            $value = $comment->active;
+            $btnActive = 'bi-unlock-fill';
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red'; 
         }
         $comment->save();
         return response()->json([
-            'title' => $title,
             'btnActive' => $btnActive,
             'btnRemove' => $btnRemove,
             'value' => $value,
+            'color' => $color,
         ]);
     }
 }

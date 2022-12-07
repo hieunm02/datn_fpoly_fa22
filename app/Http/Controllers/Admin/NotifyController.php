@@ -13,11 +13,74 @@ class NotifyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notifies = Notify::all();
-        $title = 'Thông báo';
-        return view('admin.notifies.index', compact('notifies', 'title'));
+        $results = Notify::orderBy('created_at', 'DESC')->paginate(5);
+        $title = 'Danh sách thông báo';
+        $notifies = '';
+        if ($request->ajax()) {
+            foreach ($results as $result) {
+                if ($result->type == "message") {
+                    $notifies .= '
+                        <div class="notif_card">
+                            <div class="avatar avatar-volcano avatar-icon">
+                                <i class="anticon anticon-message"></i>
+                            </div>
+                            <div class="description">
+                                <a href="" class="user_activity">
+                                    Tin nhắn mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
+                                </a>
+                                <p class="time">' . $result->created_at->diffForHumans() . '</p>
+                            </div>
+                        </div>
+                        ';
+                } elseif ($result->type == "contact") {
+                    $notifies .= '
+                    <div class="notif_card">
+                        <div class="avatar avatar-blue avatar-icon">
+                            <i class="anticon anticon-mail"></i>
+                        </div>
+                        <div class="description">
+                            <a href="" class="user_activity">
+                            Liên hệ mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
+                            </a>
+                            <p class="time">' . $result->created_at->diffForHumans() . '</p>
+                        </div>
+                    </div>
+                    ';
+                } elseif ($result->type == "order") {
+                    $notifies .= '
+                    <div class="notif_card">
+                        <div class="avatar avatar-cyan avatar-icon">
+                            <i class="anticon anticon-shopping-cart"></i>
+                        </div>
+                        <div class="description">
+                            <a href="" class="user_activity">
+                            Đơn hàng mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
+                            </a>
+                            <p class="time">' . $result->created_at->diffForHumans() . '</p>
+                        </div>
+                    </div>
+                    ';
+                } elseif ($result->type == "comment") {
+                    $notifies .= '
+                    <div class="notif_card">
+                        <div class="avatar avatar-gold avatar-icon">
+                            <i class="far fa-comment-alt"></i>                                               
+                        </div>
+                        <div class="description">
+                            <a href="" class="user_activity">
+                                <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> đã bình luận
+                            </a>
+                            <p class="time">' . $result->created_at->diffForHumans() . '</p>
+                        </div>
+                    </div>
+                    ';
+                }
+            }
+            return $notifies;
+        }
+        return view('admin.notifies.index', compact('title'));
     }
 
     /**
@@ -41,6 +104,7 @@ class NotifyController extends Controller
         $notify = Notify::create([
             'user_id' => $request->user_id,
             'type' => $request->type,
+            'room_id' => $request->room_id,
         ]);
 
         return response()->json(['notify' => $notify]);
@@ -77,7 +141,9 @@ class NotifyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $notify = Notify::find($request->notify_id);
+        $notify->status = 'read';
+        $notify->save();
     }
 
     /**

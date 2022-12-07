@@ -5,6 +5,42 @@ $(document).ready(function () {
         }
     });
 });
+
+function timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+        return Math.round(elapsed / 1000) + ' seconds ago';
+    }
+
+    else if (elapsed < msPerHour) {
+        return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    }
+
+    else if (elapsed < msPerDay) {
+        return Math.round(elapsed / msPerHour) + ' hours ago';
+    }
+
+    else if (elapsed < msPerMonth) {
+        return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+    }
+
+    else if (elapsed < msPerYear) {
+        return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+    }
+
+    else {
+        return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+    }
+}
+
 $('#btn-exchange-point').on('click', function () {
     var point_exchange = $('#point_exchange').val();
     $.ajax({
@@ -42,7 +78,9 @@ $('#btn-exchange-point').on('click', function () {
     });
 })
 
-function saveNotify(user_id, type, role) {
+var result;
+
+function saveNotify(user_id, type, role, room_id) {
     let url = "/notifies";
     let formData = new FormData();
     let token = $('meta[name="csrf-token"]').attr('content')
@@ -50,12 +88,13 @@ function saveNotify(user_id, type, role) {
     formData.append('user_id', user_id);
     formData.append('type', type);
     formData.append('role', role);
+    formData.append('room_id', room_id);
     formData.append('_token', token);
-
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
+        async: false,
         url: url,
         type: 'POST',
         data: formData,
@@ -63,8 +102,8 @@ function saveNotify(user_id, type, role) {
         contentType: false,
         dataType: 'JSON',
         success: function (data) {
-            console.log(data);
-
+            result = data;
         }
     })
 }
+

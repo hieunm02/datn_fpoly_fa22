@@ -28,7 +28,7 @@
                                     Có thông báo mới!
                                 </div>
                             </div>`
-
+            $('.show-notify').css('display', 'block');
             $('#notification-toast').append(toastHTML)
             $('#notification-toast .toast').toast('show');
             setTimeout(function() {
@@ -36,10 +36,10 @@
             }, 3000);
             if (data.type == 'comment') {
                 $('#innerNotify').prepend(`
-                                        <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom">
+                                        <a href="/admin/comments" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
                                                 <div class="avatar avatar-gold avatar-icon">
-                                                    <i class="anticon anticon-message"></i>
+                                                    <i class="far fa-comment-alt"></i>           
                                                 </div>
                                                 <div class="m-l-15">
                                                     <p class="m-b-0 text-dark">${data.user_name} đã bình luận</p>
@@ -50,7 +50,7 @@
             `);
             } else if (data.type == 'order') {
                 $('#innerNotify').prepend(`
-                    <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom">
+                    <a href="/admin/orders" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                 <div class="d-flex">
                                     <div class="avatar avatar-cyan avatar-icon">
                                         <i class="anticon anticon-shopping-cart"></i>
@@ -62,15 +62,29 @@
                                 </div>
                             </a>
             `);
-            } else {
+            } else if (data.type == 'contact') {
                 $('#innerNotify').prepend(`
-                                        <a href="javascript:void(0);" class="dropdown-item d-block p-15 border-bottom">
+                                        <a href="/admin/contacts" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                                             <div class="d-flex">
                                                 <div class="avatar avatar-blue avatar-icon">
                                                     <i class="anticon anticon-mail"></i>
                                                 </div>
                                                 <div class="m-l-15">
                                                     <p class="m-b-0 text-dark">Liên hệ từ ${data.user_name}</p>
+                                                    <p class="m-b-0"><small>${data.date}</small></p>
+                                                </div>
+                                            </div>
+                                        </a>
+            `);
+            } else {
+                $('#innerNotify').prepend(`
+                                        <a href="/admin/chats/message/${data.room_id}" data-id=${data.notify_id} class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                                            <div class="d-flex">
+                                                <div class="avatar avatar-volcano avatar-icon">
+                                                    <i class="anticon anticon-message"></i>
+                                                </div>
+                                                <div class="m-l-15">
+                                                    <p class="m-b-0 text-dark">Tin nhắn mới từ ${data.user_name}</p>
                                                     <p class="m-b-0"><small>${data.date}</small></p>
                                                 </div>
                                             </div>

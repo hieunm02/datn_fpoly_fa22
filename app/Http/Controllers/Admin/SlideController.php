@@ -22,12 +22,20 @@ class SlideController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['title'] = 'Danh sách slides';
-        $data['slides'] = $this->slideServices->getListSlides();
-
-        return view('admin.slides.index', $data);
+        if ($request->status == 200) {
+            $slides = $this->slideServices->getSlides($request)->get();
+            return response()->json([
+                'slides' => $slides,
+            ]);
+        } else {
+            $slides = $this->slideServices->getSlides($request)->paginate(5);
+            return view('admin.slides.index', [
+                'title' => 'Danh sách slides',
+                'slides' => $slides
+            ]);
+        }
     }
 
     /**
@@ -93,7 +101,7 @@ class SlideController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SlidesRequest $request, $id)
     {
         $this->slideServices->updateSlide($request, $id);
         return redirect()->route('slides.index');
@@ -116,24 +124,25 @@ class SlideController extends Controller
     {
         $slide = Slide::find($request->slide_id);
         if ($request->active == 1) {
-            $slide->active = 2;
+            $slide->active = 0;
             $value = $slide->active;
-            $title = 'Deactive';
-            $btnActive = 'badge-danger';
-            $btnRemove = 'badge-success';
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
         } else {
             $slide->active = 1;
             $value = $slide->active;
-            $title = 'Actived';
-            $btnActive = 'badge-success';
-            $btnRemove = 'badge-danger';
+            $btnActive = 'bi-unlock-fill';
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
         }
         $slide->save();
         return response()->json([
-            'title' => $title,
             'btnActive' => $btnActive,
             'btnRemove' => $btnRemove,
             'value' => $value,
+            'color' => $color,
         ]);
     }
 }

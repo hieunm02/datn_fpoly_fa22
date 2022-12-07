@@ -43,10 +43,11 @@ class ClientOrderService
             // dd($order);
             $order->save();
             $count = $request->product_id;
+            // dd($count);
             foreach ($count as $it) {
-                $del = Cart::find($it);
+                $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
+                // dd($del);
                 $prd = Product::find($del->product_id);
-                // dd($prd);
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
@@ -67,7 +68,7 @@ class ClientOrderService
                 $data->save();
                 $del->delete();
             }
-            Session()->flash('success', 'Đăt hàng thành công');
+            // Session()->flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());

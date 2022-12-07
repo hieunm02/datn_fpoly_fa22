@@ -19,8 +19,8 @@ class NewsFactory extends Factory
             'image_path' => $this->faker->imageUrl(100, 100),
             'content' => $this->faker->text(),
             'view' => rand(1, 100),
-            'user_id' => rand(1, 10),
-            'active' => rand(1, 4),
+            'user_id' => 1,
+            'active' => rand(0, 1),
         ];
     }
 }

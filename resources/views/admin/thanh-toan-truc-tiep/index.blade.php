@@ -11,8 +11,13 @@
                     <div class="col-12 p-0" id="cartOrder">
                         {{-- show các đơn chưa thanh toán ở mua trực tuyến --}}
                         @foreach ($cartOrder as $index => $or)
-                            <div class="btn btn-success p-1" data-id="{{ $or->order_tt }}"
-                                onclick="showDonHang('{{ $or->order_tt }}')">Đơn {{ $index + 1 }}</div>
+                            <div class="position-relative d-inline-block">
+                                <div class="btn btn-success py-1 px-2" data-id="{{ $or->order_tt }}"
+                                    onclick="showDonHang('{{ $or->order_tt }}')">Đơn {{ $index + 1 }}
+                                </div>
+                                <div class="position-absolute bg-danger d-flex justify-content-center align-items-center icon-close-order"
+                                    data-id="{{ $or->order_tt }}"><i class="fas fa-times"></i></div>
+                            </div>
                         @endforeach
                         <div class="btn btn-success p-1" onclick="createOrderNew()"><i class="bi bi-plus"></i></div>
                     </div>
@@ -24,7 +29,7 @@
                                         <th>Sản phẩm</th>
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
-                                        <th></th>
+                                        <th id="tenDonHang"></th>
                                     </tr>
                                     <tr id="id_cartTT">
                                         <input type="hidden" id="orderNew" value="order_ttnum">
@@ -53,8 +58,7 @@
                                     <div class="col-md-3 text-whiter p-2 filterPrd{{ $it->menu_id }} prdTT">
                                         <div class="d-flex bg-green-500">
                                             <div class="col-md-6 p-0">
-                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShR9LtGu7CHTBVgFYxmOzbU6FMo2XZEYuMSnha8Vejmz7H6gs_lrHkwTBn9J7p4BKJmAk&usqp=CAU"
-                                                    width="100%" alt="">
+                                                <img src="{{ asset($it->thumb) }}" width="100%" alt="">
                                             </div>
                                             <div class="col-md-6 pl-2 p-1">
                                                 <span class="css_text">{{ $it->name }}</span>
@@ -94,12 +98,19 @@
                         </div>
                         <button class="btn btn-primary" id="payment">Thanh toán</button>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <style>
+        .icon-close-order {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            top: -5px;
+            right: -2px;
+        }
+
         .my-custom-scrollbar {
             position: relative;
             max-height: 260px;
@@ -122,5 +133,7 @@
         }
     </style>
     <script src="{{ asset('js/handleGeneral/admin/thanh-toan-truc-tiep.js') }}"></script>
-    <script>$('#orderNew').val(Math.floor(Math.random() * 10000))</script>
+    <script>
+        $('#orderNew').val(Math.floor(Math.random() * 10000))
+    </script>
 @endsection

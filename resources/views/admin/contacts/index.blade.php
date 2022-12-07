@@ -14,12 +14,17 @@
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
-                <div>
-                    {{ $contacts->links() }}
+                <div class="col-lg-7">
+                    <div class="d-md-flex">
+                        <div class="m-b-10">
+                            <input type="text" name="text_search" class="form-control" placeholder="Tìm kiếm..."
+                                style="width: 180px;">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover e-commerce-table">
+                <table class="table table-hover e-commerce-table" style="font-size: 15px">
                     <thead>
                         <tr>
                             <th>
@@ -36,7 +41,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="contacts_list">
                         @foreach ($contacts as $contact)
                         <tr id="id{{$contact->id}}">
                             <td>
@@ -83,6 +88,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="text-right pagination">
+                    {{ $contacts->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -115,3 +123,5 @@
         document.getElementById('setout').classList.add('d-none');
     }, 3000);
 </script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{{ asset('/js/handleGeneral/contact/filter.js') }}"></script>

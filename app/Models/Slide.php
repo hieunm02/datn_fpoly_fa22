@@ -13,7 +13,6 @@ class Slide extends Model
         'name',
         'product_id',
         'thumb',
-        'sort_by',
         'active'
     ];
 

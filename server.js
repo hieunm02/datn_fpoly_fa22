@@ -14,10 +14,9 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
     console.log('connection');
 
-<<<<<<< HEAD
     // function chat() {
     socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-        console.log(message, id);
+        console.log(message, id, name, avatar);
 
         // io.sockets.emit('sendChatToClient', message);
         socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
@@ -26,6 +25,10 @@ io.on('connection', (socket) => {
     // chat();
     socket.on('sendNotifyToServer', (data) => {
         socket.broadcast.emit('sendNotifyToClient', data);
+    });
+
+    socket.on('handleStatusOrderServer', (data) => {
+        socket.broadcast.emit('handleStatusOrderClient', data);
     });
 
     // function contactUs() {
@@ -37,19 +40,12 @@ io.on('connection', (socket) => {
     //     });
     // }
     // contactUs();
-=======
-    // Chat 
-        socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-            // io.sockets.emit('sendChatToClient', message);
-            socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
-        });
->>>>>>> dev
 
 
-        socket.on('isTyping', (typing, room_id) => {
-            // io.sockets.emit('sendChatToClient', message);
-            socket.broadcast.emit('isTyping', typing, room_id);
-        });
+    socket.on('isTyping', (typing, room_id) => {
+        // io.sockets.emit('sendChatToClient', message);
+        socket.broadcast.emit('isTyping', typing, room_id);
+    });
     socket.on('disconnect', (socket) => {
         console.log('Disconnect');
     });
