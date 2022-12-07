@@ -29,8 +29,7 @@
                                             </select>
                                         </div>
                                         <div class="m-b-10">
-                                            <input type="text" name="text_search" class="form-control"
-                                                   placeholder="Tìm kiếm..." style="width: 180px;">
+                                            <input type="text" name="text_search" class="form-control" placeholder="Tìm kiếm..." style="width: 180px;">
                                         </div>
                                     </div>
                                 </div>
@@ -75,11 +74,9 @@
                                             <td>{{ $item->note }}</td>
                                             <td>
                                                 <input type="hidden" class="array_status" value="{{ $status }}">
-                                                <select name="status" data-id="{{$item->id}}" id="status"
-                                                        class="custom-select custom_status" style="min-width: 180px;">
+                                                <select name="status" data-id="{{$item->id}}" id="status" class="custom-select custom_status" style="min-width: 180px;">
                                                     @foreach ($status as $stt)
-                                                        <option class="status-{{ $item->id }}"
-                                                                value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
+                                                        <option class="status-{{ $item->id }}" value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
                                                             {{ $stt->name }}
                                                         </option>
                                                     @endforeach
@@ -115,7 +112,7 @@
     @endif
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
