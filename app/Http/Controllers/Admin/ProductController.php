@@ -8,8 +8,6 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -62,7 +60,6 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        dd($request->all());
         $data = $this->productService->create($request);
         if (!$data) {
             return redirect()->back();

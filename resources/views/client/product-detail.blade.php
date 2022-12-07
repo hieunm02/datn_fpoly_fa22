@@ -214,10 +214,8 @@
                 <div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image">
-                            <div class="star position-absolute"><span class="badge badge-success"><i
-                                        class="feather-star"></i> 3.1 (300+)</span></div>
-                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                        class="feather-heart"></i></a></div>
+                            <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}})</span></div>
+                            <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                             <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
                             </div>
                             <a href="{{ route('product-detail', $product->id) }}">
@@ -231,19 +229,7 @@
                                 <p class="text-gray mb-1 small">• {{ $product->menu->name }}</p>
                                 <p class="text-gray mb-1 rating">
                                 </p>
-                                <ul class="rating-stars list-unstyled">
-                                    <li>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star"></i>
-                                    </li>
-                                </ul>
                                 <p></p>
-                            </div>
-                            <div class="list-card-badge">
-                                <span class="badge badge-success">OFFER</span> <small>65% off</small>
                             </div>
                         </div>
                     </div>

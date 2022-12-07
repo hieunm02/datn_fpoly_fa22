@@ -43,12 +43,6 @@
                         </div>
                     </div>
                     <div class="col-lg-5  text-right">
-                        {{-- <a class="delete-action">
-                            <button class="btn btn-danger" type="button">
-                                <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Delete</span>
-                            </button>
-                        </a> --}}
                         <a class="" href="{{ route('products.create') }}">
                             <button class="btn btn-primary" type="button">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
