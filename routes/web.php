@@ -21,6 +21,7 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Homepage\BillController as HomepageBillController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
@@ -280,3 +281,5 @@ Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
 Route::get('test', function () {
     return view('test', ['products' => Product::all()]);
 });
+// xuất file
+Route::get('export/{order}', [ExportController::class, 'export'])->name('export');
