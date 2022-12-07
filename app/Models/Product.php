@@ -42,4 +42,8 @@ class Product extends Model
 
         return $query;
     }
+    public function order()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }
