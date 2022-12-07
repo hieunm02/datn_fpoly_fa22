@@ -309,6 +309,7 @@
                     }
                 }
             })
+            localStorage.setItem('role', JSON.stringify('manager'))
             location.reload()
         }
 
@@ -340,6 +341,7 @@
                     }
                 }
             });
+            localStorage.setItem('role', JSON.stringify('member'))
             location.reload();
         }
 </script>

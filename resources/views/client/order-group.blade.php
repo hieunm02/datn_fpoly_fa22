@@ -73,6 +73,11 @@
                                     <input type="hidden" name="product_id" id="cart-product_id" value="{{ $cart->product_id }}">
                                     {{-- Số lượng từng sản phẩm trong giỏ hàng --}}
                                     <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="">
+                                    {{-- Tài nguyên dùng để update số lượng sản phẩm trong giỏ hàng  --}}
+                                    <input type="hidden" id="cart_product_quantity_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->quantity }}">
+                                    <input type="hidden" id="cart_product_price_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_price }}">
+                                    <input type="hidden" name="product_id" id="cart-product_id_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_id }}">
+
                                     <div class="header row px-2">
                                         <div class="col-3">
                                             <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
@@ -87,10 +92,17 @@
                                         <div class="row py-3 border-bottom">
                                             <div class="quantity px-3" id="cart-quantity">
                                                 <div id="cart-quantity_{{ $cart->user_id }}{{$cart->product_id}}">
-                                                    <h6 style="color: #cfcaca">Số lượng sản phẩm: 
-                                                    <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                                                        min="1" type="text" value="x{{$cart->quantity}}">
-                                                    </h6>
+                                                    @if(Auth::user() && $cart->user_id == Auth::user()->id)
+                                                        <input type="button" value="-" onclick="decrease({{ $cart->user_id }}{{$cart->product_id}})" class="btn btn-outline-primary" id="decrease">
+                                                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_{{ $cart->user_id }}{{$cart->product_id}}"
+                                                        min="1" type="text" value="{{$cart->quantity}}" readonly>
+                                                        <input type="button" onclick="increase({{ $cart->user_id }}{{$cart->product_id}})" id="increase" value="+" class="btn btn-outline-primary">
+                                                    @else()
+                                                        <h6 style="color: #cfcaca">Số lượng sản phẩm: 
+                                                            <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                                            min="1" type="text" value="x{{$cart->quantity}}">
+                                                        </h6>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -112,10 +124,10 @@
             <div class="checkout">
                 @foreach($listMembers as $member)
                     @if($member->user_id == Auth::id() && $member->role == "manager")
-                            <a id="btn-invite" class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</a>
+                        <a id="btn-invite" class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</a>
                     @endif
                     @if($member->user_id == Auth::id() && $member->role == "member")
-                            <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
+                        <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
                     @endif
                 @endforeach
             </div>
@@ -175,10 +187,10 @@
                     <h5 id="product_name" class="modal-title"></h5>
                 </div>
                 <div class="quantity">
-                    <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary">
-                    <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="quantity"
-                        min="1" type="text" value="1">
-                    <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
+                    {{-- <input type="button" onclick="tru()" value="-" class="btn btn-outline-primary"> --}}
+                    <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="product_quantity"
+                        min="1" type="text" value="1" hidden>
+                    {{-- <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary"> --}}
                 </div>
                 <div class="btn-close">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -236,7 +248,7 @@
                             <div class="link input-group px-3 mt-3">
                                 <a href="#" class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
                                     <img alt="#" src="{{ $member->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
-                                    <span class="member_name">{{ $member->user_name }}</span>
+                                    <span class="member_name" id="member_name_">{{ $member->user_name }}</span>
                                         @if(Auth::user() && $member->user_id == Auth::user()->id)
                                             <span>(Bạn)</span>
                                         @endif
@@ -284,7 +296,7 @@
         let product_id = $(this).data('id_product');
         let room = location.href
         let _token = "{{ csrf_token() }}";
-        let quantity = $('#quantity').val();
+        let quantity = $('#product_quantity').val();
 
         $.ajax({
             url:"{{ route('quickview') }}",
@@ -326,7 +338,7 @@
                 let product_price = $('#product_price').val()
                 let product_id = $('#product_id').val()
                 let cart_product = $('#cart_product').val()
-                let quantity = $('#quantity').val()
+                let quantity = $('#product_quantity').val()
                 let cart_total_price = $('#cart_total_price').val()
                 let cart_product_quantity = $('#cart_product_quantity').val()
                 let room_id = location.href
@@ -346,7 +358,7 @@
                 let route = "{{ route('order-group-add-cart') }}"
                 let product_id = $('#product_id').val()
                 let user_id = $('#user_id').val()
-                let quantity = $('#quantity').val()
+                let quantity = $('#product_quantity').val()
                 let room = location.href
                 let formData = new FormData()
                 let token = "{{ csrf_token() }}"
@@ -372,7 +384,7 @@
             $('#btn-success_order').on('click', function() {
                 const message = 'Xác nhận đặt hàng xong';
                 socket.emit('successOrder', message);
-                console.log(message);
+                document.getElementById('btn-success_order').disabled = true
             })
 
                 // Nhận vào dữ liệu
@@ -384,6 +396,9 @@
                             <div class="product" id="cart-product" style="color: black; font-size: 20px">
                                 <input type="hidden" name="product_id" id="cart-product_id" value="${product_id}">
                                 <input type="hidden" name="cart_product_quantity" id="cart_product_quantity" value="">
+                                <input type="hidden" id="cart_product_quantity_${user_id}${product_id}" value="${quantity}">
+                                <input type="hidden" id="cart_product_price_${user_id}${product_id}" value="${product_price}">
+                                <input type="hidden" name="product_id" id="cart-product_id_${user_id}${product_id}" value="${product_id}">
                                 <div class="header row px-2">
                                     <div class="col-3">
                                         <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
@@ -393,22 +408,49 @@
                                     </div>
                                     <div class="col-3" id="cart-product_price_${user_id}${product_id}">
                                         ${product_price * (quantity * 1)}đ
-                                    </div>
-                                </div>
-                                <div class="row py-3 border-bottom">
-                                    <div class="quantity px-3" id="cart-quantity">
-                                        <div id="cart-quantity_${user_id}${product_id}">
-                                            <h6 style="color: #cfcaca">Số lượng sản phẩm: 
-                                                <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                                                    min="1" type="text" value="x${quantity}">
-                                            </h6>
-                                        </div>
+                                    
+                `) : ``
+                // 
+                cart_product == 'false' && user_id == $('#user_id').val() ?
+                $('#product-cart').append(
+                    `</div>
+                        </div>
+                            <div class="row px-3 border-bottom">
+                                <div class="quantity px-3" id="cart-quantity">
+                                    <div id="cart-quantity_${user_id}${product_id}">
+                                        <input type="button" value="-" onclick="decrease(${user_id}${product_id})" class="btn btn-outline-primary" id="decrease">
+                                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
+                                        min="1" type="text" value="${(quantity * 1)}" readonly>
+                                        <input type="button" onclick="increase(${user_id}${product_id})" id="increase" value="+" class="btn btn-outline-primary">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                `) : ``
-                // 
+                    </div>
+                    </div>
+                    `
+                ):``
+                //
+                cart_product == 'false' && user_id != $('#user_id').val() ?
+                $('#product-cart').append(
+                    `</div>
+                        </div>
+                            <div class="row px-3 border-bottom">
+                                <div class="quantity px-3" id="cart-quantity">
+                                    <div id="cart-quantity_${user_id}${product_id}">
+                                        <h6 style="color: #cfcaca">Số lượng sản phẩm: 
+                                            <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                            min="1" type="text" value="x${(quantity * 1)}">
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    `
+                ):``
+                //
                 cart_product == 'true' ?
                 $(`#cart-product_price_${user_id}${product_id}`).html(
                     `
@@ -416,31 +458,37 @@
                     ` 
                 ): ``
                 //
-                cart_product == 'true' ? 
+                cart_product == 'true' && user_id == $('#user_id').val()? 
+                $(`#cart-quantity_${user_id}${product_id}`).html(
+                    `   <input type="button" value="-" onclick="decrease(${user_id}${product_id})" class="btn btn-outline-primary" id="decrease">
+                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
+                        min="1" type="text" value="${(cart_product_quantity * 1) + (quantity * 1)}" readonly>
+                        <input type="button" onclick="increase(${user_id}${product_id})" id="increase" value="+" class="btn btn-outline-primary">
+                    `
+                ): ``
+                //
+                cart_product == 'true' && user_id != $('#user_id').val()? 
                 $(`#cart-quantity_${user_id}${product_id}`).html(
                     `<h6 style="color: #cfcaca">Số lượng sản phẩm: 
                         <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
-                            min="1" type="text" value="x${(cart_product_quantity * 1) + (quantity * 1)}">
+                        min="1" type="text" value="x${(cart_product_quantity * 1) + (quantity * 1)}">
                     </h6>
                     `
                 ): ``
                 //
-        
+                cart_product == 'true' ?
+                $(`#cart_product_quantity_${user_id}${product_id}`).val(
+                    `
+                        ${(cart_product_quantity * 1) + (quantity * 1)}
+                        
+                    `
+                ):``
+
                 $('#total-price').html(
                      `<input type="hidden" name="cart_total_price" id="cart_total_price" value="${(cart_total_price * 1) + (product_price *  quantity)}">
                    <h5>= ${(cart_total_price * 1) + (product_price * quantity )}đ</h5>`
                 )
- 
-
-                // $('#info-member').append(
-                //     room_id == location.href ? `
-                //      <div class="link input-group px-3 mt-3">
-                //         <a href="#" class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
-                //             <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
-                //             <span class="member_name">${user_name}</span>
-                //         </a>
-                //      </div>
-                // `:``)
+        
             });
 
             socket.on('successOrder', (message) => {
@@ -449,6 +497,105 @@
                 `)
             })
         });
+        //phân quyền 
+        let role = window.localStorage.getItem('role');
+        if(JSON.parse(role) == "manager"){
+            $('.checkout').html(
+                `
+                <a id="btn-invite" class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</a>
+                `
+            )
+            $('#btn-manage-member').html(
+                `
+                <a href="#" data-toggle="modal" data-target="#manage-member" id="btn-manage-member" class="ml-auto btn btn-primary">Quản lý thành viên</a>
+                `
+            )
+        }else if(JSON.parse(role) == "member"){
+            $('.checkout').html(
+                `
+                <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
+                `
+            )
+        }
+    </script>
 
+    <script>
+             //cập nhật số lượng sản phẩm trong giỏ hàng
+             let ip_address = '127.0.0.1';
+            let socket_port = '3000';
+            let socket = io(ip_address + ':' + socket_port);
+
+             function decrease(product) {
+                let isProduct = product;
+
+                let user_id = $('#user_id').val()
+                let user_name = $('#user_name').val()
+                let user_avatar = $('#user_avatar').val()
+                let product_price = $('#cart_product_price_'+product).val()
+                let product_id = $('#cart-product_id_'+product).val()
+                let cart_product = 'true'
+                let quantity = -1
+                let cart_total_price = $('#cart_total_price').val()
+                let cart_product_quantity = $('#cart_product_quantity_'+product).val()
+                console.log(cart_product_quantity);
+                let room_id = location.href
+                console.log(user_id, user_name, user_avatar,product_id, product_name, product_price, cart_product, cart_product_quantity, quantity, cart_total_price);
+
+                // Gửi dữ liệu lên server 
+                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price);
+                updateToCart(isProduct, quantity)
+                return false;
+            };
+
+            function increase(product) {
+                let isProduct = product;
+
+                let user_id = $('#user_id').val()
+                let user_name = $('#user_name').val()
+                let user_avatar = $('#user_avatar').val()
+                let product_price = $('#cart_product_price_'+product).val()
+                let product_id = $('#cart-product_id_'+product).val()
+                let cart_product = 'true'
+                let quantity = 1
+                let cart_total_price = $('#cart_total_price').val()
+                let cart_product_quantity = $('#cart_product_quantity_'+product).val() 
+                console.log(cart_product_quantity);
+                let room_id = location.href
+                console.log(user_id, user_name, user_avatar,product_id, product_name, product_price, cart_product, cart_product_quantity, quantity, cart_total_price);
+
+                // Gửi dữ liệu lên server 
+                socket.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price);
+                updateToCart(isProduct, quantity)
+                return false;
+            };
+
+              // cập nhật số lượng sản phẩm trong giỏ hàng 
+              function updateToCart(product, isQuantity)
+            {
+                let route = "{{ route('order-group-add-cart') }}"
+                let product_id = $('#cart-product_id_'+product).val()
+                let user_id = $('#user_id').val()
+                let quantity = isQuantity
+                let room = location.href
+                let formData = new FormData()
+                let token = "{{ csrf_token() }}"
+
+                formData.append('product_id', product_id)
+                formData.append('user_id', user_id)
+                formData.append('room', room)
+                formData.append('quantity', quantity)
+                formData.append('_token', token)
+
+                $.ajax({
+                    url: route,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function(data) {
+                    }
+                })
+            }
     </script>
 @endsection

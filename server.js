@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
     //Đặt hàng nhóm
     socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price) => {
         io.sockets.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price);
+        console.log(user_id, user_name, user_avatar);
     });
 
     //member xác nhận đặt hàng xong
