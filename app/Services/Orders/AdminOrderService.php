@@ -114,6 +114,8 @@ class AdminOrderService
                 }
                 $data->date_order = date(now()->toDateString());
                 // dd($data);
+                $prd->quantity -= $del->quantity;
+                $prd->save();
                 $data->save();
                 $del->delete();
             }
