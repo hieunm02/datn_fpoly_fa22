@@ -69,8 +69,7 @@
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 192px">
 
-                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                        class="feather-heart"></i></a></div>
+                            <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                             <a href="{{ route('product-detail', $products->id) }}">
                                 <img alt="#" src="{{ asset($products->thumb) }}" class="img-fluid item-img w-100">
                             </a>
@@ -111,8 +110,7 @@
                             <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
                                 <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}})</span>
                                 </div>
-                                <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                            class="feather-heart"></i></a></div>
+                                <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                                 <a href="{{ route('product-detail', $product->id) }}">
                                     <img alt="#" src="{{ asset($product->thumb) }}"
                                          class="img-fluid item-img w-100">
@@ -121,10 +119,10 @@
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
                                     <h6 class="mb-1"><a href="{{ route('product-detail', $product->id) }}"
-                                                        class="text-black">{{ $products->name }}
+                                                        class="text-black">{{ $product->name }}
                                         </a>
                                     </h6>
-                                    <p class="text-gray mb-1 small">• {{ $products->menu->name }}</p>
+                                    <p class="text-gray mb-1 small">• {{ $product->menu->name }}</p>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +144,7 @@
                     <div class="d-flex align-items-center list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                             @if ($slide->product)
                                 <div class="list-card-image text-center">
-                                    <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                                class="feather-heart"></i></a></div>
+                                    <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                                     <a href="{{ route('product-detail', $slide->product->id) }}">
                                         <img alt="#" src="{{asset($slide->thumb)}}" class="img-fluid item-img w-100">
                                     </a>
