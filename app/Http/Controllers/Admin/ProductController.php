@@ -51,7 +51,7 @@ class ProductController extends Controller
         $prices = $this->productService->getPrice();
         $options = Option::all();
         $menus = $this->productService->getMenu();
-        return view('admin.products.create', compact('prices', 'menus', 'title'));
+        return view('admin.products.create', compact('prices', 'menus', 'title', 'options', 'menus'));
     }
 
     /**
