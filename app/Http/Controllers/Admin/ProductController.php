@@ -162,4 +162,8 @@ class ProductController extends Controller
             //throw $th;
         }
     }
+
+    // public function getOptionDetails(Request $request) {
+    //     dd(true);
+    // }
 }
