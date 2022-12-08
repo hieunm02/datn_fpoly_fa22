@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotifiesTable extends Migration
+class CreatProductOptionDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateNotifiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notifies', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->string('type');
-            $table->string('status')->default('pending');
-            $table->string('role')->nullable();
+        Schema::create('product_option_details', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id');
+            $table->integer('option_id');
+            $table->integer('option_detail_id');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateNotifiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifies');
+        //
     }
 }

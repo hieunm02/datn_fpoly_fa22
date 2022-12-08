@@ -44,8 +44,8 @@
                                                     id="" placeholder="Product Price" value="{{ old('price') }}">
                                                 <div class="invalid-feedback">{{ $errors->first('price') }}</div>
                                             @else
-                                                <input type="text" class="form-control money" name="price" id=""
-                                                    placeholder="Product Price" value="{{ old('price') }}">
+                                                <input type="text" class="form-control money" name="price"
+                                                    id="" placeholder="Product Price" value="{{ old('price') }}">
                                             @endif
                                         </div>
                                         <div class="form-group">
@@ -56,8 +56,9 @@
                                                     value="{{ old('price_sales') }}">
                                                 <div class="invalid-feedback">{{ session('price_sales') }}</div>
                                             @else
-                                                <input type="text" class="form-control money" name="price_sales" id=""
-                                                    placeholder="Product Price Sales" value="{{ old('price_sales') }}">
+                                                <input type="text" class="form-control money" name="price_sales"
+                                                    id="" placeholder="Product Price Sales"
+                                                    value="{{ old('price_sales') }}">
                                             @endif
                                         </div>
                                         <label class="font-weight-semibold" for="">Ảnh chi tiết</label>
@@ -114,6 +115,7 @@
                                                 <textarea type="text" class="form-control" name="content" id="productName" placeholder="Content">{{ old('content') }}</textarea>
                                             @endif
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -131,6 +133,23 @@
                                         </script>
                                     </div>
                                 </div>
+                                <div class="row mt-5">
+                                    <div class="col-6">
+                                        <label for="">Option</label>
+                                        <select class="custom-select" name="option" id="options">
+                                            @foreach ($options as $option)
+                                                <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label for="">Option Detail</label>
+                                        <select id="multiple" class="js-states form-control" multiple name="option_detail[]" class="option_details">
+
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -143,13 +162,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/handleGeneral/product/hanldeCreate.js') }}"></script>
     <script>
-        $('#productName').change(function () {
+        $('#productName').change(function() {
             $('#outPut').html($(this).val());
         });
     </script>
     <script type="text/javascript" src="{{ asset('assets/js/simple.money.format.js') }}"></script>
     <script type="text/javascript">
         $('.money').simpleMoneyFormat();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="{{ asset('js/handleGeneral/product/select_option.js') }}"></script>
+    <script>
+        $("#multiple").select2({
+            placeholder: "Select a programming language",
+            allowClear: true
+        });
     </script>
     </div>
 @endsection

@@ -59,7 +59,7 @@ class SlideController extends Controller
      */
     public function store(SlidesRequest $request)
     {
-
+        // dd($request->hasFile('thumb'));
         if (!$request->hasFile('thumb')) {
             return back()->with('thumb_error', 'Ảnh không được để trống.');
         }

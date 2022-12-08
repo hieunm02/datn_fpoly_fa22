@@ -9,6 +9,7 @@ use App\Models\CommentReaction;
 use App\Models\CommentRection;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\ProductOptionDetail;
 use App\Models\Reaction;
 use App\Models\Slide;
 use App\Models\Thumb;
@@ -17,6 +18,8 @@ use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -77,6 +80,7 @@ class HomeController extends Controller
     {
         $reacts = Reaction::all(); // lấy ra icon like có id là 1
         $order = OrderProduct::with('product')->where('product_id', $id)->get();
+        // dd($order);
         $product = $this->productService->getById($id);
         $thumb = Thumb::where('product_id', $id)->get();
         $comment = Comment::with('user', 'reactions')
@@ -84,7 +88,13 @@ class HomeController extends Controller
             ->where('active', 0)
             ->get();
         $products = $this->productService->getAll();
-        return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts', 'order'));
+        $product_option_details = DB::table('product_option_details')
+            ->where('product_id', $product->id)
+            ->join('option_details', 'product_option_details.option_detail_id', '=', 'option_details.id')
+            ->select('product_option_details.*', 'option_details.value', 'option_details.price')
+            ->get();
+        // dd($product_option_details);
+        return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts', 'product_option_details', 'order'));
     }
 
     //Comment

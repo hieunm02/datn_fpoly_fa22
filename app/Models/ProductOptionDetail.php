@@ -12,5 +12,6 @@ class ProductOptionDetail extends Model
     protected $fillable = [
         'product_id',
         'option_id',
+        'option_detail_id',
     ];
 }
