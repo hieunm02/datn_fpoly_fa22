@@ -188,7 +188,10 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     // users
     Route::resource('users', UserController::class);
-
+    Route::prefix('user')->group(function () {
+        Route::get('active', [UserController::class, 'changeActive']);
+    });
+    
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
     Route::prefix('voucher')->group(function () {
@@ -256,7 +259,7 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
-        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        Route::put('/update-status', [OrderController::class, 'updateStatus']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
 

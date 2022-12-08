@@ -64,7 +64,8 @@ function deleteAjax(parameter, id) {
 }
 
 // View detail bill
-function viewBillDetail(id) {
+$('.bill-detail').on('click', function () {
+    var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
         type: "GET",
@@ -74,34 +75,49 @@ function viewBillDetail(id) {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var tr = '';
-            data.bill.forEach(element => {
-                tr += `
-                    <tr>
-                        <td>${element['id']}</td>
-                        <td>${element['email']}</td>
-                        <td>${element['code']}</td>
-                        <td>${element['name']}</td>
-                        <td>${element['phone']}</td>
-                        <td>${element['address']}</td>
-                        <td>${element['shipper']}</td>
-                        <td>${element['voucher']}</td>
-                        <td>${element['note']}</td>
-                    </tr>
-                `
-            });
-            $('#table-bill-detail').html(tr);
-        }
-    })
-}
+            $('#bill_products').html('');
 
+            $('#avatar_customer').attr('src', data.user.avatar);
+            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
+            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var total = 0;
+            var products = '';
+            // For sản phẩm
+            data.billDetail.forEach(element => {
+                total += element.product.price;
+                products += `
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.product.quantity} chiếc</b></p>
+                `;
+            });
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
+            $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
+            $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+
+            // Append vào table sản phẩm
+            $('#bill_products').append(products);
+        }
+    });
+});
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+    var hours = date.getHours();
+
+    newDate.setHours(hours);
+
+    return newDate;
+}
 // update status order
 $('.custom-select').on("change", function (event) {
     var token = $(this).data("token");
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
     let admin_id = $('#user_id').val();
-    console.log(status_id);
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Đang thay đổi trạng thái đơn hàng!",
@@ -114,12 +130,12 @@ $('.custom-select').on("change", function (event) {
         if (result.isConfirmed) {
             $.ajax({
                 url: 'orders/update-status/',
-                type: "POST",
+                type: "PUT",
                 dataType: "JSON",
                 data: {
                     id: id,
                     status_id: status_id,
-                    _method: "POST",
+                    _method: "PUT",
                     _token: token,
                 },
                 success: function (data) {
@@ -142,7 +158,7 @@ $('.custom-select').on("change", function (event) {
 
                     socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
                     socket.emit('hanldeStatusOrderServer');
-                    sendMessage(message, admin_id, data.user.name, data.user.avatar, data.user.id)
+                    sendMessage(message, admin_id, data.admin.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',
                         'Trạng thái của đơn hàng đã được thay đổi',
@@ -229,15 +245,14 @@ $('.notify').on('click', function () {
     });
 });
 
-function sendMessage(message, user_id, name, avatar, room_id) {
+function sendMessage(message, user_id, avatar, room_id) {
     let url = "/rep";
     let formData = new FormData();
 
     formData.append('user_id', user_id)
     formData.append('message', message)
-    formData.append('id', room_id)
+    formData.append('room_id', room_id)
     formData.append('avatar', avatar)
-    formData.append('name', name)
 
     $.ajax({
         url: url,

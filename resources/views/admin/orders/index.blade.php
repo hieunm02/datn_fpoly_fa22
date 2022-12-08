@@ -147,13 +147,29 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+</div>
+@else
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 text-center">
+                <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
+                    <th>
+                        chưa có đơn hàng nào
+                    </th>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
     </script>
     <script type="text/javascript" src="{{ asset('/js/handleGeneral/order/filter.js') }}"></script>
