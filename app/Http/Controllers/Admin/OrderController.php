@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
@@ -240,7 +241,7 @@ class OrderController extends Controller
         }
         return response()->json();
     }
-    //thanh toán 
+    //thanh toán
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
@@ -260,6 +261,14 @@ class OrderController extends Controller
             $del = Cart::find($it->id);
             $del->delete();
         }
+        return response()->json($data);
+    }
+
+    public function getOrderDetails(Request $request, $id)
+    {
+        // dd($id);
+        // dd($request->all());
+        $data = OrderProduct::where('order_id', $id)->get();
         return response()->json($data);
     }
 }

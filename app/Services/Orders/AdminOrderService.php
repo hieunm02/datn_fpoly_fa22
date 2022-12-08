@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Services\Carts\CartService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -114,6 +115,8 @@ class AdminOrderService
                 }
                 $data->date_order = date(now()->toDateString());
                 // dd($data);
+                $prd->quantity -= $del->quantity;
+                $prd->save();
                 $data->save();
                 $del->delete();
             }

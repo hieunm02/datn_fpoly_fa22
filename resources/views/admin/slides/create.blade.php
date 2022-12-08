@@ -49,8 +49,6 @@
                                         <p class="text-danger">{{ $errors->first('product_id') }}</p>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="font-weight-semibold " for="">Trạng thái</label> <br>
                                     <div class="form-check form-check-inline">
@@ -64,6 +62,8 @@
                                         <label class="form-check-label" for="inlineRadio2">Không kích hoạt</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="font-weight-semibold" for="">Ảnh slide </label>
                                     <div class="media align-items-center m-b-15">

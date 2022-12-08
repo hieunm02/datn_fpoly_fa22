@@ -1,6 +1,7 @@
 @extends('layouts.client.client-master')
 @section('title-page', 'Product Detail')
 @section('content')
+
     <div class="d-none">
         <div class="bg-primary border-bottom p-3 d-flex align-items-center">
             <h4 class="font-weight-bold m-0 text-white flex-fill">Product Detail</h4>
@@ -63,7 +64,13 @@
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
-                            <div class="mx-2 p-0 px-2 text-white btn btn-warning">50+</div>
+                            @if($order->count())
+                                <div class="mx-2 p-0 px-2 text-white btn btn-warning">
+                                    Đã có {{$order->count()}} lượt đặt.
+                                </div>
+                            @else
+
+                            @endif
                         </div>
                         <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
                     </div>
@@ -82,6 +89,16 @@
                                 href="{{ route('list-products', $product->menu->id) }}">{{ $product->menu->name }}</a>
                         </h6>
                         <p class="text-break">{{ $product->content }}</p>
+                    </div>
+                    <div class="p-3">
+                        <label for="" class="text-bold">Tùy chọn</label>
+                        @foreach ($product_option_details as $item)
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" value="{{ $item->price }}">
+                                <label for="option" class="form-check-label">{{ $item->value }}
+                                    {{ number_format($item->price, 0, ',', ',') }}đ</label>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="p-3">
                         {{-- action="{{ url('carts') }}" method="POST" --}}
@@ -151,7 +168,6 @@
                                                             class="quan_like_{{ $cmt->id }}">{{ $cmt->reactions->count() }}</span>
                                                     </i>
                                                 @endforeach
-                                                <i class="fas fa-reply mr-2"></i>
                                                 @if (Auth::id() === $cmt->user_id)
                                                     <p style="cursor: pointer; font-size: 10px">
                                                         <span id="edcm_{{ $cmt->id }} " class="edit_comment"
@@ -208,10 +224,8 @@
                 <div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image">
-                            <div class="star position-absolute"><span class="badge badge-success"><i
-                                        class="feather-star"></i> 3.1 (300+)</span></div>
-                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                        class="feather-heart"></i></a></div>
+                            <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}})</span></div>
+                            <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                             <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
                             </div>
                             <a href="{{ route('product-detail', $product->id) }}">
@@ -225,19 +239,7 @@
                                 <p class="text-gray mb-1 small">• {{ $product->menu->name }}</p>
                                 <p class="text-gray mb-1 rating">
                                 </p>
-                                <ul class="rating-stars list-unstyled">
-                                    <li>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star star_active"></i>
-                                        <i class="feather-star"></i>
-                                    </li>
-                                </ul>
                                 <p></p>
-                            </div>
-                            <div class="list-card-badge">
-                                <span class="badge badge-success">OFFER</span> <small>65% off</small>
                             </div>
                         </div>
                     </div>
