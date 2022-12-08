@@ -75,25 +75,43 @@ $('.bill-detail').on('click', function () {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var tr = '';
-            tr += `
-                    <tr>
-                        <td>${data.bill.id}</td>
-                        <td>${data.bill.email}</td>
-                        <td>${data.bill.code}</td>
-                        <td>${data.bill.name}</td>
-                        <td>${data.bill.phone}</td>
-                        <td>${data.bill.address}</td>
-                        <td>${data.bill.shipper}</td>
-                        <td>${data.bill.voucher}</td>
-                        <td>${data.bill.note}</td>
-                    </tr>
+            $('#bill_products').html('');
+
+            $('#avatar_customer').attr('src', data.user.avatar);
+            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
+            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var total = 0;
+            var products = '';
+            // For sản phẩm
+            data.billDetail.forEach(element => {
+                total += element.product.price;
+                products += `
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.product.quantity} chiếc</b></p>
                 `;
-            $('#table-bill-detail').html(tr);
+            });
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
+            $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
+            $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+
+            // Append vào table sản phẩm
+            $('#bill_products').append(products);
         }
     });
 });
 
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+    var hours = date.getHours();
+
+    newDate.setHours(hours);
+
+    return newDate;
+}
 // update status order
 $('.custom-select').on("change", function (event) {
     var token = $(this).data("token");
