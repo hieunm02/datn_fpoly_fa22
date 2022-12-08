@@ -1,14 +1,16 @@
 $(function() {
     $("#options").change(function() {
         // $("").on("change", function (e) {
+        console.log(true);
 
         option_id = this.value;
         // }
         var $option_details = $("#multiple");
+        // console.log($option_details);
         $option_details.empty();
         $.ajax({
             type: "GET",
-            url: "/getOptionDetails",
+            url: "/admin/options/getOptionDetails",
             dataType: "JSON",
             data: {
                 id: option_id,

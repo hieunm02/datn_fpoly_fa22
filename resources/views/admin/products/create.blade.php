@@ -27,7 +27,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="font-weight-semibold" for="productName">Tên sản phẩm</label>
-
                                             @if ($errors->first('name'))
                                                 <input type="text" class="form-control is-invalid" name="name"
                                                     id="productName" placeholder="Product Name" value="{{ old('name') }}">
@@ -136,13 +135,13 @@
                                 <div class="row mt-5">
                                     <div class="col-6">
                                         <label for="">Option</label>
-                                        <select class="custom-select" name="option" id="options">
+                                        <select name="option" id="options">
+                                            <option value="0"><-- CHỌN --></option>
                                             @foreach ($options as $option)
                                                 <option value="{{ $option->id }}">{{ $option->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="col-6">
                                         <label for="">Option Detail</label>
                                         <select id="multiple" class="js-states form-control" multiple name="option_detail[]" class="option_details">
@@ -151,7 +150,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -170,7 +168,6 @@
     <script type="text/javascript">
         $('.money').simpleMoneyFormat();
     </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="{{ asset('js/handleGeneral/product/select_option.js') }}"></script>
     <script>
