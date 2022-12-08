@@ -123,7 +123,9 @@
                                     <tfooter>
                                         <tr>
                                             <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
-                                                <strong style="display:block;margin:0 0 10px 0;">Trân trọng</strong> BeeFood<br> Tòa nhà FPT Polytechnic, P. Trịnh Văn Bô, Xuân Phương, Nam Từ Liêm, Hà Nội
+                                                <strong style="display:block;margin:0 0 10px 0;">Trân trọng</strong>
+                                                BeeFood<br> Tòa nhà FPT Polytechnic, P. Trịnh Văn Bô, Xuân Phương, Nam
+                                                Từ Liêm, Hà Nội
                                                 <br><br>
                                                 <b> Số điện thoại:</b> 03552-222011<br>
                                                 <b>Email:</b> beefood@gmail.com
