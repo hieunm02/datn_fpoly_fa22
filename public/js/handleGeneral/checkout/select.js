@@ -222,14 +222,18 @@ $(function () {
                     date: date,
                     notify_id: result.notify.id
                 });
-                $("#showCartUser").html('');
-                $("#cartNull").html('Chưa có sản phẩm nào!');
+                response.prd.forEach(el => {
+                    $("#cart_item"+el).remove();
+                })
+                if(response.count == 0) {
+                    $("#cartNull").html('Chưa có sản phẩm nào!');
+                }
                 $('#show_total').html('');
                 $('#show_order').html('');
                 $('#show_total').append('0<sup>đ</sup>');
                 $('#show_order').append('0<sup>đ</sup>');
                 $('#count_cart').html('');
-                $('#count_cart').append(response);
+                $('#count_cart').append(response.count);
                 Swal.fire(
                     'Successful!',
                     'Đăt hàng thành công!',

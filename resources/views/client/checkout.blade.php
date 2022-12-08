@@ -122,7 +122,7 @@
                         </div>
                         <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
 
-                        <div id="cart_item{{ $cart->id }}" class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+                        <div id="cart_item{{ $cart->product_id }}" class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                             <div class="media align-items-center">
                                 <div class="media-body d-flex">
                                     <input type="checkbox" name="product_id[]" class="mr-1" value="{{ $cart->product_id }}">
