@@ -76,7 +76,13 @@ class StaffController extends Controller
         // $user = User::find(2);
         // $user->assignRole($role);
 
-        $staffs = $this->staffServices->getStaff();
+        $staffsData = $this->staffServices->getStaff();
+        $staffs = [];
+        foreach ($staffsData as $staff) {
+            if ($staff->hasRole('staff')) {
+                $staffs[] = $staff;
+            }
+        }
         $title = "Danh sách nhân viên";
         return view('admin.staffs.index', compact('staffs', 'title'));
     }

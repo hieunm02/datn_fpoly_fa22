@@ -8,8 +8,6 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -27,13 +25,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = $this->productService->getProducts($request);
-
         if ($request->status == 200) {
+            $products = $this->productService->getProducts($request)->get();
             return response()->json([
                 'products' => $products,
             ]);
         } else {
+            $products = $this->productService->getProducts($request)->paginate(5);
             return view('admin.products.index', [
                 'title' => 'Danh sách sản phẩm',
                 'products' => $products

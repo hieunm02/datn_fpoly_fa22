@@ -15,6 +15,10 @@
                 <h2>Cảm ơn đã mua hàng</h2>
             </div>
         </div>
+        <div class="mt-3 text-right">
+            <a href="{{ route('export',$bill->id ) }}" class="btn btn-success ml-3">Export Excel</a>
+            <a href="#" class="btn btn-warning ml-3">Export Pdf</a>
+        </div>
         <div class="col-lg-7 col-md-7 m-auto border border border-danger p-3">
             <div class="d-flex">
                 <div class="text-uppercase">
@@ -25,7 +29,7 @@
                 <h3 class="text-center">Hóa đơn mua hàng</h3>
                 <h6 class="text-center pb-5">{{ $bill->created_at }}</h6>
                 <div class="p-3 col-lg-10 m-auto">
-                <p class="text-center"><b>Mã hóa đơn:</b> {{ $bill->code }}</p>
+                    <p class="text-center"><b>Mã hóa đơn:</b> {{ $bill->code }}</p>
                     <div class="d-flex">
                         <div class="col-lg-6"><b>Tên khách hàng: </b>{{ $bill->name }}</div>
                         <div class="col-lg-6"><b>Số điện thoại: </b> {{ $bill->phone }}</div>

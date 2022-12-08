@@ -24,6 +24,7 @@ $(function () {
 $(document).ready(function () {
     if (window.File && window.FileList && window.FileReader) {
         $("#files").on("change", function (e) {
+            $('.imageThumb').remove()
             var files = e.target.files,
                 filesLength = files.length;
             for (var i = 0; i < filesLength; i++) {
@@ -41,12 +42,32 @@ $(document).ready(function () {
                         .insertAfter("#files")
                         .click(function () {
                             $(this).remove();
-                            f = "";
+                            removeFileFromFileList($(this).data('id'))
+                            if ($('.imageThumb').length <= 0) {
+                                $('.publisher-input').removeClass('d-none');
+                                $('#fileUpload').removeClass('d-none');
+                            }
                         });
+                    $('.imageThumb').map((index, e) => {
+                        $(e).attr('data-id', index)
+                    })
                 };
                 fileReader.readAsDataURL(f);
-                console.log(f);
             }
         });
     }
 });
+
+function removeFileFromFileList(index) {
+    const dt = new DataTransfer()
+    const input = document.getElementById('files')
+    const {files} = input
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (index !== i) dt.items.add(file) // here you exclude the file. thus removing it.
+    }
+
+    input.files = dt.files // Assign the updates list
+
+}

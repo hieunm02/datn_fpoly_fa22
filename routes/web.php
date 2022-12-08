@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotifyController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Homepage\BillController as HomepageBillController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
@@ -29,6 +31,7 @@ use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
 use App\Models\Bill;
+use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -102,7 +105,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
-    });
+    })->name('login');
 
     Route::get('/logout', function () {
         Auth::logout();
@@ -148,7 +151,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //dashboard 
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -159,6 +162,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/thanh-toan-truc-tiep', [OrderController::class, 'payment'])->name('admin.thanh-toan-truc-tiep');
     Route::post('/thanh-toan-truc-tiep', [OrderController::class, 'directPayment']);
     Route::post('/thanh-toan-truc-tiep/paymanet', [OrderController::class, 'pay']);
+    Route::delete('/thanh-toan-truc-tiep/deleteCartOrder/{order_tt}', [OrderController::class, 'deleteCartOrder'])->name('delete.cart_tt');
 
     //sản phẩm
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -169,18 +173,29 @@ Route::prefix('admin')->group(function () {
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
+    Route::prefix('menu')->group(function () {
+        Route::get('active', [MenuController::class, 'changeActive']);
+    });
 
     // News
     Route::resource('news', NewsController::class);
+    Route::prefix('new')->group(function () {
+        Route::get('active', [NewsController::class, 'changeActive']);
+    });
 
     // users
     Route::resource('users', UserController::class);
-
+    Route::prefix('user')->group(function () {
+        Route::get('active', [UserController::class, 'changeActive']);
+    });
+    
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
-
+    Route::prefix('voucher')->group(function () {
+        Route::get('active', [VoucherController::class, 'changeActive']);
+    });
     //Staff
-    Route::resource('staffs', StaffController::class);
+    Route::middleware('role:manager')->resource('staffs', StaffController::class);
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -242,10 +257,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
-        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        Route::put('/update-status', [OrderController::class, 'updateStatus']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
+
 });
+
+Route::resource('notifies', NotifyController::class);
 
 
 
@@ -259,3 +277,9 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
 // Nhân viên phản hồi tin nhắn tới người dùng 
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
+
+Route::get('test', function () {
+    return view('test', ['products' => Product::all()]);
+});
+// xuất file
+Route::get('export/{order}', [ExportController::class, 'export'])->name('export');

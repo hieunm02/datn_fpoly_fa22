@@ -25,6 +25,7 @@ class SlidesRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
+            'product_id' => 'required'
         ];
     }
 
@@ -33,6 +34,7 @@ class SlidesRequest extends FormRequest
         return [
             'name.required' => 'Tên danh mục không được để trống!',
             'name.max' => 'Tên danh mục không quá 50 kí tự!',
+            'product_id.required' => 'Sản phẩm không được để trống',
         ];
     }
 }

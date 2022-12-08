@@ -102,11 +102,11 @@
                     <ellipse cx="664.42232" cy="619.57385" rx="2.00365" ry="1.00183" fill="#e6e6e6"></ellipse>
                 </svg>
             </div>
-            <h2 class="text-primary mb-3 font-weight-light">Page not <b>found</b></h2>
-            <p class="lead small mb-0">Oops! Looks like you followed a bad link.</p>
-            <p class="mb-5">If you think this is a problem with us, please <a href="#">tell us</a>.</p>
-            <a href="home.html" class="btn btn-primary">Go Back</a>
-            <a href="faq.html" class="btn btn-light">Help</a>
+            <h2 class="text-primary mb-3 font-weight-light">Không <b>tìm thấy trang</b></h2>
+            <p class="lead small mb-0">Oops! Có vẻ như bạn đã nhập sai đường dẫn.</p>
+            <p class="mb-5">Nếu bạn nghĩ đây là 1 vấn đề, hãy <a href="#">liên hệ với chúng tôi</a>.</p>
+            <a href="/" class="btn btn-primary">Quay lại</a>
+            <a href="/faq" class="btn btn-light">Trợ giúp</a>
         </div>
     </div>
 @endsection

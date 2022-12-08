@@ -25,11 +25,20 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $news = $this->newsServices->getAll();
-        $title = 'Danh sách bài viết';
-        return view('admin.news.index', compact('news', 'title'));
+        if ($request->status == 200) {
+            $news = $this->newsServices->getNews($request)->get();
+            return response()->json([
+                'news' => $news,
+            ]);
+        } else {
+            $news = $this->newsServices->getNews($request)->paginate(5);
+            return view('admin.news.index', [
+                'title' => 'Danh sách bài viết',
+                'news' => $news
+            ]);
+        }
     }
 
     /**
@@ -113,5 +122,30 @@ class NewsController extends Controller
         $news = News::find($id);
         $news->delete();
         return response()->json(['model' => $news]);
+    }
+
+    public function changeActive(Request $request)
+    {
+        $new = News::find($request->new_id);
+        if ($request->active == 1) {
+            $new->active = 0;
+            $value = $new->active;
+            $btnActive = 'bi-unlock-fill';
+            $btnRemove = 'bi-lock-fill';
+            $color = 'green';
+        } else {
+            $new->active = 1;
+            $value = $new->active;
+            $btnActive = 'bi-lock-fill';
+            $btnRemove = 'bi-unlock-fill';
+            $color = 'red';
+        }
+        $new->save();
+        return response()->json([
+            'btnActive' => $btnActive,
+            'btnRemove' => $btnRemove,
+            'value' => $value,
+            'color' => $color,
+        ]);
     }
 }

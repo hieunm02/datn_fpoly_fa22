@@ -41,10 +41,10 @@
                             </th>
                             <th>ID</th>
                             <th>Email</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Total</th>
-                            <th>Actions</th>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Tổng tiền</th>
+                            <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +62,7 @@
                             <td>{{$bill->name}}</td>
                             <td>{{$bill->total}}</td>
                             <td>
-                                <button data-toggle="modal" data-target=".bd-example-modal-xl" onclick="viewBillDetail(<?php echo $bill->id ?>)" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <button data-toggle="modal" data-target=".bd-example-modal-xl" data-id="{{$bill->id}}" class="btn btn-icon btn-hover btn-sm btn-rounded bill-detail">
                                     <i class="anticon anticon-eye"></i>
                                 </button>
                             </td>

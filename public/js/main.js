@@ -64,7 +64,8 @@ function deleteAjax(parameter, id) {
 }
 
 // View detail bill
-function viewBillDetail(id) {
+$('.bill-detail').on('click', function () {
+    var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
         type: "GET",
@@ -75,63 +76,81 @@ function viewBillDetail(id) {
         success: function (data) {
             console.log(data);
             var tr = '';
-            data.bill.forEach(element => {
-                tr += `
+            tr += `
                     <tr>
-                        <td>${element['id']}</td>
-                        <td>${element['email']}</td>
-                        <td>${element['code']}</td>
-                        <td>${element['name']}</td>
-                        <td>${element['phone']}</td>
-                        <td>${element['address']}</td>
-                        <td>${element['shipper']}</td>
-                        <td>${element['voucher']}</td>
-                        <td>${element['note']}</td>
+                        <td>${data.bill.id}</td>
+                        <td>${data.bill.email}</td>
+                        <td>${data.bill.code}</td>
+                        <td>${data.bill.name}</td>
+                        <td>${data.bill.phone}</td>
+                        <td>${data.bill.address}</td>
+                        <td>${data.bill.shipper}</td>
+                        <td>${data.bill.voucher}</td>
+                        <td>${data.bill.note}</td>
                     </tr>
-                `
-            });
+                `;
             $('#table-bill-detail').html(tr);
         }
-    })
-}
+    });
+});
 
-
-function changeStatusAjax(id) {
+// update status order
+$('.custom-select').on("change", function (event) {
     var token = $(this).data("token");
-    status_id = document.getElementById("status").value;
+    let id = $(this).attr('data-id');
+    var status_id = $(event.target).val();
+    let admin_id = $('#user_id').val();
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Bạn có chắc chắn?',
+        text: "Đang thay đổi trạng thái đơn hàng!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Change it!'
+        confirmButtonText: 'Xác nhận!'
     }).then((result) => {
         if (result.isConfirmed) {
-
             $.ajax({
                 url: 'orders/update-status/',
-                type: "POST",
+                type: "PUT",
                 dataType: "JSON",
                 data: {
                     id: id,
                     status_id: status_id,
-                    _method: "POST",
+                    _method: "PUT",
                     _token: token,
                 },
                 success: function (data) {
-                    console.log(data.model);
+                    let ip_address = '127.0.0.1';
+                    let socket_port = '3000';
+                    let socket = io(ip_address + ':' + socket_port);
+                    let message = '';
+                    if (data.order.status_id == 2) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                    }
+                    if (data.order.status_id == 3) {
+                        message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
+                    }
+                    if (data.order.status_id == 4) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được giao`;
+                    }
+                    if (data.order.status_id == 5) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
+                    }
+
+                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
+                    socket.emit('hanldeStatusOrderServer');
+                    sendMessage(message, admin_id, data.admin.avatar, data.user.id)
                     Swal.fire(
-                        'Changed!',
-                        'The status of the order has been changed',
+                        'Đã thay đổi!',
+                        'Trạng thái của đơn hàng đã được thay đổi',
                         'success'
                     )
                 },
             });
         }
     })
-}
+});
 
 $('#search-by-code').on('keyup', function () {
     var code = document.querySelector('#search-by-code').value;
@@ -185,5 +204,50 @@ function randomCode() {
 function copyToClipboard() {
     document.getElementById("copy_{{ $voucher->id }}").select();
     document.execCommand('copy');
+}
+
+$('.toggle-notify').on('click', function () {
+    $('.show-notify').css('display', 'none');
+});
+
+$('.notify').on('click', function () {
+    var notify_id = $(this).attr('data-id');
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'PATCH',
+        url: "/notifies/" + notify_id,
+        data: {
+            notify_id: notify_id
+        },
+        success: function (data) {
+            $('.notify').removeClass('notify-pending');
+        }
+    });
+});
+
+function sendMessage(message, user_id, avatar, room_id) {
+    let url = "/rep";
+    let formData = new FormData();
+
+    formData.append('user_id', user_id)
+    formData.append('message', message)
+    formData.append('room_id', room_id)
+    formData.append('avatar', avatar)
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.success) {
+                console.log(response.data);
+            }
+        }
+    })
 }
 

@@ -13,17 +13,36 @@ use Illuminate\Support\Facades\Session;
 
 class AdminOrderService
 {
-    public function __construct(CartService $cartService) {
+    public function __construct(CartService $cartService)
+    {
         $this->cartService = $cartService;
     }
+
     public function getAll()
     {
         return Order::with('status')->paginate(5);
     }
 
+    public function getOrders($request)
+    {
+        $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        $query = Order::where('code', 'like', '%' . $text_search . '%')->where('status_id', '!=', 4);
+
+        if ($active_search) {
+            $query->where('status_id', $active_search)->where('status_id', '!=', 4);
+        }
+
+        return $query->where('status_id', '!=', 4)->orderBy('updated_at', 'DESC');
+    }
+
+
     public function getAllOrders()
     {
-        return Order::all();
+        return Order::where('status_id', '!=', 4)->get();
     }
 
     public function getOrderExcept($status_id)
@@ -49,7 +68,7 @@ class AdminOrderService
         }
     }
 
-    
+
     public function createTT($request)
     {
         function rand_string($length)
@@ -95,6 +114,8 @@ class AdminOrderService
                 }
                 $data->date_order = date(now()->toDateString());
                 // dd($data);
+                $prd->quantity -= $del->quantity;
+                $prd->save();
                 $data->save();
                 $del->delete();
             }
