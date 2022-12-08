@@ -10,7 +10,7 @@ function orderDetails(id) {
             result = '';
             data.forEach(item => {
                 result += `
-                <tr>
+                <tr id="id${id}">
                     <td>${item.id}</td>
                     <td>${item.nameProduct}</td>
                     <td><img src="{{asset('${item.thumb}')}} width='75px'"></td>

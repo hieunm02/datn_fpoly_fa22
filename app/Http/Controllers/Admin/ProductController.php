@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Option;
 use App\Models\Product;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class ProductController extends Controller
     {
         $title = 'Tạo mới sản phẩm';
         $prices = $this->productService->getPrice();
+        $options = Option::all();
         $menus = $this->productService->getMenu();
         return view('admin.products.create', compact('prices', 'menus', 'title'));
     }
