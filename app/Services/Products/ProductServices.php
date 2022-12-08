@@ -63,6 +63,15 @@ class ProductServices
             ->orderBy('updated_at', 'DESC')->paginate(5);
     }
 
+    public function getProduct()
+    {
+        return  Product::with('menu')
+            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
+            ->orderBy('updated_at', 'DESC')
+            ->where('active', 1)
+            ->paginate(5);
+    }
+
     public function create($request)
     {
         $product = new Product();
