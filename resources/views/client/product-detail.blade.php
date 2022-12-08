@@ -168,7 +168,6 @@
                                                             class="quan_like_{{ $cmt->id }}">{{ $cmt->reactions->count() }}</span>
                                                     </i>
                                                 @endforeach
-                                                <i class="fas fa-reply mr-2"></i>
                                                 @if (Auth::id() === $cmt->user_id)
                                                     <p style="cursor: pointer; font-size: 10px">
                                                         <span id="edcm_{{ $cmt->id }} " class="edit_comment"
