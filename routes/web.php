@@ -254,6 +254,7 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
         Route::put('/update-status', [OrderController::class, 'updateStatus']);

@@ -52,6 +52,12 @@ class OrderController extends Controller
         }
     }
 
+    public function show(Request $request)
+    {
+        $order = Order::find($request->id);
+        return response()->json();
+    }
+
     public function updateStatus(Request $request)
     {
         $this->orderService->updateStatus($request->status_id, $request->id);
