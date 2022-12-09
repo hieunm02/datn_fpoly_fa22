@@ -89,7 +89,7 @@ class HomeController extends Controller
             ->get();
         $products = $this->productService->getAll();
         $product_option_details = DB::table('product_option_details')
-            ->where('product_id', $product->id)
+            ->where('product_id', $product->id)->where('active', 0)
             ->join('option_details', 'product_option_details.option_detail_id', '=', 'option_details.id')
             ->select('product_option_details.*', 'option_details.value', 'option_details.price')
             ->get();
@@ -165,7 +165,7 @@ class HomeController extends Controller
                 <div class="col-md-3 pb-3">
                                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                     <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-warning"> <h6 class="mt-2">'. number_format($product->price, 0, ',', '.').' 
+                                        <div class="star position-absolute"><span class="badge badge-warning"> <h6 class="mt-2">'. number_format($product->price, 0, ',', '.').'
                                         VND</h6></span></div>
                                         <div class="favourite-heart text-danger position-absolute"></div>
                                         <div class="member-plan position-absolute"></div>

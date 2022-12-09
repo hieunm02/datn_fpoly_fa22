@@ -18,7 +18,8 @@ class OrderProduct extends Model
         'price',
         'total',
         'date_order',
-        'options'
+        'options',
+        'user_id',
     ];
 
     protected $casts = [
