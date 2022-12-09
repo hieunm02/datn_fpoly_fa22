@@ -58,7 +58,7 @@
                     </thead>
                     <tbody id="tbodyOrder">
                         @foreach ($orders as $item)
-                        <tr id="id{{ $item->id }}">
+                        <tr id="idOrder{{ $item->id }}">
                             <td>
                                 <div class="checkbox">
                                     <input id="check-item-{{ $item->id }}" type="checkbox">
@@ -79,20 +79,22 @@
                                 @endforeach
                             </td>
                             <td>
-                            <td>
                                 <button data-toggle="modal" data-target=".modal-order-detail" data-id="{{$item->id}}" class="btn btn-icon btn-hover btn-sm btn-rounded order-detail">
                                     <i class="anticon anticon-eye"></i>
                                 </button>
                             </td>
-                            </td>
                             <td>
-                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}">
+                                @if($item->id != 5)
+                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}" {{$item->status_id == 5 ? 'disabled' : ''}}>
                                     @foreach ($status as $stt)
                                     <option class="status-{{ $item->id }}" value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
                                         {{ $stt->name }}
                                     </option>
                                     @endforeach
                                 </select>
+                                @else
+                                    Đã hủy
+                                @endif
                             </td>
                         </tr>
                         @endforeach
