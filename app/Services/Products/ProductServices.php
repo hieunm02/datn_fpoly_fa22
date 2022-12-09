@@ -3,6 +3,7 @@
 namespace App\Services\Products;
 
 use App\Models\Menu;
+use App\Models\OptionDetail;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductOptionDetail;
@@ -65,7 +66,7 @@ class ProductServices
 
     public function create($request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $product = new Product();
         $product->fill($request->all());
@@ -83,15 +84,20 @@ class ProductServices
             $product->price = filter_var($request->price, FILTER_SANITIZE_NUMBER_INT);
             $product->active = 1;
             $product->save();
-            if ($request->option_detail) {
-                foreach ($request->option_detail as $option_detail) {
-                    $data = new ProductOptionDetail();
-                    $data->product_id = $product->id;
-                    $data->option_id = $request->option;
-                    $data->option_detail_id = $option_detail;
-                    // dd($data);
-                    $data->save();
+            $option_details = OptionDetail::where('option_id', $request->option)->get();
+            foreach ($option_details as $option_detail) {
+                $data = new ProductOptionDetail();
+                $data->product_id = $product->id;
+                $data->option_id = $request->option;
+                $data->option_detail_id = $option_detail->id;
+                foreach ($request->option_details as $item) {
+                    if ($option_detail->id == $item) {
+                        $data->active = 0;
+                    } else {
+                        $data->active = 1;
+                    }
                 }
+                $data->save();
             }
         }
         $productId = $product->id;
@@ -135,12 +141,30 @@ class ProductServices
                     if (isset($file)) {
                         $imageNew->image = $file->storeAs('images/products/details', $file->hashName());
                         $imageNew->product_id = $productId;
-                        // $imageNew = $file->storeAs('images/products', $imageNew);
-                        // $file->move('images/imagedetails', $file->hashName());
                         $imageNew->save();
                     }
                 }
             }
+
+            $option_detail_now = ProductOptionDetail::where('product_id', '=', $id)->pluck('id')->toArray();
+            $obj = new ProductOptionDetail();
+            $obj->destroy($option_detail_now);
+            $option_details = OptionDetail::where('option_id', $request->option)->get();
+
+            foreach ($option_details as $option_detail) {
+                $data = new ProductOptionDetail();
+                $data->product_id = $product->id;
+                $data->option_id = $request->option;
+                $data->option_detail_id = $option_detail->id;
+                $data->active = 1;
+                foreach ($request->option_details as $item) {
+                    if ($option_detail->id == $item) {
+                        $data->active = 0;
+                    }
+                }
+                $data->save();
+            }
+
             notify()->success('Cập nhật thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());

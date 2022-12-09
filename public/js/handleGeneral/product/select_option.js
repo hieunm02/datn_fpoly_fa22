@@ -2,23 +2,24 @@ $(function() {
     const option = $("#options");
     window.onload = function() {
         const id = option.find(':selected').val();
+        console.log(id);
         var detail_field = $('#option_details');
         detail_field.html("");
-        option.attr('data-product');
+        var product_id = option.attr('data-product');
         $.ajax({
             type: "GET",
             url: `/admin/product/product-option-details`,
             dataType: "JSON",
             data: {
                 id: id,
+                product_id: product_id,
             },
             success: function(data) {
                 let result = "";
                 data.forEach((item) => {
-                    // console.log(item);
                     result += `
                     <div class="custom-control custom-checkbox">
-                        <input name="option_details[]" type="checkbox" value="${item.id}" class="custom-control-input" id="option_product_${item.id}">
+                        <input name="option_details[]" type="checkbox" ${item.checked} value="${item.id}" class="custom-control-input" id="option_product_${item.id}">
                         <label class="custom-control-label col-12" for="option_product_${item.id}">
                             <div class="col-6">
                             ${item.value}  -   ${item.price}đ

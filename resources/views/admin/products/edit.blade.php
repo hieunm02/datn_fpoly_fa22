@@ -151,12 +151,12 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label class="font-weight-semibold" for="options">Loại tùy biến</label>
-                                            <select name="option" id="options" data-product="{{ $product->id }}">
+                                            <select class="custom-select" name="option" id="options" data-product="{{ $product->id }}">
                                                 <option value="0">
                                                     Chọn ...
                                                 </option>
                                                 @foreach ($options as $option)
-                                                    <option value="{{ $option->id }}" {{ $check_option == 0 ? "" : "selected"}}>{{ $option->name }}</option>
+                                                    <option value="{{ $option->id }}" {{ !empty($check_option) && $check_option[0]['option_id'] == $option->id  ? "selected" : ""}}>{{ $option->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
