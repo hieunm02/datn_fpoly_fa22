@@ -134,19 +134,25 @@
                                 </div>
                                 <div class="row mt-5">
                                     <div class="col-6">
-                                        <label for="">Option</label>
-                                        <select name="option" id="options">
-                                            <option value="0"><-- CHỌN --></option>
-                                            @foreach ($options as $option)
-                                                <option value="{{ $option->id }}">{{ $option->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-group">
+                                            <label class="font-weight-semibold" for="options">Loại tùy biến</label>
+                                            <select name="option" class="custom-select" id="options" >
+                                                <option value="0" selected>
+                                                    Chọn ...
+                                                </option>
+                                                @foreach ($options as $option)
+                                                    <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-6">
-                                        <label for="">Option Detail</label>
-                                        <select id="multiple" class="js-states form-control" multiple name="option_detail[]" class="option_details">
-
-                                        </select>
+                                        <div class="input-group-prepend">
+                                            <label class="font-weight-semibold" for="">Chi tiết tùy biến</label>
+                                        </div>
+                                        <div id="option_details" class="text-center">
+                                            Không có tùy biến nào !
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -168,13 +174,5 @@
     <script type="text/javascript">
         $('.money').simpleMoneyFormat();
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="{{ asset('js/handleGeneral/product/select_option.js') }}"></script>
-    <script>
-        $("#multiple").select2({
-            placeholder: "Select a programming language",
-            allowClear: true
-        });
-    </script>
-    </div>
 @endsection

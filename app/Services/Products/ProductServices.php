@@ -65,6 +65,8 @@ class ProductServices
 
     public function create($request)
     {
+        dd($request->all());
+
         $product = new Product();
         $product->fill($request->all());
         if ($request->hasFile('thumb')) {
@@ -81,7 +83,6 @@ class ProductServices
             $product->price = filter_var($request->price, FILTER_SANITIZE_NUMBER_INT);
             $product->active = 1;
             $product->save();
-            // dd($request->all());
             if ($request->option_detail) {
                 foreach ($request->option_detail as $option_detail) {
                     $data = new ProductOptionDetail();

@@ -52,8 +52,6 @@ use Illuminate\Support\Facades\Route;
 // Client
 
 Route::prefix('/')->group(function () {
-    Route::get('/getOptionDetails', [ProductController::class, 'getOptionDetails']);
-
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}', [CartController::class, 'update']);
@@ -174,6 +172,8 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
         Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+        Route::get('option-details', [ProductController::class, 'getOptionDetails']);
+        Route::get('product-option-details', [ProductController::class, 'getProductOptionDetails']);
     });
     // Danh mục
     Route::resource('menus', MenuController::class);

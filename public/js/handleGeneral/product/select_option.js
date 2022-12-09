@@ -1,41 +1,103 @@
 $(function() {
-    $("#options").change(function() {
-        // $("").on("change", function (e) {
-        console.log(true);
-
-        option_id = this.value;
-        // }
-        var $option_details = $("#multiple");
-        // console.log($option_details);
-        $option_details.empty();
+    const option = $("#options");
+    window.onload = function() {
+        const id = option.find(':selected').val();
+        var detail_field = $('#option_details');
+        detail_field.html("");
+        option.attr('data-product');
         $.ajax({
             type: "GET",
-            url: "/admin/options/getOptionDetails",
+            url: `/admin/product/product-option-details`,
             dataType: "JSON",
             data: {
-                id: option_id,
+                id: id,
             },
             success: function(data) {
-                // the next thing you want to do
-                var $option_details = $("#multiple");
-                $option_details.empty();
+                let result = "";
+                data.forEach((item) => {
+                    // console.log(item);
+                    result += `
+                    <div class="custom-control custom-checkbox">
+                        <input name="option_details[]" type="checkbox" value="${item.id}" class="custom-control-input" id="option_product_${item.id}">
+                        <label class="custom-control-label col-12" for="option_product_${item.id}">
+                            <div class="col-6">
+                            ${item.value}  -   ${item.price}đ
+                            </div>
+                        </label>
+                    </div>
+                    `
+                })
+                detail_field.html(result);
+                // console.log(result);
+            },
+        });
+    };
+    option.change(function() {
+        const id = this.value;
+        console.log(id);
+        var detail_field = $('#option_details');
+        detail_field.html("");
 
-                for (var i = 0; i < data.length; i++) {
-                    $option_details.append(
-                        "<option id=" +
-                        data[i].id +
-                        " value=" +
-                        data[i].id +
-                        ">" +
-                        data[i].value +
-                        "</option>"
-                    );
-                    console.log(data[i]);
-                }
+        $.ajax({
+            type: "GET",
+            url: `/admin/product/option-details`,
+            dataType: "JSON",
+            data: {
+                id: id,
+            },
+            success: function(data) {
+                let result = "";
+                data.forEach((item) => {
+                    // console.log(item);
+                    result += `
+                    <div class="custom-control custom-checkbox">
+                        <input name="option_details[]" type="checkbox" value="${item.id}" class="custom-control-input" id="option_product_${item.id}">
+                        <label class="custom-control-label col-12" for="option_product_${item.id}">
+                            <div class="col-6">
+                            ${item.value}  -   ${item.price}đ
+                            </div>
+                        </label>
+                    </div>
+                    `
+                })
+                detail_field.html(result);
+                // console.log(result);
+            },
+        });
+    });
+});
 
-                // //manually trigger a change event for the contry so that the change handler will get triggered
-                $option_details.change();
-                // $('#show_order').reload();
+$(function() {
+    const option = $("#options");
+    option.change(function() {
+        const id = this.value;
+        var detail_field = $('#option_details');
+        detail_field.html("");
+
+        $.ajax({
+            type: "GET",
+            url: `/admin/product/option-details`,
+            dataType: "JSON",
+            data: {
+                id: id,
+            },
+            success: function(data) {
+                let result = "";
+                data.forEach((item) => {
+                    // console.log(item);
+                    result += `
+                    <div class="custom-control custom-checkbox">
+                        <input name="option_details[]" type="checkbox" value="${item.id}" class="custom-control-input" id="option_product_${item.id}">
+                        <label class="custom-control-label col-12" for="option_product_${item.id}">
+                            <div class="col-6">
+                            ${item.value}  -   ${item.price}đ
+                            </div>
+                        </label>
+                    </div>
+                    `
+                })
+                detail_field.html(result);
+                // console.log(result);
             },
         });
     });

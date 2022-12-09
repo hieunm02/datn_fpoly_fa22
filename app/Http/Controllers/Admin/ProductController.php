@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Option;
+use App\Models\OptionDetail;
 use App\Models\Product;
+use App\Models\ProductOptionDetail;
 use App\Services\Products\ProductServices;
 use Illuminate\Http\Request;
 
@@ -94,7 +96,10 @@ class ProductController extends Controller
         $data['prices'] = $this->productService->getPrice();
         $data['menus'] = $this->productService->getMenu();
         $data['thumbnails'] = $this->productService->getThumbByProduct($id);
-        return view('admin.products.edit', $data);
+        $options = Option::all();
+        $check_option = ProductOptionDetail::where('product_id', $data['product']->id)->count();
+        // dd($check_option);
+        return view('admin.products.edit', $data, compact('options', 'check_option'));
     }
 
     /**
@@ -163,7 +168,18 @@ class ProductController extends Controller
         }
     }
 
-    // public function getOptionDetails(Request $request) {
-    //     dd(true);
-    // }
+    public function getOptionDetails(Request $request) {
+        // dd($request->id);
+        $option_details = OptionDetail::where('option_id', $request->id)->get();
+        return response()->json($option_details);
+    }
+
+    public function getProductOptionDetails(Request $request) {
+        $option_details = OptionDetail::where('option_id', $request->id)->get();
+        $prd_op_details = ProductOptionDetail::where('product_id', $request->product_id)->get();
+        // dd($prd_op_details);
+        $temp = array_diff($option_details, $prd_op_details);
+        dd($temp);
+        return response()->json();
+    }
 }
