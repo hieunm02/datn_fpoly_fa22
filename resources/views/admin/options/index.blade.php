@@ -128,7 +128,7 @@
                             @endif
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter-{{ $item['options']->id }}">
-                                    Show List Data
+                                    Chi tiết
                                 </button>
 
                                 <!-- Modal -->
@@ -138,7 +138,6 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLongTitle">List
                                                     {{ $item['options']->name }}
-                                                    Data
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -148,8 +147,8 @@
                                                 <table class="table">
                                                     <thead>
                                                         <th>ID</th>
-                                                        <th>Value</th>
-                                                        <th>Price</th>
+                                                        <th>Tên</th>
+                                                        <th>Giá</th>
                                                         <th colspan="2">Action</th>
                                                     </thead>
                                                     <tbody>

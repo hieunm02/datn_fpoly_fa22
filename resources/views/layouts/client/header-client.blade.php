@@ -97,10 +97,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ route('profile.index') }}">My account</a>
-                                <a class="dropdown-item" href="faq.html">Delivery support</a>
-                                <a class="dropdown-item" href="contact-us.html">Contant us</a>
-                                <a class="dropdown-item" href="terms.html">Term of use</a>
-                                <a class="dropdown-item" href="privacy.html">Privacy policy</a>
                                 <a class="dropdown-item" href="/logout">Logout</a>
                             </div>
                         </div>

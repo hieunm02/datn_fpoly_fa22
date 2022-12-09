@@ -29,12 +29,10 @@ use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
+use App\Http\Controllers\Homepage\OrderGroupController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
-use App\Models\Bill;
-use App\Models\Product;
-use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -149,6 +147,19 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+
+    //đặt hàng nhóm
+    Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
+    // xem nhanh thông tin sản phẩm 
+    Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
+    // tạo nhóm 
+    Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
+
+    //thêm sản phẩm vào giỏ hàng
+    Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+    Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+
+
 });
 
 // Admin
@@ -285,8 +296,5 @@ Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 // Nhân viên phản hồi tin nhắn tới người dùng
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
 
-Route::get('test', function () {
-    return view('test', ['products' => Product::all()]);
-});
 // xuất file
 Route::get('export/{order}', [ExportController::class, 'export'])->name('export');
