@@ -17,7 +17,8 @@ class OrderProduct extends Model
         'quantity',
         'price',
         'total',
-        'date_order'
+        'date_order',
+        'user_id',
     ];
 
     public function product()
