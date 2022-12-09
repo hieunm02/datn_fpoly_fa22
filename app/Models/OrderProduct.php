@@ -17,9 +17,15 @@ class OrderProduct extends Model
         'quantity',
         'price',
         'total',
-        'date_order'
+        'date_order',
+        'options'
     ];
 
+    protected $casts = [
+        'created_at' => 'date:d-m-Y',
+        'updated_at' => 'date:d-m-Y',
+        'options' => 'array'
+    ];
     public function product()
     {
         return $this->belongsTo(Product::class);
