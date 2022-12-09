@@ -78,7 +78,7 @@
                                     <input type="hidden" id="cart_product_price_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_price }}">
                                     <input type="hidden" name="product_id" id="cart-product_id_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_id }}">
 
-                                    <div class="header row px-2">
+                                    <div class="header row px-2" id="cart_header_{{ $cart->user_id }}{{$cart->product_id}}">
                                         <div class="col-3">
                                             <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                         </div>
@@ -399,7 +399,7 @@
                                 <input type="hidden" id="cart_product_quantity_${user_id}${product_id}" value="${quantity}">
                                 <input type="hidden" id="cart_product_price_${user_id}${product_id}" value="${product_price}">
                                 <input type="hidden" name="product_id" id="cart-product_id_${user_id}${product_id}" value="${product_id}">
-                                <div class="header row px-2">
+                                <div class="header row px-2" id="cart_header_${user_id}${product_id}">
                                     <div class="col-3">
                                         <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                     </div>
@@ -483,6 +483,17 @@
                         
                     `
                 ):``
+                //
+                cart_product == 'true' && ((cart_product_quantity * 1) + (quantity * 1)) < 1  ?
+                $(`#cart-quantity_${user_id}${product_id}`).html(
+                    ``
+                ):``;
+                //
+                cart_product == 'true' && ((cart_product_quantity * 1) + (quantity * 1)) < 1 ?
+                $(`#cart_header_${user_id}${product_id}`).html(
+                    ``
+                ):``;
+                //
 
                 $('#total-price').html(
                      `<input type="hidden" name="cart_total_price" id="cart_total_price" value="${(cart_total_price * 1) + (product_price *  quantity)}">

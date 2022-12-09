@@ -40,6 +40,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Tên sản phẩm</th>
                             {{-- <th>Ảnh</th> --}}
                             <th>Giá</th>
@@ -50,6 +51,7 @@
                     <tbody>
                         @foreach ($billDetail as $item)
                             <tr>
+                                <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->nameProduct }}</td>
                                 {{-- <td><img src="{{ asset($item->avatar )}}" width="100px" alt=""></td> --}}
                                 <td>{{ number_format($item->price) }}<sup>đ</sup></td>

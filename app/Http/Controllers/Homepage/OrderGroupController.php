@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderGroup;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\User;
 use App\Services\Carts\CartService;
 use App\Services\Ordergroup\OrderGroupServices;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class OrderGroupController extends Controller
         ->select('order_group.id as id', 'order_group.room as room', 'order_group.role as role', 'order_group.quantity as quantity', 'users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar',
         'products.id as product_id', 'products.name as product_name', 'products.price as product_price')
         ->where('order_group.room', URL::full())
+        ->where('order_group.quantity', '>', 0)
         ->distinct()
         ->get();
 
@@ -89,10 +91,12 @@ class OrderGroupController extends Controller
             foreach ($count as $it) {
                 $del = OrderGroup::find($it);
                 $prd = Product::find($del->product_id);
-                // dd($prd);
+                $user_name = User::find($del->user_id);
+                
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
+                $data->user_name = $user_name->name;
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
@@ -155,9 +159,12 @@ class OrderGroupController extends Controller
         $product = OrderGroup::where('product_id', $request->product_id)->where('room', $request->room)->where('user_id', $request->user_id)->first();
         if($product){
             $quantity = $product->quantity + $request->quantity;
+            if($quantity < 1){
+                $product->delete();
+            }else{
             $product->update([
                 'quantity' => $quantity,
-            ]);
+            ]);}
         }else{
             OrderGroup::create([
                 'room' => $request->room,

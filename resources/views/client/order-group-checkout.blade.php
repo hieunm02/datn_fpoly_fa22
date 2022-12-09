@@ -139,8 +139,9 @@
                                     @if (count($carts) > 0)
                                         @foreach ($carts as $cart)
                                             <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
+                                            <input hidden name="user_id[]" value="{{ $cart->user_id }}">
                                                 
-                                            <div id="cart_item{{ $cart->id }}"
+                                            <div id="cart_item{{ $cart->id}}"
                                                 class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                                 <div class="media align-items-center">
                                                     {{-- <div class="mr-2 text-danger">&middot;</div> --}}
