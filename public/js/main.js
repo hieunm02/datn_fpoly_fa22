@@ -74,12 +74,12 @@ $('.order-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
-            $('#bill_products').html('');
+            $('#order_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
-            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
-            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
-            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var billDate = convertUTCDateToLocalDate(new Date(data.order.created_at));
+            $('#order_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#order_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.order.code}`);
             var total = 0;
             var products = '';
             // For sản phẩm
@@ -89,16 +89,16 @@ $('.order-detail').on('click', function () {
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
                 `;
             });
-            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
-            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+            $('#order_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.order.address}`)
 
             // Append vào table sản phẩm
-            $('#bill_products').append(products);
+            $('#order_products').append(products);
         }
     });
 });
@@ -114,12 +114,12 @@ $('.bill-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
-            $('#bill_products').html('');
+            $('#order_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
-            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
-            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
-            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var billDate = convertUTCDateToLocalDate(new Date(data.order.created_at));
+            $('#order_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#order_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.order.code}`);
             var total = 0;
             var products = '';
             // For sản phẩm
@@ -129,16 +129,16 @@ $('.bill-detail').on('click', function () {
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
                 `;
             });
-            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
-            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+            $('#order_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.order.address}`)
 
             // Append vào table sản phẩm
-            $('#bill_products').append(products);
+            $('#order_products').append(products);
         }
     });
 });
@@ -152,7 +152,7 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 // update status order
-$('.custom-select').on("change", function (event) {
+$('.select-order').on("change", function (event) {
     var token = $(this).data("token");
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
@@ -196,7 +196,7 @@ $('.custom-select').on("change", function (event) {
                     }
 
                     socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
-                    socket.emit('hanldeStatusOrderServer');
+                    socket.emit('handleStatusOrderServer', { status_id: data.order.status_id, bill_id: data.order.id });
                     sendMessage(message, admin_id, data.admin.avatar, data.user.id)
                     Swal.fire(
                         'Đã thay đổi!',

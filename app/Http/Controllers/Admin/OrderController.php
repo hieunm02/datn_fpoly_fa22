@@ -56,7 +56,13 @@ class OrderController extends Controller
     public function show(Request $request)
     {
         $order = Order::find($request->id);
-        return response()->json();
+        $user = User::find($order->user_id);
+        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        return response()->json([
+            'order' => $order,
+            'billDetail' => $billDetail,
+            'user' => $user,
+        ]);
     }
 
     public function updateStatus(Request $request)

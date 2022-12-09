@@ -130,7 +130,7 @@ class Helper
                 }
             } else {
                 if ($notify->status == 'pending') {
-                    $string .= '<a href="/admin/chats/message/' . $notify->roomm_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
+                    $string .= '<a href="/admin/chats/message/' . $notify->user_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify notify-pending">
                     <div class="d-flex">
                         <div class="avatar avatar-volcano avatar-icon">
                             <i class="anticon anticon-message"></i>
@@ -142,7 +142,7 @@ class Helper
                     </div>
                 </a>';
                 } else {
-                    $string .= '<a href="/admin/chats/message/' . $notify->roomm_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
+                    $string .= '<a href="/admin/chats/message/' . $notify->user_id . '" data-id=' . $notify->id . ' class="dropdown-item d-block p-15 border-bottom notify">
                     <div class="d-flex">
                         <div class="avatar avatar-volcano avatar-icon">
                             <i class="anticon anticon-message"></i>
