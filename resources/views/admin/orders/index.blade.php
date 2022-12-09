@@ -113,6 +113,7 @@
                                                             <th>Ảnh</th>
                                                             <th>Giá</th>
                                                             <th>Số lượng</th>
+                                                            <th>Tùy biến</th>
                                                             <th>Tổng tiền</th>
                                                         </thead>
                                                         <tbody class="order_details">
@@ -147,8 +148,7 @@
                     </div>
         @endif
     </div>
-    </div>
-    </div>
+    <div>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
