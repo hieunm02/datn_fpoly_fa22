@@ -24,9 +24,9 @@
 
                         <!-- Replace these fields -->
                         <div class="col-md-6">
-                            <label class="font-weight-semibold" for="titleoption_details">Value</label>
+                            <label class="font-weight-semibold" for="titleoption_details">Tên</label>
                             <input type="text" name="value[]" class="form-control<?php echo $errors->first('value') ? 'is-invalid' : ''; ?>"
-                                id="titleoption_details" placeholder="option_details name">
+                                id="titleoption_details" placeholder="">
                             @if ($errors->first('value'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('value') }}
@@ -34,9 +34,9 @@
                             @endif
                         </div>
                         <div class="col-md-5">
-                            <label class="font-weight-semibold" for="option_detail_price">Price</label>
+                            <label class="font-weight-semibold" for="option_detail_price">Giá</label>
                             <input type="text" name="price[]" class="form-control <?php echo $errors->first('value') ? 'is-invalid' : ''; ?>"
-                                id="option_detail_price" placeholder="option_details name">
+                                id="option_detail_price" placeholder="">
                             {{-- @if ($errors->first('name'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('name') }}

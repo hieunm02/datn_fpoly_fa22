@@ -14,6 +14,13 @@ class Cart extends Model
         'product_id',
         'user_id',
         'quantity',
-        'date'
+        'date',
+        'options'
+    ];
+    
+    protected $casts = [
+        'created_at' => 'date:d-m-Y',
+        'updated_at' => 'date:d-m-Y',
+        'options' => 'array'
     ];
 }

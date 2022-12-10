@@ -12,7 +12,7 @@ class OptionDetail extends Model
     protected $fillable = [
         'value',
         'option_id',
-        'thumb',
-        'quantity'
+        'price',
+        // 'quantity'
     ];
 }

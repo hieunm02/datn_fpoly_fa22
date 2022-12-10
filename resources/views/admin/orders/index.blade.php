@@ -93,7 +93,7 @@
                                     @endforeach
                                 </select>
                                 @else
-                                    Đã hủy
+                                Đã hủy
                                 @endif
                             </td>
                         </tr>

@@ -57,11 +57,6 @@
         </div>
     </div>
     <div class="container">
-        <!-- Trending this week -->
-        <div class="pt-4 pb-2 title d-flex align-items-center">
-            <h5 class="m-0">Trending this week</h5>
-            <a class="font-weight-bold ml-auto" href="trending.html">View all <i class="feather-chevrons-right"></i></a>
-        </div>
         <!-- slider -->
         <div class="trending-slider">
             @foreach ($products as $products)
@@ -97,9 +92,7 @@
         </div>
         <!-- Most popular -->
         <div class="py-3 title d-flex align-items-center">
-            <h5 class="m-0">Most popular</h5>
-            <a class="font-weight-bold ml-auto" href="most_popular.html">{{ $products->count() }} show<i
-                    class="feather-chevrons-right"></i></a>
+            <h5 class="m-0">Sản Phẩm Có </h5>
         </div>
         <!-- Most popular -->
         <div class="most_popular">
@@ -132,36 +125,34 @@
 
         </div>
         <!-- Most sales -->
-        <div class="pt-2 pb-3 title d-flex align-items-center">
-            <h5 class="m-0">Most sales</h5>
-            <a class="font-weight-bold ml-auto" href="#">26 places <i class="feather-chevrons-right"></i></a>
-        </div>
-        <!-- Most sales -->
-        <div class="most_sale">
-            <div class="row mb-3">
-                @foreach ($slides ?? '' as $slide)
-                <div class="col-md-4 mb-3">
-                    <div class="d-flex align-items-center list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                            @if ($slide->product)
-                                <div class="list-card-image text-center">
-                                    <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
-                                    <a href="{{ route('product-detail', $slide->product->id) }}">
-                                        <img alt="#" src="{{asset($slide->thumb)}}" class="img-fluid item-img w-100">
-                                    </a>
-                                </div>
-                                <div class="p-3 position-relative">
-                                    <div class="list-card-body">
-                                        <h6 class="mb-1"><a href="#" class="text-black"> {{$slide->name}}
-                                            </a>
-                                        </h6>
-                                        <p class="text-gray mb-3">{{$slide->product->name}}</p>
+        @if($slides->count())
+            <!-- Most sales -->
+            <div class="most_sale">
+                <div class="row mb-3">
+                    @foreach ($slides ?? '' as $slide)
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                                @if ($slide->product)
+                                    <div class="list-card-image text-center">
+                                        <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
+                                        <a href="{{ route('product-detail', $slide->product->id) }}">
+                                            <img alt="#" src="{{asset($slide->thumb)}}" class="img-fluid item-img w-100">
+                                        </a>
                                     </div>
-                                </div>
-                            @endif
+                                    <div class="p-3 position-relative">
+                                        <div class="list-card-body">
+                                            <h6 class="mb-1"><a href="#" class="text-black"> {{$slide->name}}
+                                                </a>
+                                            </h6>
+                                            <p class="text-gray mb-3">{{$slide->product->name}}</p>
+                                        </div>
+                                    </div>
+                                @endif
+                        </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
-        </div>
+        @endif
     </div>
 @endsection

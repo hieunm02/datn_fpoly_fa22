@@ -46,8 +46,8 @@
                                 <nav class="breadcrumb breadcrumb-dash m-0">
                                     <a href="#" class="breadcrumb-item"><i
                                             class="anticon anticon-home m-r-5"></i>Home</a>
-                                    <a class="breadcrumb-item" href="#">Products</a>
-                                    <span class="breadcrumb-item">Product Detail</span>
+                                    <a class="breadcrumb-item" href="">Product Detail</a>
+                                    <span class="breadcrumb-item">{{$product->name}}</span>
                                 </nav>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
 
                             @endif
                         </div>
-                        <div class="p-2 text-white btn btn-warning">Chia sẻ link</div>
+                        <!-- <div class="p-2 text-white btn btn-warning">Chia sẻ link</div> -->
                     </div>
                     <div class="p-3">
                         @if ($product->price_sales == 0 || $product->price_sales == null)
@@ -94,7 +94,7 @@
                         <label for="" class="text-bold">Tùy chọn</label>
                         @foreach ($product_option_details as $item)
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" value="{{ $item->price }}">
+                                <input type="checkbox" name="option_product[]" class="form-check-input" value="{{ $item->option_detail_id }}">
                                 <label for="option" class="form-check-label">{{ $item->value }}
                                     {{ number_format($item->price, 0, ',', ',') }}đ</label>
                             </div>
@@ -224,9 +224,9 @@
                 <div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image">
-                            <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}})</span></div>
+                            <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}} lượt mua)</span></div>
                             <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
-                            <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
+                            <div class="member-plan position-absolute">
                             </div>
                             <a href="{{ route('product-detail', $product->id) }}">
                                 <img alt="#" src="{{ asset($product->thumb) }}" class="img-fluid item-img w-100">

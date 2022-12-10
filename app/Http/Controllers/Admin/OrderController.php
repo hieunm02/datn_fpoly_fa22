@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStatus;
@@ -272,9 +273,10 @@ class OrderController extends Controller
 
     public function getOrderDetails(Request $request, $id)
     {
-        // dd($id);
-        // dd($request->all());
         $data = OrderProduct::where('order_id', $id)->get();
-        return response()->json($data);
+        $options = OptionDetail::all();
+        $result = [$data, $options];
+
+        return response()->json($result);
     }
 }

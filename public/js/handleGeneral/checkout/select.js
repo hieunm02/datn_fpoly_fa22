@@ -63,7 +63,11 @@ $(function () {
         var user_id = $('input[name=user_id]').val();
         var date = $('input[name=date]').val();
         var quantity = $('input[name=quantity]').val();
-        // alert(product_id +'-' + user_id+ '-' + date+ '-' + quantity)
+        var checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
+        var arr = []
+        for (var i = 0; i < checks.length; i++) {
+            arr.push($(checks[i]).val())
+        };
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -75,7 +79,8 @@ $(function () {
                 'product_id': product_id,
                 'user_id': user_id,
                 'date': date,
-                'quantity': quantity
+                'quantity': quantity,
+                'options': arr
             },
             success: function (data) {
                 $('#count_cart').empty();
@@ -161,7 +166,7 @@ $(function () {
                 $('#show_total').empty();
                 $('#show_order').empty();
                 $('#show_total_product' + cart_id).empty();
-                $('#cart_item' + cart_id).empty();
+                $('#cart_item' + cart_id).remove();
                 $('#count_cart').empty();
                 var total = 0;
                 var price = 0;
@@ -173,6 +178,9 @@ $(function () {
                         price = (el.quantity * el.price);
                     }
                 });
+                if(num == 0) {
+                    $('.hetsanpham').text('Chưa có sản phẩm nào')
+                }
                 $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
                 $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
                 $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
@@ -218,9 +226,9 @@ $(function () {
                 var user_id = $('.auth_id').val();
                 var name = $("input[name=name]").val();
                 response.prd.forEach(el => {
-                    $("#cart_item"+el).remove();
+                    $(".cart_item" + el).remove();
                 })
-                if(response.count == 0) {
+                if (response.count == 0) {
                     $("#cartNull").html('Chưa có sản phẩm nào!');
                 }
                 $('#show_total').html('');

@@ -74,6 +74,7 @@ $('.order-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             $('#order_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
@@ -114,6 +115,7 @@ $('.bill-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             $('#order_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
