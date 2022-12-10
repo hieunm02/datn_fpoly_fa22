@@ -47,7 +47,7 @@
                 }
             })
         }
-        $('#link_invite').html(location.href)
+        $('#link_invite').val(location.href)
 
         
         $(function () {
