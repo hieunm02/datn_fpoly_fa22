@@ -5,6 +5,7 @@ namespace App\Services\Orders;
 use App\Models\Building;
 use App\Models\Cart;
 use App\Models\Floor;
+use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -40,34 +41,51 @@ class ClientOrderService
             $order->shipper_id = 1;
             $order->voucher = 'voucher';
             $order->note = $request->note;
-            // dd($order);
             $order->save();
             $count = $request->product_id;
+            // dd($count);
+            $options = OptionDetail::all();
             foreach ($count as $it) {
-                $del = Cart::find($it);
+                $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
                 $prd = Product::find($del->product_id);
-                // dd($prd);
+                
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
+                $data->options = $del->options;
                 if ($prd->price_sales == 0 || $prd->price_sales == null) {
+                    if ($del->options != null) {
+                        foreach ($del->options as $op) {
+                            foreach ($options as $it) {
+                                if ($it->id == $op) {
+                                    $prd->price += $it->price;
+                                }
+                            }
+                        }
+                    }
                     $data->price = $prd->price;
                     $data->total = $del->quantity * $prd->price;
                 } else {
+                    if ($del->options != null) {
+                        foreach ($del->options as $op) {
+                            foreach ($options as $it) {
+                                if ($it->id == $op) {
+                                    $prd->price_sales += $it->price;
+                                }
+                            }
+                        }
+                    }
                     $data->price = $prd->price_sales;
                     $data->total = $del->quantity * $prd->price_sales;
                 }
                 $data->date_order = date(now()->toDateString());
-                $data->price = $prd->price;
-                $data->total = $del->quantity * $prd->price;
-                if ($del->quantity * $prd->price);
                 $data->save();
                 $del->delete();
             }
-            Session()->flash('success', 'Đăt hàng thành công');
+            // Session()->flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());

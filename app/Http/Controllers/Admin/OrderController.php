@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\OptionDetail;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
@@ -52,12 +54,19 @@ class OrderController extends Controller
         }
     }
 
+    public function show(Request $request)
+    {
+        $order = Order::find($request->id);
+        return response()->json();
+    }
+
     public function updateStatus(Request $request)
     {
         $this->orderService->updateStatus($request->status_id, $request->id);
 
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
+        $adminInfor = User::find(1);
 
         if ($request->status_id == 5) {
             $flag = true;
@@ -65,7 +74,11 @@ class OrderController extends Controller
             $user->save();
         }
 
-        return response()->json(['order' => $order]);
+        return response()->json([
+            'order' => $order,
+            'user' => $user,
+            'admin' => $adminInfor
+        ]);
     }
 
     public function searchByCode(Request $request)
@@ -229,7 +242,7 @@ class OrderController extends Controller
         }
         return response()->json();
     }
-    //thanh toán 
+    //thanh toán
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
@@ -250,5 +263,14 @@ class OrderController extends Controller
             $del->delete();
         }
         return response()->json($data);
+    }
+
+    public function getOrderDetails(Request $request, $id)
+    {
+        $data = OrderProduct::where('order_id', $id)->get();
+        $options = OptionDetail::all();
+        $result = [$data, $options];
+
+        return response()->json($result);
     }
 }

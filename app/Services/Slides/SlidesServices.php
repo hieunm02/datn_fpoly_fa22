@@ -39,6 +39,7 @@ class SlidesServices
 
     public function createSlide($request)
     {
+
         try {
             $slide = new Slide($request->all());
             if ($request->hasFile('thumb')) {
@@ -47,6 +48,7 @@ class SlidesServices
                 $imageName = $request->name . '_' . $imageName;
                 $slide->thumb = $image->storeAs('images/slides', $imageName);
             }
+            dd($slide);
             $slide->save();
             notify()->success('Tạo mới thành công');
         } catch (\Exception $err) {

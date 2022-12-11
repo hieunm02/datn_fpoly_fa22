@@ -61,4 +61,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Voucher::class, 'user_voucher', 'user_id', 'voucher_id');
     }
+
+    public function notify()
+    {
+        return $this->hasMany(Notify::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

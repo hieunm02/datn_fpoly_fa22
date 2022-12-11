@@ -27,7 +27,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="font-weight-semibold" for="productName">Tên sản phẩm</label>
-
                                             @if ($errors->first('name'))
                                                 <input type="text" class="form-control is-invalid" name="name"
                                                     id="productName" placeholder="Product Name" value="{{ old('name') }}">
@@ -44,8 +43,8 @@
                                                     id="" placeholder="Product Price" value="{{ old('price') }}">
                                                 <div class="invalid-feedback">{{ $errors->first('price') }}</div>
                                             @else
-                                                <input type="text" class="form-control money" name="price" id=""
-                                                    placeholder="Product Price" value="{{ old('price') }}">
+                                                <input type="text" class="form-control money" name="price"
+                                                    id="" placeholder="Product Price" value="{{ old('price') }}">
                                             @endif
                                         </div>
                                         <div class="form-group">
@@ -56,8 +55,9 @@
                                                     value="{{ old('price_sales') }}">
                                                 <div class="invalid-feedback">{{ session('price_sales') }}</div>
                                             @else
-                                                <input type="text" class="form-control money" name="price_sales" id=""
-                                                    placeholder="Product Price Sales" value="{{ old('price_sales') }}">
+                                                <input type="text" class="form-control money" name="price_sales"
+                                                    id="" placeholder="Product Price Sales"
+                                                    value="{{ old('price_sales') }}">
                                             @endif
                                         </div>
                                         <label class="font-weight-semibold" for="">Ảnh chi tiết</label>
@@ -114,6 +114,7 @@
                                                 <textarea type="text" class="form-control" name="content" id="productName" placeholder="Content">{{ old('content') }}</textarea>
                                             @endif
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -131,8 +132,30 @@
                                         </script>
                                     </div>
                                 </div>
+                                <div class="row mt-5">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="font-weight-semibold" for="options">Loại tùy biến</label>
+                                            <select name="option" class="custom-select" id="options" >
+                                                <option value="0" selected>
+                                                    Chọn ...
+                                                </option>
+                                                @foreach ($options as $option)
+                                                    <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group-prepend">
+                                            <label class="font-weight-semibold" for="">Chi tiết tùy biến</label>
+                                        </div>
+                                        <div id="option_details" class="text-center">
+                                            Không có tùy biến nào !
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -143,7 +166,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/handleGeneral/product/hanldeCreate.js') }}"></script>
     <script>
-        $('#productName').change(function () {
+        $('#productName').change(function() {
             $('#outPut').html($(this).val());
         });
     </script>
@@ -151,5 +174,5 @@
     <script type="text/javascript">
         $('.money').simpleMoneyFormat();
     </script>
-    </div>
+    <script src="{{ asset('js/handleGeneral/product/select_option.js') }}"></script>
 @endsection

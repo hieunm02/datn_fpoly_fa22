@@ -1,6 +1,10 @@
-$(function () {
+$(function() {
+    let ip_address = '127.0.0.1';
+    let socket_port = '3000';
+    let socket = io(ip_address + ':' + socket_port);
+
     //Create Comment
-    $(".submit_comment").click(function () {
+    $(".submit_comment").click(function() {
         productId = $("input[name=product_id]").val();
         userId = $("input[name=user_id]").val();
         content = $("textarea[name=content]").val();
@@ -21,7 +25,7 @@ $(function () {
                 content: content,
                 user_id: userId,
             },
-            success: function (data) {
+            success: function(data) {
                 listComment = document.querySelector(".info-comment");
                 listComment.innerHTML += `
                     <div class="product-item px-3 py-2 my-1 d-flex justify-content-between info-comment ele_${data.comment_id}">
@@ -43,8 +47,17 @@ $(function () {
                                 </p>
                             </div>
                         </div>
-                     </div>
+                    </div>
                 `;
+                var date = timeDifference(Math.round(new Date().getTime() / 1000), data.date);
+                saveNotify(data.id_user, 'comment', 'admin');
+                socket.emit('sendNotifyToServer', {
+                    user_name: data.user_id,
+                    type: 'comment',
+                    date: date,
+                    comment_id: data.comment_id,
+                    notify_id: result.notify.id
+                });
                 location.reload();
             },
         });
@@ -52,7 +65,7 @@ $(function () {
 
     //Delete Comment
 
-    $(".dele_comment").click(function () {
+    $(".dele_comment").click(function() {
         if (!confirm("Xóa bình luận của bạn.")) {
             return;
         }
@@ -65,7 +78,7 @@ $(function () {
             data: {
                 id: id,
             },
-            success: function (data) {
+            success: function(data) {
                 $(".ele_" + id).remove();
             },
         });
@@ -73,7 +86,7 @@ $(function () {
 
     //View input edit comment
 
-    $(".edit_comment").click(function () {
+    $(".edit_comment").click(function() {
         if (!confirm("Thay đổi bình luận.")) {
             return;
         }
@@ -82,7 +95,7 @@ $(function () {
         $(".edit-content-" + id).prop("type", "text");
 
         //Save change edit comment
-        $("input[name=edit_content]").keypress(function (event) {
+        $("input[name=edit_content]").keypress(function(event) {
             var keycode = event.keyCode ? event.keyCode : event.which;
             if (keycode == "13") {
                 value = $(".edit-content-" + id).val();
@@ -94,7 +107,7 @@ $(function () {
                         id: id,
                         value: value,
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $(".text_content_" + id).show();
                         $(".text_content_" + id).text(value);
                         $(".edit-content-" + id).prop("type", "hidden");
@@ -106,7 +119,7 @@ $(function () {
 
     //Like
 
-    $(".icon-comment").click(function () {
+    $(".icon-comment").click(function() {
         user_id = $("input[name=user_id]").val();
         id = $(this).data("id");
         reaction_id = $("input[name=reaction_id]").val();
@@ -124,7 +137,7 @@ $(function () {
                 reaction_id: reaction_id,
                 user_id: user_id,
             },
-            success: function (data) {
+            success: function(data) {
                 $("#icon_cm_" + id).css("color", "red");
                 $(".quan_like_" + id).text(quantity_like + 1);
             },

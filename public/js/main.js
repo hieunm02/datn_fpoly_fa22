@@ -63,8 +63,49 @@ function deleteAjax(parameter, id) {
     }
 }
 
+//View detail order
+$('.order-detail').on('click', function () {
+    var id = $(this).attr('data-id');
+    $.ajax({
+        url: "/admin/orders/" + id,
+        type: "GET",
+        data: {
+            id: id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            $('#bill_products').html('');
+
+            $('#avatar_customer').attr('src', data.user.avatar);
+            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
+            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var total = 0;
+            var products = '';
+            // For sản phẩm
+            data.billDetail.forEach(element => {
+                total += element.product.price;
+                products += `
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
+                `;
+            });
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
+            $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
+            $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+
+            // Append vào table sản phẩm
+            $('#bill_products').append(products);
+        }
+    });
+});
+
 // View detail bill
-function viewBillDetail(id) {
+$('.bill-detail').on('click', function () {
+    var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
         type: "GET",
@@ -73,27 +114,100 @@ function viewBillDetail(id) {
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data);
-            var tr = '';
-            data.bill.forEach(element => {
-                tr += `
-                    <tr>
-                        <td>${element['id']}</td>
-                        <td>${element['email']}</td>
-                        <td>${element['code']}</td>
-                        <td>${element['name']}</td>
-                        <td>${element['phone']}</td>
-                        <td>${element['address']}</td>
-                        <td>${element['shipper']}</td>
-                        <td>${element['voucher']}</td>
-                        <td>${element['note']}</td>
-                    </tr>
-                `
+            $('#bill_products').html('');
+
+            $('#avatar_customer').attr('src', data.user.avatar);
+            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
+            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
+            var total = 0;
+            var products = '';
+            // For sản phẩm
+            data.billDetail.forEach(element => {
+                total += element.product.price;
+                products += `
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
+                `;
             });
-            $('#table-bill-detail').html(tr);
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
+            $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
+            $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+
+            // Append vào table sản phẩm
+            $('#bill_products').append(products);
+        }
+    });
+});
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+    var hours = date.getHours();
+
+    newDate.setHours(hours);
+
+    return newDate;
+}
+// update status order
+$('.custom-select').on("change", function (event) {
+    var token = $(this).data("token");
+    let id = $(this).attr('data-id');
+    var status_id = $(event.target).val();
+    let admin_id = $('#user_id').val();
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Đang thay đổi trạng thái đơn hàng!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'orders/update-status/',
+                type: "PUT",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                    status_id: status_id,
+                    _method: "PUT",
+                    _token: token,
+                },
+                success: function (data) {
+                    let ip_address = '127.0.0.1';
+                    let socket_port = '3000';
+                    let socket = io(ip_address + ':' + socket_port);
+                    let message = '';
+                    if (data.order.status_id == 2) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                    }
+                    if (data.order.status_id == 3) {
+                        message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
+                    }
+                    if (data.order.status_id == 4) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được giao`;
+                    }
+                    if (data.order.status_id == 5) {
+                        message = `Đơn hàng #${data.order.id} của bạn đã được hủy`;
+                    }
+
+                    socket.emit('sendChatToServer', message, admin_id, data.user.name, data.admin.avatar, data.user.id);
+                    socket.emit('hanldeStatusOrderServer');
+                    sendMessage(message, admin_id, data.admin.avatar, data.user.id)
+                    Swal.fire(
+                        'Đã thay đổi!',
+                        'Trạng thái của đơn hàng đã được thay đổi',
+                        'success'
+                    )
+                },
+            });
         }
     })
-}
+});
 
 $('#search-by-code').on('keyup', function () {
     var code = document.querySelector('#search-by-code').value;
@@ -147,5 +261,50 @@ function randomCode() {
 function copyToClipboard() {
     document.getElementById("copy_{{ $voucher->id }}").select();
     document.execCommand('copy');
+}
+
+$('.toggle-notify').on('click', function () {
+    $('.show-notify').css('display', 'none');
+});
+
+$('.notify').on('click', function () {
+    var notify_id = $(this).attr('data-id');
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'PATCH',
+        url: "/notifies/" + notify_id,
+        data: {
+            notify_id: notify_id
+        },
+        success: function (data) {
+            $('.notify').removeClass('notify-pending');
+        }
+    });
+});
+
+function sendMessage(message, user_id, avatar, room_id) {
+    let url = "/rep";
+    let formData = new FormData();
+
+    formData.append('user_id', user_id)
+    formData.append('message', message)
+    formData.append('room_id', room_id)
+    formData.append('avatar', avatar)
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.success) {
+                console.log(response.data);
+            }
+        }
+    })
 }
 

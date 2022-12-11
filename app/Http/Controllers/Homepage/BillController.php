@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStatus;
@@ -30,10 +31,12 @@ class BillController extends Controller
         $bill = Order::where('user_id', Auth::user()->id)->where('code', $code)->first();
         $billDetail = OrderProduct::where('order_id', $bill->id)->get();
         $total = 0;
+        $options = OptionDetail::all();
         return view('client.bill-detail', [
             'bill' => $bill,
             'billDetail' => $billDetail,
-            'total' => $total
+            'total' => $total,
+            'options' => $options,
         ]);
     }
 

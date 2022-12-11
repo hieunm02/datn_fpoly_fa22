@@ -19,8 +19,9 @@
         <div class="py-5 row">
             <div action="#" class="row">
                 {{-- {{ url('/orders') }} method="post"
-                @csrf
-                @method('POST') --}}
+            @csrf
+            @method('POST') --}}
+                <input type="hidden" value="{{ Auth::id() }}" class="auth_id">
                 <div class="col-md-6 mb-3">
                     <div>
                         <div class="osahan-cart-item mb-3 rounded shadow-sm bg-white overflow-hidden">
@@ -35,12 +36,9 @@
                                             <div class="input-group">
                                                 <input placeholder="Họ tên"
                                                     value="{{ Auth::user()->name ? Auth::user()->name : old('name') }}"
-                                                    name="name" type="text"
-                                                    class="form-control @error('name') is-invalid @enderror">
+                                                    name="name" type="text" class="form-control input-name">
                                             </div>
-                                            @error('name')
-                                                <p class="text-danger m-0">{{ $message }}</p>
-                                            @enderror
+                                            <p class="text-danger m-0 error-name"></p>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="row">
@@ -49,7 +47,7 @@
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
                                                         <select name="building" id="building"
-                                                            class="form-control @error('building') is-invalid appearance-none  @enderror">
+                                                            class="form-control input-building appearance-none  ">
                                                             <option value="">Tòa</option>
                                                             @foreach ($buildings as $building)
                                                                 <option value="{{ $building->id }}">{{ $building->name }}
@@ -57,35 +55,31 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('building')
-                                                        <p class="text-danger m-0">{{ $message }}</p>
-                                                    @enderror
+                                                    <p class="text-danger m-0 error-building"></p>
                                                 </div>
                                                 <div class="col-md-3 form-group">
                                                     <label class="form-label font-weight-bold">Tầng <span
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
                                                         <select name="floor" id="floor"
-                                                            class="form-control @error('floor') is-invalid appearance-none @enderror">
+                                                            class="form-control input-building appearance-none ">
                                                             <option value="">Tầng</option>
                                                         </select>
                                                     </div>
-                                                    @error('floor')
-                                                        <p class="text-danger m-0">{{ $message }}</p>
-                                                    @enderror
+                                                    <p class="text-danger m-0 error-building"></p>
+
                                                 </div>
                                                 <div class="col-md-6 form-group">
                                                     <label class="form-label font-weight-bold">Phòng <span
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
                                                         <select name="room" id="room"
-                                                            class="form-control @error('room') is-invalid appearance-none @enderror">
+                                                            class="form-control input-building appearance-none ">
                                                             <option value="">Phòng</option>
                                                         </select>
                                                     </div>
-                                                    @error('room')
-                                                        <p class="text-danger m-0">{{ $message }}</p>
-                                                    @enderror
+                                                    <p class="text-danger m-0 error-building"></p>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -97,24 +91,21 @@
                                                     <div class="input-group">
                                                         <input placeholder="Số điện thoại"
                                                             value="{{ Auth::user()->phone ? Auth::user()->phone : old('phone') }}"
-                                                            name="phone" type="text"
-                                                            class="form-control @error('phone') is-invalid @enderror">
+                                                            name="phone" type="text" class="form-control input-phone">
                                                     </div>
-                                                    @error('phone')
-                                                        <p class="text-danger m-0">{{ $message }}</p>
-                                                    @enderror
+                                                    <p class="text-danger m-0 error-phone"></p>
+
                                                 </div>
                                                 <div class="col-md-6 form-group">
                                                     <label class="form-label font-weight-bold">Email <span
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
                                                         <input placeholder="Email" name="email" type="text"
-                                                            class="form-control @error('email') is-invalid @enderror"
+                                                            class="form-control input-email"
                                                             value="{{ Auth::user()->email ? Auth::user()->email : old('email') }}">
                                                     </div>
-                                                    @error('email')
-                                                        <p class="text-danger m-0">{{ $message }}</p>
-                                                    @enderror
+                                                    <p class="text-danger m-0 error-email"></p>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -143,17 +134,30 @@
                             @if (count($carts) > 0)
                                 @foreach ($carts as $cart)
                                     <div hidden>
+                                        {{ $prd_option = 0 }}
                                         {{ $cart->price_sales ? ($total += $cart->price_sales * $cart->quantity) : ($total += $cart->price * $cart->quantity) }}
                                     </div>
                                     <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
 
                                     <div id="cart_item{{ $cart->id }}"
-                                        class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+                                        class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom cart_item{{ $cart->product_id }}">
                                         <div class="media align-items-center">
                                             <div class="media-body d-flex">
-                                                <input type="checkbox" name="product_id[]" class="mr-1"
-                                                    value="{{ $cart->id }}">
+                                                <input type="checkbox" checked name="product_id[]" class="mr-1"
+                                                    value="{{ $cart->product_id }}">
                                                 <p class="m-0">{{ $cart->name }}</p>
+                                                <p class="m-0">
+                                                    @if ($cart->options != null)
+                                                        (@foreach (json_decode($cart->options) as $op)
+                                                            @foreach ($options as $it)
+                                                                @if ($it->id == $op)
+                                                                    <p hidden>{{ $total += ($it->price * $cart->quantity) }} {{ $prd_option +=$it->price }}</p>
+                                                                    {{ $it->value }},
+                                                                @endif
+                                                            @endforeach
+                                                        @endforeach)
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center">
@@ -168,17 +172,16 @@
                                             </span>
                                             <p id="show_total_product{{ $cart->id }}"
                                                 class="text-gray mb-0 float-right ml-2 text-muted small">
-                                                {{ number_format($cart->price_sales ? $cart->price_sales * $cart->quantity : $cart->price * $cart->quantity) }}
-                                                <sup>đ</sup></p>
+                                                {{ number_format($cart->price_sales ? ($cart->price_sales + $prd_option) * $cart->quantity : ($cart->price + $prd_option) * $cart->quantity) }}
+                                                <sup>đ</sup>
+                                            </p>
                                             <button type="button" class="border-0 text-danger bg-white deletePrd"
                                                 style="outline: none;" data-id={{ $cart->id }}><i
                                                     class="feather-x-circle"></i></button>
                                         </div>
                                     </div>
                                 @endforeach
-                                @error('product_id')
-                                    <p class="text-danger m-0 ml-3">{{ $message }}</p>
-                                @enderror
+                                <p class="text-danger text-center m-0 ml-3 error-product hetsanpham"></p>
                             @else
                                 <div class="text-center text-danger">Chưa có sản phẩm nào</div>
                             @endif

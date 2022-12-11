@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -48,10 +49,16 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $bills = OrderProduct::where('order_id',$id)->get();
-        return response()->json(['bill' => $bills]);
+        $bill = Order::find($request->id);
+        $user = User::find($bill->user_id);
+        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        return response()->json([
+            'bill' => $bill,
+            'billDetail' => $billDetail,
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -62,7 +69,6 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-    
     }
 
     /**

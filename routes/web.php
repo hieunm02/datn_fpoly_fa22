@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotifyController;
+use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\OptionDetailController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -20,17 +23,16 @@ use App\Http\Controllers\Homepage\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Homepage\ClientNewsController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Homepage\BillController as HomepageBillController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
+use App\Http\Controllers\Homepage\OrderGroupController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
-use App\Models\Bill;
-use App\Models\Product;
-use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -103,7 +105,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [AuthController::class, 'handleLogin']);
     Route::get('/login', function () {
         return view('client.login');
-    });
+    })->name('login');
 
     Route::get('/logout', function () {
         Auth::logout();
@@ -145,13 +147,26 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+
+    //đặt hàng nhóm
+    Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
+    // xem nhanh thông tin sản phẩm 
+    Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
+    // tạo nhóm 
+    Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
+
+    //thêm sản phẩm vào giỏ hàng
+    Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+    Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+
+
 });
 
 // Admin
 // ->middleware('role:admin')
 Route::prefix('admin')->group(function () {
 
-    //dashboard 
+    //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
@@ -168,6 +183,8 @@ Route::prefix('admin')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
         Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+        Route::get('option-details', [ProductController::class, 'getOptionDetails']);
+        Route::get('product-option-details', [ProductController::class, 'getProductOptionDetails']);
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
@@ -186,14 +203,14 @@ Route::prefix('admin')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('active', [UserController::class, 'changeActive']);
     });
-    
+
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
     Route::prefix('voucher')->group(function () {
         Route::get('active', [VoucherController::class, 'changeActive']);
     });
     //Staff
-    Route::resource('staffs', StaffController::class);
+    Route::middleware('role:manager')->resource('staffs', StaffController::class);
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
@@ -224,7 +241,6 @@ Route::prefix('admin')->group(function () {
 
     //Bill
     Route::resource('bills', BillController::class);
-
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
         //Building
@@ -253,12 +269,19 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
-        Route::post('/update-status', [OrderController::class, 'updateStatus']);
+        Route::put('/update-status', [OrderController::class, 'updateStatus']);
+        Route::get('/orderDetails/{id}', [OrderController::class, 'getOrderDetails']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
+
+    Route::resource('/options', OptionController::class);
+    Route::resource('/option-details', OptionDetailController::class);
 });
+
+Route::resource('notifies', NotifyController::class);
 
 
 
@@ -267,8 +290,11 @@ Route::prefix('admin')->group(function () {
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
 
-// Người dùng nhắn tin 
+// Người dùng nhắn tin
 Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
-// Nhân viên phản hồi tin nhắn tới người dùng 
+// Nhân viên phản hồi tin nhắn tới người dùng
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
+
+// xuất file
+Route::get('export/{order}', [ExportController::class, 'export'])->name('export');

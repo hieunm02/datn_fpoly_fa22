@@ -147,15 +147,37 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mt-5">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="font-weight-semibold" for="options">Loại tùy biến</label>
+                                            <select class="custom-select" name="option" id="options" data-product="{{ $product->id }}">
+                                                <option value="0">
+                                                    Chọn ...
+                                                </option>
+                                                @foreach ($options as $option)
+                                                    <option value="{{ $option->id }}" {{ !empty($check_option) && $check_option[0]['option_id'] == $option->id  ? "selected" : ""}}>{{ $option->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group-prepend">
+                                            <label class="font-weight-semibold" for="">Chi tiết tùy biến</label>
+                                        </div>
+                                        <div id="option_details" class="text-center">
+                                            Không có tùy biến nào !
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </form>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="{{ asset('js/handleGeneral/product/handleEdit.js') }}"></script>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/handleGeneral/product/handleEdit.js') }}"></script>
+    <script src="{{ asset('js/handleGeneral/product/select_option.js') }}"></script>
 @endsection
