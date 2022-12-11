@@ -76,7 +76,7 @@ class ProductServices
             $product->quantity = $request->quantity;
             $product->name = $request->name;
             $product->menu_id = $request->menu_id;
-            $product->price_sales = filter_var($request->price_sales, FILTER_SANITIZE_NUMBER_INT);
+            $product->price_sales = $request->price_sales ? filter_var($request->price_sales, FILTER_SANITIZE_NUMBER_INT) : null;
             $product->price = filter_var($request->price, FILTER_SANITIZE_NUMBER_INT);
             $product->active = 1;
             $product->save();
