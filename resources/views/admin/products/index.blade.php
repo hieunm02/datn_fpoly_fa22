@@ -20,14 +20,6 @@
                 <div class="row m-b-30">
                     <div class="col-lg-7">
                         <div class="d-md-flex">
-                            <div class="m-b-10 m-r-15">
-                                <select class="custom-select select-massaction" style="min-width: 180px;">
-                                    <option selected>MassAction</option>
-                                    <option id="check-select" value="select-page">Select Page</option>
-                                    <option value="select-all">Select All</option>
-                                    <option value="un-select">UnSelected</option>
-                                </select>
-                            </div>
                             <div class="m-b-10 mr-3">
                                 <select class="custom-select select-active" style="min-width: 180px;">
                                     <option selected value="">Trạng thái</option>
