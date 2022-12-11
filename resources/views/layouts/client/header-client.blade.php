@@ -153,9 +153,9 @@
             </div>
         </div>
         <div class="col">
-            <a href="favorites.html" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{ route('listProducts') }}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-heart"></i></p>
-                Favorites
+                Sản phẩm
             </a>
         </div>
         <div class="col">
@@ -191,28 +191,6 @@
                     </li>
                     <li>
                         <div class="nav-item-wrapper"><a href="{{ route('bills') }}" class="nav-item"><i class="feather-printer mr-2"></i> Đơn hàng</a></div>
-                    </li>
-                    <li>
-                        <div class="nav-item-wrapper"><a href="map.html" class="nav-item"><i class="feather-map-pin mr-2"></i> Live Map</a></div>
-                    </li>
-                    <li id="menu-sub" class="nav-parent"><input type="checkbox" id="hc-nav-1-1-1" value="g6ckvfwmm5e"> {{-- edit  level-open --}}
-                        <div class="nav-item-wrapper"><a href="#" id="subClick" class="nav-item"><i class="feather-list mr-2"></i> Danh mục<span class="nav-next"></span></a></div>
-                        <div class="nav-wrapper nav-wrapper-1">
-                            <div class="nav-content">
-                                <h2>Danh mục</h2>
-                                <ul>
-                                    <li class="nav-back">
-                                        <div id="closeSubNav" class="nav-item-wrapper"><a href="#">BeeFood<span></span></a>
-                                        </div>
-                                    </li>
-                                    @foreach ($menus as $menu)
-                                    <li>
-                                        <div class="nav-item-wrapper"><a href="{{ route('list-products', $menu->id) }}" class="nav-item">{{ $menu->name }}</a></div>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
                     </li>
                 </ul>
                 <ul class="bottom-nav">

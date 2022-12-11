@@ -178,7 +178,7 @@ class HomeController extends Controller
                                             <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail" class="text-black">' . $product->name . '
                                                 </a>
                                             </h6>
-                                            <p class="text-gray mb-1 small">• North • Hamburgers</p>
+                                            <p class="text-gray mb-1 small">'.$product->content.'</p>
                                             <p class="text-gray mb-1 rating">
                                             </p>
                                         </div>
