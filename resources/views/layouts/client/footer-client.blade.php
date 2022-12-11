@@ -50,28 +50,37 @@
                 <aside class="col-sm-3 col-md-2 text-white">
                     <ul class="list-unstyled hov_footer">
                         <li> <a href="{{ route('index') }}" class="text-muted">Trang Chủ</a></li>
-                    </ul>
-                </aside>
-                <aside class="col-sm-3  col-md-2 text-white">
-                    <ul class="list-unstyled hov_footer">
-                        <li> <a href="{{ url('contact-us') }}" class="text-muted"> Liên Hệ </a></li>
-                    </ul>
-                </aside>
-                <aside class="col-sm-3  col-md-2 text-white">
-                    <ul class="list-unstyled hov_footer">
-                        <li> <a href="{{ url('carts') }}" class="text-muted"> Giỏ Hàng </a></li>
-                    </ul>
-                </aside>
-                <aside class="col-sm-3  col-md-2 text-white">
-                    <ul class="list-unstyled hov_footer">
-                        <li> <a href="/login" class="text-muted">
+                        <li> 
+                            <a href="/login" class="text-muted">
                             @if (is_null(Auth::user()))
                                 Đăng Nhập
                             @else
-                            <img alt="#" src="{{ Auth::user()->avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
-                           <a href="{{ route('profile.index') }}"> {{ Auth::user()->name }} </a>
+                           <a href="{{ route('profile.index') }}"> {{ substr(Auth::user()->name, 0, 19) }} </a>
                             @endif
-                        </a></li>
+                            </a>
+                        </li>
+                        <li> <a href="{{ url('contact-us') }}" class="text-muted">Liên Hệ</a>
+                            <ul>
+                                <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Facebook" target="_blank" href="https://www.facebook.com/khanhshebly/"><i class="feather-facebook"></i> Facebook</a> </li>
+                                <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Youtube" target="_blank" href="https://youtu.be/Z3LZEN6qLVY"><i class="feather-youtube"></i> Youtube</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+                
+                <aside class="col-sm-3  col-md-2 text-white">
+                    <ul class="list-unstyled hov_footer">
+                        <li> <a href="{{ url('carts') }}" class="text-muted"> Giỏ Hàng </a></li>
+                        <li> <a href="{{ url('/bills') }}" class="text-muted"> Đơn Hàng Của Bạn </a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-3  col-md-2 text-white">
+                    <ul class="list-unstyled hov_footer">
+                        <div class="mapouter border-dark">
+                            <div class="gmap_canvas">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639810443356!2d105.74459841485445!3d21.03812778599324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b991d80fd5%3A0x53cefc99d6b0bf6f!2sFPT%20Polytechnic%20Hanoi!5e0!3m2!1sfr!2s!4v1665498762239!5m2!1sfr!2s" width="210%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
                     </ul>
                 </aside>
             </div>
@@ -83,10 +92,6 @@
     <section class="footer-copyright border-top py-3 bg-light">
         <div class="container justify-content-center d-flex align-items-center">
             <p class="mb-0"> © 2022 BEEEFOOD All rights reserved </p>
-            {{-- <p class="text-muted mb-0 ml-auto d-flex align-items-center">
-                <a href="#" class="d-block"><img alt="#" src="img/appstore.png" height="40"></a>
-                <a href="#" class="d-block ml-3"><img alt="#" src="img/playmarket.png" height="40"></a>
-            </p> --}}
         </div>
     </section>
 </footer>
