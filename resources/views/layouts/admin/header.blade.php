@@ -55,17 +55,15 @@
             <li class="dropdown dropdown-animated scale-left">
                 <div class="pointer" data-toggle="dropdown">
                     <div class="avatar avatar-image  m-h-10 m-r-15">
-                        <img src="{{asset(Auth::user()->avatar)}}" alt="">
                     </div>
                 </div>
                 <div class="p-b-15 p-t-20 dropdown-menu pop-profile">
                     <div class="p-h-20 p-b-15 m-b-10 border-bottom">
                         <div class="d-flex m-r-50">
                             <div class="avatar avatar-lg avatar-image">
-                                <img src="{{asset(Auth::user()->avatar)}}" alt="">
                             </div>
                             <div class="m-l-10">
-                                <p class="m-b-0 text-dark font-weight-semibold">{{Auth::user()->name}}</p>
+                                <p class="m-b-0 text-dark font-weight-semibold"></p>
                                 <p class="m-b-0 opacity-07">UI/UX Desinger</p>
                             </div>
                         </div>

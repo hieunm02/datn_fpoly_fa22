@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NotifyController;
+use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\OptionDetailController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
@@ -27,12 +29,10 @@ use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
+use App\Http\Controllers\Homepage\OrderGroupController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
-use App\Models\Bill;
-use App\Models\Product;
-use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -109,7 +109,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/logout', function () {
         Auth::logout();
-        return back();
+        return redirect()->route("index");
     });
 
     Route::get('/my-order', function () {
@@ -147,13 +147,26 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+
+    //đặt hàng nhóm
+    Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
+    // xem nhanh thông tin sản phẩm 
+    Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
+    // tạo nhóm 
+    Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
+
+    //thêm sản phẩm vào giỏ hàng
+    Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+    Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+
+
 });
 
 // Admin
 // ->middleware('role:admin')
 Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
-    //dashboard 
+    //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/dashboard-filter', [DashboardController::class, 'filter']);
     Route::post('/dashboard-filterday', [DashboardController::class, 'filterday']);
@@ -170,6 +183,8 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('active', [ProductController::class, 'changeActive']);
         Route::get('delete-all-page', [ProductController::class, 'deleteAllPage']);
+        Route::get('option-details', [ProductController::class, 'getOptionDetails']);
+        Route::get('product-option-details', [ProductController::class, 'getProductOptionDetails']);
     });
     // Danh mục
     Route::resource('menus', MenuController::class);
@@ -188,7 +203,7 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('active', [UserController::class, 'changeActive']);
     });
-    
+
     // Vouchers
     Route::resource('vouchers', VoucherController::class);
     Route::prefix('voucher')->group(function () {
@@ -226,7 +241,6 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     //Bill
     Route::resource('bills', BillController::class);
-
     //Address Building Floor Room
     Route::prefix('address')->group(function () {
         //Building
@@ -255,12 +269,16 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::get('/search/code', [OrderController::class, 'searchByCode'])->name('orders.searchCode');
         Route::get('/search/status', [OrderController::class, 'searchByStatus'])->name('orders.searchStatus');
         Route::put('/update-status', [OrderController::class, 'updateStatus']);
+        Route::get('/orderDetails/{id}', [OrderController::class, 'getOrderDetails']);
         // Route::put('/change-status', [OrderController::class, 'changeStatus']);)
     });
 
+    Route::resource('/options', OptionController::class);
+    Route::resource('/option-details', OptionDetailController::class);
 });
 
 Route::resource('notifies', NotifyController::class);
@@ -272,14 +290,11 @@ Route::resource('notifies', NotifyController::class);
 Route::get('/auth/google/redirect', [AuthController::class, 'googleredirect']);
 Route::get('/auth/google/callback', [AuthController::class, 'googlecallback']);
 
-// Người dùng nhắn tin 
+// Người dùng nhắn tin
 Route::post('/send', [SendMessage::class, 'sendMessage'])->name('send');
 
-// Nhân viên phản hồi tin nhắn tới người dùng 
+// Nhân viên phản hồi tin nhắn tới người dùng
 Route::post('/rep', [RepMessage::class, 'repMessage'])->name('rep');
 
-Route::get('test', function () {
-    return view('test', ['products' => Product::all()]);
-});
 // xuất file
 Route::get('export/{order}', [ExportController::class, 'export'])->name('export');

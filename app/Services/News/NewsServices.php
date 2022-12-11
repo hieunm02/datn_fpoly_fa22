@@ -12,6 +12,7 @@ class NewsServices
     public function getAll()
     {
         return News::select('id', 'title', 'user_id', 'image_path', 'active')
+        ->where('active',0)
             ->orderByDesc('updated_at', 'DESC')
             ->paginate(5);
     }

@@ -63,7 +63,11 @@ $(function () {
         var user_id = $('input[name=user_id]').val();
         var date = $('input[name=date]').val();
         var quantity = $('input[name=quantity]').val();
-        // alert(product_id +'-' + user_id+ '-' + date+ '-' + quantity)
+        var checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
+        var arr = []
+        for (var i = 0; i < checks.length; i++) {
+            arr.push($(checks[i]).val())
+        };
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -75,7 +79,8 @@ $(function () {
                 'product_id': product_id,
                 'user_id': user_id,
                 'date': date,
-                'quantity': quantity
+                'quantity': quantity,
+                'options': arr
             },
             success: function (data) {
                 $('#count_cart').empty();
@@ -161,7 +166,7 @@ $(function () {
                 $('#show_total').empty();
                 $('#show_order').empty();
                 $('#show_total_product' + cart_id).empty();
-                $('#cart_item' + cart_id).empty();
+                $('#cart_item' + cart_id).remove();
                 $('#count_cart').empty();
                 var total = 0;
                 var price = 0;
@@ -173,6 +178,9 @@ $(function () {
                         price = (el.quantity * el.price);
                     }
                 });
+                if(num == 0) {
+                    $('.hetsanpham').text('Chưa có sản phẩm nào')
+                }
                 $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
                 $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
                 $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
@@ -198,6 +206,9 @@ $(function () {
             arr.push($(checks[i]).val())
         };
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             type: "POST",
             url: "/orders",
             data: {
@@ -214,6 +225,23 @@ $(function () {
             success: function (response) {
                 var user_id = $('.auth_id').val();
                 var name = $("input[name=name]").val();
+                response.prd.forEach(el => {
+                    $(".cart_item" + el).remove();
+                })
+                if (response.count == 0) {
+                    $("#cartNull").html('Chưa có sản phẩm nào!');
+                }
+                $('#show_total').html('');
+                $('#show_order').html('');
+                $('#show_total').append('0<sup>đ</sup>');
+                $('#show_order').append('0<sup>đ</sup>');
+                $('#count_cart').html('');
+                $('#count_cart').append(response.count);
+                Swal.fire(
+                    'Successful!',
+                    'Đăt hàng thành công!',
+                    'success'
+                )
                 var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
                 saveNotify(user_id, 'order', 'admin');
                 socket.emit('sendNotifyToServer', {
@@ -222,19 +250,6 @@ $(function () {
                     date: date,
                     notify_id: result.notify.id
                 });
-                $("#showCartUser").html('');
-                $("#cartNull").html('Chưa có sản phẩm nào!');
-                $('#show_total').html('');
-                $('#show_order').html('');
-                $('#show_total').append('0<sup>đ</sup>');
-                $('#show_order').append('0<sup>đ</sup>');
-                $('#count_cart').html('');
-                $('#count_cart').append(response);
-                Swal.fire(
-                    'Successful!',
-                    'Đăt hàng thành công!',
-                    'success'
-                )
             },
             error: function (errors) {
                 console.log(errors.responseJSON.errors);

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    
+
     protected $orderService;
 
     public function __construct(ClientOrderService $orderService)
@@ -26,7 +26,6 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
     }
 
     /**
@@ -47,9 +46,13 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
+        // dd($request->all());
         $this->orderService->create($request);
         $data = Cart::where('order_tt', '=', null)->where('user_id', '=', Auth::user()->id)->get();
-        return response()->json(count($data));
+        return response()->json([
+            'count' => count($data),
+            'prd' => $request->product_id,
+        ]);
         // return redirect()->back();
     }
 

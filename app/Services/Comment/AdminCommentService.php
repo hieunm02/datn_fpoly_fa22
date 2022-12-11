@@ -35,7 +35,8 @@ class AdminCommentService
         if ($text_search == null) {
             $text_search = '';
         }
-        $query = Comment::with(['product', 'user', 'reactions'])
+        $query = Comment::select('comments.id', 'comments.content', 'comments.user_id', 'comments.product_id', 'comments.parent_id', 'comments.active')
+            ->with(['product', 'user', 'reactions'])
             ->join('products', 'products.id', '=', 'comments.product_id')
             ->join('users', 'users.id', '=', 'comments.user_id')
             ->where(function($query) use ($text_search) {

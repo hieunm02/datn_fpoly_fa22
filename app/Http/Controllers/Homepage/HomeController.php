@@ -9,6 +9,7 @@ use App\Models\CommentReaction;
 use App\Models\CommentRection;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\ProductOptionDetail;
 use App\Models\Reaction;
 use App\Models\Slide;
 use App\Models\Thumb;
@@ -17,6 +18,8 @@ use App\Services\Menu\MenuServices;
 use App\Services\Products\ProductServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -40,8 +43,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = $this->productService->getAll();
-        $productBtm = $this->productService->getAll();
+        $products = $this->productService->getProduct();
+        $productBtm = $this->productService->getProduct();
         $menus = $this->menuService->getMenuIndex();
         $slides = Slide::with('product')->get();
         return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
@@ -77,6 +80,7 @@ class HomeController extends Controller
     {
         $reacts = Reaction::all(); // lấy ra icon like có id là 1
         $order = OrderProduct::with('product')->where('product_id', $id)->get();
+        // dd($order);
         $product = $this->productService->getById($id);
         $thumb = Thumb::where('product_id', $id)->get();
         $comment = Comment::with('user', 'reactions')
@@ -84,7 +88,13 @@ class HomeController extends Controller
             ->where('active', 0)
             ->get();
         $products = $this->productService->getAll();
-        return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts', 'order'));
+        $product_option_details = DB::table('product_option_details')
+            ->where('product_id', $product->id)->where('active', 0)
+            ->join('option_details', 'product_option_details.option_detail_id', '=', 'option_details.id')
+            ->select('product_option_details.*', 'option_details.value', 'option_details.price')
+            ->get();
+        // dd($product_option_details);
+        return view('client.product-detail', compact('product', 'thumb', 'comment', 'products', 'reacts', 'product_option_details', 'order'));
     }
 
     //Comment
@@ -155,9 +165,10 @@ class HomeController extends Controller
                 <div class="col-md-3 pb-3">
                                 <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                     <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="feather-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                                        <div class="star position-absolute"><span class="badge badge-warning"> <h6 class="mt-2">'. number_format($product->price, 0, ',', '.').'
+                                        VND</h6></span></div>
+                                        <div class="favourite-heart text-danger position-absolute"></div>
+                                        <div class="member-plan position-absolute"></div>
                                         <a href="restaurant.html">
                                             <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '" class="img-fluid item-img w-100">
                                         </a>
@@ -167,21 +178,11 @@ class HomeController extends Controller
                                             <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail" class="text-black">' . $product->name . '
                                                 </a>
                                             </h6>
-                                            <p class="text-gray mb-1 small">• North • Hamburgers</p>
+                                            <p class="text-gray mb-1 small">'.$product->content.'</p>
                                             <p class="text-gray mb-1 rating">
-                                            <ul class="rating-stars list-unstyled">
-                                                <li>
-                                                    <i class="feather-star star_active"></i>
-                                                    <i class="feather-star star_active"></i>
-                                                    <i class="feather-star star_active"></i>
-                                                    <i class="feather-star star_active"></i>
-                                                    <i class="feather-star"></i>
-                                                </li>
-                                            </ul>
                                             </p>
                                         </div>
                                         <div class="list-card-badge">
-                                            <span class="badge badge-danger">OFFER</span> <small>65% OSAHAN50</small>
                                         </div>
                                     </div>
                                 </div>

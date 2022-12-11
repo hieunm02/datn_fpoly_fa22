@@ -12,15 +12,17 @@ class ListProductController extends Controller
     public function getList(Request $request)
     {
         if ($request) {
-            $data['products'] = Product::filter($request)->with('menu')->get();
+            $data['products'] = Product::filter($request)->with('menu')->where('active', 1)->get();
         } 
         return view('client.list-products', $data);
     }
 
     public function getListMenu($id)
     {
-        $data['products'] = Product::with('menu')->where('menu_id', '=', $id)->paginate(9);
+        $data['products'] = Product::with('menu')->where('menu_id', '=', $id)
+        ->where('active', 1)
+        ->paginate(9);
         $data['name'] = Menu::find($id)->name;
-        return view('client.list-products', $data);
+        return view('client.list-products',$data);
     }
 }

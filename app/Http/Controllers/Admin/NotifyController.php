@@ -64,7 +64,7 @@ class NotifyController extends Controller
                     ';
                 } elseif ($result->type == "comment") {
                     $notifies .= '
-                    <div class="notif_card">
+<div class="notif_card">
                         <div class="avatar avatar-gold avatar-icon">
                             <i class="far fa-comment-alt"></i>                                               
                         </div>

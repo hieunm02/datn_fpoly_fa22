@@ -245,8 +245,8 @@ $(function () {
                         </div>
                     </td>
                     <td>${element.menu.name}</td>
-                    <td>${format_number(element.price, 0)} ₫</td>
-                    <td>${element.quantity}</td>
+                    <td class="text-center">${format_number(element.price, 0)} ₫</td>
+                    <td class="text-center">${element.quantity}</td>
                     <td>
                         <div class="text-center" style="cursor: pointer">
                             ${

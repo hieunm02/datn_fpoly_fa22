@@ -106,4 +106,3 @@ function saveNotify(user_id, type, role, room_id) {
         }
     })
 }
-

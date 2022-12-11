@@ -38,11 +38,11 @@
                             <td>{{ $it->phone }}</td>
                             <td>{{ $it->address }}</td>
                             <td>{{ $it->created_at }}</td>
-                            <td class="text-center order-status" id="loadStatusOk">
+                            <td class="text-center order-status{{$it->id}}" id="loadStatusOk">
                                 @if ($it->status_id == 1)
                                 <select class="form-control" id="changeStatusBill" data-id="{{ $it->id }}" name="status">
                                     @foreach ($status as $stt)
-                                    <option value="{{ $stt->id }}" {{ $it->status_id == $stt->id ? 'selected' : '' }}>
+                                    <option value="{{ $stt->id }}"  {{ $it->status_id == $stt->id ? 'selected' : '' }}>
                                         {{ $stt->name }}
                                     </option>
                                     @endforeach
@@ -72,17 +72,17 @@
         let socket_port = '3000';
         let socket = io(ip_address + ':' + socket_port);
         socket.on('handleStatusOrderClient', (data) => {
-            if (data == 2) {
-                $('.order-status').html(`<p class="text-warning">Đang xử lý</p>`);
+            if (data.status_id == 2) {
+                $('.order-status' + data.bill_id).html(`<p class="text-warning">Đã xác nhận</p>`);
             }
-            if (data == 3) {
-                $('.order-status').html(`<p class="text-warning">Đang giao</p>`);
+            if (data.status_id == 3) {
+                $('.order-status' + data.bill_id).html(`<p class="text-warning">Đang giao</p>`);
             }
-            if (data == 4) {
-                $('.order-status').html(`<p class="text-success">Đã giao</p>`);
+            if (data.status_id == 4) {
+                $('.order-status' + data.bill_id).html(`<p class="text-success">Đã giao</p>`);
             }
-            if (data == 5) {
-                $('.order-status').html(`<p class="text-danger">Đã hủy đơn</p>`);
+            if (data.status_id == 5) {
+                $('.order-status' + data.bill_id).html(`<p class="text-danger">Đã hủy đơn</p>`);
             }
         });
     });

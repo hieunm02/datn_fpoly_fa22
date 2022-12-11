@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\OptionDetail;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
@@ -50,6 +52,18 @@ class OrderController extends Controller
                 'orders' => $orders
             ]);
         }
+    }
+
+    public function show(Request $request)
+    {
+        $order = Order::find($request->id);
+        $user = User::find($order->user_id);
+        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        return response()->json([
+            'order' => $order,
+            'billDetail' => $billDetail,
+            'user' => $user,
+        ]);
     }
 
     public function updateStatus(Request $request)
@@ -234,7 +248,7 @@ class OrderController extends Controller
         }
         return response()->json();
     }
-    //thanh toán 
+    //thanh toán
     public function pay(Request $request)
     {
         $cart = $this->cartService->getCarttt($request->order_tt);
@@ -255,5 +269,14 @@ class OrderController extends Controller
             $del->delete();
         }
         return response()->json($data);
+    }
+
+    public function getOrderDetails(Request $request, $id)
+    {
+        $data = OrderProduct::where('order_id', $id)->get();
+        $options = OptionDetail::all();
+        $result = [$data, $options];
+
+        return response()->json($result);
     }
 }
