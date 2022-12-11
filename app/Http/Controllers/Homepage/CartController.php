@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Floor;
+use App\Models\OptionDetail;
 use App\Models\Product;
 use App\Models\Room;
 use App\Services\Carts\CartService;
@@ -29,12 +30,9 @@ class CartController extends Controller
         if (Auth::user()) {
             $carts = $this->CartServices->getCartUser();
             $buildings = $this->CartServices->getBuilding();
-            // $floors = $this->CartServices->getFloor();
-            // $rooms = $this->CartServices->getRoom();
             $total = 0;
-            // return response()->json($buildings, 200);
-            // \dd($carts);
-            return view('client.checkout', compact('carts', 'total', 'buildings'));
+            $options = OptionDetail::all();
+            return view('client.checkout', compact('carts', 'total', 'buildings', 'options'));
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
             return redirect('/');
@@ -71,6 +69,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         if (Auth::user()) {
             $this->CartServices->create($request);
             $carts = $this->CartServices->getCartUser();

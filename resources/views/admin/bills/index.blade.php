@@ -43,7 +43,6 @@
                             <th>Email</th>
                             <th>Mã</th>
                             <th>Tên</th>
-                            <th>Tổng tiền</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -60,7 +59,6 @@
                             <td>{{$bill->email}}</td>
                             <td>{{$bill->code}}</td>
                             <td>{{$bill->name}}</td>
-                            <td>{{$bill->total}}</td>
                             <td>
                                 <button data-toggle="modal" data-target=".bd-example-modal-xl" data-id="{{$bill->id}}" class="btn btn-icon btn-hover btn-sm btn-rounded bill-detail">
                                     <i class="anticon anticon-eye"></i>
@@ -111,8 +109,6 @@
                                             <td style="width:50%;padding:20px;vertical-align:top">
                                                 <p id="bill_address" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
                                                 <p id="id_customer" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
-                                                <!-- <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Number of gusets</span> 2</p>
-                                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Duration of your vacation</span> 25/04/2017 to 28/04/2017 (3 Days)</p> -->
                                             </td>
                                         </tr>
                                         <tr>
@@ -129,7 +125,7 @@
                                             <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
                                                 <strong style="display:block;margin:0 0 10px 0;">Trân trọng</strong> BeeFood<br> Tòa nhà FPT Polytechnic, P. Trịnh Văn Bô, Xuân Phương, Nam Từ Liêm, Hà Nội
                                                 <br><br>
-                                                <b>Phone:</b> 03552-222011<br>
+                                                <b> Số điện thoại:</b> 03552-222011<br>
                                                 <b>Email:</b> beefood@gmail.com
                                             </td>
                                         </tr>

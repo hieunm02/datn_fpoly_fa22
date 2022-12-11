@@ -19,8 +19,10 @@ class ListProductController extends Controller
 
     public function getListMenu($id)
     {
-        $data['products'] = Product::with('menu')->where('menu_id', '=', $id)->paginate(9);
+        $data['products'] = Product::with('menu')->where('menu_id', '=', $id)
+        ->where('active', 1)
+        ->paginate(9);
         $data['name'] = Menu::find($id)->name;
-        return view('client.list-products', $data);
+        return view('client.list-products',$data);
     }
 }

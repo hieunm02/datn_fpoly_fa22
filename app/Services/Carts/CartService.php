@@ -32,7 +32,7 @@ class CartService
         $buildings = Building::all();
         $floors = Floor::all();
         $rooms = Room::all();
-        return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.id', 'carts.quantity')->where('user_id', '=', Auth::user()->id)->get();
+        return DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.product_id', 'carts.id', 'carts.quantity', 'carts.options')->where('user_id', '=', Auth::user()->id)->get();
     }
     public function create($request)
     {

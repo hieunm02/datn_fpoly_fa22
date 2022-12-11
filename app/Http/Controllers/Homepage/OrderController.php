@@ -46,7 +46,7 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
-        // dd($request->product_id);
+        // dd($request->all());
         $this->orderService->create($request);
         $data = Cart::where('order_tt', '=', null)->where('user_id', '=', Auth::user()->id)->get();
         return response()->json([

@@ -14,15 +14,6 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
     console.log('connection');
 
-    // function chat() {
-    socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-        console.log(message, id, name, avatar);
-
-        // io.sockets.emit('sendChatToClient', message);
-        socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
-    });
-    // }
-    // chat();
     socket.on('sendNotifyToServer', (data) => {
         socket.broadcast.emit('sendNotifyToClient', data);
     });
@@ -31,21 +22,27 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('handleStatusOrderClient', data);
     });
 
-    // function contactUs() {
-    //     socket.on('sendContacToServer', (name) => {
-    //         console.log(name);
+    // Chat 
+    socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
+        socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
+    });
 
-    //         // io.sockets.emit('sendChatToClient', message);
-    //         socket.broadcast.emit('sendContacToServer', name);
-    //     });
-    // }
-    // contactUs();
-
-
+    //Hiệu ứng đang nhập
     socket.on('isTyping', (typing, room_id) => {
-        // io.sockets.emit('sendChatToClient', message);
         socket.broadcast.emit('isTyping', typing, room_id);
     });
+
+    //Đặt hàng nhóm
+    socket.on('orderGroup', (user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price) => {
+        io.sockets.emit('orderGroup',user_id, user_name, user_avatar, product_id, product_name, product_price, room_id, cart_product, cart_product_quantity, quantity, cart_total_price);
+        console.log(user_id, user_name, user_avatar);
+    });
+
+    //member xác nhận đặt hàng xong
+    socket.on('successOrder', (message) => {
+        socket.broadcast.emit('successOrder', message);
+    });
+
     socket.on('disconnect', (socket) => {
         console.log('Disconnect');
     });
