@@ -91,8 +91,8 @@
 
         </div>
         <!-- Most popular -->
-        <div class="py-3 title d-flex align-items-center">
-            <h5 class="m-0">Sản Phẩm Có </h5>
+        <div class="py-3 title text-center align-items-center">
+            <h5 class="m-0"><a href="{{asset('/list-products')}}">Các Sản Phẩm Khác</a></h5>
         </div>
         <!-- Most popular -->
         <div class="most_popular">
