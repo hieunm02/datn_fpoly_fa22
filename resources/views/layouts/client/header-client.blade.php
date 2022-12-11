@@ -96,7 +96,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('profile.index') }}">My account</a>
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">Tài khoản</a>
                                 <a class="dropdown-item" href="/logout">Logout</a>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('profile.index') }}" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{ Auth::user() ? route('profile.index') : '#'}}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-user"></i></p>
                 Profile
             </a>
