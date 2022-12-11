@@ -16,16 +16,20 @@ body.hc-nav-open {
     width: 100%;
     min-height: 100%
 }
+
 /* sửa dòng 20 đến24 */
 .nav-open {
-    display: block!important;
+    display: block !important;
 }
+
 .fs-30 {
     font-size: 30px !important;
 }
+
 .nav-wrapper.nav-wrapper-1 {
     padding-left: 40px;
 }
+
 .overlay-nav {
     display: none;
     position: fixed;
@@ -36,6 +40,7 @@ body.hc-nav-open {
     z-index: 9998;
     background-color: rgba(0, 0, 0, 0.2);
 }
+
 .hc-offcanvas-nav {
     visibility: hidden;
     display: none;
@@ -53,6 +58,7 @@ body.hc-nav-open {
     position: fixed;
     z-index: 9998;
     top: 0;
+    right: 80%;
     height: 100%;
     max-width: 100%;
     max-height: 100%;
@@ -659,15 +665,38 @@ body.hc-nav-open {
         display: flex;
         flex-wrap: wrap
     }
+
     main .actions div {
         float: left;
         flex: 1 1 33.33%;
         max-width: 33.33%
     }
+
     main .actions.position div {
         float: left;
         flex: 1 1 25%;
         max-width: 25%
+    }
+}
+
+@media screen and (max-width: 601px) {
+    .hc-offcanvas-nav .nav-container {
+        right: 35% !important;
+    }
+}
+@media screen and (max-width: 416px) {
+    .hc-offcanvas-nav .nav-container {
+        right: 25% !important;
+    }
+}
+@media screen and (max-width: 769px) {
+    .hc-offcanvas-nav .nav-container {
+        right: 55% !important;
+    }
+}
+@media screen and (max-width: 376px) {
+    .hc-offcanvas-nav .nav-container {
+        right: 15% !important;
     }
 }
 

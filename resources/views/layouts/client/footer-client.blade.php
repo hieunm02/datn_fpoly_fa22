@@ -81,12 +81,12 @@
     </div>
     <!-- //container -->
     <section class="footer-copyright border-top py-3 bg-light">
-        <div class="container d-flex align-items-center">
-            <p class="mb-0"> © 2020 BEEEFOOD All rights reserved </p>
-            <p class="text-muted mb-0 ml-auto d-flex align-items-center">
+        <div class="container justify-content-center d-flex align-items-center">
+            <p class="mb-0"> © 2022 BEEEFOOD All rights reserved </p>
+            {{-- <p class="text-muted mb-0 ml-auto d-flex align-items-center">
                 <a href="#" class="d-block"><img alt="#" src="img/appstore.png" height="40"></a>
                 <a href="#" class="d-block ml-3"><img alt="#" src="img/playmarket.png" height="40"></a>
-            </p>
+            </p> --}}
         </div>
     </section>
 </footer>
