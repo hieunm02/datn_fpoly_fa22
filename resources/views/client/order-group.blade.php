@@ -276,7 +276,7 @@
                 </div>
                 <div class="modal-button text-center my-3">
                     <div class="loading-buttons">
-                        <input type="button" id="order_group" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="412 - I'm a teapot (Tooltip text?)" onclick="copyLinkGroup($('#link_invite'))" value="Sao chép">
+                        <input type="button" id="order_group" class="btn btn-light" onclick="copyLinkGroup($('#link_invite'))" value="Sao chép">
                     </div>
                 </div>
                 </form>
@@ -606,7 +606,8 @@
         function copyLinkGroup(element) {
             element.select();
             document.execCommand("copy");
-            $('[data-toggle="tooltip"]').tooltip();     
+            $('.modal').removeClass('show');
+            $('#invite').modal('toggle');
         }
     </script>
     @endsection
