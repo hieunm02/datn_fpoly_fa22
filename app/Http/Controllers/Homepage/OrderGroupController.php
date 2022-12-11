@@ -133,7 +133,7 @@ class OrderGroupController extends Controller
         $output['product_id'] = $product->id;
         $output['product_name'] = $product->name;
         $output['product_price'] = $product->price;
-        $output['product_thumb'] = $product->thumb;
+        $output['product_thumb'] = '<img src="http://localhost:8000/'.$product->thumb.'" alt="" width="100%">';
 
         if($cart_product){
             $output['cart_product'] = true;
@@ -175,5 +175,29 @@ class OrderGroupController extends Controller
         }
     }
 
+    public function listMember(Request $request)
+    {
+        $listMembers = DB::table('order_group')
+        ->where('room', $request->room)
+        ->join('users', 'order_group.user_id', 'users.id')
+        ->select('users.name as user_name', 'users.avatar as user_avatar')
+        ->get();
 
+        echo json_encode($listMembers);
+
+    }
+
+    public function listProductCart(Request $request)
+    {
+        $carts = DB::table('order_group')
+        ->join('products', 'order_group.product_id', '=', 'products.id')
+        ->join('users', 'order_group.user_id', '=', 'users.id')
+        ->select('order_group.id as id', 'order_group.room as room', 'order_group.quantity as quantity', 'users.id as user_id',
+        'products.id as product_id', 'products.name as product_name', 'products.price as product_price')
+        ->where('order_group.room', $request->room)
+        ->where('order_group.quantity', '>', 0)
+        ->get();
+
+        echo json_encode($carts);
+    }
 }
