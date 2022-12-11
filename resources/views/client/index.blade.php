@@ -45,12 +45,13 @@
         <div class="container">
             <div class="offer-slider">
                 @foreach ($slides ?? '' as $slide)
-                @if ($slide->product)
-                    <div class="cat-item px-1 py-3">
-                        <a class="d-block text-center shadow-sm" href="{{ route('product-detail', $slide->product->id) }}">
-                            <img alt="#" src="{{ $slide->thumb }}" class="img-fluid rounded">
-                        </a>
-                    </div>
+                    @if ($slide->product)
+                        <div class="cat-item px-1 py-3">
+                            <a class="d-block text-center shadow-sm"
+                                href="{{ route('product-detail', $slide->product->id) }}">
+                                <img alt="#" src="{{ $slide->thumb }}" class="img-fluid rounded">
+                            </a>
+                        </div>
                     @endif
                 @endforeach
             </div>
@@ -91,8 +92,8 @@
 
         </div>
         <!-- Most popular -->
-        <div class="py-3 title d-flex align-items-center">
-            <h5 class="m-0">Sản Phẩm Có </h5>
+        <div class="py-3 title text-center align-items-center">
+            <h5 class="m-0"><a href="{{asset('/list-products')}}">Các Sản Phẩm Khác</a></h5>
         </div>
         <!-- Most popular -->
         <div class="most_popular">
@@ -101,21 +102,29 @@
                     <div class="col-md-3 pb-3">
                         <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                             <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
-                                <div class="star position-absolute"><span class="badge badge-success">({{$product->order->count()}})</span>
+                                <div class="star position-absolute"><span
+                                        class="badge badge-success">({{ $product->order->count() }})</span>
                                 </div>
                                 <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                                 <a href="{{ route('product-detail', $product->id) }}">
                                     <img alt="#" src="{{ asset($product->thumb) }}"
-                                         class="img-fluid item-img w-100">
+                                        class="img-fluid item-img w-100">
                                 </a>
                             </div>
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
                                     <h6 class="mb-1"><a href="{{ route('product-detail', $product->id) }}"
-                                                        class="text-black">{{ $product->name }}
+                                            class="text-black">{{ $product->name }}
                                         </a>
                                     </h6>
-                                    <p class="text-gray mb-1 small">• {{ $product->menu->name }}</p>
+                                    <p class="text-gray mb-3">{{ $product->menu->name }}</p>
+                                    <p class="text-gray mb-3 time"><span
+                                            class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
+                                                class="feather-clock"></i> 10–15 min</span>
+                                        <span class="float-right text-black-50 d-block">
+                                            {{ number_format($product->price, 0, ',', '.') }}
+                                            VND</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -125,31 +134,34 @@
 
         </div>
         <!-- Most sales -->
-        @if($slides->count())
+        @if ($slides->count())
             <!-- Most sales -->
             <div class="most_sale">
                 <div class="row mb-3">
                     @foreach ($slides ?? '' as $slide)
-                    <div class="col-md-4 mb-3">
-                        <div class="d-flex align-items-center list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                        <div class="col-md-4 mb-3">
+                            <div
+                                class="d-flex align-items-center list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                 @if ($slide->product)
                                     <div class="list-card-image text-center">
-                                        <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
+                                        <div class="favourite-heart text-danger position-absolute"><a href="#"></a>
+                                        </div>
                                         <a href="{{ route('product-detail', $slide->product->id) }}">
-                                            <img alt="#" src="{{asset($slide->thumb)}}" class="img-fluid item-img w-100">
+                                            <img alt="#" src="{{ asset($slide->thumb) }}"
+                                                class="img-fluid item-img w-100">
                                         </a>
                                     </div>
                                     <div class="p-3 position-relative">
                                         <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="#" class="text-black"> {{$slide->name}}
+                                            <h6 class="mb-1"><a href="#" class="text-black"> {{ $slide->name }}
                                                 </a>
                                             </h6>
-                                            <p class="text-gray mb-3">{{$slide->product->name}}</p>
+                                            <p class="text-gray mb-3">{{ $slide->product->name }}</p>
                                         </div>
                                     </div>
                                 @endif
+                            </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>

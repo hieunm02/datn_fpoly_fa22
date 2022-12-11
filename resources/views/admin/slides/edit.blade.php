@@ -64,15 +64,15 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="active" id="inlineRadio1"
                                             value="1"
-                                            @if ($slide->active === 0) {
+                                            @if ($slide->active === 1) {
                                                 checked
                                                 } @endif>
                                         <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="active" id="inlineRadio2"
-                                            value="2"
-                                            @if ($slide->active === 1) {
+                                            value="0"
+                                            @if ($slide->active === 0) {
                                             checked
                                             } @endif>
                                         <label class="form-check-label" for="inlineRadio2">Không kích hoạt</label>

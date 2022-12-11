@@ -48,7 +48,6 @@ class SlidesServices
                 $imageName = $request->name . '_' . $imageName;
                 $slide->thumb = $image->storeAs('images/slides', $imageName);
             }
-            dd($slide);
             $slide->save();
             notify()->success('Tạo mới thành công');
         } catch (\Exception $err) {
