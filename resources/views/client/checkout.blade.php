@@ -143,7 +143,7 @@
                                         class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom cart_item{{ $cart->product_id }}">
                                         <div class="media align-items-center">
                                             <div class="media-body d-flex">
-                                                <input type="checkbox" checked name="product_id[]" class="mr-1"
+                                                <input type="checkbox" hidden checked name="product_id[]" class="mr-1"
                                                     value="{{ $cart->product_id }}">
                                                 <p class="m-0">{{ $cart->name }}</p>
                                                 <p class="m-0">
@@ -209,7 +209,7 @@
                             <h6 class="font-weight-bold mb-0">Thanh toán <span id="show_order"
                                     class="float-right">{{ number_format($total) }} <sup>đ</sup></span></h6>
                             <div class="form-group mt-1 d-flex align-items-center">
-                                <input type="checkbox" name="" id="checkin">
+                                <input type="radio" checked name="" id="checkin">
                                 <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
                             </div>
                         </div>

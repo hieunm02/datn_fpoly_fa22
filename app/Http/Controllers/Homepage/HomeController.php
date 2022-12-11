@@ -46,7 +46,7 @@ class HomeController extends Controller
         $products = $this->productService->getProduct();
         $productBtm = $this->productService->getProduct();
         $menus = $this->menuService->getMenuIndex();
-        $slides = Slide::with('product')->get();
+        $slides = Slide::with('product')->limit(6)->get();
         return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
     }
 
@@ -87,7 +87,7 @@ class HomeController extends Controller
             ->where('product_id', $product->id)
             ->where('active', 0)
             ->get();
-        $products = $this->productService->getAll();
+        $products = $this->productService->getPrdId($product->menu_id);
         $product_option_details = DB::table('product_option_details')
             ->where('product_id', $product->id)->where('active', 0)
             ->join('option_details', 'product_option_details.option_detail_id', '=', 'option_details.id')
