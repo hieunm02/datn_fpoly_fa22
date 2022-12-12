@@ -7,7 +7,7 @@
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="img/fav.png">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo/beefood_logo.png') }}">
     <title>BeeFood - @yield('title-page')</title>
     <!-- Slick Slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick.min.css') }}" />
@@ -31,6 +31,9 @@
     <div class="osahan-home-page">
         @yield('content')
     </div>
+    @if (Auth::user())
+    @include('client.chatbox')
+@endif
     <!-- Footer -->
     @include('layouts.client.footer-client')
     <!-- Bootstrap core JavaScript -->

@@ -17,11 +17,13 @@
                         <div class="osahan-cart-item-profile bg-white p-3">
                             <div class="d-flex flex-column">
                                 <div class="col-md-12 p-0 mb-1">
-                                    <img width="100%" height="304.5px" id="imgClick" src="{{ asset($product->thumb) }}" alt="">
+                                    <img width="100%" height="304.5px" id="imgClick" src="{{ asset($product->thumb) }}"
+                                        alt="">
                                 </div>
                                 <div class="col-md-12 p-0 d-flex justify-content-center">
                                     @foreach ($thumb as $img)
-                                        <div class="col-md-3 p-1" style="box-sizing: border-box; overflow: hidden;height: 80px">
+                                        <div class="col-md-3 p-1"
+                                            style="box-sizing: border-box; overflow: hidden;height: 80px">
                                             <img width="100%" onclick="changeImage('{{ asset($img->image) }}')"
                                                 src="{{ asset($img->image) }}" alt="">
                                         </div>
@@ -152,13 +154,13 @@
                                         </div>
                                         <div class="setCt d-flex flex-column justify-content-center" style="flex: none;">
                                             <h6 class="mb-0">{{ $cmt->user->name }}</h6>
-                                            <p class="text-black-50">{{ $cmt->created_at }}</p>
+                                            <p class="text-black-50 mb-0">{{ $cmt->created_at->format('H:i d-m-Y') }}</p>
                                             <div class="value_comment_{{ $cmt->id }}">
                                                 <input type="hidden" value="{{ $cmt->content }}"
                                                     class="form-control edit-content-{{ $cmt->id }}"
                                                     name="edit_content">
                                                 <p id="id{{ $cmt->id }}" data-id="{{ $cmt->id }}"
-                                                    class="text-black-100 font-weight-bold text_content_{{ $cmt->id }}">
+                                                    class="text-black-100 mb-1 font-weight-bold text_content_{{ $cmt->id }}">
                                                     {{ $cmt->content }}
                                                 </p>
                                             </div>
@@ -229,13 +231,13 @@
                 <div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
-                            <div class="star position-absolute"><span
-                                    class="badge badge-success">({{ $product->order->count() }})</span>
-                            </div>
+                            @if ($product->price_sales != null)
+                                <div class="star position-absolute"><span class="badge badge-danger">Sale</span>
+                                </div>
+                            @endif
                             <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                             <a href="{{ route('product-detail', $product->id) }}">
-                                <img alt="#" src="{{ asset($product->thumb) }}"
-                                    class="img-fluid item-img w-100">
+                                <img alt="#" src="{{ asset($product->thumb) }}" class="img-fluid item-img w-100">
                             </a>
                         </div>
                         <div class="p-3 position-relative">
@@ -248,8 +250,8 @@
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                             class="feather-clock"></i> 10–15 min</span>
-                                    <span class="float-right text-black-50 d-block">
-                                        {{ number_format($product->price, 0, ',', '.') }}
+                                    <span class="float-right d-block text-danger">
+                                        {{ number_format($product->price_sales != null ? $product->price_sales : $product->price, 0, ',', '.') }}
                                         VND</span>
                                 </p>
                             </div>

@@ -64,8 +64,10 @@
                 <div class="osahan-slider-item">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 192px">
-
-                            <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
+                            @if ($products->price_sales != null)
+                                <div class="favourite-heart text-white badge-danger p-1 rounded position-absolute">
+                                    <span>Sale</span></div>
+                            @endif
                             <a href="{{ route('product-detail', $products->id) }}">
                                 <img alt="#" src="{{ asset($products->thumb) }}" class="img-fluid item-img w-100">
                             </a>
@@ -80,8 +82,8 @@
                                 <p class="text-gray mb-3 time"><span
                                         class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                             class="feather-clock"></i> 10–15 min</span>
-                                    <span class="float-right text-black-50 d-block">
-                                        {{ number_format($products->price, 0, ',', '.') }}
+                                    <span class="float-right d-block text-danger">
+                                        {{ number_format($products->price_sales != null ? $products->price_sales : $products->price, 0, ',', '.') }}
                                         VND</span>
                                 </p>
                             </div>
@@ -93,7 +95,7 @@
         </div>
         <!-- Most popular -->
         <div class="py-3 title text-center align-items-center">
-            <h5 class="m-0"><a href="{{asset('/list-products')}}">Các Sản Phẩm Khác</a></h5>
+            <h5 class="m-0"><a href="{{ url('/list-products') }}">Các Sản Phẩm Khác</a></h5>
         </div>
         <!-- Most popular -->
         <div class="most_popular">
@@ -102,9 +104,10 @@
                     <div class="col-md-3 pb-3">
                         <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                             <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
-                                <div class="star position-absolute"><span
-                                        class="badge badge-success">({{ $product->order->count() }})</span>
-                                </div>
+                                @if ($product->price_sales != null)
+                                    <div class="star position-absolute"><span class="badge badge-danger">Sale</span>
+                                    </div>
+                                @endif
                                 <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                                 <a href="{{ route('product-detail', $product->id) }}">
                                     <img alt="#" src="{{ asset($product->thumb) }}"
@@ -121,8 +124,8 @@
                                     <p class="text-gray mb-3 time"><span
                                             class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
                                                 class="feather-clock"></i> 10–15 min</span>
-                                        <span class="float-right text-black-50 d-block">
-                                            {{ number_format($product->price, 0, ',', '.') }}
+                                        <span class="float-right d-block text-danger">
+                                            {{ number_format($product->price_sales != null ? $product->price_sales : $product->price, 0, ',', '.') }}
                                             VND</span>
                                     </p>
                                 </div>
@@ -153,7 +156,7 @@
                                     </div>
                                     <div class="p-3 position-relative">
                                         <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="#" class="text-black"> {{ $slide->name }}
+                                            <h6 class="mb-1"><a href="{{ route('product-detail', $slide->product->id) }}" class="text-black"> {{ $slide->name }}
                                                 </a>
                                             </h6>
                                             <p class="text-gray mb-3">{{ $slide->product->name }}</p>
