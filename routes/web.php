@@ -157,9 +157,12 @@ Route::prefix('/')->group(function () {
 
     //thêm sản phẩm vào giỏ hàng
     Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+    //xác nhận đặt hàng
     Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
-
-
+    //Danh sách thành viên đặt hàng nhóm
+    Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
+    //Danh sách sản phẩm trong giỏ hàng đặt nhóm
+    Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
 });
 
 // Admin
