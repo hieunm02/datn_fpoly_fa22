@@ -147,6 +147,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+    Route::post('/vouchers/apply', [HomepageVoucherController::class, 'applyVoucher'])->name('vouchers.apply');
 
     //đặt hàng nhóm
     Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
@@ -167,7 +168,7 @@ Route::prefix('/')->group(function () {
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
+Route::prefix('admin')->group(function () {
 
     //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');

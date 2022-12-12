@@ -109,6 +109,7 @@
                                             <td style="width:50%;padding:20px;vertical-align:top">
                                                 <p id="bill_address" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
                                                 <p id="id_customer" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
+                                                <p id="code_voucher" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
                                             </td>
                                         </tr>
                                         <tr>

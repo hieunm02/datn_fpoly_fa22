@@ -106,3 +106,50 @@ function saveNotify(user_id, type, role, room_id) {
         }
     })
 }
+
+$('#applyVoucher').on("click", () => {
+    let code = $('.code-voucher').val();
+    $.ajax({
+        url: "/vouchers/apply",
+        type: "POST",
+        data: {
+            code: code,
+        },
+
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            Swal.fire(
+                'Successful!',
+                'Áp mã thành công!',
+                'success'
+            );
+
+            $('.error-voucher').text('');
+            $('.discount-voucher').text(data.voucher.discount + '%');
+            let total = $('.hidden_total').val();
+            if ((data.voucher.discount / 100) * total <= 0) {
+                $('#show_order').html(`0 <sup>VND</sup>`)
+            } else {
+                $('#show_order').html((data.voucher.discount / 100) * total + `<sup>đ</sup>`)
+            }
+        },
+        error: function (errors) {
+            if (errors.responseJSON.errors.required) {
+                $('.error-voucher').text(errors.responseJSON.errors.required);
+            }
+            if (errors.responseJSON.errors.isNotExist) {
+                $('.error-voucher').text(errors.responseJSON.errors.isNotExist);
+            }
+            if (errors.responseJSON.errors.isNotTime) {
+                $('.error-voucher').text(errors.responseJSON.errors.isNotTime);
+            }
+            if (errors.responseJSON.errors.isExpirated) {
+                $('.error-voucher').text(errors.responseJSON.errors.isExpirated);
+            }
+            if (errors.responseJSON.errors.isOutOfStock) {
+                $('.error-voucher').text(errors.responseJSON.errors.isOutOfStock);
+            }
+        }
+    });
+})

@@ -20,7 +20,7 @@ class VoucherController extends Controller
         $publicVouchers = [];
         foreach ($vouchers as $voucher) {
             if (($voucher->users)->isEmpty()) {
-                if(strtotime($voucher->end_time) > strtotime(Carbon::now()->timezone('Asia/Ho_Chi_Minh'))) {
+                if (strtotime($voucher->end_time) > strtotime(Carbon::now()->timezone('Asia/Ho_Chi_Minh'))) {
                     $publicVouchers[] = $voucher;
                 }
             } else {
@@ -81,5 +81,52 @@ class VoucherController extends Controller
         $user->vouchers()->attach($lastInsertId);
         $user->save();
         return response()->json(['user' => $user], 200);
+    }
+
+    public function applyVoucher(Request $request)
+    {
+        $vouchers = Voucher::all();
+        if (!$request->code) {
+            $required = [
+                'required' => 'Mã chưa được nhập!',
+            ];
+            return response()->json(['errors' => $required], 500);
+        }
+
+
+
+        // Không tồn tại
+        if (!$vouchers->contains('code', $request->code)) {
+            $isNotExist = [
+                'isNotExist' => 'Mã giảm giá không tồn tại hoặc đã được sử dụng!',
+            ];
+            return response()->json(['errors' => $isNotExist], 500);
+        } else {   // Tồn tại mã
+            $voucher = Voucher::where('code', $request->code)->first();
+
+            if (!Carbon::now()->isSameDay($voucher->start_time) || $voucher->active != 0) {    // Khả dụng
+                $isNotTime = [
+                    'isNotTime' => 'Mã không khả dụng!',
+                ];
+                return response()->json(['errors' => $isNotTime], 500);
+            } else {
+                if (Carbon::now()->isSameDay($voucher->end_time)) {  // Hết hạn
+                    $isExpirated = [
+                        'isExpirated' => 'Mã hết hạn sử dụng!',
+                    ];
+                    return response()->json(['errors' => $isExpirated], 500);
+                }
+            }
+
+            if ($voucher->quantity == 0) {
+                $isOutOfStock = [
+                    'isOutOfStock' => 'Mã hết lượt sử dụng!',
+                ];
+                return response()->json(['errors' => $isOutOfStock], 500);
+            }
+            $voucher->quantity -= 1;
+            $voucher->save();
+        }
+        return response()->json(['voucher' => $voucher], 200);
     }
 }

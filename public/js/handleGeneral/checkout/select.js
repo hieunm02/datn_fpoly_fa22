@@ -213,6 +213,7 @@ $(function () {
             url: "/orders",
             data: {
                 name: $("input[name=name]").val(),
+                voucher: $("input[name=voucher]").val(),
                 building: $("select[name=building]").val(),
                 floor: $("select[name=floor]").val(),
                 room: $("select[name=room]").val(),
