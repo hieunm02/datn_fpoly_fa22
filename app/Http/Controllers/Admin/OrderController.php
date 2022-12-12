@@ -58,11 +58,13 @@ class OrderController extends Controller
     {
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
-        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $orderDetails = OrderProduct::where('order_id', $request->id)->get();
+        $options = OptionDetail::all();
         return response()->json([
-            'order' => $order,
-            'billDetail' => $billDetail,
-            'user' => $user,
+            "order" => $order,
+            "user" => $user,
+            "options" => $options,
+            "orderDetails" => $orderDetails,
         ]);
     }
 

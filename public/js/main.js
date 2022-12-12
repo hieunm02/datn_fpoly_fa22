@@ -5,7 +5,7 @@ $.ajaxSetup({
 });
 
 // UploadFile
-$("#upload").change(function () {
+$("#upload").change(function() {
     const form = new FormData();
     form.append("file", $(this)[0].files[0]);
 
@@ -17,7 +17,7 @@ $("#upload").change(function () {
         data: form,
         url: "/admin/upload/services",
 
-        success: function (results) {
+        success: function(results) {
             if (results.error == false) {
                 $("#image_show").html(
                     '<a href="' +
@@ -49,7 +49,7 @@ function deleteAjax(parameter, id) {
                 _method: "DELETE",
                 _token: token,
             },
-            success: function (data) {
+            success: function(data) {
                 console.log(data.model);
                 Swal.fire(
                     "Successful!",
@@ -64,7 +64,7 @@ function deleteAjax(parameter, id) {
 }
 
 //View detail order
-$('.order-detail').on('click', function () {
+$('.order-detail').on('click', function() {
     var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/orders/" + id,
@@ -73,10 +73,9 @@ $('.order-detail').on('click', function () {
             id: id,
         },
         dataType: 'json',
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             $('#order_products').html('');
-
             $('#avatar_customer').attr('src', data.user.avatar);
             var billDate = convertUTCDateToLocalDate(new Date(data.order.created_at));
             $('#order_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
@@ -84,18 +83,29 @@ $('.order-detail').on('click', function () {
             var total = 0;
             var products = '';
             // For sản phẩm
-            data.billDetail.forEach(element => {
-                total += element.product.price;
+            data.orderDetails.forEach(element => {
+                total += element.total;
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
-                `;
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;margin-bottom:5px"><span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> ${element.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> - Số lượng:${element.quantity}</span> <br>
+                </i></b></span> <b style="font-size:12px;font-weight:300;">Tổng: </span><span style="display:block;font-size:16px;font-weight:bold;"><b><i>${element.total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                </p>`;
+                data.options.forEach(item => {
+                    if (element.options != null) {
+                        element.options.forEach(e => {
+                            if (item.id == e) {
+                                products += `<span style="font-size:14px;border:solid 1px #ddd; margin-right:5px;">${item.value} - ${item.price}đ</span>`;
+                                // total += item.price;
+                            }
+                        })
+                    }
+                })
             });
-            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng giá trị đơn hàng</span> <span style="font-size:20px;">${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} </span>`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
-            $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+                // $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
             $('#order_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.order.address}`)
 
             // Append vào table sản phẩm
@@ -105,7 +115,7 @@ $('.order-detail').on('click', function () {
 });
 
 // View detail bill
-$('.bill-detail').on('click', function () {
+$('.bill-detail').on('click', function() {
     var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
@@ -114,7 +124,7 @@ $('.bill-detail').on('click', function () {
             id: id,
         },
         dataType: 'json',
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             $('#order_products').html('');
 
@@ -154,7 +164,7 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 // update status order
-$('.select-order').on("change", function (event) {
+$('.select-order').on("change", function(event) {
     var token = $(this).data("token");
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
@@ -179,7 +189,7 @@ $('.select-order').on("change", function (event) {
                     _method: "PUT",
                     _token: token,
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.order.status_id == 4) {
                         $('#idOrder' + data.order.id).remove();
                     }
@@ -214,7 +224,7 @@ $('.select-order').on("change", function (event) {
     })
 });
 
-$('#search-by-code').on('keyup', function () {
+$('#search-by-code').on('keyup', function() {
     var code = document.querySelector('#search-by-code').value;
     $.ajax({
         url: '/admin/orders/search/code',
@@ -223,11 +233,11 @@ $('#search-by-code').on('keyup', function () {
         data: {
             code: code
         },
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             $('#tbodyOrder').html(data.result);
         },
-        error: function (error) {
+        error: function(error) {
             console.log(error);
             $('#tbodyOrder').html(error.result);
         },
@@ -243,7 +253,7 @@ function selectOrderByStatus() {
         data: {
             status_id: status_id
         },
-        success: function (data) {
+        success: function(data) {
             console.log(data.result);
             $('#tbodyOrder').html(data.result);
         },
@@ -268,11 +278,11 @@ function copyToClipboard() {
     document.execCommand('copy');
 }
 
-$('.toggle-notify').on('click', function () {
+$('.toggle-notify').on('click', function() {
     $('.show-notify').css('display', 'none');
 });
 
-$('.notify').on('click', function () {
+$('.notify').on('click', function() {
     var notify_id = $(this).attr('data-id');
     $.ajax({
         headers: {
@@ -283,7 +293,7 @@ $('.notify').on('click', function () {
         data: {
             notify_id: notify_id
         },
-        success: function (data) {
+        success: function(data) {
             $('.notify').removeClass('notify-pending');
         }
     });
@@ -305,11 +315,10 @@ function sendMessage(message, user_id, avatar, room_id) {
         processData: false,
         contentType: false,
         dataType: 'JSON',
-        success: function (response) {
+        success: function(response) {
             if (response.success) {
                 console.log(response.data);
             }
         }
     })
 }
-
