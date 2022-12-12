@@ -39,7 +39,7 @@ class ClientOrderService
             $order->user_id = Auth::user()->id;
             $order->status_id = 1;
             $order->shipper_id = 1;
-            $order->voucher = 'voucher';
+            $order->voucher = $request->voucher;
             $order->note = $request->note;
             $order->save();
             $count = $request->product_id;

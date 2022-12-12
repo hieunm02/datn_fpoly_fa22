@@ -147,6 +147,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+    Route::post('/vouchers/apply', [HomepageVoucherController::class, 'applyVoucher'])->name('vouchers.apply');
 
     //đặt hàng nhóm
     Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
@@ -158,13 +159,11 @@ Route::prefix('/')->group(function () {
     //thêm sản phẩm vào giỏ hàng
     Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
     Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
-
-
 });
 
 // Admin
 // ->middleware('role:admin')
-Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
+Route::prefix('admin')->group(function () {
 
     //dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');

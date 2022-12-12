@@ -71,7 +71,7 @@
                                 <td>{{ number_format($item->price) }}<sup>đ</sup></td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ number_format($item->total) }}<sup>đ</sup></td>
-                                <p hidden>{{ $total += $item->total }}</p>
+                                <p hidden>{{ ($total += $item->total) }}</p>
                             </tr>
                         @endforeach
                         <tr>
@@ -80,7 +80,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">Tổng tiền:</td>
-                            <td colspan="1">{{ number_format($total) }}<sup>đ</sup></td>
+                            <td colspan="1">{{ number_format($total * ($voucher->discount/100)) }}<sup>đ</sup></td>
                         </tr>
                     </tbody>
                 </table>

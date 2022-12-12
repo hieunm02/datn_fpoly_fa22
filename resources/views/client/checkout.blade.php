@@ -189,12 +189,13 @@
                         </div>
                         <div class="bg-white p-3 py-3 border-bottom clearfix">
                             <div class="input-group-sm mb-2 input-group">
-                                <input placeholder="Nhập mã voucher" type="text" class="form-control">
+                                <input placeholder="Nhập mã voucher" type="text" name="voucher" class="form-control code-voucher">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary"><i class="feather-percent"></i> Áp
+                                    <button type="button" id="applyVoucher" class="btn btn-primary"><i class="feather-percent"></i> Áp
                                         dụng</button>
                                 </div>
                             </div>
+                            <p class="text-danger text-center m-0 error-voucher"></p>
                         </div>
                         <div class="bg-white p-3 clearfix border-bottom">
                             <p class="mb-1">Tổng <span id="show_total"

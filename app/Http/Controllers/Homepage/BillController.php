@@ -7,6 +7,7 @@ use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStatus;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,7 @@ class BillController extends Controller
     public function getBillCode($code)
     {
         $bill = Order::where('user_id', Auth::user()->id)->where('code', $code)->first();
+        $voucher = Voucher::where('code', $bill->voucher)->first();
         $billDetail = OrderProduct::where('order_id', $bill->id)->get();
         $total = 0;
         $options = OptionDetail::all();
@@ -37,10 +39,12 @@ class BillController extends Controller
             'billDetail' => $billDetail,
             'total' => $total,
             'options' => $options,
+            'voucher' => $voucher,
         ]);
     }
 
-    public function changstatus (Request $request) {
+    public function changstatus(Request $request)
+    {
         // dd($request->all());
         $data = Order::find($request->id);
         $data->status_id = $request->status;

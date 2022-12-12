@@ -12,4 +12,9 @@ class Option extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function optionDetails()
+    {
+        return $this->hasMany(OptionDetail::class);
+    }
 }
