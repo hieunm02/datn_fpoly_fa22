@@ -77,9 +77,6 @@
 </div>
 <!-- Footer -->
 @endsection
-@if (Auth::user())
-@include('client.chatbox')
-@endif
 <script>
     setTimeout(() => {
         document.getElementById('setout').classList.add('d-none');

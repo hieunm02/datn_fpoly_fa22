@@ -4,68 +4,13 @@
             <div class="row align-items-center py-3">
                 <div class="col-1">
                     <a href="{{ url('/') }}" class="brand-wrap mb-0">
-                        <img alt="#" class="img-fluid" src="{{ asset('img/logo_web.png') }}">
+                        <img alt="#" class="" src="{{ asset('assets/images/logo/BeeFood.png') }}">
                     </a>
                     <!-- brand-wrap.// -->
                 </div>
                 <?php
                 $menus = DB::table('menus')->get();
                 ?>
-                {{-- <div class="col-3 d-flex align-items-center m-none">
-                    <div class="dropdown mr-3">
-                        <a class="text-dark dropdown-toggle d-flex align-items-center py-3" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div><i class="feather-map-pin mr-2 bg-light rounded-pill p-2 icofont-size"></i></div>
-                            <div>
-                                <p class="text-muted mb-0 small">Select Location</p>
-                                Jawaddi Ludhiana...
-                            </div>
-                        </a>
-                        <div class="dropdown-menu p-0 drop-loc" aria-labelledby="navbarDropdown">
-                            <div class="osahan-country">
-                                <div class="search_location bg-primary p-3 text-right">
-                                    <div class="input-group rounded shadow-sm overflow-hidden">
-                                        <div class="input-group-prepend">
-                                            <button class="border-0 btn btn-outline-secondary text-dark bg-white btn-block"><i class="feather-search"></i></button>
-                                        </div>
-                                        <input type="text" class="shadow-none border-0 form-control" placeholder="Enter Your Location">
-                                    </div>
-                                </div>
-                                <div class="p-3 border-bottom">
-                                    <a href="home.html" class="text-decoration-none">
-                                        <p class="font-weight-bold text-primary m-0"><i class="feather-navigation"></i> New York, USA</p>
-                                    </a>
-                                </div>
-                                <div class="filter">
-                                    <h6 class="px-3 py-3 bg-light pb-1 m-0 border-bottom">Choose your country</h6>
-                                    <div class="custom-control  border-bottom px-0 custom-radio">
-                                        <input type="radio" id="customRadio1" name="location" class="custom-control-input">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio1">Afghanistan</label>
-                                    </div>
-                                    <div class="custom-control  border-bottom px-0 custom-radio">
-                                        <input type="radio" id="customRadio2" name="location" class="custom-control-input" checked="">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio2">India</label>
-                                    </div>
-                                    <div class="custom-control  border-bottom px-0 custom-radio">
-                                        <input type="radio" id="customRadio3" name="location" class="custom-control-input">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio3">USA</label>
-                                    </div>
-                                    <div class="custom-control  border-bottom px-0 custom-radio">
-                                        <input type="radio" id="customRadio4" name="location" class="custom-control-input">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio4">Australia</label>
-                                    </div>
-                                    <div class="custom-control  border-bottom px-0 custom-radio">
-                                        <input type="radio" id="customRadio5" name="location" class="custom-control-input">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio5">Japan</label>
-                                    </div>
-                                    <div class="custom-control  px-0 custom-radio">
-                                        <input type="radio" id="customRadio6" name="location" class="custom-control-input">
-                                        <label class="custom-control-label py-3 w-100 px-3" for="customRadio6">China</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 <!-- col.// -->
                 <div class="col-11">
                     <div class="d-flex align-items-center justify-content-end">
@@ -201,15 +146,15 @@
                             </a></div>
                     </li>
                     <li class="github">
-                        <div class="nav-item-wrapper"><a href="faq.html" class="nav-item">
+                        <div class="nav-item-wrapper"><a href="#" class="nav-item">
                                 <p class="h5 m-0"><i class="feather-message-circle"></i></p>
                                 FAQ
                             </a></div>
                     </li>
                     <li class="ko-fi">
-                        <div class="nav-item-wrapper"><a href="contact-us.html" class="nav-item">
+                        <div class="nav-item-wrapper"><a href="{{ route('contact') }}" class="nav-item">
                                 <p class="h5 m-0"><i class="feather-phone"></i></p>
-                                Help
+                                Liên hệ
                             </a></div>
                     </li>
                 </ul>

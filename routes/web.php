@@ -85,7 +85,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/contact-us', function () {
         return view('client.contact-us');
-    });
+    })->name('contact');
 
     Route::post('/contact-us', [ContactController::class, "store"]);
 

@@ -40,7 +40,7 @@
             <div class="row">
                 <aside class="col-md-4 footer-about">
                     <article class="d-flex pb-3">
-                        <div><img alt="#" src="img/logo_web.png" class="logo-footer mr-3"></div>
+                        <div><img src="{{ asset('assets/images/logo/BeeFood.png') }}" class="logo-footer mr-3"></div>
                         <div>
                             <h6 class="title text-white">Về cửa hàng</h6>
                             <p class="text-muted">Do lượng sinh viên của trường ngày một đông nên sau mỗi ca học, lượng sinh viên ra vào căng tin luôn trật cứng. Điều đó cũng làm cho việc mua bán trở lên khó khăn kể cả người bán đến người mua. Việc kiểm soát lượng hàng bán và tiền hàng cũng sẽ dễ nhầm lẫn trong lúc đông sinh viên. Vì vậy để giải quyết vấn đề quá tải ở canteen trường nên chúng em đã tạo ra 1 website để sinh viên và giảng viên dễ dàng mua đồ cũng như vấn đề nêu trên.</p>
