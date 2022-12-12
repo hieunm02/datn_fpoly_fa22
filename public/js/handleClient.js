@@ -118,6 +118,7 @@ $('#applyVoucher').on("click", () => {
 
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             Swal.fire(
                 'Successful!',
                 'Áp mã thành công!',
@@ -134,7 +135,6 @@ $('#applyVoucher').on("click", () => {
             }
         },
         error: function (errors) {
-            console.log(errors);
             if (errors.responseJSON.errors.required) {
                 $('.error-voucher').text(errors.responseJSON.errors.required);
             }

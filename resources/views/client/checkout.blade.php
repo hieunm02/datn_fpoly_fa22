@@ -126,7 +126,7 @@
                         <div id="cart_item{{ $cart->id }}" class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom cart_item{{ $cart->product_id }}">
                             <div class="media align-items-center">
                                 <div class="media-body d-flex">
-                                    <input type="checkbox" checked name="product_id[]" class="mr-1" value="{{ $cart->product_id }}">
+                                    <input type="checkbox" hidden checked name="product_id[]" class="mr-1" value="{{ $cart->product_id }}">
                                     <p class="m-0">{{ $cart->name }}</p>
                                     <p class="m-0">
                                         @if ($cart->options != null)
@@ -164,26 +164,25 @@
                     </div>
                     <div class="bg-white p-3 py-3 border-bottom clearfix">
                         <div class="input-group-sm mb-2 input-group">
-                            <input placeholder="Nhập mã voucher và nhấn nút để áp dụng" type="text" name="voucher" class="form-control code-voucher">
-                            <input type="hidden" class="reserve_code">
+                            <input placeholder="Nhập mã voucher và ấn nút để áp dụng" type="text"  name="voucher" class="form-control code-voucher">
                             <div class="input-group-append">
-                                <button type="button" id="applyVoucher" class="btn btn-primary"><i class="feather-percent"></i> Áp
+                                <button id="applyVoucher" type="button" class="btn btn-primary"><i class="feather-percent"></i> Áp
                                     dụng</button>
                             </div>
                         </div>
                         <p class="text-danger text-center m-0 error-voucher"></p>
                     </div>
+                    <input type="hidden" value="{{$total}}" class="hidden_total">
                     <div class="bg-white p-3 clearfix border-bottom">
                         <p class="mb-1">Tổng <span id="show_total" class="float-right text-dark">{{ number_format($total) }}
                                 <sup>đ</sup></span></p>
-                        <input type="hidden" class="hidden_total" value="{{$total}}">
                         <p class="mb-1">Shipping<span class="text-info ml-1"><i class="feather-info"></i></span><span class="float-right text-dark">Free</span>
                         </p>
-                        <p class="mb-1 text-success">Giảm voucher<span class="float-right text-success discount-voucher"> </span></p>
+                        <p class="mb-1 text-success">Giảm voucher<span class="float-right text-success discount-voucher">{{ number_format(0) }} <sup>đ</sup></span></p>
                         <hr>
                         <h6 class="font-weight-bold mb-0">Thanh toán <span id="show_order" class="float-right">{{ number_format($total) }} <sup>đ</sup></span></h6>
                         <div class="form-group mt-1 d-flex align-items-center">
-                            <input type="checkbox" name="" id="checkin">
+                            <input type="radio" checked name="" id="checkin">
                             <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
                         </div>
                     </div>

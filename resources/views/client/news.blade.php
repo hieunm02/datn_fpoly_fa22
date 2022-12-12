@@ -16,8 +16,7 @@
                 <div class="col-md-3 mb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
                         <div class="list-card-image">
-                            <div class="star position-absolute"><span class="badge badge-success"><i
-                                        class="feather-eye"></i> 300+</span></div>
+                            <div class="star position-absolute"></div>
                             {{-- <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="feather-heart"></i></a></div> --}}
                             <div class="member-plan position-absolute"><span class="badge badge-dark">News</span></div>
                             <a href="{{ route('news-detail', $item->id) }}">
@@ -30,15 +29,16 @@
                                     </a>
                                 </h6>
                                 <p class="mb-3 newsHide">{{ $item->short_desc }}</p>
-                                <p class="text-gray mb-3 time"><span
-                                        class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-user-check"></i>
+                                <p class="text-gray mb-3 time">
+                                    <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2">
+                                        <i class="feather-user-check"></i>
                                         @foreach ($authors as $auth)
                                             @if ($auth->id == $item->user_id)
                                                 {{ $auth->name }}
                                             @endif
                                         @endforeach
-                                    </span></p>
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>

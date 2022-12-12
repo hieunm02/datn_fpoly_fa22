@@ -15,7 +15,7 @@
     }
 </style>
 
-<div class="osahan-trending" style="padding-bottom: 500px;">
+<div class="osahan-trending">
     @if(Auth::user())
         <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
     @endif

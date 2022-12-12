@@ -135,42 +135,30 @@
                                             của bạn</h6>
                                     </div>
                                 </div>
-                                <div class="bg-white py-2">
+                                <div class="bg-white py-2" id="cart-list-product">
                                     @if (count($carts) > 0)
                                         @foreach ($carts as $cart)
-                                            <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}">
+                                            {{-- <input hidden id="prd_id{{ $cart->id }}" value="{{ $cart->product_id }}"> --}}
                                             <input hidden name="user_id[]" value="{{ $cart->user_id }}">
                                                 
                                             <div id="cart_item{{ $cart->id}}"
                                                 class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                                 <div class="media align-items-center">
-                                                    {{-- <div class="mr-2 text-danger">&middot;</div> --}}
-                                                    {{-- <form action="{{ url('carts', $cart->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form> --}}
                                                     <div class="media-body d-flex">
                                                         <input type="checkbox" name="product_id[]" class="mr-1"
-                                                            value="{{ $cart->id }}">
+                                                            value="{{ $cart->id }}" hidden checked>
                                                         <p class="m-0">{{ $cart->product_name }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center">
                                                     <span class="count-number float-right">
-                                                        <input class="count-number-input pr-1" width="50px" type="number"
-                                                            name="quantity" id="quantity{{ $cart->id }}" min="1"
-                                                            value="{{ $cart->quantity }}"><button type="button"
-                                                            class="btn-sm right inc btn btn-outline-secondary updateQty"
-                                                            data-id={{ $cart->id }} style="height: 24px;">
-                                                            <i class="feather-check"></i>
-                                                        </button>
+                                                        <input class="count-number-input pr-1" width="50px" type="text"
+                                                            name="quantity" id="quantity{{ $cart->id }}"
+                                                            value="{{ $cart->quantity }}">
                                                     </span>
                                                     <p id="show_total_product{{ $cart->id }}"
                                                         class="text-gray mb-0 float-right ml-2 text-muted small">
                                                         {{ number_format($cart->product_price * $cart->quantity) }} <sup>đ</sup></p>
-                                                    <button type="button" class="border-0 text-danger bg-white deletePrd"
-                                                        style="outline: none;" data-id={{ $cart->id }}><i
-                                                            class="feather-x-circle"></i></button>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -190,7 +178,7 @@
                                                     class="feather-percent"></i> Áp dụng</button></div>
                                         </div>
                                     </div>
-                                    <div class="bg-white p-3 clearfix border-bottom">
+                                    <div class="bg-white p-3 clearfix border-bottom" id="total-checkout">
                                         <p class="mb-1">Tổng <span id="show_total"
                                                 class="float-right text-dark">{{ number_format($sumPriceCart) }}
                                                 <sup>đ</sup></span></p>

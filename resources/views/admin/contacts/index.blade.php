@@ -34,11 +34,11 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Tên</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Content</th>
-                            <th></th>
+                            <th>Điện thoại</th>
+                            <th>Nội dung</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="contacts_list">
