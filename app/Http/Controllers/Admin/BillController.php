@@ -7,6 +7,7 @@ use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\User;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -56,11 +57,13 @@ class BillController extends Controller
         $user = User::find($bill->user_id);
         $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
         $options = OptionDetail::all();
+        $voucher = Voucher::where('code', $bill->voucher)->first();
         return response()->json([
             'bill' => $bill,
             'billDetail' => $billDetail,
             'user' => $user,
             'options' => $options,
+            'voucher' => $voucher,
         ]);
     }
 

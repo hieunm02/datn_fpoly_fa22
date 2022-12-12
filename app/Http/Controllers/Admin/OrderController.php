@@ -10,6 +10,7 @@ use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Voucher;
 use App\Services\Carts\CartService;
 use App\Services\Menu\MenuServices;
 use Illuminate\Http\Request;
@@ -59,12 +60,14 @@ class OrderController extends Controller
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
         $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $voucher = Voucher::where('code', $order->voucher)->first();
         $options = OptionDetail::all();
         return response()->json([
             'order' => $order,
             'billDetail' => $billDetail,
             'user' => $user,
             'options' => $options,
+            'voucher' => $voucher,
         ]);
     }
 

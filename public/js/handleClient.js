@@ -118,7 +118,6 @@ $('#applyVoucher').on("click", () => {
 
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             Swal.fire(
                 'Successful!',
                 'Áp mã thành công!',
@@ -126,6 +125,13 @@ $('#applyVoucher').on("click", () => {
             );
 
             $('.error-voucher').text('');
+            $('.discount-voucher').text(data.voucher.discount + '%');
+            let total = $('.hidden_total').val();
+            if ((data.voucher.discount / 100) * total <= 0) {
+                $('#show_order').html(`0 <sup>VND</sup>`)
+            } else {
+                $('#show_order').html((data.voucher.discount / 100) * total + `<sup>đ</sup>`)
+            }
         },
         error: function (errors) {
             console.log(errors);
