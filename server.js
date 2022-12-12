@@ -43,6 +43,11 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('successOrder', message);
     });
 
+    //manager đặt hàng thành công
+    socket.on('doneCheckout', (message) => {
+        socket.broadcast.emit('doneCheckout', message);
+    });
+
     socket.on('disconnect', (socket) => {
         console.log('Disconnect');
     });

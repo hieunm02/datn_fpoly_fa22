@@ -181,6 +181,7 @@ class OrderGroupController extends Controller
         ->where('room', $request->room)
         ->join('users', 'order_group.user_id', 'users.id')
         ->select('users.name as user_name', 'users.avatar as user_avatar')
+        ->distinct()
         ->get();
 
         echo json_encode($listMembers);

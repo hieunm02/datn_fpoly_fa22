@@ -196,7 +196,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <button class="btn btn-success btn-block btn-lg" type="submit">Đặt hàng<i
+                                        <button class="btn btn-success btn-block btn-lg" id="doneCheckout" type="submit">Đặt hàng<i
                                                 class="feather-arrow-right"></i></button>
                                     </div>
                                 </div>
