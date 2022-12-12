@@ -46,9 +46,9 @@
                         <div class="d-flex col-md-12 flex-column p-0">
                             <div class="header-sub-title">
                                 <nav class="breadcrumb breadcrumb-dash m-0">
-                                    <a href="#" class="breadcrumb-item"><i
-                                            class="anticon anticon-home m-r-5"></i>Home</a>
-                                    <a class="breadcrumb-item" href="">Product Detail</a>
+                                    <a href="{{ route('index') }}" class="breadcrumb-item"><i
+                                            class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+                                    <a class="breadcrumb-item" href="{{ route('listProducts') }}">Sản phẩm</a>
                                     <span class="breadcrumb-item">{{ $product->name }}</span>
                                 </nav>
                             </div>
