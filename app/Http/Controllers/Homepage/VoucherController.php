@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoucherRequest;
 use App\Models\User;
+use App\Models\UserVoucher;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,9 +93,6 @@ class VoucherController extends Controller
             ];
             return response()->json(['errors' => $required], 500);
         }
-
-
-
         // Không tồn tại
         if (!$vouchers->contains('code', $request->code)) {
             $isNotExist = [
@@ -103,6 +101,14 @@ class VoucherController extends Controller
             return response()->json(['errors' => $isNotExist], 500);
         } else {   // Tồn tại mã
             $voucher = Voucher::where('code', $request->code)->first();
+            $userVoucher = UserVoucher::where('user_id', Auth::user()->id)->where('voucher_id', $voucher->id)->first();
+            //check dùng hay chưa
+            if (isset($userVoucher)) {
+                $isNotTime = [
+                    'isNotTime' => 'Mã giảm giá này bạn đã sử dụng!',
+                ];
+                return response()->json(['errors' => $isNotTime], 500);
+            }
 
             if (!Carbon::now()->isSameDay($voucher->start_time) || $voucher->active != 0) {    // Khả dụng
                 $isNotTime = [
@@ -124,8 +130,6 @@ class VoucherController extends Controller
                 ];
                 return response()->json(['errors' => $isOutOfStock], 500);
             }
-            $voucher->quantity -= 1;
-            $voucher->save();
         }
         return response()->json(['voucher' => $voucher], 200);
     }

@@ -131,7 +131,7 @@ $('#applyVoucher').on("click", () => {
             if ((data.voucher.discount / 100) * total <= 0) {
                 $('#show_order').html(`0 <sup>VND</sup>`)
             } else {
-                $('#show_order').html((data.voucher.discount / 100) * total + `<sup>đ</sup>`)
+                $('#show_order').html(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(((100 - data.voucher.discount) / 100) * total) + '<sup>đ</sup>')
             }
         },
         error: function (errors) {

@@ -10,6 +10,8 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\UserVoucher;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +32,15 @@ class ClientOrderService
             return $str;
         }
         try {
+            if ($request->voucher) {
+                $voucher = Voucher::where('code', $request->voucher)->first();
+                $userVoucher = new UserVoucher();
+                $userVoucher->user_id = Auth::user()->id;
+                $userVoucher->voucher_id = $voucher->id;
+                $userVoucher->save();
+                $voucher->quantity -= 1;
+                $voucher->save();
+            }
             $building = Building::find($request->building);
             $floor = Floor::find($request->floor);
             $order = new Order();
@@ -48,7 +59,7 @@ class ClientOrderService
             foreach ($count as $it) {
                 $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
                 $prd = Product::find($del->product_id);
-                
+
                 $data = new OrderProduct();
                 $data->order_id = $order->id;
                 $data->product_id = $it;

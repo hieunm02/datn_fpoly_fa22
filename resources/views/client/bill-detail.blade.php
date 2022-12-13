@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">Tổng tiền:</td>
-                        <td colspan="1">{{$voucher != null ? number_format($total * ($voucher->discount/100)) : number_format($total) }}<sup>đ</sup></td>
+                        <td colspan="1">{{$voucher != null ? number_format($total * ((100- $voucher->discount)/100)) : number_format($total) }}<sup>đ</sup></td>
                     </tr>
                 </tbody>
             </table>
