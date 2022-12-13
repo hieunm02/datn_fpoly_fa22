@@ -151,9 +151,9 @@ Route::prefix('/')->group(function () {
 
     //đặt hàng nhóm
     Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
-    // xem nhanh thông tin sản phẩm 
+    // xem nhanh thông tin sản phẩm
     Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
-    // tạo nhóm 
+    // tạo nhóm
     Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
 
     //thêm sản phẩm vào giỏ hàng
@@ -164,6 +164,8 @@ Route::prefix('/')->group(function () {
     Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
     //Danh sách sản phẩm trong giỏ hàng đặt nhóm
     Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
+    // Thanh toán VNpay
+    Route::post('vnpay_banking', [OrderGroupController::class, 'vnpay_banking'])->name('vnpay_banking');
 });
 
 // Admin

@@ -182,9 +182,16 @@
                         <hr>
                         <h6 class="font-weight-bold mb-0">Thanh toán <span id="show_order" class="float-right">{{ number_format($total) }} <sup>đ</sup></span></h6>
                         <div class="form-group mt-1 d-flex align-items-center">
-                            <input type="radio" checked name="" id="checkin">
-                            <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
+                            <input type="radio" value="check-out" name="check-out" id="checkin">Thanh toán khi nhận hàng
                         </div>
+                        <form action="{{route('vnpay_banking')}}" method="post">
+                            @csrf
+                            <input name="total" hidden value="{{$total}}">
+                            <button style="border: none" type="submit" name="redirect">
+                                <img width="20%" src="{{asset('assets/images/others/vnpay_icon.png')}}">
+                            </button>
+                        </form>
+
                     </div>
                     <div class="p-3">
                         <button class="btn btn-success btn-block btn-lg" id="datHang">Đặt hàng<i class="feather-arrow-right"></i></button>
