@@ -20,14 +20,15 @@ class NotifyController extends Controller
         $notifies = '';
         if ($request->ajax()) {
             foreach ($results as $result) {
+                $pending = $result->status == "pending" ? "pending" : '';
                 if ($result->type == "message") {
                     $notifies .= '
-                        <div class="notif_card">
+                        <div class="notif_card ' . $pending . ' notify" data-id="' . $result->id . '">
                             <div class="avatar avatar-volcano avatar-icon">
                                 <i class="anticon anticon-message"></i>
                             </div>
                             <div class="description">
-                                <a href="" class="user_activity">
+                                <a href="/admin/chats/message/' . $result->user_id . '" class="user_activity">
                                     Tin nhắn mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
                                 </a>
                                 <p class="time">' . $result->created_at->diffForHumans() . '</p>
@@ -36,12 +37,12 @@ class NotifyController extends Controller
                         ';
                 } elseif ($result->type == "contact") {
                     $notifies .= '
-                    <div class="notif_card">
+                    <div class="notif_card ' . $pending . ' notify" data-id="' . $result->id . '">
                         <div class="avatar avatar-blue avatar-icon">
                             <i class="anticon anticon-mail"></i>
                         </div>
                         <div class="description">
-                            <a href="" class="user_activity">
+                            <a href="/admin/contacts" class="user_activity">
                             Liên hệ mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
                             </a>
                             <p class="time">' . $result->created_at->diffForHumans() . '</p>
@@ -50,12 +51,12 @@ class NotifyController extends Controller
                     ';
                 } elseif ($result->type == "order") {
                     $notifies .= '
-                    <div class="notif_card">
+                    <div class="notif_card ' . $pending . ' notify" data-id="' . $result->id . '">
                         <div class="avatar avatar-cyan avatar-icon">
                             <i class="anticon anticon-shopping-cart"></i>
                         </div>
                         <div class="description">
-                            <a href="" class="user_activity">
+                            <a href="/admin/orders" class="user_activity">
                             Đơn hàng mới từ <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> 
                             </a>
                             <p class="time">' . $result->created_at->diffForHumans() . '</p>
@@ -64,12 +65,12 @@ class NotifyController extends Controller
                     ';
                 } elseif ($result->type == "comment") {
                     $notifies .= '
-<div class="notif_card">
+<div class="notif_card ' . $pending . ' notify" data-id="' . $result->id . '">
                         <div class="avatar avatar-gold avatar-icon">
                             <i class="far fa-comment-alt"></i>                                               
                         </div>
                         <div class="description">
-                            <a href="" class="user_activity">
+                            <a href="/admin/comments" class="user_activity">
                                 <strong class="m-b-0 text-dark font-weight-semibold">' . $result->user->name . '</strong> đã bình luận
                             </a>
                             <p class="time">' . $result->created_at->diffForHumans() . '</p>
