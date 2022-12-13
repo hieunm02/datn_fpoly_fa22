@@ -84,17 +84,13 @@
                                 </button>
                             </td>
                             <td>
-                                @if($item->id != 5)
-                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}" {{$item->status_id == 5 ? 'disabled' : ''}}>
+                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}">
                                     @foreach ($status as $stt)
                                     <option class="status-{{ $item->id }}" value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
                                         {{ $stt->name }}
                                     </option>
                                     @endforeach
                                 </select>
-                                @else
-                                Đã hủy
-                                @endif
                             </td>
                         </tr>
                         @endforeach

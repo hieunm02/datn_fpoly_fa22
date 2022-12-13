@@ -95,7 +95,11 @@ $('.order-detail').on('click', function() {
                     });
                 }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b><b style="font-size:12px;font-weight:300;"> ${options != '' ? `(thêm ${options})` : ''}</b></p>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
+                    <span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> 
+                    ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b>
+                    <b style="font-size:12px;font-weight:300;"> ${options != '' ? `(thêm ${options})` : ''}</b></p>
                 `;
             });
             if (data.voucher) {
@@ -183,7 +187,7 @@ function convertUTCDateToLocalDate(date) {
 }
 // update status order
 $('.select-order').on("change", function(event) {
-    var token = $(this).data("token");
+    alert(1);
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
     let admin_id = $('#user_id').val();
@@ -205,7 +209,6 @@ $('.select-order').on("change", function(event) {
                     id: id,
                     status_id: status_id,
                     _method: "PUT",
-                    _token: token,
                 },
                 success: function(data) {
                     if (data.order.status_id == 4) {
