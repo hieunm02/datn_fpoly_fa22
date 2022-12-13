@@ -1,14 +1,10 @@
 @extends('layouts.client.client-master')
 @section('title-page', 'Home')
 @section('content')
-    <div class="bg-primary p-3 d-none">
-        <div class="text-white">
-            <div class="title d-flex align-items-center">
-                <a class="toggle1" id="clickMenus">
-                    <span> <i class="feather-align-justify fs-30"></i></span>
-                </a>
-                <h4 class="font-weight-bold m-0 pl-2">Browse</h4>
-            </div>
+    <div class="d-none">
+        <div class="bg-primary border-bottom p-3 d-flex align-items-center">
+            <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
+            <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
         </div>
     </div>
     <!-- Filters -->
@@ -154,8 +150,7 @@
                                     </div>
                                     <div class="p-3 position-relative">
                                         <div class="list-card-body">
-                                            <h6 class="mb-1"><a
-                                                    href="{{ route('product-detail', $slide->product->id) }}"
+                                            <h6 class="mb-1"><a href="{{ route('product-detail', $slide->product->id) }}"
                                                     class="text-black"> {{ $slide->name }}
                                                 </a>
                                             </h6>
