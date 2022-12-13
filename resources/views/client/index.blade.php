@@ -23,7 +23,7 @@
     <!-- Filters -->
     <div class="container">
         @if (session()->has('error'))
-            <div id="setout" class="text-white alert bg-danger position-fixed" style="right: 8px; z-index: 9999;">
+            <div id="setout" class="text-white alert bg-danger position-fixed" style="margin-top: 4px; right: 4px; z-index: 9999;">
                 {{ session()->get('error') }}
             </div>
         @endif
