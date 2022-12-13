@@ -66,12 +66,9 @@
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
-                            @if ($order->count())
-                                <div class="mx-2 p-0 px-2 text-white btn btn-warning">
-                                    Đã có {{ $order->count() }} lượt đặt.
-                                </div>
-                            @else
-                            @endif
+                            <div class="mx-2 p-0 px-2 text-white btn btn-warning">
+                                Còn {{ $product->quantity }} sản phẩm.
+                            </div>
                         </div>
                         <!-- <div class="p-2 text-white btn btn-warning">Chia sẻ link</div> -->
                     </div>
@@ -216,7 +213,7 @@
                                 {{-- {{ Auth::user()->id }} --}}
                             </div>
                             {{-- @foreach ($comments as $item) --}}
-                            <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
+                            <div class="product-item px-3 py-2 my-1">
                                 <p>
                                     {!! $product->desc !!}
                                 </p>

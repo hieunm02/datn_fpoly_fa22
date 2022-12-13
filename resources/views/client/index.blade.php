@@ -8,25 +8,22 @@
                     <span> <i class="feather-align-justify fs-30"></i></span>
                 </a>
                 <h4 class="font-weight-bold m-0 pl-2">Browse</h4>
-                <a class="text-white font-weight-bold ml-auto" data-toggle="modal" data-target="#exampleModal"
-                    href="#">Filter</a>
             </div>
-        </div>
-        <div class="input-group mt-3 rounded shadow-sm overflow-hidden">
-            <div class="input-group-prepend">
-                <button class="border-0 btn btn-outline-secondary text-dark bg-white btn-block"><i
-                        class="feather-search"></i></button>
-            </div>
-            <input type="text" class="shadow-none border-0 form-control" placeholder="Search for restaurants or dishes">
         </div>
     </div>
     <!-- Filters -->
     <div class="container">
         @if (session()->has('error'))
-            <div id="setout" class="text-white alert bg-danger position-fixed" style="margin-top: 4px; right: 4px; z-index: 9999;">
+            <div id="setout" class="text-white alert bg-danger position-fixed"
+                style="margin-top: 4px; right: 4px; z-index: 9999;">
                 {{ session()->get('error') }}
             </div>
         @endif
+        <script>
+            setTimeout(() => {
+                document.getElementById('setout').classList.add('d-none');
+            }, 3000);
+        </script>
         <div class="cat-slider">
             @foreach ($menus as $menu)
                 <div class="cat-item px-1 py-3">
@@ -66,7 +63,8 @@
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 192px">
                             @if ($products->price_sales != null)
                                 <div class="favourite-heart text-white badge-danger p-1 rounded position-absolute">
-                                    <span>Sale</span></div>
+                                    <span>Sale</span>
+                                </div>
                             @endif
                             <a href="{{ route('product-detail', $products->id) }}">
                                 <img alt="#" src="{{ asset($products->thumb) }}" class="img-fluid item-img w-100">
@@ -156,7 +154,9 @@
                                     </div>
                                     <div class="p-3 position-relative">
                                         <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="{{ route('product-detail', $slide->product->id) }}" class="text-black"> {{ $slide->name }}
+                                            <h6 class="mb-1"><a
+                                                    href="{{ route('product-detail', $slide->product->id) }}"
+                                                    class="text-black"> {{ $slide->name }}
                                                 </a>
                                             </h6>
                                             <p class="text-gray mb-3">{{ $slide->product->name }}</p>

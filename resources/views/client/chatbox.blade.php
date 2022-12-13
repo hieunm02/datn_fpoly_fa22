@@ -15,7 +15,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
 <!--Coded With Love By Mutiullah Samim-->
 
 <body>
-    <div style="width: 500px; position: fixed; bottom: 60px; right: 0; z-index: 999999;">
+    <div style="width: 500px; position: fixed; bottom: 120px; right: 0; z-index: 999999;">
         <div id="chatbox" class="action_menu" class="col-md-12 col-xl-12 chat">
             <div class="card">
                 <div class="card-header msg_head">
@@ -71,12 +71,13 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                 </div>
             </div>
         </div>
-        <div id="action_menu_btn" class="col-md-12 col-xl-12 float-lg-right">
-            <div style="width: 60px; height: 60px; border-radius: 50%; float: right;">
+        
+    </div>
+    <div id="action_menu_btn" class="col-md-3 col-xl-3 float-lg-right">
+            <div style="width: 60px; height: 60px; border-radius: 50%; float: right; position: fixed; bottom: 60px; right: 0; z-index: 999999;">
                 <img src="https://iphone-mania.jp/uploads/2020/05/fe9efa2e670f770a12833f801b8b4387.png" width="100%" alt="">
             </div>
         </div>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
