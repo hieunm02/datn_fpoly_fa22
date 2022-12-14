@@ -83,6 +83,7 @@ $('.order-detail').on('click', function () {
             var products = '';
             var options = '';
             var status = '';
+            var totalOption = 0;
             if (data.order.status_id == 1) {
                 status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#53535f;font-weight:normal;margin:0">Đang chờ xác nhận</b>`
             } else if (data.order.status_id == 2) {
@@ -100,6 +101,7 @@ $('.order-detail').on('click', function () {
                         element.options.forEach(eOtp => {
                             if (parseInt(eOtp) == option.id) {
                                 options += option.value + ', ';
+                                totalOption += option.price
                             }
                         });
                     });
@@ -107,15 +109,15 @@ $('.order-detail').on('click', function () {
                 products += `
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
                     <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> 
-                    ${element.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
-                    <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b>
+                    ${(element.price + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
                     ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
                     </p>
                 `;
             });
             if (data.voucher) {
-                totalBefore = total;
-                total = total * ((100 - data.voucher.discount) / 100);
+                totalBefore = total + totalOption;
+                total = (total + totalOption) * ((100 - data.voucher.discount) / 100);
             } else {
                 totalBefore = null;
             }
@@ -155,6 +157,7 @@ $('.bill-detail').on('click', function () {
             $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
             $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
             var total = 0;
+            var totalOption = 0;
             var options = '';
             var products = '';
             // For sản phẩm
@@ -165,18 +168,25 @@ $('.bill-detail').on('click', function () {
                         element.options.forEach(eOtp => {
                             if (parseInt(eOtp) == option.id) {
                                 options += option.value + ', ';
+                                totalOption += option.price
                             }
                         });
                     });
                 }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${(element.product.price + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
                 ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
                 </p>
                 `;
             });
             var code_voucher = data.bill.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
-            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            if (data.bill.voucher) {
+                totalBefore = total + totalOption;
+                total = (total + totalOption) * ((100 - data.voucher.discount) / 100);
+            } else {
+                totalBefore = null;
+            }
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> <del>${totalBefore ? totalBefore.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : ''}</del> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`)
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
