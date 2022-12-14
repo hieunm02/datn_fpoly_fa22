@@ -101,11 +101,13 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
-    //Login - Logout
-    Route::post('/login', [AuthController::class, 'handleLogin']);
-    Route::get('/login', function () {
-        return view('client.login');
-    })->name('login');
+    Route::prefix('/')->middleware('guest')->group(function () {
+        //Login - Logout
+        Route::post('/login', [AuthController::class, 'handleLogin']);
+        Route::get('/login', function () {
+            return view('client.login');
+        })->name('login');
+    }); 
 
     Route::get('/logout', function () {
         Auth::logout();
