@@ -21,7 +21,7 @@
                 <div class="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
                         <div class="d-flex align-items-center p-3">
                             <div class="left mr-3">
-                                <img alt="" src="{{ Auth::user()->avatar }}" class="rounded-circle">
+                                <img alt="" src="{{ Auth::user()->avatar }}" width="60px" class="rounded-circle">
                             </div>
                             <div class="right">
                                 <h6 class="mb-1 font-weight-bold">{{ Auth::user()->name }}
@@ -81,7 +81,7 @@
                                 <input name="id" type="hidden" value="{{ Auth::id() }}">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Họ và tên</label>
-                                    <input type="text" class="form-control" disabled id="exampleInputName1d" value="{{ Auth::user()->name }}" name="name">
+                                    <input type="text" class="form-control" id="exampleInputName1d" value="{{ Auth::user()->name }}" name="name">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputNumber1">Số điện thoại</label>

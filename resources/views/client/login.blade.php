@@ -54,12 +54,12 @@
                     </form>
                     {{-- <a href="forgot_password.html" class="text-decoration-none">
                         <p class="text-center">Quên mật khẩu?</p>
-                    </a>
+                    </a> --}}
                     <div class="d-flex align-items-center justify-content-center">
-                        <a href="signup.html">
+                        <a href="{{ route('register') }}">
                             <p class="text-center m-0">Chưa có tài khoản? Đăng kí ngay</p>
                         </a>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

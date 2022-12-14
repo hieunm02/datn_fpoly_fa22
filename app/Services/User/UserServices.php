@@ -35,6 +35,7 @@ class UserServices
         try {
             $data = User::find($id);
             $data->update([
+                'name' => (string) $request->input('name'),
                 'phone' => (string) $request->input('phone'),
             ]);
 

@@ -107,12 +107,17 @@ Route::prefix('/')->group(function () {
         Route::get('/login', function () {
             return view('client.login');
         })->name('login');
+        Route::post('/register', [AuthController::class, 'handleRegister']);
+        Route::get('/register', function () {
+            return view('client.register');
+        })->name('register');
+
     }); 
 
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route("index");
-    });
+    })->name('logout');
 
     Route::get('/my-order', function () {
         return view('client.my-order');

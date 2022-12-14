@@ -140,6 +140,10 @@
                         <div class="nav-item-wrapper"><a href="{{ route('bills') }}" class="nav-item"><i
                                     class="feather-printer mr-2"></i> Đơn hàng</a></div>
                     </li>
+                    <li>
+                        <div class="nav-item-wrapper"><a href="{{ route('logout') }}" class="nav-item"><i
+                                    class="feather-log-out mr-2"></i> Đăng xuất</a></div>
+                    </li>
                 </ul>
                 <ul class="bottom-nav">
                     <li class="email">
