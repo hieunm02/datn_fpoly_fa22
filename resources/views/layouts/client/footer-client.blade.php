@@ -1,34 +1,35 @@
 <div class="osahan-menu-fotter fixed-bottom bg-white px-3 py-2 text-center d-none">
     <div class="row">
-        <div class="col selected">
-            <a href="home.html" class="text-danger small font-weight-bold text-decoration-none">
-                <p class="h4 m-0"><i class="feather-home text-danger"></i></p>
-                Home
+        <div class="col">
+            <a href="{{ url('/') }}" class="text-dark small font-weight-bold text-decoration-none">
+                <p class="h4 m-0"><i class="feather-home text-dark"></i></p>
+                Trang chủ
             </a>
         </div>
         <div class="col">
-            <a href="most_popular.html" class="text-dark small font-weight-bold text-decoration-none">
-                <p class="h4 m-0"><i class="feather-map-pin"></i></p>
-                Trending
+            <a href="{{ url('offers') }}" class="text-dark small font-weight-bold text-decoration-none">
+                <p class="h4 m-0"><i class="feather-percent"></i></p>
+                Giảm giá
             </a>
         </div>
         <div class="col bg-white rounded-circle mt-n4 px-3 py-2">
             <div class="bg-danger rounded-circle mt-n0 shadow">
-                <a href="checkout.html" class="text-white small font-weight-bold text-decoration-none">
+                <a href="{{ url('carts') }}" class="text-white small font-weight-bold text-decoration-none">
                     <i class="feather-shopping-cart"></i>
                 </a>
             </div>
         </div>
         <div class="col">
-            <a href="favorites.html" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{ route('listProducts') }}" class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-heart"></i></p>
-                Favorites
+                Sản phẩm
             </a>
         </div>
         <div class="col">
-            <a href="{{route('profile.index')}}" class="text-dark small font-weight-bold text-decoration-none">
+            <a href="{{ Auth::user() ? route('profile.index') : route('login') }}"
+                class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-user"></i></p>
-                Profile
+                {{ Auth::user() ? 'Tài khoản' : 'Đăng nhập' }}
             </a>
         </div>
     </div>
