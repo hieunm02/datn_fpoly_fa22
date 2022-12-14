@@ -89,15 +89,17 @@
                         <p class="text-break">{{ $product->content }}</p>
                     </div>
                     <div class="px-3">
-                        <label for="" class="text-bold">Tùy chọn</label>
-                        @foreach ($product_option_details as $item)
-                            <div class="form-check">
-                                <input type="checkbox" name="option_product[]" class="form-check-input"
-                                    value="{{ $item->option_detail_id }}">
-                                <label for="option" class="form-check-label">{{ $item->value }}
-                                    {{ number_format($item->price, 0, ',', ',') }}đ</label>
-                            </div>
-                        @endforeach
+                        @if (count($product_option_details) > 0)
+                            <label for="" class="text-bold">Tùy chọn</label>
+                            @foreach ($product_option_details as $item)
+                                <div class="form-check">
+                                    <input type="checkbox" name="option_product[]" class="form-check-input"
+                                        value="{{ $item->option_detail_id }}">
+                                    <label for="option" class="form-check-label">{{ $item->value }}
+                                        {{ number_format($item->price, 0, ',', ',') }}đ</label>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="p-3">
                         {{-- action="{{ url('carts') }}" method="POST" --}}
