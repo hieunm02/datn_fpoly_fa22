@@ -77,7 +77,7 @@ class OrderController extends Controller
 
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
-        $adminInfor = Auth::id();
+        $adminInfor = User::find(Auth::id());
 
         if ($request->status_id == 5) {
             $flag = true;

@@ -95,7 +95,7 @@ $('.order-detail').on('click', function () {
             }
             // For sản phẩm
             data.billDetail.forEach(element => {
-                total += element.price;
+                total += element.price * element.quantity;
                 if (element.options != null) {
                     data.options.forEach(option => {
                         element.options.forEach(eOtp => {
@@ -109,7 +109,7 @@ $('.order-detail').on('click', function () {
                 products += `
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
                     <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> 
-                    ${(element.price + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    ${(element.price * element.quantity + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
                     <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
                     ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
                     </p>
@@ -149,7 +149,6 @@ $('.bill-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             $('#bill_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
@@ -162,7 +161,8 @@ $('.bill-detail').on('click', function () {
             var products = '';
             // For sản phẩm
             data.billDetail.forEach(element => {
-                total += element.product.price;
+                console.log(element);
+                total += (element.price * element.quantity);
                 if (element.options != null) {
                     data.options.forEach(option => {
                         element.options.forEach(eOtp => {
@@ -174,7 +174,7 @@ $('.bill-detail').on('click', function () {
                     });
                 }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${(element.product.price + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${(element.price * element.quantity + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
                 ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
                 </p>
                 `;
@@ -241,7 +241,7 @@ $('.select-order').on("change", function (event) {
                     let socket = io(ip_address + ':' + socket_port);
                     let message = '';
                     if (data.order.status_id == 2) {
-                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                        message = `Đơn hàng #${data.order.id} của bạn đang được xử lý`;
                     }
                     if (data.order.status_id == 3) {
                         message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
