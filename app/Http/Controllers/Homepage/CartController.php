@@ -9,6 +9,7 @@ use App\Models\Floor;
 use App\Models\OptionDetail;
 use App\Models\Product;
 use App\Models\Room;
+use App\Models\Voucher;
 use App\Services\Carts\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,8 @@ class CartController extends Controller
             $buildings = $this->CartServices->getBuilding();
             $total = 0;
             $options = OptionDetail::all();
-            return view('client.checkout', compact('carts', 'total', 'buildings', 'options'));
+            $vouchers = Voucher::all();
+            return view('client.checkout', compact('carts', 'total', 'buildings', 'options', 'vouchers'));
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
             return redirect('/');

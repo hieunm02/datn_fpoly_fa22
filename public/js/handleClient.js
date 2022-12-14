@@ -107,6 +107,8 @@ function saveNotify(user_id, type, role, room_id) {
     })
 }
 
+
+
 $('#applyVoucher').on("click", () => {
     let code = $('.code-voucher').val();
     $.ajax({
@@ -153,3 +155,9 @@ $('#applyVoucher').on("click", () => {
         }
     });
 })
+
+$('#confirm_choose').on('click', () => {
+    let code = $('input[name=voucher_code]:checked').val();
+    $('input[name=voucher]').val(code);
+    $('#modalVouchers').modal('toggle');
+});

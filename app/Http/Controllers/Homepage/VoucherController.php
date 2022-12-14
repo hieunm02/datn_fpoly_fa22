@@ -101,14 +101,6 @@ class VoucherController extends Controller
             return response()->json(['errors' => $isNotExist], 500);
         } else {   // Tồn tại mã
             $voucher = Voucher::where('code', $request->code)->first();
-            $userVoucher = UserVoucher::where('user_id', Auth::user()->id)->where('voucher_id', $voucher->id)->first();
-            //check dùng hay chưa
-            if (isset($userVoucher)) {
-                $isNotTime = [
-                    'isNotTime' => 'Mã giảm giá này bạn đã sử dụng!',
-                ];
-                return response()->json(['errors' => $isNotTime], 500);
-            }
 
             if (!Carbon::now()->isSameDay($voucher->start_time) || $voucher->active != 0) {    // Khả dụng
                 $isNotTime = [

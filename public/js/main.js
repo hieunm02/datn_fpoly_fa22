@@ -5,7 +5,7 @@ $.ajaxSetup({
 });
 
 // UploadFile
-$("#upload").change(function() {
+$("#upload").change(function () {
     const form = new FormData();
     form.append("file", $(this)[0].files[0]);
 
@@ -17,7 +17,7 @@ $("#upload").change(function() {
         data: form,
         url: "/admin/upload/services",
 
-        success: function(results) {
+        success: function (results) {
             if (results.error == false) {
                 $("#image_show").html(
                     '<a href="' +
@@ -49,7 +49,7 @@ function deleteAjax(parameter, id) {
                 _method: "DELETE",
                 _token: token,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data.model);
                 Swal.fire(
                     "Successful!",
@@ -64,7 +64,7 @@ function deleteAjax(parameter, id) {
 }
 
 //View detail order
-$('.order-detail').on('click', function() {
+$('.order-detail').on('click', function () {
     var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/orders/" + id,
@@ -82,10 +82,20 @@ $('.order-detail').on('click', function() {
             var total = 0;
             var products = '';
             var options = '';
+            var status = '';
+            if (data.order.status_id == 1) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#53535f;font-weight:normal;margin:0">Đang chờ xác nhận</b>`
+            } else if (data.order.status_id == 2) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#639ef7;font-weight:normal;margin:0">Đang xử lý</b>`
+            } else if (data.order.status_id == 3) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#ffc107;font-weight:normal;margin:0">Đang giao</b>`
+            } else {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:red;font-weight:normal;margin:0">Đã hủy</b>`
+            }
             // For sản phẩm
             data.billDetail.forEach(element => {
+                total += element.price;
                 if (element.options != null) {
-                    total += element.product.price;
                     data.options.forEach(option => {
                         element.options.forEach(eOtp => {
                             if (parseInt(eOtp) == option.id) {
@@ -96,20 +106,21 @@ $('.order-detail').on('click', function() {
                 }
                 products += `
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
-                    <span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> 
-                    ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> 
+                    ${element.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
                     <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b>
-                    <b style="font-size:12px;font-weight:300;"> ${options != '' ? `(thêm ${options})` : ''}</b></p>
+                    ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
+                    </p>
                 `;
             });
             if (data.voucher) {
                 totalBefore = total;
-                total = total * (data.voucher.discount / 100);
+                total = total * ((100 - data.voucher.discount) / 100);
             } else {
                 totalBefore = null;
             }
-
-            var code_voucher = data.order.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.vouchecode} + (giảm ${data.voucher.discount}%)` : ''
+            $('#order_code').html(status);
+            var code_voucher = data.order.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
             $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> <del>${totalBefore ? totalBefore.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : ''}</del> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
@@ -126,7 +137,7 @@ $('.order-detail').on('click', function() {
 });
 
 // View detail bill
-$('.bill-detail').on('click', function() {
+$('.bill-detail').on('click', function () {
     var id = $(this).attr('data-id');
     $.ajax({
         url: "/admin/bills/" + id,
@@ -135,7 +146,7 @@ $('.bill-detail').on('click', function() {
             id: id,
         },
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             console.log(data);
             $('#bill_products').html('');
 
@@ -159,7 +170,9 @@ $('.bill-detail').on('click', function() {
                     });
                 }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b><b style="font-size:12px;font-weight:300;"> ${options != '' ? `(thêm ${options})` : ''} </b></p>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b>
+                ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
+                </p>
                 `;
             });
             var code_voucher = data.bill.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
@@ -186,8 +199,7 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 // update status order
-$('.select-order').on("change", function(event) {
-    alert(1);
+$('.select-order').on("change", function (event) {
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
     let admin_id = $('#user_id').val();
@@ -210,7 +222,7 @@ $('.select-order').on("change", function(event) {
                     status_id: status_id,
                     _method: "PUT",
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.order.status_id == 4) {
                         $('#idOrder' + data.order.id).remove();
                     }
@@ -245,7 +257,7 @@ $('.select-order').on("change", function(event) {
     })
 });
 
-$('#search-by-code').on('keyup', function() {
+$('#search-by-code').on('keyup', function () {
     var code = document.querySelector('#search-by-code').value;
     $.ajax({
         url: '/admin/orders/search/code',
@@ -254,11 +266,11 @@ $('#search-by-code').on('keyup', function() {
         data: {
             code: code
         },
-        success: function(data) {
+        success: function (data) {
             console.log(data);
             $('#tbodyOrder').html(data.result);
         },
-        error: function(error) {
+        error: function (error) {
             console.log(error);
             $('#tbodyOrder').html(error.result);
         },
@@ -274,7 +286,7 @@ function selectOrderByStatus() {
         data: {
             status_id: status_id
         },
-        success: function(data) {
+        success: function (data) {
             console.log(data.result);
             $('#tbodyOrder').html(data.result);
         },
@@ -299,11 +311,11 @@ function copyToClipboard() {
     document.execCommand('copy');
 }
 
-$('.toggle-notify').on('click', function() {
+$('.toggle-notify').on('click', function () {
     $('.show-notify').css('display', 'none');
 });
 
-$('.notify').on('click', function() {
+$('.notify').on('click', function () {
     var notify_id = $(this).attr('data-id');
     $.ajax({
         headers: {
@@ -314,7 +326,7 @@ $('.notify').on('click', function() {
         data: {
             notify_id: notify_id
         },
-        success: function(data) {
+        success: function (data) {
             $('.notify').removeClass('notify-pending');
         }
     });
@@ -336,7 +348,7 @@ function sendMessage(message, user_id, avatar, room_id) {
         processData: false,
         contentType: false,
         dataType: 'JSON',
-        success: function(response) {
+        success: function (response) {
             if (response.success) {
                 console.log(response.data);
             }

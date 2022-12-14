@@ -164,7 +164,7 @@
                     </div>
                     <div class="bg-white p-3 py-3 border-bottom clearfix">
                         <div class="input-group-sm mb-2 input-group">
-                            <input placeholder="Nhập mã voucher và ấn nút để áp dụng" type="text"  name="voucher" class="form-control code-voucher">
+                            <input data-toggle="modal" data-target="#modalVouchers" type="text" class="form-control code-voucher" name="voucher" placeholder="Xem voucher khả dụng">
                             <div class="input-group-append">
                                 <button id="applyVoucher" type="button" class="btn btn-primary"><i class="feather-percent"></i> Áp
                                     dụng</button>
@@ -193,6 +193,42 @@
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </div>
+</div>
+<div class="modal fade" id="modalVouchers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Danh sách voucher</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="osahan-filter">
+                    <div class="filter filter-voucher">
+                        <!-- SORT BY -->
+                        <div class="p-3 bg-light border-bottom">
+                            <h6 class="m-0">Chọn voucher bạn muốn sử dụng</h6>
+                        </div>
+                        @foreach($vouchers as $voucher)
+                        <div class="custom-control border-bottom px-0  custom-radio">
+                            <input type="radio" id="customRadio{{$voucher->id}}" value="{{$voucher->code}}" name="voucher_code" class="custom-control-input">
+                            <label class="custom-control-label py-3 w-100 px-3" for="customRadio{{$voucher->id}}">Mã <b style="color: red;">{{$voucher->code}}</b> (giảm {{$voucher->discount}}%)</label>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-0 border-0">
+                <div class="col-6 m-0 p-0">
+                    <a href="#" class="btn border-top btn-lg btn-block" data-dismiss="modal">Đóng</a>
+                </div>
+                <div class="col-6 m-0 p-0">
+                    <button type="submit" id="confirm_choose" class="btn btn-primary btn-lg btn-block">Chọn</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

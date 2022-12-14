@@ -119,7 +119,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
-                                                <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:green;font-weight:normal;margin:0">Thành công</b></p>
+                                                <p style="font-size:14px;margin:0 0 6px 0;" id="order_status"></p>
                                                 <p id="order_code" style="font-size:14px;margin:0 0 6px 0;"></p>
                                                 <p id="order_total" style="font-size:14px;margin:0 0 0 0;"></p>
                                             </td>
