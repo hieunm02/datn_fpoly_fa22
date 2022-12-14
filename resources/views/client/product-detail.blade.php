@@ -4,7 +4,7 @@
 
     <div class="d-none">
         <div class="bg-primary border-bottom p-3 d-flex align-items-center">
-            <h4 class="font-weight-bold m-0 text-white flex-fill">Product Detail</h4>
+            <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
             <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
         </div>
     </div>
@@ -66,12 +66,9 @@
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
                             <i class="feather-star mr-n1"></i>
-                            @if ($order->count())
-                                <div class="mx-2 p-0 px-2 text-white btn btn-warning">
-                                    Đã có {{ $order->count() }} lượt đặt.
-                                </div>
-                            @else
-                            @endif
+                            <div class="mx-2 p-0 px-2 text-white btn btn-warning">
+                                Còn {{ $product->quantity }} sản phẩm.
+                            </div>
                         </div>
                         <!-- <div class="p-2 text-white btn btn-warning">Chia sẻ link</div> -->
                     </div>
@@ -216,7 +213,7 @@
                                 {{-- {{ Auth::user()->id }} --}}
                             </div>
                             {{-- @foreach ($comments as $item) --}}
-                            <div class="product-item px-3 py-2 my-1 d-flex justify-content-between">
+                            <div class="product-item px-3 py-2 my-1">
                                 <p>
                                     {!! $product->desc !!}
                                 </p>

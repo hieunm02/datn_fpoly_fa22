@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-none">
     <div class="bg-primary p-3 d-flex align-items-center">
-        <h4 class="font-weight-bold m-0 text-white flex-fill">Offer</h4>
+        <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
         <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
     </div>
 </div>
@@ -11,7 +11,7 @@
     <div class="container">
         <div class="py-5 d-flex align-items-center">
             <div>
-                <h2 class="text-white">Offers for you</h2>
+                <h2 class="text-white">Mã giảm giá</h2>
                 <p class="h6 text-white">Explore top deals and offers exclusively for you!</p>
             </div>
             <div class="ml-auto"><img alt="#" src="img/offers.png" class="img-fluid offers_img"></div>

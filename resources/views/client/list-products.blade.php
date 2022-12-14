@@ -16,7 +16,7 @@
     </style>
     <div class="d-none">
         <div class="bg-primary border-bottom p-3 d-flex align-items-center">
-            <h4 class="font-weight-bold m-0 text-white flex-fill">Product</h4>
+            <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
             <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
         </div>
     </div>
@@ -26,7 +26,7 @@
         @endif
         <div class="container">
             <div class="most_popular py-5">
-                <div class="d-flex justify-content-between mb-4">
+                <div class="d-flex justify-content-between mb-4 row">
                     <h3 class="font-weight-bold text-dark mb-0">Danh sách sản phẩm</h3>
                     <div class="d-flex">
                         <div class="btn-create-order-group mx-2" id="btn-create-order-group">

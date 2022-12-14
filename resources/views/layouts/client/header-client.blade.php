@@ -99,10 +99,10 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ Auth::user() ? route('profile.index') : '#' }}"
+            <a href="{{ Auth::user() ? route('profile.index') : route('login') }}"
                 class="text-dark small font-weight-bold text-decoration-none">
                 <p class="h4 m-0"><i class="feather-user"></i></p>
-                Profile
+                {{ Auth::user() ? 'Tài khoản' : 'Đăng nhập' }}
             </a>
         </div>
     </div>

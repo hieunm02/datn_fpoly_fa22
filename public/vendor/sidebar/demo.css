@@ -684,7 +684,7 @@ body.hc-nav-open {
         right: 35% !important;
     }
 }
-@media screen and (max-width: 416px) {
+@media screen and (max-width: 500px) {
     .hc-offcanvas-nav .nav-container {
         right: 25% !important;
     }
