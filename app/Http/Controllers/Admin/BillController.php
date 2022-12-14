@@ -20,7 +20,7 @@ class BillController extends Controller
     public function index()
     {
         $title = 'Danh sách đơn hàng';
-        $bills = Order::where('status_id', 4)->paginate(5);
+        $bills = Order::where('status_id', 4)->orderBy('updated_at','DESC')->paginate(5);
         return view('admin.bills.index', compact('bills', 'title'));
     }
 
