@@ -78,7 +78,7 @@ class AuthController extends Controller
                 'avatar' => 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
                 'phone' => 0000000000,
             ]);
-            return redirect()->route('register')->with('error', 'Đăng ký thành công!');
+            return redirect()->route('login')->with('error', 'Đăng ký thành công!');
         }
     }
 }

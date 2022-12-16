@@ -116,7 +116,7 @@
                                 <input name="quantity" style="width: 44px;" class="input-qty btn btn-default" id="quantity"
                                     min="1" type="text" value="1">
                                 <input type="button" onclick="cong()" value="+" class="btn btn-outline-primary">
-                                <button type="button" class="btn btn-success" id="addtocart">Đặt hàng<i
+                                <button type="button" class="btn btn-success" id="addtocart">Thêm vào giỏ hàng<i
                                         class="feather-arrow-right"></i></button>
                             @endif
                         </form>
