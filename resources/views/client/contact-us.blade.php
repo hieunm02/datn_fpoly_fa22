@@ -77,12 +77,11 @@
 </div>
 <!-- Footer -->
 @endsection
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script>
     setTimeout(() => {
         document.getElementById('setout').classList.add('d-none');
     }, 5000);
-</script>
-<script>
     $(function() {
         let ip_address = '127.0.0.1';
         let socket_port = '3000';
