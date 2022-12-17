@@ -75,9 +75,10 @@ class ProductServices
     {
         return  Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
-            ->orderBy('updated_at', 'DESC')
+            // ->orderBy('updated_at', 'DESC')
+            ->inRandomOrder()->limit(12)
             ->where('active', 1)
-            ->paginate(8);
+            ->get();
     }
 
     public function create($request)

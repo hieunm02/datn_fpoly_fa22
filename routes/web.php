@@ -85,7 +85,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/contact-us', function () {
         return view('client.contact-us');
-    });
+    })->name('contact');
 
     Route::post('/contact-us', [ContactController::class, "store"]);
 
@@ -101,16 +101,23 @@ Route::prefix('/')->group(function () {
 
     Route::get('/news-detail/{id}', [ClientNewsController::class, 'show'])->name('news-detail');
 
-    //Login - Logout
-    Route::post('/login', [AuthController::class, 'handleLogin']);
-    Route::get('/login', function () {
-        return view('client.login');
-    })->name('login');
+    Route::prefix('/')->middleware('guest')->group(function () {
+        //Login - Logout
+        Route::post('/login', [AuthController::class, 'handleLogin']);
+        Route::get('/login', function () {
+            return view('client.login');
+        })->name('login');
+        Route::post('/register', [AuthController::class, 'handleRegister']);
+        Route::get('/register', function () {
+            return view('client.register');
+        })->name('register');
+
+    }); 
 
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route("index");
-    });
+    })->name('logout');
 
     Route::get('/my-order', function () {
         return view('client.my-order');
@@ -147,6 +154,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
+    Route::post('/vouchers/apply', [HomepageVoucherController::class, 'applyVoucher'])->name('vouchers.apply');
 
     //đặt hàng nhóm
     Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);

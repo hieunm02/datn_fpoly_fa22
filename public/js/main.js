@@ -74,28 +74,61 @@ $('.order-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             $('#order_products').html('');
-
             $('#avatar_customer').attr('src', data.user.avatar);
             var billDate = convertUTCDateToLocalDate(new Date(data.order.created_at));
             $('#order_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
             $('#order_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.order.code}`);
             var total = 0;
             var products = '';
+            var options = '';
+            var status = '';
+            var totalOption = 0;
+            if (data.order.status_id == 1) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#53535f;font-weight:normal;margin:0">Đang chờ xác nhận</b>`
+            } else if (data.order.status_id == 2) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#639ef7;font-weight:normal;margin:0">Đang xử lý</b>`
+            } else if (data.order.status_id == 3) {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:#ffc107;font-weight:normal;margin:0">Đang giao</b>`
+            } else {
+                status = `<span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:red;font-weight:normal;margin:0">Đã hủy</b>`
+            }
             // For sản phẩm
             data.billDetail.forEach(element => {
-                total += element.product.price;
+                total += element.total;
+                if (element.options != null) {
+                    data.options.forEach(option => {
+                        element.options.forEach(eOtp => {
+                            if (parseInt(eOtp) == option.id) {
+                                options += option.value + ', ';
+                            }
+                        });
+                    });
+                }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
+                    <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> 
+                    ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
+                    ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
+                    </p>
                 `;
             });
-            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            if (data.voucher) {
+                totalBefore = total + totalOption;
+                total = (total + totalOption) * ((100 - data.voucher.discount) / 100);
+            } else {
+                totalBefore = null;
+            }
+            $('#order_code').html(status);
+            var code_voucher = data.order.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
+            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> <del>${totalBefore ? totalBefore.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : ''}</del> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
+            $('#code_voucher').html(code_voucher);
             $('#order_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.order.address}`)
 
             // Append vào table sản phẩm
@@ -115,32 +148,53 @@ $('.bill-detail').on('click', function () {
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data);
-            $('#order_products').html('');
+            $('#bill_products').html('');
 
             $('#avatar_customer').attr('src', data.user.avatar);
-            var billDate = convertUTCDateToLocalDate(new Date(data.order.created_at));
-            $('#order_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
-            $('#order_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.order.code}`);
+            var billDate = convertUTCDateToLocalDate(new Date(data.bill.created_at));
+            $('#bill_time').text(billDate.toLocaleString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" }));
+            $('#bill_code').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Mã đơn</span> ${data.bill.code}`);
             var total = 0;
+            var totalOption = 0;
+            var options = '';
             var products = '';
             // For sản phẩm
             data.billDetail.forEach(element => {
-                total += element.product.price;
+                console.log(element);
+                total += (element.price * element.quantity);
+                if (element.options != null) {
+                    data.options.forEach(option => {
+                        element.options.forEach(eOtp => {
+                            if (parseInt(eOtp) == option.id) {
+                                options += option.value + ', ';
+                                totalOption += option.price
+                            }
+                        });
+                    });
+                }
                 products += `
-                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${element.product.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> ${element.quantity} chiếc</b></p>
+                <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">${element.product.name}</span> ${(element.price * element.quantity + totalOption).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
+                ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
+                </p>
                 `;
             });
-            $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
+            var code_voucher = data.bill.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
+            if (data.bill.voucher) {
+                totalBefore = total + totalOption;
+                total = (total + totalOption) * ((100 - data.voucher.discount) / 100);
+            } else {
+                totalBefore = null;
+            }
+            $('#bill_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> <del>${totalBefore ? totalBefore.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : ''}</del> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`)
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
             $('#phone_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Số điện thoại</span> ${data.user.phone}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
             $('#id_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">ID tài khoản</span> #${data.user.id}`)
-            $('#order_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.order.address}`)
-
+            $('#bill_address').html(`<span style="display:block;font-weight:bold;font-size:13px;">Địa chỉ nhận hàng</span> ${data.bill.address}`)
+            $('#code_voucher').html(code_voucher);
             // Append vào table sản phẩm
-            $('#order_products').append(products);
+            $('#bill_products').append(products);
         }
     });
 });
@@ -155,7 +209,6 @@ function convertUTCDateToLocalDate(date) {
 }
 // update status order
 $('.select-order').on("change", function (event) {
-    var token = $(this).data("token");
     let id = $(this).attr('data-id');
     var status_id = $(event.target).val();
     let admin_id = $('#user_id').val();
@@ -177,7 +230,6 @@ $('.select-order').on("change", function (event) {
                     id: id,
                     status_id: status_id,
                     _method: "PUT",
-                    _token: token,
                 },
                 success: function (data) {
                     if (data.order.status_id == 4) {
@@ -188,7 +240,7 @@ $('.select-order').on("change", function (event) {
                     let socket = io(ip_address + ':' + socket_port);
                     let message = '';
                     if (data.order.status_id == 2) {
-                        message = `Đơn hàng #${data.order.id} của bạn đã được xác nhận`;
+                        message = `Đơn hàng #${data.order.id} của bạn đang được xử lý`;
                     }
                     if (data.order.status_id == 3) {
                         message = `Đơn hàng #${data.order.id} của bạn đang được giao`;
@@ -312,4 +364,3 @@ function sendMessage(message, user_id, avatar, room_id) {
         }
     })
 }
-

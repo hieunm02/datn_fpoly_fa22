@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoucherRequest;
 use App\Models\User;
+use App\Models\UserVoucher;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class VoucherController extends Controller
         $publicVouchers = [];
         foreach ($vouchers as $voucher) {
             if (($voucher->users)->isEmpty()) {
-                if(strtotime($voucher->end_time) > strtotime(Carbon::now()->timezone('Asia/Ho_Chi_Minh'))) {
+                if (strtotime($voucher->end_time) > strtotime(Carbon::now()->timezone('Asia/Ho_Chi_Minh'))) {
                     $publicVouchers[] = $voucher;
                 }
             } else {
@@ -81,5 +82,47 @@ class VoucherController extends Controller
         $user->vouchers()->attach($lastInsertId);
         $user->save();
         return response()->json(['user' => $user], 200);
+    }
+
+    public function applyVoucher(Request $request)
+    {
+        $vouchers = Voucher::all();
+        if (!$request->code) {
+            $required = [
+                'required' => 'Mã chưa được nhập!',
+            ];
+            return response()->json(['errors' => $required], 500);
+        }
+        // Không tồn tại
+        if (!$vouchers->contains('code', $request->code)) {
+            $isNotExist = [
+                'isNotExist' => 'Mã giảm giá không tồn tại hoặc đã được sử dụng!',
+            ];
+            return response()->json(['errors' => $isNotExist], 500);
+        } else {   // Tồn tại mã
+            $voucher = Voucher::where('code', $request->code)->first();
+            $userVoucher = UserVoucher::where('user_id', Auth::user()->id)->where('voucher_id', $voucher->id)->first();
+            if ($userVoucher) {
+                $isNotTime = [
+                    'isNotTime' => 'Mã này bạn đã sử dụng!',
+                ];
+                return response()->json(['errors' => $isNotTime], 500);
+            } else {
+                if (strtotime(Carbon::now()) > strtotime($voucher->start_time) && strtotime(Carbon::now()) > strtotime($voucher->end_time)) {
+                    $isExpirated = [
+                        'isExpirated' => 'Mã hết hạn sử dụng!',
+                    ];
+                    return response()->json(['errors' => $isExpirated], 500);
+                }
+            }
+
+            if ($voucher->quantity == 0) {
+                $isOutOfStock = [
+                    'isOutOfStock' => 'Mã hết lượt sử dụng!',
+                ];
+                return response()->json(['errors' => $isOutOfStock], 500);
+            }
+        }
+        return response()->json(['voucher' => $voucher], 200);
     }
 }
