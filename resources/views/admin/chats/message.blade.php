@@ -242,24 +242,25 @@
                     </div>
                     ` :
                     ``
-                );
-                $('#room_chat').append(
-                    id != $('#room_id').val() ? `
-                    <a class="chat-list-item p-h-25" href="/admin/chats/message/${id}">
-                        <div class="media align-items-center">
-                            <div class="avatar avatar-image">
-                                <img src="${avatar}" alt="">
-                            </div>
-                            <div class="p-l-15">
-                                <h5 class="m-b-0">${name}</h5>
-                            </div>
-                        </div>
-                    </a>
-                ` :
-                    ``
-                )
-            });
+            );
+            // $('#room_chat').append(
+            //     id != $('#room_id').val() ? `
+            //         <a class="chat-list-item p-h-25" href="/admin/chats/message/${id}">
+            //             <div class="media align-items-center">
+            //                 <div class="avatar avatar-image">
+            //                     <img src="${avatar}" alt="">
+            //                 </div>
+            //                 <div class="p-l-15">
+            //                     <h5 class="m-b-0">${name}</h5>
+            //                 </div>
+            //             </div>
+            //         </a>
+            //     `
+            //     :
+            //     ``
+            // )
         });
+    });
     </script>
     <script>
         var messageBody = document.getElementById('chat-content');
