@@ -224,6 +224,7 @@ $(function () {
             },
             dataType: "JSON",
             success: function (response) {
+                $('.error-voucher').html('');
                 var user_id = $('.auth_id').val();
                 var name = $("input[name=name]").val();
                 response.prd.forEach(el => {

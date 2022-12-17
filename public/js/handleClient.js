@@ -138,18 +138,23 @@ $('#applyVoucher').on("click", () => {
         },
         error: function (errors) {
             if (errors.responseJSON.errors.required) {
+                $("input[name=voucher]").val('')
                 $('.error-voucher').text(errors.responseJSON.errors.required);
             }
             if (errors.responseJSON.errors.isNotExist) {
+                $("input[name=voucher]").val('')
                 $('.error-voucher').text(errors.responseJSON.errors.isNotExist);
             }
             if (errors.responseJSON.errors.isNotTime) {
+                $("input[name=voucher]").val('')
                 $('.error-voucher').text(errors.responseJSON.errors.isNotTime);
             }
             if (errors.responseJSON.errors.isExpirated) {
+                $("input[name=voucher]").val('')
                 $('.error-voucher').text(errors.responseJSON.errors.isExpirated);
             }
             if (errors.responseJSON.errors.isOutOfStock) {
+                $("input[name=voucher]").val('')
                 $('.error-voucher').text(errors.responseJSON.errors.isOutOfStock);
             }
         }
