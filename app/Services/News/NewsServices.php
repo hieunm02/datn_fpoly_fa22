@@ -37,6 +37,7 @@ class NewsServices
     public function create($request)
     {
         try {
+            dd($request->all());
             News::create([
                 'title' => (string) $request->input('title'),
                 'user_id' => 1,

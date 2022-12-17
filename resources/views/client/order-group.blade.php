@@ -1,5 +1,5 @@
 @extends('layouts.client.client-master')
-@section('title-page', 'Favorites')
+@section('title-page', 'Đặt theo nhóm')
 @section('content')
 <div class="osahan-trending" style="padding-bottom: 500px;">
 <div class="container col-12 px-5">
@@ -14,16 +14,16 @@
             <input type="hidden" name="user_avatar" id="user_avatar" value="{{ Auth::user()->avatar }}">
             @endif
             <input type="hidden" name="cart_product" id="cart_product" value="">
-            <div class="row" id="innerResult">
+            <div class="row" id="innerResult" style="overflow: scroll;height:600px">
                 @foreach ($products as $product)
-                <div class="col-lg-4 mb-3">
+                <div class="col-lg-2 mb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
                         <div class="list-card-image">
                             <a data-toggle="modal" data-target="#select-product" data-id_product="{{$product->id}}" class="quick-view">
                                 <img alt="#" src="{{asset($product->thumb)}}" class="img-fluid item-img w-100">
                             </a>
                         </div>
-                        <p>{{ number_format($product->price, 0, ',', '.') }} VND</p>
+                        <p class="ml-2">{{ number_format($product->price, 0, ',', '.') }} VND</p>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
                                 <h6 style="cursor: pointer;" class="mb-1"><a data-toggle="modal" data-target="#select-product" data-id_product="{{$product->id}}" class="text-black quick-view">{{$product->name}}
@@ -44,7 +44,7 @@
                         <h6>ĐƠN HÀNG THEO NHÓM</h6>
                     </div>
                     <div class="btn-create-order-group col-5" id="btn-create-order-group">
-                        <a data-toggle="modal" data-target="#invite" id="btn-invite" class="ml-auto btn btn-primary">Mời bạn cùng đặt</a>
+                        <a data-toggle="modal" data-target="#invite" id="btn-invite" class="ml-auto btn btn-primary text-white">Mời bạn cùng đặt</a>
                     </div>
                 </div>
                 <div class="product-cart" id="product-cart" style="color: #cfcaca;">
@@ -82,11 +82,11 @@
                                 <div class="col-3">
                                     <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
                                     {{ $cart->product_name }}
                                 </div>
-                                <div class="col-3" id="cart-product_price_{{ $cart->user_id }}{{$cart->product_id}}">
-                                    {{ ($cart->product_price) * ($cart->quantity) }}đ
+                                <div class="col-3" id="cart-product_price_{{ $cart->user_id }}{{$cart->product_id}}" style="font-family: Arial; font-weight: bold; font-size: 17px">
+                                    {{ ($cart->product_price) * ($cart->quantity) }}<sup>đ</sup>
                                 </div>
                             </div>
                             <div class="row py-3 border-bottom">
@@ -94,11 +94,11 @@
                                     <div id="cart-quantity_{{ $cart->user_id }}{{$cart->product_id}}">
                                         @if(Auth::user() && $cart->user_id == Auth::user()->id)
                                         <input type="button" value="-" onclick="decrease({{ $cart->user_id }}{{$cart->product_id}})" class="btn btn-outline-primary" id="decrease">
-                                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_{{ $cart->user_id }}{{$cart->product_id}}" min="1" type="text" value="{{$cart->quantity}}" readonly>
+                                        <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default" id="quantity_{{ $cart->user_id }}{{$cart->product_id}}" min="1" type="text" value="{{$cart->quantity}}" readonly>
                                         <input type="button" onclick="increase({{ $cart->user_id }}{{$cart->product_id}})" id="increase" value="+" class="btn btn-outline-primary">
                                         @else()
                                         <h6 style="color: #cfcaca">Số lượng sản phẩm:
-                                            <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" min="1" type="text" value="x{{$cart->quantity}}">
+                                            <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default" min="1" type="text" value="x{{$cart->quantity}}">
                                         </h6>
                                         @endif
                                     </div>
@@ -115,12 +115,10 @@
                     </div>
                     <div class="total-price col-4 text-danger font-weight-bold" id="total-price">
                         <input type="hidden" name="cart_total_price" id="cart_total_price" value="{{ $sumPriceCart }}">
-                        <h5>= {{$sumPriceCart}} đ</h5>
+                        <h5 style="font-family: Arial; font-weight: bold; font-size: 20px">= {{$sumPriceCart}} <sup>đ</sup></h5>
                     </div>
                 </div>
             </div>
-            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>                `)
-
             <div class="checkout">
                 @foreach($listMembers as $member)
                 @if($member->user_id == Auth::id() && $member->role == "manager")
@@ -202,20 +200,10 @@
                 <h6><b>Ghi chú thêm (nếu có)</b></h6>
                 <textarea type="text" name="note" placeholder="Ví dụ: thêm đá riêng,..." style="width: 100%; border:none"></textarea>
             </div>
+
+            <h6><b>Option</b></h6>
             <div class="option">
-                <h6><b>Option</b></h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Thêm đá
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Nhiều đường
-                    </label>
-                </div>
+    
             </div>
         </div>
         <div class="modal-footer p-0 border-0">
@@ -317,6 +305,22 @@
                 $('#product_thumb').html(data.product_thumb)
                 $('#cart_product').val(data.cart_product)
                 $('#cart_product_quantity').val(data.cart_product_quantity)
+                
+                let option = '';
+                for(let $i = 0; $i < data.product_option.length; $i++){
+                    option += `
+                    <div class="form-check">
+                        <input type="checkbox" name="option_product[]" id="option_product" class="form-check-input"
+                            value="${data.product_option[$i].option_detail_id}">
+                        <label for="option" class="form-check-label">${data.product_option[$i].value}
+                            ${data.product_option[$i].price}đ</label>
+                    </div>
+                    `
+                }
+                $('.option').html(
+                    option
+                )
+                console.log(option);
             }}
         })
     })
@@ -370,33 +374,35 @@
                 _token: _token,
             },
             success: function(data) {
+                console.log(data);
+
                 if(data){
                     let list = ''
                     let total = ''
                     let sumPriceCart = 0
-                    for(let i = 0; i < data.length; i++){
-                        sumPriceCart += ((data[i].product_price) * (data[i].quantity))
+                    for(let i = 0; i < data.list_products.length; i++){
+                        sumPriceCart += ((data.list_products[i].product_price) * (data.list_products[i].quantity))
                         console.log(sumPriceCart);
                         list +=  `
-                            <input hidden name="user_id[]" value="${data[i].user_id}">
-                            <div id="cart_item${data[i].id}"
+                            <input hidden name="user_id[]" value="${data.list_products[i].user_id}">
+                            <div id="cart_item${data.list_products[i].id}"
                                 class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                 <div class="media align-items-center">
                                     <div class="media-body d-flex">
-                                        <input type="checkbox" name="product_id[]" class="mr-1"
-                                            value="${data[i].id}" hidden checked>
-                                        <p class="m-0">${data[i].product_name}</p>
+                                        <input type="text" name="product_id[]" class="mr-1"
+                                            value="${data.list_products[i].id}" hidden >
+                                        <p class="m-0">${data.list_products[i].product_name}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <span class="count-number float-right">
                                         <input class="count-number-input pr-1" width="50px" type="text"
-                                            name="quantity" id="quantity${data[i].id}"
-                                            value="${data[i].quantity}">
+                                            name="quantity" id="quantity${data.list_products[i].id}"
+                                            value="${data.list_products[i].quantity}">
                                     </span>
-                                    <p id="show_total_product${data[i].id}"
+                                    <p id="show_total_product${data.list_products[i].id}"
                                     class="text-gray mb-0 float-right ml-2 text-muted small">
-                                    ${ (data[i].product_price * data[i].quantity) } <sup>đ</sup></p>
+                                    ${ (data.list_products[i].product_price * data.list_products[i].quantity) } <sup>đ</sup></p>
                                 </div>
                             </div>            
                             
@@ -404,7 +410,6 @@
                         $('#cart-list-product').html(
                             list
                         )
-
                     }
 
                     total += `
@@ -469,6 +474,11 @@
             let product_id = $('#product_id').val()
             let user_id = $('#user_id').val()
             let quantity = $('#product_quantity').val()
+            var options = $("input[type='checkbox']:checked"); // returns object of checkeds.
+            var arr = []
+            for (var i = 0; i < options.length; i++) {
+                arr.push($(options[i]).val())
+            };
             let room = location.href
             let formData = new FormData()
             let token = "{{ csrf_token() }}"
@@ -477,6 +487,7 @@
             formData.append('user_id', user_id)
             formData.append('room', room)
             formData.append('quantity', quantity)
+            formData.append('options', arr)
             formData.append('_token', token)
 
             $.ajax({
@@ -490,10 +501,16 @@
             })
         }
 
+        //member xác nhận đặt hàng xong
         $('#btn-success_order').on('click', function() {
             const message = 'Xác nhận đặt hàng xong';
             socket.emit('successOrder', message);
             document.getElementById('btn-success_order').disabled = true
+        })
+        // manager đặt hàng thành công
+        $('#doneCheckout').on('click', function() {
+            const message = '';
+            socket.emit('doneCheckout', message);
         })
 
         // Nhận vào dữ liệu
@@ -512,11 +529,11 @@
                                 <div class="col-3">
                                     <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
                                     ${product_name}
                                 </div>
-                                <div class="col-3" id="cart-product_price_${user_id}${product_id}">
-                                    ${product_price * (quantity * 1)}đ
+                                <div class="col-3" id="cart-product_price_${user_id}${product_id}" style="font-family: Arial; font-weight: bold; font-size: 17px">
+                                    ${product_price * (quantity * 1)}<sup>đ</sup>
                                 
             `) : ``
             // 
@@ -528,7 +545,7 @@
                             <div class="quantity px-3" id="cart-quantity">
                                 <div id="cart-quantity_${user_id}${product_id}">
                                     <input type="button" value="-" onclick="decrease(${user_id}${product_id})" class="btn btn-outline-primary" id="decrease">
-                                    <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
+                                    <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
                                     min="1" type="text" value="${(quantity * 1)}" readonly>
                                     <input type="button" onclick="increase(${user_id}${product_id})" id="increase" value="+" class="btn btn-outline-primary">
                                 </div>
@@ -548,7 +565,7 @@
                             <div class="quantity px-3" id="cart-quantity">
                                 <div id="cart-quantity_${user_id}${product_id}">
                                     <h6 style="color: #cfcaca">Số lượng sản phẩm: 
-                                        <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                                        <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default"
                                         min="1" type="text" value="x${(quantity * 1)}">
                                     </h6>
                                 </div>
@@ -563,14 +580,14 @@
             cart_product == 'true' ?
                 $(`#cart-product_price_${user_id}${product_id}`).html(
                     `
-                    ${product_price * ((cart_product_quantity * 1) + (quantity * 1))}đ
+                    ${product_price * ((cart_product_quantity * 1) + (quantity * 1))}<sup>đ</sup>
                 `
                 ) : ``
             //
             cart_product == 'true' && user_id == $('#user_id').val() ?
                 $(`#cart-quantity_${user_id}${product_id}`).html(
                     `   <input type="button" value="-" onclick="decrease(${user_id}${product_id})" class="btn btn-outline-primary" id="decrease">
-                    <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
+                    <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default" id="quantity_${user_id}${product_id}"
                     min="1" type="text" value="${(cart_product_quantity * 1) + (quantity * 1)}" readonly>
                     <input type="button" onclick="increase(${user_id}${product_id})" id="increase" value="+" class="btn btn-outline-primary">
                 `
@@ -579,7 +596,7 @@
             cart_product == 'true' && user_id != $('#user_id').val() ?
                 $(`#cart-quantity_${user_id}${product_id}`).html(
                     `<h6 style="color: #cfcaca">Số lượng sản phẩm: 
-                    <input name="cart_quantity" style="width: 63px; font-size: 20px" class="input-qty btn btn-default"
+                    <input name="cart_quantity" style="width: 63px; font-family: Arial; font-weight: bold; font-size: 17px" class="input-qty btn btn-default"
                     min="1" type="text" value="x${(cart_product_quantity * 1) + (quantity * 1)}">
                 </h6>
                 `
@@ -606,14 +623,24 @@
 
             $('#total-price').html(
                 `<input type="hidden" name="cart_total_price" id="cart_total_price" value="${(cart_total_price * 1) + (product_price *  quantity)}">
-                <h5>= ${(cart_total_price * 1) + (product_price * quantity )}đ</h5>`
+                <h5>= ${(cart_total_price * 1) + (product_price * quantity )}<sup>đ</sup></h5>`
             )
 
         });
 
+        //member xác nhận đặt hàng xong
         socket.on('successOrder', (message) => {
             $('.checkout').html(`
             <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>                `)
+        });
+
+        //manager đặt hàng thành công
+        socket.on('doneCheckout', (message) => {
+            $('#product-cart').html(``)
+            $('#total-price').html(`
+                <input type="hidden" name="cart_total_price" id="cart_total_price" value="{{ $sumPriceCart }}">
+                <h5>= 0 <sup>đ</sup></h5>
+            `)
         })
     });
     //phân quyền 

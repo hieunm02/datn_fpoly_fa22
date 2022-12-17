@@ -145,8 +145,8 @@
                                                 class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                                 <div class="media align-items-center">
                                                     <div class="media-body d-flex">
-                                                        <input type="checkbox" name="product_id[]" class="mr-1"
-                                                            value="{{ $cart->id }}" hidden checked>
+                                                        <input type="text" name="product_id[]" class="mr-1"
+                                                            value="{{ $cart->id }}" hidden>
                                                         <p class="m-0">{{ $cart->product_name }}</p>
                                                     </div>
                                                 </div>
@@ -191,12 +191,12 @@
                                         <h6 class="font-weight-bold mb-0">Thanh toán <span id="show_order"
                                                 class="float-right">{{ number_format($sumPriceCart) }} <sup>đ</sup></span></h6>
                                         <div class="form-group mt-1 d-flex align-items-center">
-                                            <input type="checkbox" name="" id="checkin">
+                                            <input type="radio" name="" id="checkin" checked>
                                             <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <button class="btn btn-success btn-block btn-lg" type="submit">Đặt hàng<i
+                                        <button class="btn btn-success btn-block btn-lg" id="doneCheckout" type="submit">Đặt hàng<i
                                                 class="feather-arrow-right"></i></button>
                                     </div>
                                 </div>
