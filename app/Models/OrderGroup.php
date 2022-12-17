@@ -17,7 +17,11 @@ class OrderGroup extends Model
         'product_id',
         'role',
         'quantity',
+        'options',
     ];
 
+    protected $casts = [
+        'options' => 'array'
+    ];
     public $timestamps = FALSE;
 }

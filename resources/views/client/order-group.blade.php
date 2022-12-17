@@ -1,5 +1,5 @@
 @extends('layouts.client.client-master')
-@section('title-page', 'Favorites')
+@section('title-page', 'Đặt theo nhóm')
 @section('content')
 <div class="osahan-trending" style="padding-bottom: 500px;">
 <div class="container col-12 px-5">
@@ -14,9 +14,9 @@
             <input type="hidden" name="user_avatar" id="user_avatar" value="{{ Auth::user()->avatar }}">
             @endif
             <input type="hidden" name="cart_product" id="cart_product" value="">
-            <div class="row" id="innerResult">
+            <div class="row" id="innerResult" style="overflow: scroll;height:600px">
                 @foreach ($products as $product)
-                <div class="col-lg-4 mb-3">
+                <div class="col-lg-2 mb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
                         <div class="list-card-image">
                             <a data-toggle="modal" data-target="#select-product" data-id_product="{{$product->id}}" class="quick-view">
@@ -200,20 +200,10 @@
                 <h6><b>Ghi chú thêm (nếu có)</b></h6>
                 <textarea type="text" name="note" placeholder="Ví dụ: thêm đá riêng,..." style="width: 100%; border:none"></textarea>
             </div>
+
+            <h6><b>Option</b></h6>
             <div class="option">
-                <h6><b>Option</b></h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Thêm đá
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Nhiều đường
-                    </label>
-                </div>
+    
             </div>
         </div>
         <div class="modal-footer p-0 border-0">
@@ -315,6 +305,22 @@
                 $('#product_thumb').html(data.product_thumb)
                 $('#cart_product').val(data.cart_product)
                 $('#cart_product_quantity').val(data.cart_product_quantity)
+                
+                let option = '';
+                for(let $i = 0; $i < data.product_option.length; $i++){
+                    option += `
+                    <div class="form-check">
+                        <input type="checkbox" name="option_product[]" id="option_product" class="form-check-input"
+                            value="${data.product_option[$i].option_detail_id}">
+                        <label for="option" class="form-check-label">${data.product_option[$i].value}
+                            ${data.product_option[$i].price}đ</label>
+                    </div>
+                    `
+                }
+                $('.option').html(
+                    option
+                )
+                console.log(option);
             }}
         })
     })
@@ -368,33 +374,35 @@
                 _token: _token,
             },
             success: function(data) {
+                console.log(data);
+
                 if(data){
                     let list = ''
                     let total = ''
                     let sumPriceCart = 0
-                    for(let i = 0; i < data.length; i++){
-                        sumPriceCart += ((data[i].product_price) * (data[i].quantity))
+                    for(let i = 0; i < data.list_products.length; i++){
+                        sumPriceCart += ((data.list_products[i].product_price) * (data.list_products[i].quantity))
                         console.log(sumPriceCart);
                         list +=  `
-                            <input hidden name="user_id[]" value="${data[i].user_id}">
-                            <div id="cart_item${data[i].id}"
+                            <input hidden name="user_id[]" value="${data.list_products[i].user_id}">
+                            <div id="cart_item${data.list_products[i].id}"
                                 class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
                                 <div class="media align-items-center">
                                     <div class="media-body d-flex">
-                                        <input type="checkbox" name="product_id[]" class="mr-1"
-                                            value="${data[i].id}" hidden checked>
-                                        <p class="m-0">${data[i].product_name}</p>
+                                        <input type="text" name="product_id[]" class="mr-1"
+                                            value="${data.list_products[i].id}" hidden >
+                                        <p class="m-0">${data.list_products[i].product_name}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <span class="count-number float-right">
                                         <input class="count-number-input pr-1" width="50px" type="text"
-                                            name="quantity" id="quantity${data[i].id}"
-                                            value="${data[i].quantity}">
+                                            name="quantity" id="quantity${data.list_products[i].id}"
+                                            value="${data.list_products[i].quantity}">
                                     </span>
-                                    <p id="show_total_product${data[i].id}"
+                                    <p id="show_total_product${data.list_products[i].id}"
                                     class="text-gray mb-0 float-right ml-2 text-muted small">
-                                    ${ (data[i].product_price * data[i].quantity) } <sup>đ</sup></p>
+                                    ${ (data.list_products[i].product_price * data.list_products[i].quantity) } <sup>đ</sup></p>
                                 </div>
                             </div>            
                             
@@ -402,7 +410,6 @@
                         $('#cart-list-product').html(
                             list
                         )
-
                     }
 
                     total += `
@@ -467,6 +474,11 @@
             let product_id = $('#product_id').val()
             let user_id = $('#user_id').val()
             let quantity = $('#product_quantity').val()
+            var options = $("input[type='checkbox']:checked"); // returns object of checkeds.
+            var arr = []
+            for (var i = 0; i < options.length; i++) {
+                arr.push($(options[i]).val())
+            };
             let room = location.href
             let formData = new FormData()
             let token = "{{ csrf_token() }}"
@@ -475,6 +487,7 @@
             formData.append('user_id', user_id)
             formData.append('room', room)
             formData.append('quantity', quantity)
+            formData.append('options', arr)
             formData.append('_token', token)
 
             $.ajax({
