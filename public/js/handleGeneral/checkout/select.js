@@ -88,7 +88,6 @@ $(function () {
                 data.carts.forEach(el => {
                     num++;
                 });
-                console.log(num);
                 $('#count_cart').append(num);
                 Swal.fire(
                     'Successful!',
@@ -117,7 +116,6 @@ $(function () {
                     'quantity': quantity
                 },
                 success: function (data) {
-                    // console.log(data.prd.id);
                     $('#show_total').empty();
                     $('#show_order').empty();
                     $('#show_total_product' + cart_id).empty();
@@ -131,6 +129,7 @@ $(function () {
                     });
                     $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
                     $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
+                    $('.hidden_total').val(total);
                     $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
                     Swal.fire(
                         'Successful!',
@@ -178,19 +177,19 @@ $(function () {
                         price = (el.quantity * el.price);
                     }
                 });
-                if(num == 0) {
+                if (num == 0) {
                     $('.hetsanpham').text('Chưa có sản phẩm nào')
                 }
                 $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
                 $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
                 $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
+                $('.hidden_total').val(total);
                 $('#count_cart').append(num);
                 Swal.fire(
                     'Successful!',
                     'Xóa sản phẩm khỏi giỏ hàng thành công!',
                     'success'
                 )
-                // console.log(data.prd.id);
                 $('#cart_id' + data.prd.id).remove();
             }
         });
@@ -235,6 +234,7 @@ $(function () {
                 }
                 $('#show_total').html('');
                 $('#show_order').html('');
+                $('.discount-voucher').html('0<sup>đ</sup>');
                 $('#show_total').append('0<sup>đ</sup>');
                 $('#show_order').append('0<sup>đ</sup>');
                 $('#count_cart').html('');
@@ -252,9 +252,16 @@ $(function () {
                     date: date,
                     notify_id: result.notify.id
                 });
+                $("input[name=name]").val('');
+                $("input[name=phone]").val('');
+                $("input[name=voucher]").val('');
+                $("input[name=email]").val('');
+                $("textarea[name=note]").val('');
+                $("select[name=building]").val('');
+                $("select[name=room]").val('');
+                $("select[name=floor]").val('');
             },
             error: function (errors) {
-                console.log(errors.responseJSON.errors);
                 if (errors.responseJSON.errors.nameRequired) {
                     $('.error-name').text(errors.responseJSON.errors.nameRequired);
                     $('.input-name').addClass('is-invalid')

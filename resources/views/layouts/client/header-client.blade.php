@@ -52,7 +52,7 @@
                                         {{ count($carts) }}
                                     </div>
                                     <?php } ?>
-                                </i> <span>Cart</span>
+                                </i> <span>Giỏ hàng</span>
                             </div>
                         </a>
                         <a class="toggle1" id="clickMenus1">
@@ -134,7 +134,7 @@
                     </li>
                     <li>
                         <div class="nav-item-wrapper"><a href="{{ route('carts.index') }}" class="nav-item"><i
-                                    class="feather-activity mr-2"></i> Checkout</a></div>
+                                    class="feather-shopping-cart mr-2"></i> Giỏ hàng</a></div>
                     </li>
                     <li>
                         <div class="nav-item-wrapper"><a href="{{ route('bills') }}" class="nav-item"><i

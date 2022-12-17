@@ -110,6 +110,9 @@ function saveNotify(user_id, type, role, room_id) {
 
 
 $('#applyVoucher').on("click", () => {
+    $('#modalVouchers').modal('toggle');
+    let code_radio = $('input[name=voucher_code]:checked').val();
+    $('input[name=voucher]').val(code_radio);
     let code = $('.code-voucher').val();
     $.ajax({
         url: "/vouchers/apply",
@@ -120,7 +123,6 @@ $('#applyVoucher').on("click", () => {
 
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             Swal.fire(
                 'Successful!',
                 'Áp mã thành công!',
@@ -161,8 +163,8 @@ $('#applyVoucher').on("click", () => {
     });
 })
 
-$('#confirm_choose').on('click', () => {
-    let code = $('input[name=voucher_code]:checked').val();
-    $('input[name=voucher]').val(code);
-    $('#modalVouchers').modal('toggle');
-});
+// $('#confirm_choose').on('click', () => {
+//     let code = $('input[name=voucher_code]:checked').val();
+//     $('input[name=voucher]').val(code);
+    
+// });

@@ -164,10 +164,9 @@
                     </div>
                     <div class="bg-white p-3 py-3 border-bottom clearfix">
                         <div class="input-group-sm mb-2 input-group">
-                            <input data-toggle="modal" data-target="#modalVouchers" type="text" class="form-control code-voucher" name="voucher" placeholder="Xem voucher khả dụng">
+                            <input disabled class="form-control code-voucher" name="voucher" placeholder="Xem voucher khả dụng">
                             <div class="input-group-append">
-                                <button id="applyVoucher" type="button" class="btn btn-primary"><i class="feather-percent"></i> Áp
-                                    dụng</button>
+                                <div data-toggle="modal" data-target="#modalVouchers" class="btn btn-primary"><i class="feather-percent"></i> Mã giảm giá</div>
                             </div>
                         </div>
                         <p class="text-danger text-center m-0 error-voucher"></p>
@@ -225,7 +224,7 @@
                     <a href="#" class="btn border-top btn-lg btn-block" data-dismiss="modal">Đóng</a>
                 </div>
                 <div class="col-6 m-0 p-0">
-                    <button type="submit" id="confirm_choose" class="btn btn-primary btn-lg btn-block">Chọn</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" id="applyVoucher">Chọn</button>
                 </div>
             </div>
         </div>

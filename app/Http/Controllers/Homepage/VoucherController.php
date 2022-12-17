@@ -102,7 +102,6 @@ class VoucherController extends Controller
         } else {   // Tồn tại mã
             $voucher = Voucher::where('code', $request->code)->first();
             $userVoucher = UserVoucher::where('user_id', Auth::user()->id)->where('voucher_id', $voucher->id)->first();
-            // \dd($userVoucher);
             if ($userVoucher) {
                 $isNotTime = [
                     'isNotTime' => 'Mã này bạn đã sử dụng!',
@@ -116,7 +115,7 @@ class VoucherController extends Controller
                     return response()->json(['errors' => $isExpirated], 500);
                 }
             }
-            
+
             if ($voucher->quantity == 0) {
                 $isOutOfStock = [
                     'isOutOfStock' => 'Mã hết lượt sử dụng!',

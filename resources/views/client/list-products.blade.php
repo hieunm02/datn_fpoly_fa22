@@ -107,7 +107,7 @@
                         <div class="filter">
                             <!-- SORT BY -->
                             <div class="p-3 bg-light border-bottom">
-                                <h6 class="m-0">Sắp xếp giá thep</h6>
+                                <h6 class="m-0">Sắp xếp giá theo</h6>
                             </div>
                             <form action="/list-products" method="get">
                                 <div class="custom-control border-bottom px-0  custom-radio">
