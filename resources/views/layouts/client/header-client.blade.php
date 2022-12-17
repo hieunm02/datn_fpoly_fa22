@@ -15,8 +15,9 @@
                 <div class="col-11">
                     <div class="d-flex align-items-center justify-content-end">
                         <!-- signin -->
+                        {{-- @dd($_SERVER) --}}
                         @if (is_null(Auth::user()))
-                            <a href="/login" class="widget-header mr-4 text-dark m-none">
+                            <a href="{{ route('login') }}" class="widget-header mr-4 text-dark m-none">
                                 <div class="icon d-flex align-items-center">
                                     <i class="feather-user h6 mr-2 mb-0"></i> <span>Đăng nhập</span>
                                 </div>

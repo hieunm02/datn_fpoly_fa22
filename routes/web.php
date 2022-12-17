@@ -105,14 +105,14 @@ Route::prefix('/')->group(function () {
         //Login - Logout
         Route::post('/login', [AuthController::class, 'handleLogin']);
         Route::get('/login', function () {
-            return view('client.login');
+            $url = $_SERVER['HTTP_REFERER'];
+            return view('client.login', ['url' => $url]);
         })->name('login');
         Route::post('/register', [AuthController::class, 'handleRegister']);
         Route::get('/register', function () {
             return view('client.register');
         })->name('register');
-
-    }); 
+    });
 
     Route::get('/logout', function () {
         Auth::logout();
@@ -156,21 +156,23 @@ Route::prefix('/')->group(function () {
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
     Route::post('/vouchers/apply', [HomepageVoucherController::class, 'applyVoucher'])->name('vouchers.apply');
 
-    //đặt hàng nhóm
-    Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
-    // xem nhanh thông tin sản phẩm 
-    Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
-    // tạo nhóm 
-    Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
+    Route::prefix('/')->middleware('guest')->group(function () {
+        //đặt hàng nhóm
+        Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
+        // xem nhanh thông tin sản phẩm
+        Route::post('quickview', [OrderGroupController::class, 'quickview'])->name('quickview');
+        // tạo nhóm
+        Route::post('order-group', [OrderGroupController::class, 'createGroup'])->name('order-group');
 
-    //thêm sản phẩm vào giỏ hàng
-    Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
-    //xác nhận đặt hàng
-    Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
-    //Danh sách thành viên đặt hàng nhóm
-    Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
-    //Danh sách sản phẩm trong giỏ hàng đặt nhóm
-    Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
+        //thêm sản phẩm vào giỏ hàng
+        Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
+        //xác nhận đặt hàng
+        Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+        //Danh sách thành viên đặt hàng nhóm
+        Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
+        //Danh sách sản phẩm trong giỏ hàng đặt nhóm
+        Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
+    });
 });
 
 // Admin
