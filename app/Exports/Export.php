@@ -17,7 +17,7 @@ class Export implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return OrderProduct::select('nameProduct', 'quantity', 'price', 'total')->where('order_id', $this->order_id)->get();
+        return OrderProduct::select('nameProduct', 'quantity', 'price', 'total', 'user_name')->where('order_id', $this->order_id)->get();
     }
     /**
      * Returns headers for report
@@ -29,7 +29,8 @@ class Export implements FromCollection, WithHeadings
             'name',
             'quantity',
             "price",
-            "total"
+            "total",
+            'user_name'
         ];
     }
 
@@ -39,7 +40,8 @@ class Export implements FromCollection, WithHeadings
             $orderProducts->nameProduct,
             $orderProducts->quantity,
             $orderProducts->price,
-            $orderProducts->total
+            $orderProducts->total,
+            $orderProducts->user_name
         ];
     }
 }
