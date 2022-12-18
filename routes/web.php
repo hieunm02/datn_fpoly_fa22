@@ -156,7 +156,7 @@ Route::prefix('/')->group(function () {
     Route::post('/vouchers/exchange', [HomepageVoucherController::class, 'exchangeVoucher'])->name('vouchers.exchange');
     Route::post('/vouchers/apply', [HomepageVoucherController::class, 'applyVoucher'])->name('vouchers.apply');
 
-    Route::prefix('/')->middleware('guest')->group(function () {
+    Route::prefix('/')->middleware('auth')->group(function () {
         //đặt hàng nhóm
         Route::get('order-group/{code?}', [OrderGroupController::class, 'getProducts']);
         // xem nhanh thông tin sản phẩm
