@@ -26,7 +26,7 @@ class ContactRequest extends FormRequest
         return [
             'name' => 'required|max:50',
             'email' => 'required|email',
-            'phone' => 'required|numeric',
+            'phone' => 'required|regex:/^([0][0-9\s\-\+\(\)]*)$/|digits_between:10,11',
             'content' => 'required',
         ];
     }
@@ -38,7 +38,8 @@ class ContactRequest extends FormRequest
             'email.required' => 'Vui lòng nhập email!',
             'email.email' => 'Email sai định dạng!',
             'phone.required' => 'Vui lòng nhập số điện thoại!',
-            'phone.numeric' => 'Số điện thoại sai định dạng!',
+            "phone.regex" => "Số điện thoại phải là số (0xxxxxxxxxx)!",
+            "phone.digits_between" => "Số điện thoại có độ dài từ 10 - 11 kí tự!",
             'content.required' => 'Mô tả không được để trống!',
         ];
     }

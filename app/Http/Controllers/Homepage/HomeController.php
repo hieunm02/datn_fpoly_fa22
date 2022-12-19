@@ -167,6 +167,12 @@ class HomeController extends Controller
                     }else {
                         $sale = '';
                     }
+                    if($product->quantity < 10) {
+                        $color = 'text-danger';
+                    }else {
+                        $color = '';
+                    }
+                    $countProduct = '<span class="'.$color.'">'. $product->quantity .' sản phẩm';
                     $result .= '<div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
@@ -180,14 +186,15 @@ class HomeController extends Controller
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
                                 <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail"
-                                        class="text-black">'. $product->name .'
+                                        class="text-black font-weight-bolder">'. $product->name .'
                                     </a>
                                 </h6>
                                 <p class="text-gray mb-3">'. $product->menu->name .'</p>
                                 <p class="text-gray mb-3 time"><span
-                                        class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-clock"></i> 10–15 min</span>
-                                    <span class="float-right d-block text-danger">
+                                        class="text-dark rounded-sm pb-1 pt-1 pr-2">
+                                        Còn lại: '.$countProduct.'</span> 
+                                        </span>
+                                    <span class="float-right d-block text-danger font-weight-bolder">
                                     '. number_format($product->price, 0, ',', '.').'
                                         VND</span>
                                 </p>

@@ -18,8 +18,8 @@ class ContactController extends Controller
     public function store(ContactRequest $request)
     {
         $this->userContactService->create($request);
-        return view('client.contact-us', [
-            'title' => 'Form liên hệ',
-        ]);
+        // return view('client.contact-us', [
+        //     'title' => 'Form liên hệ',
+        // ]);
     }
 }

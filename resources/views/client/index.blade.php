@@ -69,14 +69,15 @@
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
                                 <h6 class="mb-1"><a href="{{ route('product-detail', $products->id) }}"
-                                        class="text-black">{{ $products->name }}
+                                        class="text-black font-weight-bolder">{{ $products->name }}
                                     </a>
                                 </h6>
-                                <p class="text-gray mb-3">{{ $products->menu->name }}</p>
-                                <p class="text-gray mb-3 time"><span
-                                        class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-clock"></i> 10–15 min</span>
-                                    <span class="float-right d-block text-danger">
+                                <p class="text-gray mb-3 ">{{ $products->menu->name }}</p>
+                                <p class="text-gray mb-3 time">
+                                    <span class="text-dark rounded-sm pb-1 pt-1 pr-2">
+                                        Còn lại: <span class="{{ $products->quantity < 10 ? 'text-danger': '' }}">{{ $products->quantity }} sản phẩm</span> 
+                                    </span>
+                                    <span class="float-right d-block text-danger font-weight-bolder">
                                         {{ number_format($products->price_sales != null ? $products->price_sales : $products->price, 0, ',', '.') }}
                                         VND</span>
                                 </p>
@@ -111,14 +112,15 @@
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
                                     <h6 class="mb-1"><a href="{{ route('product-detail', $product->id) }}"
-                                            class="text-black">{{ $product->name }}
+                                            class="text-black font-weight-bolder">{{ $product->name }}
                                         </a>
                                     </h6>
-                                    <p class="text-gray mb-3">{{ $product->menu->name }}</p>
-                                    <p class="text-gray mb-3 time"><span
-                                            class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                                class="feather-clock"></i> 10–15 min</span>
-                                        <span class="float-right d-block text-danger">
+                                    <p class="text-gray mb-3 ">{{ $product->menu->name }}</p>
+                                    <p class="text-gray mb-3 time">
+                                        <span class="text-dark rounded-sm pb-1 pt-1 pr-2">
+                                            Còn lại: <span class="{{ $product->quantity < 10 ? 'text-danger': '' }}">{{ $product->quantity }} sản phẩm</span> 
+                                        </span>
+                                        <span class="float-right d-block text-danger font-weight-bolder">
                                             {{ number_format($product->price_sales != null ? $product->price_sales : $product->price, 0, ',', '.') }}
                                             VND</span>
                                     </p>

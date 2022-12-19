@@ -74,7 +74,8 @@ class ProductServices
     public function getProduct()
     {
         return  Product::with('menu')
-            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
+            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active'
+            )
             // ->orderBy('updated_at', 'DESC')
             ->inRandomOrder()->limit(12)
             ->where('active', 1)

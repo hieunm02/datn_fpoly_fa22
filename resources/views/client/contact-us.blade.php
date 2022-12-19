@@ -28,36 +28,28 @@
                                 <div class="form-group col-md-6 p-0 pr-1">
                                     <label for="exampleFormControlInput1" class="small font-weight-bold">Tên của
                                         bạn</label>
-                                    <input type="text" class="form-control <?php echo $errors->first('name') ? 'is-invalid' : ''; ?>" id="exampleFormControlInput1" value="{{ old('name') }}" name="name" placeholder="Nguyễn Trung Hiếu">
-                                    @if ($errors->has('name'))
-                                    <p class="text-danger m-0">{{ $errors->first('name') }}</p>
-                                    @endif
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ old('name') }}" name="name" placeholder="Nguyễn Trung Hiếu">
+                                    <p class="text-danger m-0 name-error"></p>
                                 </div>
                                 <div class="form-group col-md-6 p-0 pl-1">
                                     <label for="exampleFormControlInput3" class="small font-weight-bold">Số điện
                                         thoại</label>
                                     <input type="hidden" name="status" value="0">
-                                    <input type="number" class="form-control  <?php echo $errors->first('phone') ? 'is-invalid' : ''; ?>" id="exampleFormControlInput3" value="{{ old('phone') }}" name="phone" placeholder="0123456789">
-                                    @if ($errors->has('phone'))
-                                    <p class="text-danger m-0">{{ $errors->first('phone') }}</p>
-                                    @endif
+                                    <input type="number" class="form-control" id="exampleFormControlInput3" value="{{ old('phone') }}" name="phone" placeholder="0123456789">
+                                    <p class="text-danger phone-error m-0"></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlInput2" class="small font-weight-bold">Email</label>
-                                <input type="email" class="form-control  <?php echo $errors->first('email') ? 'is-invalid' : ''; ?>" id="exampleFormControlInput2" value="{{ old('email') }}" name="email" placeholder="hieunt@gmail.com">
-                                @if ($errors->has('email'))
-                                <p class="text-danger">{{ $errors->first('email') }}</p>
-                                @endif
+                                <input type="email" class="form-control" id="exampleFormControlInput2" value="{{ old('email') }}" name="email" placeholder="hieunt@gmail.com">
+                                <p class="text-danger email-error"></p>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1" class="small font-weight-bold">Chúng tôi có thể
                                     giúp gì cho bạn</label>
-                                <textarea class="form-control  <?php echo $errors->first('content') ? 'is-invalid' : ''; ?>" id="exampleFormControlTextarea1" value="{{ old('content') }}" name="content" placeholder="Nội dung ..." rows="5">{{ old('content') }}</textarea>
-                                @if ($errors->has('content'))
-                                <p class="text-danger">{{ $errors->first('content') }}</p>
-                                @endif
+                                <textarea class="form-control" id="exampleFormControlTextarea1" value="{{ old('content') }}" name="content" placeholder="Nội dung ..." rows="5">{{ old('content') }}</textarea>
+                                <p class="text-danger content-error"></p>
                             </div>
                             <button type="button" class="btn btn-primary btn-block submit_form">Liên hệ</button>
                         </form>
@@ -105,12 +97,10 @@
                     status: 0,
                 },
                 success: function(data) {
-                    var user_id = $('.auth_id').val();
                     var name = $('input[name=name]').val()
                     var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
-                    console.log(result);
 
-                    saveNotify(user_id, 'contact', 'admin');
+                    saveNotify(29, 'contact', 'admin');
                     socket.emit('sendNotifyToServer', {
                         user_name: name,
                         type: 'contact',
@@ -124,11 +114,35 @@
                     )
                 },
                 error: function(data) {
-                    Swal.fire(
-                        'Error!',
-                        'Gửi liên hệ không thành công!',
-                        'error'
-                    )
+                    $("input[name=name]").removeClass("is-invalid")
+                    $("input[name=phone]").removeClass("is-invalid")
+                    $("input[name=email]").removeClass("is-invalid")
+                    $("textarea[name=content]").removeClass("is-invalid")
+                    $(".name-error").text('')
+                    $(".phone-error").text('')
+                    $(".email-error").text('')
+                    $(".content-error").text('')
+                    if(data.responseJSON.errors.name) {
+                        $("input[name=name]").addClass("is-invalid")
+                        $(".name-error").text(data.responseJSON.errors.name);
+                    }
+                    if(data.responseJSON.errors.phone) {
+                        $("input[name=phone]").addClass("is-invalid")
+                        $(".phone-error").text(data.responseJSON.errors.phone);
+                    }
+                    if(data.responseJSON.errors.email) {
+                        $("input[name=email]").addClass("is-invalid")
+                        $(".email-error").text(data.responseJSON.errors.email);
+                    }
+                    if(data.responseJSON.errors.content) {
+                        $("textarea[name=content]").addClass("is-invalid")
+                        $(".content-error").text(data.responseJSON.errors.content);
+                    }
+                    // Swal.fire(
+                    //     'Error!',
+                    //     'Gửi liên hệ không thành công!',
+                    //     'error'
+                    // )
                 }
             });
         });
