@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-none">
     <div class="bg-primary border-bottom p-3 d-flex align-items-center">
-        <h4 class="font-weight-bold m-0 text-white flex-fill">Contact</h4>
+        <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
         <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
     </div>
 </div>
@@ -77,15 +77,11 @@
 </div>
 <!-- Footer -->
 @endsection
-@if (Auth::user())
-@include('client.chatbox')
-@endif
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script>
     setTimeout(() => {
         document.getElementById('setout').classList.add('d-none');
     }, 5000);
-</script>
-<script>
     $(function() {
         let ip_address = '127.0.0.1';
         let socket_port = '3000';

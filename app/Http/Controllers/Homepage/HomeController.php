@@ -46,7 +46,7 @@ class HomeController extends Controller
         $products = $this->productService->getProduct();
         $productBtm = $this->productService->getProduct();
         $menus = $this->menuService->getMenuIndex();
-        $slides = Slide::with('product')->get();
+        $slides = Slide::with('product')->limit(6)->get();
         return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
     }
 
@@ -87,7 +87,7 @@ class HomeController extends Controller
             ->where('product_id', $product->id)
             ->where('active', 0)
             ->get();
-        $products = $this->productService->getAll();
+        $products = $this->productService->getPrdId($product->menu_id);
         $product_option_details = DB::table('product_option_details')
             ->where('product_id', $product->id)->where('active', 0)
             ->join('option_details', 'product_option_details.option_detail_id', '=', 'option_details.id')
@@ -161,33 +161,40 @@ class HomeController extends Controller
             $result = '';
             if ($products) {
                 foreach ($products as  $product) {
-                    $result .= '
-                <div class="col-md-3 pb-3">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-warning"> <h6 class="mt-2">'. number_format($product->price, 0, ',', '.').'
-                                        VND</h6></span></div>
-                                        <div class="favourite-heart text-danger position-absolute"></div>
-                                        <div class="member-plan position-absolute"></div>
-                                        <a href="restaurant.html">
-                                            <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '" class="img-fluid item-img w-100">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail" class="text-black">' . $product->name . '
-                                                </a>
-                                            </h6>
-                                            <p class="text-gray mb-1 small">'.$product->content.'</p>
-                                            <p class="text-gray mb-1 rating">
-                                            </p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                        </div>
-                                    </div>
-                                </div>
+                    if($product->price_sales != null) {
+                        $sale = '<div class="star position-absolute"><span class="badge badge-danger">Sale</span>
+                        </div>';
+                    }else {
+                        $sale = '';
+                    }
+                    $result .= '<div class="col-md-3 pb-3">
+                    <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                        <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
+                                '.$sale.'
+                            <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
+                            <a href="/products/' . $product->id . '/product-detail">
+                                <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '"
+                                    class="img-fluid item-img w-100">
+                            </a>
+                        </div>
+                        <div class="p-3 position-relative">
+                            <div class="list-card-body">
+                                <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail"
+                                        class="text-black">'. $product->name .'
+                                    </a>
+                                </h6>
+                                <p class="text-gray mb-3">'. $product->menu->name .'</p>
+                                <p class="text-gray mb-3 time"><span
+                                        class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
+                                            class="feather-clock"></i> 10–15 min</span>
+                                    <span class="float-right d-block text-danger">
+                                    '. number_format($product->price, 0, ',', '.').'
+                                        VND</span>
+                                </p>
                             </div>
-                ';
+                        </div>
+                    </div>
+                </div>';
                 }
             }
         }

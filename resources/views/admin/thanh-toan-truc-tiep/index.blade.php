@@ -78,11 +78,11 @@
                     <h3 class="alert badge-primary m-0">Thông tin hóa đơn</h3>
                     <div class="p-2 border">
                         <p class="border-bottom py-2 border-5">Tổng tiền hàng<span class="float-right text-dark"><span
-                                    id="total1"></span><sup>đ</sup></span>
+                                    id="total1">0</span><sup>đ</sup></span>
                         </p>
                         <p class="border-bottom py-2 border-5">Shipper<span class="float-right text-dark">Free</span></p>
                         <p class="border-bottom py-2 border-5 font-weight-bold">Tổng tiền hóa đơn<span
-                                class="float-right text-danger"><span id="total2"></span><sup>đ</sup></span></p>
+                                class="float-right text-danger"><span id="total2">0</span><sup>đ</sup></span></p>
                         <div class="form-group mb-1">
                             <label for="">Tên khách hàng</label>
                             <input type="text" name="name" class="form-control" placeholder="Tên khách hàng">

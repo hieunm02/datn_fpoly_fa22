@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\User;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -18,7 +20,7 @@ class BillController extends Controller
     public function index()
     {
         $title = 'Danh sách đơn hàng';
-        $bills = Order::where('status_id', 4)->paginate(3);
+        $bills = Order::where('status_id', 4)->orderBy('updated_at', 'DESC')->paginate(5);
         return view('admin.bills.index', compact('bills', 'title'));
     }
 
@@ -54,10 +56,18 @@ class BillController extends Controller
         $bill = Order::find($request->id);
         $user = User::find($bill->user_id);
         $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $options = OptionDetail::all();
+        if ($bill->voucher) {
+            $voucher = Voucher::where('code', $bill->voucher)->first();
+        } else {
+            $voucher = null;
+        }
         return response()->json([
             'bill' => $bill,
             'billDetail' => $billDetail,
             'user' => $user,
+            'options' => $options,
+            'voucher' => $voucher,
         ]);
     }
 

@@ -47,15 +47,38 @@ class AuthController extends Controller
         }
     }
 
-
     public function handleLogin(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
             Session::put('user_name', $user->name);
-            return redirect()->route('index');
+            return redirect($request->url);
         } else {
             return redirect()->route('login')->with('error', 'Tên đăng nhập hoặc mật khẩu không đúng!');
+        }
+    }
+
+    public function handleRegister(Request $request) {
+        $accounts = User::get('email');
+        foreach($accounts as $acc) {
+            if($acc->email == $request->email) {
+                return redirect()->route('register')->with('error', 'Email này đã được sử dụng!');
+            }
+        }
+        if($request->password != $request->password_old) {
+            return redirect()->route('register')->with('error', 'Mật khẩu không khớp nhau');
+        }else {
+            User::create([
+                'name' => str_replace('@gmail.com', '', $request->email),
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'auth_type' => 'email',
+                'role' => 1,
+                'active' => 0,
+                'avatar' => 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
+                'phone' => 0000000000,
+            ]);
+            return redirect()->route('login')->with('error', 'Đăng ký thành công!');
         }
     }
 }

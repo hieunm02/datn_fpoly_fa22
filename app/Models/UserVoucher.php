@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Option extends Model
+class UserVoucher extends Model
 {
+    protected $table = "user_voucher";
     use HasFactory;
-
     protected $fillable = [
-        'name'
+        'user_id',
+        'voucher_id',
     ];
-
-    public function optionDetails()
-    {
-        return $this->hasMany(OptionDetail::class);
-    }
 }

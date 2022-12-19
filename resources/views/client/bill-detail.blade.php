@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-none">
         <div class="bg-primary border-bottom p-3 d-flex align-items-center">
-            <h4 class="font-weight-bold m-0 text-white flex-fill">Giỏ hàng</h4>
+            <h4 class="font-weight-bold m-0 text-white flex-fill">BeeFood</h4>
             <a class="toggle1 text-white" id="clickMenus"><span> <i class="feather-align-justify fs-30"></i></span></a>
         </div>
     </div>
@@ -17,7 +17,6 @@
         </div>
         <div class="mt-3 text-right">
             <a href="{{ route('export', $bill->id) }}" class="btn btn-success ml-3">Export Excel</a>
-            <a href="#" class="btn btn-warning ml-3">Export Pdf</a>
         </div>
         <div class="col-lg-7 col-md-7 m-auto border border border-danger p-3">
             <div class="d-flex">
@@ -58,13 +57,13 @@
                                 <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->nameProduct }} <br>
                                     @if ($item->options != null)
-                                        (@foreach ($item->options as $op)
+                                        @foreach ($item->options as $op)
                                             @foreach ($options as $it)
                                                 @if ($it->id == $op)
-                                                    {{ $it->value }},
+                                                    <a class="text-primary">{{ $it->value }},</a>
                                                 @endif
                                             @endforeach
-                                        @endforeach)
+                                        @endforeach
                                     @endif
                                 </td>
                                 {{-- <td><img src="{{ asset($item->avatar )}}" width="100px" alt=""></td> --}}
@@ -79,8 +78,15 @@
                             <td colspan="1" class="text-success">Free<sup>đ</sup></td>
                         </tr>
                         <tr>
+                            <td colspan="3">Mã giảm giá:</td>
+                            <td colspan="1" class="text-warning">{{ $voucher != null ? $voucher->code : 'Không có' }}
+                                {{ $voucher != null ? $voucher->discount . '%' : '' }}</td>
+                        </tr>
+                        <tr>
                             <td colspan="3">Tổng tiền:</td>
-                            <td colspan="1">{{ number_format($total) }}<sup>đ</sup></td>
+                            <td colspan="1">
+                                {{ $voucher != null ? number_format($total * ((100 - $voucher->discount) / 100)) : number_format($total) }}<sup>đ</sup>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

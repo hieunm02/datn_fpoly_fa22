@@ -10,6 +10,7 @@ use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Voucher;
 use App\Services\Carts\CartService;
 use App\Services\Menu\MenuServices;
 use Illuminate\Http\Request;
@@ -59,10 +60,14 @@ class OrderController extends Controller
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
         $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $voucher = Voucher::where('code', $order->voucher)->first();
+        $options = OptionDetail::all();
         return response()->json([
             'order' => $order,
             'billDetail' => $billDetail,
             'user' => $user,
+            'options' => $options,
+            'voucher' => $voucher,
         ]);
     }
 
@@ -72,7 +77,7 @@ class OrderController extends Controller
 
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
-        $adminInfor = User::find(1);
+        $adminInfor = User::find(Auth::id());
 
         if ($request->status_id == 5) {
             $flag = true;
@@ -90,10 +95,47 @@ class OrderController extends Controller
     public function searchByCode(Request $request)
     {
         if ($request->ajax()) {
-            $orders = Order::where('code', 'LIKE', '%' . $request->code . '%')->get();
+            $orders = Order::where('code', 'LIKE', '%' . $request->code . '%')->where('status_id', '!=', 4)->get();
             if ($orders  != null) {
                 $result = '';
                 foreach ($orders as $order) {
+                    $checked1 = "";
+                    $checked2 = "";
+                    $checked3 = "";
+                    $checked4 = "";
+                    $checked5 = "";
+                    if ($order->status_id == 1) {
+                        $checked1 = "selected";
+                        $checked2 = "";
+                        $checked3 = "";
+                        $checked4 = "";
+                        $checked5 = "";
+                    } elseif ($order->status_id == 2) {
+                        $checked2 = "selected";
+                        $checked1 = "";
+                        $checked3 = "";
+                        $checked4 = "";
+                        $checked5 = "";
+                    } elseif ($order->status_id == 3) {
+                        $checked3 = "selected";
+                        $checked2 = "";
+                        $checked1 = "";
+                        $checked4 = "";
+                        $checked5 = "";
+                    } elseif ($order->status_id == 4) {
+                        $checked4 = "selected";
+                        $checked2 = "";
+                        $checked3 = "";
+                        $checked1 = "";
+                        $checked5 = "";
+                    } else {
+                        $checked5 = "selected";
+                        $checked2 = "";
+                        $checked3 = "";
+                        $checked4 = "";
+                        $checked1 = "";
+                    }
+
                     $result .= '<tr>
                                     <td>
                                         <div class="checkbox">
@@ -108,11 +150,18 @@ class OrderController extends Controller
                                     <td>' . $order->address . '</td>
                                     <td>' . $order->created_at . '</td> ' .
                         \App\Helpers\Helper::auth($request->code)
-                        . '<td>' . $order->note . '</td>
+                        . '<td>
+                        <button data-toggle="modal" data-target=".modal-order-detail" data-id="' . $order->id . '" class="btn btn-icon btn-hover btn-sm btn-rounded order-detail">
+                            <i class="anticon anticon-eye"></i>
+                        </button>
+                    </td>
                                     <td>
-                                        <select name="status" id="status" class="custom-select"
-                                            style="min-width: 180px;" onchange="changeStatusAjax(' . $order->id . ')">
-                                            ' . \App\Helpers\Helper::status($request->code) . '
+                                        <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="' . $order->id . '">
+                                            <option class="status-' . $order->id . '" value="' . 1 . '"' . $checked1 . '>Chờ xác nhận</option>
+                                            <option class="status-' . $order->id . '" value="' . 2 . '"' . $checked2 . '>Đang xử lý</option>
+                                            <option class="status-' . $order->id . '" value="' . 3 . '"' . $checked3 . '>Đang giao</option>
+                                            <option class="status-' . $order->id . '" value="' . 4 . '"' . $checked4 . '>Đã giao</option>
+                                            <option class="status-' . $order->id . '" value="' . 5 . '"' . $checked5 . '>Đã hủy</option>
                                         </select>
                                     </td>
                                 </tr>';

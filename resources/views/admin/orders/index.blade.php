@@ -84,17 +84,13 @@
                                 </button>
                             </td>
                             <td>
-                                @if($item->id != 5)
-                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}" {{$item->status_id == 5 ? 'disabled' : ''}}>
+                                <select name="status" id="status" class="custom-select select-order" style="min-width: 180px;" data-id="{{$item->id}}">
                                     @foreach ($status as $stt)
                                     <option class="status-{{ $item->id }}" value="{{ $stt->id }}" {{ $stt->id == $item->status_id ? ' selected' : '' }}>
                                         {{ $stt->name }}
                                     </option>
                                     @endforeach
                                 </select>
-                                @else
-                                Đã hủy
-                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -123,7 +119,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
-                                                <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Trạng thái</span><b style="color:green;font-weight:normal;margin:0">Thành công</b></p>
+                                                <p style="font-size:14px;margin:0 0 6px 0;" id="order_status"></p>
                                                 <p id="order_code" style="font-size:14px;margin:0 0 6px 0;"></p>
                                                 <p id="order_total" style="font-size:14px;margin:0 0 0 0;"></p>
                                             </td>
@@ -141,6 +137,7 @@
                                             <td style="width:50%;padding:20px;vertical-align:top">
                                                 <p id="order_address" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
                                                 <p id="id_customer" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
+                                                <p id="code_voucher" style="margin:0 0 10px 0;padding:0;font-size:14px;"></p>
                                             </td>
                                         </tr>
                                         <tr>

@@ -63,14 +63,22 @@ class ProductServices
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
             ->orderBy('updated_at', 'DESC')->paginate(5);
     }
-
-    public function getProduct()
+    public function getPrdId($id)
     {
         return  Product::with('menu')
             ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
             ->orderBy('updated_at', 'DESC')
+            ->where('menu_id', $id)
+            ->where('active', 1)->paginate(4);
+    }
+    public function getProduct()
+    {
+        return  Product::with('menu')
+            ->select('id', 'name', 'menu_id', 'price', 'price_sales', 'quantity', 'thumb', 'active')
+            // ->orderBy('updated_at', 'DESC')
+            ->inRandomOrder()->limit(12)
             ->where('active', 1)
-            ->paginate(5);
+            ->get();
     }
 
     public function create($request)
@@ -102,6 +110,7 @@ class ProductServices
                 foreach ($request->option_details as $item) {
                     if ($option_detail->id == $item) {
                         $data->active = 0;
+                        break;
                     } else {
                         $data->active = 1;
                     }

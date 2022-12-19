@@ -15,4 +15,9 @@ class OptionDetail extends Model
         'price',
         // 'quantity'
     ];
+
+    public function option()
+    {
+        return $this->belongsTo(Option::class);
+    }
 }

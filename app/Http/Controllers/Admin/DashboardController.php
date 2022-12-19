@@ -16,17 +16,20 @@ class DashboardController extends Controller
         $title = "Dashboard";
 
         $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
         //thống kê sản phẩm theo tháng
         $orderMonth = DB::table('orders')
-            ->whereMonth('created_at', '=', $month)->where('status_id', 4)
+            ->whereMonth('created_at', '=', $month)
+            ->whereYear('created_at', '=', $year)->where('status_id', 4)
             ->count();
 
         $productMonth = OrderProduct::select('price', 'quantity', 'total', 'orders.status_id')
             ->join('orders', 'orders.id', '=', 'order_products.order_id')
             ->whereMonth('order_products.created_at', '=', $month)
+            ->whereYear('order_products.created_at', '=', $year)
             ->where('status_id', 4)
             ->get();
-
+        
         $qty = 0; // số sản phẩm bán trong tháng
         $total = 0; // tổng tiền bán trong tháng
         foreach ($productMonth as $it) {
@@ -138,9 +141,9 @@ class DashboardController extends Controller
             $get = OrderProduct::select('nameProduct as name', 'quantity as total_quantity', 'total as total_price')
             ->join('orders', 'orders.id', '=', 'order_products.order_id')
             ->where('orders.status_id', 4)
-            ->whereMonth('created_at', '=', $now->month)
-            ->whereDay('created_at', '=', $now->day)
-            ->whereYear('created_at', '=', $now->year)
+            ->whereMonth('date_order', '=', $now->month)
+            ->whereDay('date_order', '=', $now->day)
+            ->whereYear('date_order', '=', $now->year)
             ->orderBy('total_quantity', 'DESC')->get();
         }else {
             $get = OrderProduct::select([DB::raw("SUM(quantity) as total_quantity"), DB::raw("SUM(total) as total_price"), 'nameProduct as name'])
