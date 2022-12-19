@@ -137,6 +137,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::get('/search/client', [HomeController::class, 'search']);
+    Route::get('/search/order-group', [HomeController::class, 'searchOrderGroup']);
     Route::get('/status', function () {
         return view('client.status');
     });
