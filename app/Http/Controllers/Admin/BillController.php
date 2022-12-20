@@ -20,7 +20,7 @@ class BillController extends Controller
     public function index()
     {
         $title = 'Danh sách đơn hàng';
-        $bills = Order::where('status_id', 4)->orderBy('updated_at','DESC')->paginate(5);
+        $bills = Order::where('status_id', 4)->orderBy('updated_at', 'DESC')->paginate(5);
         return view('admin.bills.index', compact('bills', 'title'));
     }
 
@@ -57,7 +57,11 @@ class BillController extends Controller
         $user = User::find($bill->user_id);
         $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
         $options = OptionDetail::all();
-        $voucher = Voucher::where('code', $bill->voucher)->first();
+        if ($bill->voucher) {
+            $voucher = Voucher::where('code', $bill->voucher)->first();
+        } else {
+            $voucher = null;
+        }
         return response()->json([
             'bill' => $bill,
             'billDetail' => $billDetail,

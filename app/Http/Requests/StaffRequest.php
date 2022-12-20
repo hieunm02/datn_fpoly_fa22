@@ -25,7 +25,7 @@ class StaffRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50|min:2',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'image_path' => 'required',
             'phone' => 'required',
         ];
@@ -40,6 +40,7 @@ class StaffRequest extends FormRequest
             'email.required' => 'Email nhân viên không được để trống!',
             'email.email' => 'Email sai định dạng',
             'image_path.required' => 'Ảnh không được để trống!',
+            // 'email.exit' => 'Email đã được đăng ký'
         ];
     }
 }

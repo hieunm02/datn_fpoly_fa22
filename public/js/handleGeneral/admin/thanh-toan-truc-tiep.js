@@ -149,6 +149,9 @@ $("#payment").on('click', function () {
                 $('input[name=name]').text('')
                 $('input[name=email]').text('')
                 $('input[name=phone]').text('')
+                $('input[name=name]').val('')
+                $('input[name=email]').val('')
+                $('input[name=phone]').val('')
                 showDonHang($("#orderNew").val())
                 Swal.fire(
                     'Successful!',

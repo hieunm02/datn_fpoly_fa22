@@ -1,12 +1,172 @@
 @extends('layouts.client.client-master')
 @section('title-page', 'Đặt theo nhóm')
 @section('content')
+<style>
+    /* START TOOLTIP STYLES */
+[tooltip] {
+  position: relative; /* opinion 1 */
+}
+
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {
+  text-transform: none; /* opinion 2 */
+  font-size: .9em; /* opinion 3 */
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  display: none;
+  opacity: 0;
+}
+[tooltip]::before {
+  content: '';
+  border: 5px solid transparent; /* opinion 4 */
+  z-index: 1001; /* absurdity 1 */
+}
+[tooltip]::after {
+  content: attr(tooltip); /* magic! */
+  
+  /* most of the rest of this is opinion */
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  
+  /* 
+    Let the content set the size of the tooltips 
+    but this will also keep them from being obnoxious
+    */
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1ch 1.5ch;
+  border-radius: .3ch;
+  box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+  background: #333;
+  color: #fff;
+  z-index: 1000; /* absurdity 2 */
+}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+  display: block;
+}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {
+  display: none !important;
+}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: #333;
+}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
+  left: 50%;
+  transform: translate(-50%, -.5em);
+}
+
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: #333;
+}
+[tooltip][flow^="down"]::after {
+  top: calc(100% + 5px);
+}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {
+  left: 50%;
+  transform: translate(-50%, .5em);
+}
+
+/* FLOW: LEFT */
+[tooltip][flow^="left"]::before {
+  top: 50%;
+  border-right-width: 0;
+  border-left-color: #333;
+  left: calc(0em - 5px);
+  transform: translate(-.5em, -50%);
+}
+[tooltip][flow^="left"]::after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translate(-.5em, -50%);
+}
+
+/* FLOW: RIGHT */
+[tooltip][flow^="right"]::before {
+  top: 50%;
+  border-left-width: 0;
+  border-right-color: #333;
+  right: calc(0em - 5px);
+  transform: translate(.5em, -50%);
+}
+[tooltip][flow^="right"]::after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translate(.5em, -50%);
+}
+
+/* KEYFRAMES */
+@keyframes tooltips-vert {
+  to {
+    opacity: .9;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tooltips-horz {
+  to {
+    opacity: .9;
+    transform: translate(0, -50%);
+  }
+}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,
+[tooltip][flow^="down"]:hover::after {
+  animation: tooltips-vert 300ms ease-out forwards;
+}
+
+[tooltip][flow^="left"]:hover::before,
+[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,
+[tooltip][flow^="right"]:hover::after {
+  animation: tooltips-horz 300ms ease-out forwards;
+}
+
+</style>
 <div class="osahan-trending" style="padding-bottom: 500px;">
 <div class="container col-12 px-5">
     <div class="row d-flex justify-content-around">
         <div class="most_popular py-5 col-8">
-            <div class="d-flex align-items-center mb-4">
+            <div class="d-flex align-items-center mb-4 justify-content-between">
                 <h3 class="font-weight-bold text-dark mb-0">Danh sách sản phẩm</h3>
+                <div class="input-group d-flex col-3">
+                <input type="text" id="searchOrderGroup" class="form-control form-control-lg input_search border-right-0" id="inlineFormInputGroup" placeholder="Tìm kiếm ở đây...">
+                            <div class="input-group-prepend">
+                                <div class="btn input-group-text bg-white border_search border-left-0 text-primary"><i class="feather-search"></i></div>
+                            </div>
+                </div>
             </div>
             @if(Auth::user())
             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
@@ -14,7 +174,7 @@
             <input type="hidden" name="user_avatar" id="user_avatar" value="{{ Auth::user()->avatar }}">
             @endif
             <input type="hidden" name="cart_product" id="cart_product" value="">
-            <div class="row" id="innerResult" style="overflow: scroll;height:600px">
+            <div class="row" id="innerResultOrder" style="overflow: scroll;max-height:600px;min-height:300px">
                 @foreach ($products as $product)
                 <div class="col-lg-2 mb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
@@ -259,7 +419,7 @@
         <div class="modal-body p-0 mt-3">
             <div class="desc px-3">
                 <span>Mời bạn bè cùng đặt chung đơn hàng, tiện lợi và tiết kiệm hơn!</span><br>
-                <span>Bạn chỉ cần copy đường dẫn bên dưới và gửi cho bạn bè:</span><br>
+                <span>Bạn chỉ cần copy đường dẫn bên dưới và gửi cho bạn bè:</span><br>}}
             </div>
             <div class="link input-group px-3 mt-3">
                 <input type="text" class="form-control" id="link_invite">
@@ -281,7 +441,7 @@
 <script src="{{ asset('js/handleGeneral/ordergroup/order-group.js') }}"></script>
 <script>
     // xem chi tiết sản phẩm 
-    $('.quick-view').on('click', function() {
+    $(document).on('click','.quick-view', function() {
         let product_id = $(this).data('id_product');
         let room = location.href
         let _token = "{{ csrf_token() }}";
@@ -532,7 +692,7 @@
                             <input type="hidden" id="cart_product_price_${user_id}${product_id}" value="${product_price}">
                             <input type="hidden" name="product_id" id="cart-product_id_${user_id}${product_id}" value="${product_id}">
                             <div class="header row px-2" id="cart_header_${user_id}${product_id}">
-                                <div class="col-3">
+                                <div class="col-3" tooltip="${user_name}">
                                     <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
                                 <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
@@ -755,5 +915,59 @@
         $('.modal').removeClass('show');
         $('#invite').modal('toggle');
     }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script>
+    //setup before functions
+    var typingTimer; //timer identifier
+    var doneTypingInterval = 0; //time in ms, 5 seconds for example
+    //on keyup, start the countdown
+    $('#searchOrderGroup').on('keyup', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown 
+    $('#searchOrderGroup').on('keydown', function() {
+        $('.loader').css('display', 'block');
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTyping() {
+        var result = document.querySelector('#searchOrderGroup').value;
+        $.ajax({
+            url: '/search/order-group',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                search: result
+            },
+            success: function(data) {
+                if (data.result == '') {
+                    var string = `
+                        <div class="col-4"></div>
+                        <div class="row d-flex align-items-center justify-content-center py-5">
+                            <div class="col-md-4 py-5">
+                                <div class="text-center py-5">
+                                    <p class="h4 mb-4"><i class="feather-search bg-primary text-white rounded p-2"></i></p>
+                                    <p class="font-weight-bold text-dark h5">Không có kết quả</p>
+                                    <p>Chúng tôi không tìm thấy món bạn cần, vui lòng thử lại sau.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4"></div>`;
+                    $('.loader').fadeOut(1000);
+                    $('#innerResultOrder').html(string);
+                } else {
+                    $('.loader').fadeOut(0);
+                    $('#innerResultOrder').html(data.result);
+                }
+            },
+        });
+    }
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 @endsection

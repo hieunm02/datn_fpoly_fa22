@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         @if ($room_id)
-                            <div class="chat-content">
+                            <div class="chat-content col-md-8">
                                 <div class="conversation">
                                     <div class="conversation-wrapper row">
                                         <div class="conversation-header justify-content-between">
@@ -172,7 +172,7 @@
                     // Kéo thanh scroll xuống xuối
                     var messageBody = document.getElementById('chat-content');
                     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-                    // không đang nhập 
+                    // không đang nhập
                     let noTyping = ''
                     socket.emit('isTyping', noTyping);
                     sendMessage(message, user_id, avatar, room_id)
@@ -185,7 +185,7 @@
                 let room_id = $('#id').val()
                 if (e.which != 13 && !e.shiftKey) {
                     let typing = `
-                    <span style="float: left;margin-right: 5px; margin-bottom:10px">${name} đang soạn tin</span> 
+                    <span style="float: left;margin-right: 5px; margin-bottom:10px">${name} đang soạn tin</span>
                     <img src="https://static.wixstatic.com/media/c29e02_814402a86a544d12a0ffb478f5c338e9~mv2.gif" width="25px" alt="">
                     `
                     socket.emit('isTyping', typing, room_id);

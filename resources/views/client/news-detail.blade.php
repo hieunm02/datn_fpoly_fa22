@@ -26,37 +26,39 @@
             </p>
         </div>
         <h3 class="font-weight-bold my-3 text-center">Các bài viết khác</h3>
-        @foreach($newsAll as $new)
         <div class="row">
-            <div class="col-md-3 mb-3">
-                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
-                    <div class="list-card-image">
-                        <div class="star position-absolute"></div>
-                        <div class="member-plan position-absolute"><span class="badge badge-dark">News</span></div>
-                        <a href="{{ route('news-detail', $new->id) }}">
-                            <img alt="#" src="{{asset($new->image_path)}}" class="img-fluid item-img w-100">
-                        </a>
-                    </div>
-                    <div class="p-3 position-relative">
-                        <div class="list-card-body">
-                            <h6 class="mb-1"><a href="{{ route('news-detail', $new->id) }}" class="text-black">{{$new->title}}
-                                </a>
-                            </h6>
-                            <p class="mb-3 newsHide"></p>
-                            <p class="text-gray mb-3 time"><span class="badge badge-secondary"><i class="feather-user"></i>
-                                @foreach ($authors as $auth)
-                                    @if ($news->user_id == $auth->id)
-                                        {{ $auth->name }}
-                                    @endif
-                                @endforeach
-                            </span>
-                        </p>
+
+            @foreach ($newsAll as $new)
+                <div class="col-md-3 mb-3">
+                    <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
+                        <div class="list-card-image">
+                            <div class="star position-absolute"></div>
+                            <div class="member-plan position-absolute"><span class="badge badge-dark">News</span></div>
+                            <a href="{{ route('news-detail', $new->id) }}">
+                                <img alt="#" src="{{ asset($new->image_path) }}" class="img-fluid item-img w-100">
+                            </a>
+                        </div>
+                        <div class="p-3 position-relative">
+                            <div class="list-card-body">
+                                <h6 class="mb-1"><a href="{{ route('news-detail', $new->id) }}"
+                                        class="text-black">{{ $new->title }}
+                                    </a>
+                                </h6>
+                                <p class="mb-3 newsHide"></p>
+                                <p class="text-gray mb-3 time"><span class="badge badge-secondary"><i
+                                            class="feather-user"></i>
+                                        @foreach ($authors as $auth)
+                                            @if ($news->user_id == $auth->id)
+                                                {{ $auth->name }}
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
-    </div>
-    @endsection
+@endsection

@@ -52,7 +52,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
             Session::put('user_name', $user->name);
-            return redirect()->route('index');
+            return redirect($request->url);
         } else {
             return redirect()->route('login')->with('error', 'Tên đăng nhập hoặc mật khẩu không đúng!');
         }

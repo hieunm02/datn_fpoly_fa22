@@ -33,6 +33,7 @@
                     <p class="text-50">Vui lòng đăng nhập để tiếp tục</p>
                     <form class="mt-5 mb-4" action="/login" method="POST">
                         @csrf
+                        <input name="url" type="hidden" value="{{ $url }}" >
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="text-dark">Email</label>
                             <input type="email" name="email" placeholder="Mời nhập email" value="{{old('email')}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">

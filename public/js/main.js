@@ -121,7 +121,7 @@ $('.order-detail').on('click', function () {
                 totalBefore = null;
             }
             $('#order_code').html(status);
-            var code_voucher = data.order.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
+            var code_voucher = data.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
             $('#order_total').html(`<span style="font-weight:bold;display:inline-block;min-width:146px">Tổng tiền</span> <del>${totalBefore ? totalBefore.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : ''}</del> ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`);
             $('#name_customer').html(`<span style="display:block;font-weight:bold;font-size:13px">Tên</span> ${data.user.name}`)
             $('#email_customer').html(`<span style="display:block;font-weight:bold;font-size:13px;">Email</span> ${data.user.email}`)
@@ -178,8 +178,8 @@ $('.bill-detail').on('click', function () {
                 </p>
                 `;
             });
-            var code_voucher = data.bill.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
-            if (data.bill.voucher) {
+            var code_voucher = data.voucher ? `<span style="display:block;font-weight:bold;font-size:13px;">Mã voucher</span> ${data.voucher.code} (giảm ${data.voucher.discount}%)` : ''
+            if (data.voucher) {
                 totalBefore = total + totalOption;
                 total = (total + totalOption) * ((100 - data.voucher.discount) / 100);
             } else {

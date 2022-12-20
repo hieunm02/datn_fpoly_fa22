@@ -161,16 +161,22 @@ class HomeController extends Controller
             $result = '';
             if ($products) {
                 foreach ($products as  $product) {
-                    if($product->price_sales != null) {
+                    if ($product->price_sales != null) {
                         $sale = '<div class="star position-absolute"><span class="badge badge-danger">Sale</span>
                         </div>';
-                    }else {
+                    } else {
                         $sale = '';
                     }
+                    if($product->quantity < 10) {
+                        $color = 'text-danger';
+                    }else {
+                        $color = '';
+                    }
+                    $countProduct = '<span class="'.$color.'">'. $product->quantity .' sản phẩm';
                     $result .= '<div class="col-md-3 pb-3">
                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                         <div class="list-card-image" style="box-sizing: border-box; overflow: hidden;height: 141px">
-                                '.$sale.'
+                                ' . $sale . '
                             <div class="favourite-heart text-danger position-absolute"><a href="#"></a></div>
                             <a href="/products/' . $product->id . '/product-detail">
                                 <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '"
@@ -180,14 +186,15 @@ class HomeController extends Controller
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
                                 <h6 class="mb-1"><a href="/products/' . $product->id . '/product-detail"
-                                        class="text-black">'. $product->name .'
+                                        class="text-black font-weight-bolder">'. $product->name .'
                                     </a>
                                 </h6>
-                                <p class="text-gray mb-3">'. $product->menu->name .'</p>
+                                <p class="text-gray mb-3">' . $product->menu->name . '</p>
                                 <p class="text-gray mb-3 time"><span
-                                        class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i
-                                            class="feather-clock"></i> 10–15 min</span>
-                                    <span class="float-right d-block text-danger">
+                                        class="text-dark rounded-sm pb-1 pt-1 pr-2">
+                                        Còn lại: '.$countProduct.'</span> 
+                                        </span>
+                                    <span class="float-right d-block text-danger font-weight-bolder">
                                     '. number_format($product->price, 0, ',', '.').'
                                         VND</span>
                                 </p>
@@ -195,6 +202,45 @@ class HomeController extends Controller
                         </div>
                     </div>
                 </div>';
+                }
+            }
+        }
+        return response()->json(['result' => $result], 200);
+    }
+
+    public function searchOrderGroup(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = Product::where('name', 'LIKE', '%' . $request->search . '%')->get();
+            $result = '';
+            if ($products) {
+                foreach ($products as  $product) {
+                    if ($product->price_sales != null) {
+                        $sale = '<div class="star position-absolute"><span class="badge badge-danger">Sale</span>
+                        </div>';
+                    } else {
+                        $sale = '';
+                    }
+                    $result .= '
+                    <div class="col-lg-2 mb-3">
+                    <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm grid-card">
+                        <div class="list-card-image">
+                            <a data-toggle="modal" data-target="#select-product" data-id_product="'.$product->id.'" class="quick-view">
+                                <img alt="#" src="http://127.0.0.1:8000/' . $product->thumb . '" class="img-fluid item-img w-100">
+                            </a>
+                        </div>
+                        <p class="ml-2">'. number_format($product->price, 0, ',', '.') .' VND</p>
+                        <div class="p-3 position-relative">
+                            <div class="list-card-body">
+                                <h6 style="cursor: pointer;" class="mb-1"><a data-toggle="modal" data-target="#select-product" data-id_product="'.$product->id.'" class="text-black quick-view">'.$product->name.'
+                                    </a>
+                                </h6>
+                                <p class="text-gray mb-3">'.$product->menu->name.'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    ';
                 }
             }
         }
