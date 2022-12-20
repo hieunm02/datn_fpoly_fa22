@@ -4,17 +4,6 @@
     <link rel="stylesheet" href="{{ asset('/css/paginate.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>;
     <div class="main-content">
-        <div class="page-header">
-            <h2 class="header-title">Orders List</h2>
-            <div class="header-sub-title">
-                <nav class="breadcrumb breadcrumb-dash">
-                    <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                    <a class="breadcrumb-item" href="#">Apps</a>
-                    <a class="breadcrumb-item" href="#">E-commerce</a>
-                    <span class="breadcrumb-item active">Slides List</span>
-                </nav>
-            </div>
-        </div>
         <x:notify-messages />
         <div class="card">
             <div class="card-body">
@@ -24,8 +13,8 @@
                             <div class="m-b-10 mr-3">
                                 <select class="custom-select select-active" style="min-width: 180px;">
                                     <option selected value="">Trạng thái</option>
-                                    <option value="1">Mở</option>
-                                    <option value="0">Khóa</option>
+                                    <option value="0">Mở</option>
+                                    <option value="1">Khóa</option>
                                 </select>
                             </div>
                             <div class="m-b-10">
