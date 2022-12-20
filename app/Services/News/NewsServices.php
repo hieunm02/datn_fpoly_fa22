@@ -14,7 +14,7 @@ class NewsServices
         return News::select('id', 'title', 'user_id', 'image_path', 'active')
         ->where('active',0)
             ->orderByDesc('updated_at', 'DESC')
-            ->paginate(5);
+            ->paginate(4);
     }
 
     public function getNews($request)
@@ -37,7 +37,6 @@ class NewsServices
     public function create($request)
     {
         try {
-            dd($request->all());
             News::create([
                 'title' => (string) $request->input('title'),
                 'user_id' => 1,
