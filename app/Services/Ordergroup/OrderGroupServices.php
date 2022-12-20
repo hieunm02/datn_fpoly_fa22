@@ -86,7 +86,7 @@ class OrderGroupServices
                 $data->nameProduct = $prd->name;
                 $data->thumb = $prd->thumb;
                 $data->quantity = $del->quantity;
-                $data->options = $del->options;
+                // $data->options = $del->options;
                 if ($prd->price_sales == 0 || $prd->price_sales == null) {
                     $data->price = $prd->price;
                     $data->total = $del->quantity * $prd->price;

@@ -33,7 +33,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                     @foreach ($messages as $message)
                     @if ($message->user_id == Auth::user()->id)
                     <div class="d-flex justify-content-end mb-4">
-                        <div class="msg_cotainer_send">
+                        <div class="msg_cotainer_send text-white" style="background-color: rgb(45, 139, 240)">
                             {{$message->message}}
                         </div>
                     </div>
@@ -42,7 +42,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                         <div class="img_cont_msg">
                             <img src="{{$message->avatar}}" class="rounded-circle user_img_msg">
                         </div>
-                        <div class="msg_cotainer_send">
+                        <div class="msg_cotainer_send ml-2" style="background-color: rgba(144, 147, 150, 0.547)">
                             {{$message->message}}
                         </div>
                     </div>
@@ -100,7 +100,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                 if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                             <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
+                                <div class="msg_cotainer_send text-white" style="background-color: rgb(45, 139, 240)">
                                             ${message}
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                                 <div class="img_cont_msg">
                                     <img src="${avatar}" class="rounded-circle user_img_msg">
                                 </div>
-                                <div class="msg_cotainer_send">
+                                <div class="msg_cotainer_send ml-2" style="background-color: rgba(144, 147, 150, 0.547)">
                                             ${message}
                                 </div>
                             </div>
