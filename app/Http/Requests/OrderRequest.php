@@ -25,7 +25,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required|numeric',
+            'phone' => 'required|regex:/^([0][0-9\s\-\+\(\)]*)$/|digits_between:10,11',
             'email' => 'required|email',
             'product_id' => 'required',
             'building' => 'required',
@@ -38,7 +38,8 @@ class OrderRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng điền tên',
             'phone.required' => 'Vui lòng điền số điện thoại',
-            'phone.numeric' => 'Số điện thoại phải là số',
+            "phone.regex" => "Số điện thoại phải là số (0xxxxxxxxxx)!",
+            "phone.digits_between" => "Số điện thoại có độ dài từ 10 - 11 kí tự!",
             'email.required' => 'Vui lòng điền email',
             'email.email' => 'Email không đúng định dạng',
             'product_id.required' => 'Vui lòng chọn sản phẩm cần thanh toán',
