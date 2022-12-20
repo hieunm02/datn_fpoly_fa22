@@ -155,6 +155,18 @@
 }
 
 </style>
+@if (session()->has('success'))
+            <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
+                {{ session()->get('success') }}
+                {{-- {{ Session::forget('success') }} --}}
+            </div>
+        @endif
+@if (session()->has('error'))
+            <div id="setout" class="text-white alert bg-danger position-fixed" style="right: 8px; z-index: 9999;">
+                {{ session()->get('error') }}
+                {{-- {{ Session::forget('error') }} --}}
+            </div>
+        @endif
 <div class="osahan-trending" style="padding-bottom: 500px;">
 <div class="container col-12 px-5">
     <div class="row d-flex justify-content-around">
@@ -239,7 +251,7 @@
                             <input type="hidden" name="product_id" id="cart-product_id_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_id }}">
 
                             <div class="header row px-2" id="cart_header_{{ $cart->user_id }}{{$cart->product_id}}">
-                                <div class="col-3">
+                                <div class="col-3" tooltip="{{$cart->user_name}}">
                                     <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
                                 <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
@@ -969,5 +981,8 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+    setTimeout(() => {
+        $('#setout').css('display', 'none');
+    }, 3000)
 </script>
 @endsection
