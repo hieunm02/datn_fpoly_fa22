@@ -58,7 +58,7 @@
                                                 @if ($message->user_id == Auth::user()->id)
                                                     <div class="msg msg-sent">
                                                         <div class="bubble">
-                                                            <div class="bubble-wrapper">
+                                                            <div class="bubble-wrapper text-white" style="background-color: rgb(45, 139, 240)">
                                                                 <span>{{ $message->message }}</span>
                                                             </div>
                                                         </div>
@@ -71,7 +71,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="bubble">
-                                                            <div class="bubble-wrapper">
+                                                            <div class="bubble-wrapper text-dark" style="background-color: rgba(144, 147, 150, 0.547)">
                                                                 <span>{{ $message->message }}</span>
                                                             </div>
                                                         </div>
@@ -158,14 +158,14 @@
 
                 if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
-                <div class="msg msg-sent">
-                    <div class="bubble">
-                        <div class="bubble-wrapper">
-                            <span>${message}</span>
+                    <div class="msg msg-sent">
+                        <div class="bubble">
+                            <div class="bubble-wrapper text-white" style="background-color: rgb(45, 139, 240)">
+                                <span>${message}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                `);
+                    `);
                     //Gửi dữ liệu lên server
                     socket.emit('sendChatToServer', message, user_id, user_name, avatar, room_id);
                     chatInput.html('');
@@ -235,7 +235,7 @@
                             </div>
                         </div>
                         <div class="bubble">
-                            <div class="bubble-wrapper">
+                            <div class="bubble-wrapper text-dark" style="background-color: rgba(144, 147, 150, 0.547)">
                                 <span>${message}</span>
                             </div>
                         </div>

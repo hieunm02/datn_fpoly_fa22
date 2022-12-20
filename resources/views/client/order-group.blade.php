@@ -393,14 +393,14 @@
                 @foreach ($listMembers as $member)
                 @if($member->room == url()->current())
                 <div class="link input-group px-3 mt-3">
-                    <a href="#" class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
-                        <img alt="#" src="{{ $member->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
+                    <a class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ $member->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
                         <span class="member_name" id="member_name_">{{ $member->user_name }}</span>
                         @if(Auth::user() && $member->user_id == Auth::user()->id)
                         <span>(Bạn)</span>
                         @endif
                         @if($member->role == 'member')
-                        <input class="ml-2" type="checkbox" id="success-order" value="">
+                        <input class="ml-2" type="checkbox" id="success-order">
                         @endif
                     </a>
                 </div>
@@ -504,10 +504,10 @@
                         // console.log(data[i].user_name);
                         list += `
                         <div class="link input-group px-3 mt-3">
-                        <a href="#" class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
-                        <img alt="#" src="${data[i].user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
+                        <a class="text-dark d-block" aria-haspopup="true" aria-expanded="false">
+                        <img src="${data[i].user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user member_avatar">
                         <span class="member_name" id="member_name_">${data[i].user_name}</span>
-                        <input class="ml-2" type="checkbox" id="success-order" value="">
+                        <input class="ml-2" type="checkbox" id="success-order">
                         </a>
                         </div>
                         `
@@ -519,6 +519,12 @@
         }
         })
     })
+
+    $(document).on('change','#success-order',function() {
+        $('.checkout').html(`
+            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>`
+        )
+    });
 
     // lấy danh sách sản phẩm trong giỏ hàng đặt nhóm 
     $(document).on('click','#btn-checkout', function() {
@@ -791,7 +797,7 @@
         //member xác nhận đặt hàng xong
         socket.on('successOrder', (message) => {
             $('.checkout').html(`
-            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>                `)
+            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>`)
         });
 
         //manager đặt hàng thành công
