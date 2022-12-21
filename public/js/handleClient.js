@@ -128,7 +128,7 @@ $('#applyVoucher').on("click", () => {
                 'Áp mã thành công!',
                 'success'
             );
-
+            $('input[name=voucher_user]').val(code_radio);
             $('.error-voucher').text('');
             $('.discount-voucher').text(data.voucher.discount + '%');
             let total = $('.hidden_total').val();

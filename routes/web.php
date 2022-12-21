@@ -50,6 +50,9 @@ use Illuminate\Support\Facades\Route;
 // Client
 
 Route::prefix('/')->group(function () {
+    //thanh toán vnpay
+    Route::post('vnpay_payment', [HomepageOrderController::class, 'vnpay_payment'])->name('vnpay_payment');
+
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}', [CartController::class, 'update']);

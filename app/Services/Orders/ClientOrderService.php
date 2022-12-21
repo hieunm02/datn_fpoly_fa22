@@ -52,9 +52,9 @@ class ClientOrderService
             $order->shipper_id = 1;
             $order->voucher = $request->voucher;
             $order->note = $request->note;
+            $order->type = 'Mua online';
             $order->save();
             $count = $request->product_id;
-            // dd($count);
             $options = OptionDetail::all();
             foreach ($count as $it) {
                 $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();

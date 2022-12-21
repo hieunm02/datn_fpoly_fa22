@@ -26,6 +26,7 @@
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
                                 <th>Ngày đặt</th>
+                                <th>Phương thức</th>
                                 <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>
@@ -38,6 +39,7 @@
                                     <td>{{ $it->phone }}</td>
                                     <td>{{ $it->address }}</td>
                                     <td>{{ $it->created_at }}</td>
+                                    <td>{{ $it->type }}</td>
                                     <td class="text-center order-status{{ $it->id }}" id="loadStatusOk">
                                         @if ($it->status_id == 1)
                                             <select class="form-control changeStatusBill{{ $it->id }}" onchange="changeStatus(this, {{ $it->id }})"
