@@ -50,14 +50,6 @@ class OrderGroupController extends Controller
         ]);
     }
 
-    public function checkOut(Request $request)
-    {
-        $this->orderGroupService->checkOut($request);
-        
-        return redirect()->back();
-
-    }
-
     public function quickview(Request $request)
     {
         // tìm xem sản phẩm này đã có trong giỏ hàng hay chưa 

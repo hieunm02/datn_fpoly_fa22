@@ -49,66 +49,6 @@ class OrderGroupServices
         ->get();
     }
 
-    public function checkOut($request)
-    {
-        function rand_string($length)
-        {
-            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            $size = strlen($chars);
-            $str = '';
-            for ($i = 0; $i < $length; $i++) {
-                $str .= $chars[rand(0, $size - 1)];
-            }
-            return $str;
-        }
-        try {
-            $building = Building::find($request->building);
-            $floor = Floor::find($request->floor);
-            $order = new Order();
-            $order->fill($request->all());
-            $order->address = $building->name . ' - ' . $floor->name . ' - ' . $request->room;
-            $order->code = rand_string(12);
-            $order->user_id = Auth::user()->id;
-            $order->status_id = 1;
-            $order->shipper_id = 1;
-            $order->voucher = 'voucher';
-            $order->note = $request->note;
-            $order->save();
-            $count = $request->product_id;
-            foreach ($count as $it) {
-                $del = OrderGroup::find($it);
-                $prd = Product::find($del->product_id);
-                $user_name = User::find($del->user_id);
-                $data = new OrderProduct();
-                $data->order_id = $order->id;
-                $data->product_id = $it;
-                $data->user_name = $user_name->name;
-                $data->nameProduct = $prd->name;
-                $data->thumb = $prd->thumb;
-                $data->quantity = $del->quantity;
-                // $data->options = $del->options;
-                if ($prd->price_sales == 0 || $prd->price_sales == null) {
-                    $data->price = $prd->price;
-                    $data->total = $del->quantity * $prd->price;
-                } else {
-                    $data->price = $prd->price_sales;
-                    $data->total = $del->quantity * $prd->price_sales;
-                }
-                $data->date_order = date(now()->toDateString());
-                $data->price = $prd->price;
-                $data->total = $del->quantity * $prd->price;
-                if ($del->quantity * $prd->price);
-                $data->save();
-                $del->delete();
-            }
-            Session()->flash('success', 'Đăt hàng thành công');
-        } catch (\Exception $err) {
-            Session::flash('error', 'Không thể thêm mới sản phẩm');
-            Log::info($err->getMessage());
-            return false;
-        }
-    }
-
     public function quickView($request)
     {
         $cart_product = OrderGroup::where('product_id', $request->product_id)->where('room', $request->room)->where('user_id', Auth::user()->id)->first();
@@ -178,35 +118,5 @@ class OrderGroupServices
         ->get();
 
         echo json_encode($listMembers);
-    }
-
-    public function listProductCart($request)
-    {
-        $options = OptionDetail::all();
-
-        $carts['list_products'] = DB::table('order_group')
-        ->join('products', 'order_group.product_id', '=', 'products.id')
-        ->join('users', 'order_group.user_id', '=', 'users.id')
-        ->select('order_group.id as id', 'order_group.room as room', 'order_group.options as options', 'order_group.quantity as quantity', 'users.id as user_id',
-        'products.id as product_id', 'products.name as product_name', 'products.price as product_price')
-        ->where('order_group.room', $request->room)
-        ->where('order_group.quantity', '>', 0)
-        ->get();
-
-        $cart_options = [];
-
-        foreach($carts['list_products'] as $cart){
-            if($cart->options != ['']){
-                foreach(json_decode($cart->options) as $cart_option){
-                    foreach($options as $option){
-                        if($cart_option == $option->id){
-                            array_push($cart_options, $option->value);
-                        }
-                    }
-                }
-            }
-        $carts['list_options'] = $cart_options;
-        }
-        echo json_encode($carts);
     }
 }

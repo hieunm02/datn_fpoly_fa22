@@ -26,13 +26,16 @@ use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Homepage\BillController as HomepageBillController;
 use App\Http\Controllers\Homepage\CartController;
+use App\Http\Controllers\Homepage\CartOrderGroupController;
 use App\Http\Controllers\Homepage\ContactController;
 use App\Http\Controllers\Homepage\ListProductController;
 use App\Http\Controllers\Homepage\OrderController as HomepageOrderController;
+use App\Http\Controllers\Homepage\OrderGroupCartController;
 use App\Http\Controllers\Homepage\OrderGroupController;
 use App\Http\Controllers\Homepage\ProfileController;
 use App\Http\Controllers\SendMessage;
 use App\Http\Controllers\Homepage\VoucherController as HomepageVoucherController;
+use App\Models\OrderGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -168,11 +171,13 @@ Route::prefix('/')->group(function () {
         //thêm sản phẩm vào giỏ hàng
         Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
         //xác nhận đặt hàng
-        Route::post('order-group-checkout', [OrderGroupController::class, 'checkOut'])->name('order-group-checkout');
+        Route::post('order-group-checkout', [OrderGroupCartController::class, 'checkOut'])->name('order-group-checkout');
         //Danh sách thành viên đặt hàng nhóm
         Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
         //Danh sách sản phẩm trong giỏ hàng đặt nhóm
         Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
+        //order group cart
+        Route::post('order_group_cart', [OrderGroupCartController::class, 'index'])->name('OrderGroup-checkout');
     });
 });
 
