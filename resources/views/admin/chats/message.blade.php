@@ -303,6 +303,11 @@
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port);
 
+            var today = new Date();
+            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var created_at = date + " " + time;
+
             let chatInput = $('#chatInput');
             chatInput.keypress(function(e) {
                 let message = $(this).html();
@@ -314,7 +319,7 @@
                 if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                     <div class="msg msg-sent">
-                        <div class="bubble" tooltip="21-11-2021">
+                        <div class="bubble" tooltip="${created_at}">
                             <div class="bubble-wrapper text-white" style="background-color: rgb(45, 139, 240)">
                                 <span>${message}</span>
                             </div>
@@ -322,7 +327,7 @@
                     </div>
                     `);
                     //Gửi dữ liệu lên server
-                    socket.emit('sendChatToServer', message, user_id, user_name, avatar, room_id);
+                    socket.emit('sendChatToServer', message, user_id, user_name, avatar, room_id, created_at);
                     chatInput.html('');
                     // Kéo thanh scroll xuống xuối
                     var messageBody = document.getElementById('chat-content');
@@ -389,7 +394,7 @@
                                 <img src="${avatar}" alt="">
                             </div>
                         </div>
-                        <div class="bubble" tooltip="21:47 21-12-2022">
+                        <div class="bubble" tooltip="${created_at}">
                             <div class="bubble-wrapper text-dark" style="background-color: rgba(144, 147, 150, 0.547)">
                                 <span>${message}</span>
                             </div>

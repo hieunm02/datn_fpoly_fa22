@@ -186,7 +186,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                     @foreach ($messages as $message)
                     @if ($message->user_id == Auth::user()->id)
                     <div class="d-flex justify-content-end mb-4">
-                        <div class="msg_cotainer_send text-white" tooltip="21-11-2021" style="background-color: rgb(45, 139, 240)">
+                        <div class="msg_cotainer_send text-white" tooltip="{{$message->created_at}}" style="background-color: rgb(45, 139, 240)">
                             {{$message->message}}
                         </div>
                     </div>
@@ -195,7 +195,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                         <div class="img_cont_msg" tooltip="{{$message->user->name}}">
                             <img src="{{$message->avatar}}" class="rounded-circle user_img_msg">
                         </div>
-                        <div class="msg_cotainer_send ml-2" tooltip="21-11-2021" style="background-color: rgba(144, 147, 150, 0.547)">
+                        <div class="msg_cotainer_send ml-2" tooltip="{{$message->created_at}}" style="background-color: rgba(144, 147, 150, 0.547)">
                             {{$message->message}}
                         </div>
                     </div>
@@ -240,6 +240,11 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port);
 
+            var today = new Date();
+            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var created_at = date + " " + time;
+
             let chatInput = $('#chatInput');
 
             chatInput.keypress(function(e) {
@@ -253,13 +258,13 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                 if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                             <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send text-white" tooltip="21-11-2021" style="background-color: rgb(45, 139, 240)">
+                                <div class="msg_cotainer_send text-white" tooltip="${created_at}" style="background-color: rgb(45, 139, 240)">
                                             ${message}
                                 </div>
                             </div>
                     `);
                     // Gửi dữ liệu lên server 
-                    socket.emit('sendChatToServer', message, id, name, avatar, room_id);
+                    socket.emit('sendChatToServer', message, id, name, avatar, room_id, created_at);
                     chatInput.html('');
                     var date = timeDifference(Math.round(new Date().getTime() / 1000), Math.floor(Date.now() / 1000));
                     saveNotify(id, 'message', 'admin', room_id);
@@ -335,7 +340,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                                 <div class="img_cont_msg" tooltip="${name}">
                                     <img src="${avatar}" class="rounded-circle user_img_msg">
                                 </div>
-                                <div class="msg_cotainer_send ml-2" tooltip="21-11-2021" style="background-color: rgba(144, 147, 150, 0.547)">
+                                <div class="msg_cotainer_send ml-2" tooltip="${created_at}" style="background-color: rgba(144, 147, 150, 0.547)">
                                             ${message}
                                 </div>
                             </div>
@@ -360,5 +365,4 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
     $(function() {
         $('[data-toggle="title"]').tooltip()
     })
-    </script>
 </script>
