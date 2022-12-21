@@ -155,6 +155,18 @@
 }
 
 </style>
+@if (session()->has('success'))
+            <div id="setout" class="text-white alert bg-success position-fixed" style="right: 8px; z-index: 9999;">
+                {{ session()->get('success') }}
+                {{-- {{ Session::forget('success') }} --}}
+            </div>
+        @endif
+@if (session()->has('error'))
+            <div id="setout" class="text-white alert bg-danger position-fixed" style="right: 8px; z-index: 9999;">
+                {{ session()->get('error') }}
+                {{-- {{ Session::forget('error') }} --}}
+            </div>
+        @endif
 <div class="osahan-trending" style="padding-bottom: 500px;">
 <div class="container col-12 px-5">
     <div class="row d-flex justify-content-around">
@@ -239,7 +251,7 @@
                             <input type="hidden" name="product_id" id="cart-product_id_{{ $cart->user_id }}{{$cart->product_id}}" value="{{ $cart->product_id }}">
 
                             <div class="header row px-2" id="cart_header_{{ $cart->user_id }}{{$cart->product_id}}">
-                                <div class="col-3">
+                                <div class="col-3" tooltip="{{$cart->user_name}}">
                                     <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
                                 <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
@@ -279,16 +291,20 @@
                     </div>
                 </div>
             </div>
-            <div class="checkout">
-                @foreach($listMembers as $member)
-                @if($member->user_id == Auth::id() && $member->role == "manager")
-                <a id="btn-checkout" class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</a>
-                @endif
-                @if($member->user_id == Auth::id() && $member->role == "member")
-                <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
-                @endif
-                @endforeach
-            </div>
+            <form action="{{ route('OrderGroup-checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="room" value="{{ url()->current() }}">
+                <div class="checkout">
+                    @foreach($listMembers as $member)
+                    @if($member->user_id == Auth::id() && $member->role == "manager")
+                    <button class="btn my-3 btn" style="color: white; font-weight: bold; width: 100%; font-size: 20px; background-color: #cfcaca;">Tiếp tục</button>
+                    @endif
+                    @if($member->user_id == Auth::id() && $member->role == "member")
+                    <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
+                    @endif
+                    @endforeach
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -419,7 +435,7 @@
         <div class="modal-body p-0 mt-3">
             <div class="desc px-3">
                 <span>Mời bạn bè cùng đặt chung đơn hàng, tiện lợi và tiết kiệm hơn!</span><br>
-                <span>Bạn chỉ cần copy đường dẫn bên dưới và gửi cho bạn bè:</span><br>}}
+                <span>Bạn chỉ cần copy đường dẫn bên dưới và gửi cho bạn bè:</span><br>
             </div>
             <div class="link input-group px-3 mt-3">
                 <input type="text" class="form-control" id="link_invite">
@@ -435,7 +451,7 @@
 </div>
 </div>
 
-@include('client.order-group-checkout')
+{{-- @include('client.order-group-checkout') --}}
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
 <script src="{{ asset('js/handleGeneral/ordergroup/order-group.js') }}"></script>
@@ -522,85 +538,11 @@
 
     $(document).on('change','#success-order',function() {
         $('.checkout').html(`
-            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>`
+            <button class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</button>
+            `
         )
     });
 
-    // lấy danh sách sản phẩm trong giỏ hàng đặt nhóm 
-    $(document).on('click','#btn-checkout', function() {
-        let room = location.href
-        let _token = "{{ csrf_token() }}";
-
-        $.ajax({
-            url: "{{ route('list_product_cart_order_group') }}",
-            method: "POST",
-            dataType: "JSON",
-            data: {
-                room: room,
-                _token: _token,
-            },
-            success: function(data) {
-                console.log(data);
-
-                if(data){
-                    let list = ''
-                    let total = ''
-                    let sumPriceCart = 0
-                    for(let i = 0; i < data.list_products.length; i++){
-                        sumPriceCart += ((data.list_products[i].product_price) * (data.list_products[i].quantity))
-                        console.log(sumPriceCart);
-                        list +=  `
-                            <input hidden name="user_id[]" value="${data.list_products[i].user_id}">
-                            <div id="cart_item${data.list_products[i].id}"
-                                class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
-                                <div class="media align-items-center">
-                                    <div class="media-body d-flex">
-                                        <input type="text" name="product_id[]" class="mr-1"
-                                            value="${data.list_products[i].id}" hidden >
-                                        <p class="m-0">${data.list_products[i].product_name}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="count-number float-right">
-                                        <input class="count-number-input pr-1" width="50px" type="text"
-                                            name="quantity" id="quantity${data.list_products[i].id}"
-                                            value="${data.list_products[i].quantity}">
-                                    </span>
-                                    <p id="show_total_product${data.list_products[i].id}"
-                                    class="text-gray mb-0 float-right ml-2 text-muted small">
-                                    ${ (data.list_products[i].product_price * data.list_products[i].quantity) } <sup>đ</sup></p>
-                                </div>
-                            </div>            
-                            
-                            `
-                        $('#cart-list-product').html(
-                            list
-                        )
-                    }
-
-                    total += `
-                            <p class="mb-1">Tổng <span id="show_total"
-                                    class="float-right text-dark">${sumPriceCart}
-                                    <sup>đ</sup></span></p>
-                            <p class="mb-1">Shipping<span class="text-info ml-1"><i
-                                        class="feather-info"></i></span><span
-                                    class="float-right text-dark">Free</span></p>
-                            <hr>
-                            <h6 class="font-weight-bold mb-0">Thanh toán <span id="show_order"
-                                    class="float-right">${sumPriceCart} <sup>đ</sup></span></h6>
-                            <div class="form-group mt-1 d-flex align-items-center">
-                                <input type="checkbox" name="" id="checkin">
-                                <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
-                            </div>
-                            `
-                    $('#total-checkout').html(
-                        total
-                    )
-                }
-            }
-
-        })
-    })
 </script>
 
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
@@ -797,7 +739,8 @@
         //member xác nhận đặt hàng xong
         socket.on('successOrder', (message) => {
             $('.checkout').html(`
-            <a data-toggle="modal" data-target="#order-group-checkout" id="btn-checkout" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</a>`)
+            <button class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px">Tiếp tục</button>
+            `)
         });
 
         //manager đặt hàng thành công
@@ -969,5 +912,8 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+    setTimeout(() => {
+        $('#setout').css('display', 'none');
+    }, 3000)
 </script>
 @endsection

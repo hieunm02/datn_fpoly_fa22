@@ -23,8 +23,8 @@ io.on('connection', (socket) => {
     });
 
     // Chat 
-    socket.on('sendChatToServer', (message, id, name, avatar, room_id) => {
-        socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id);
+    socket.on('sendChatToServer', (message, id, name, avatar, room_id, created_at) => {
+        socket.broadcast.emit('sendChatToClient', message, id, name, avatar, room_id, created_at);
     });
 
     //Hiệu ứng đang nhập
