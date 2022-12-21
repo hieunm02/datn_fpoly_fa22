@@ -13,7 +13,160 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> --}}
 </head>
 <!--Coded With Love By Mutiullah Samim-->
+<style>
+    /* START TOOLTIP STYLES */
+[tooltip] {
+  position: relative; /* opinion 1 */
+}
 
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {
+  text-transform: none; /* opinion 2 */
+  font-size: .9em; /* opinion 3 */
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  display: none;
+  opacity: 0;
+}
+[tooltip]::before {
+  content: '';
+  border: 5px solid transparent; /* opinion 4 */
+  z-index: 1001; /* absurdity 1 */
+}
+[tooltip]::after {
+  content: attr(tooltip); /* magic! */
+  
+  /* most of the rest of this is opinion */
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  
+  /* 
+    Let the content set the size of the tooltips 
+    but this will also keep them from being obnoxious
+    */
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1ch 1.5ch;
+  border-radius: .3ch;
+  box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+  background: #333;
+  color: #fff;
+  z-index: 1000; /* absurdity 2 */
+}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+  display: block;
+}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {
+  display: none !important;
+}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: #333;
+}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
+  left: 50%;
+  transform: translate(-50%, -.5em);
+}
+
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: #333;
+}
+[tooltip][flow^="down"]::after {
+  top: calc(100% + 5px);
+}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {
+  left: 50%;
+  transform: translate(-50%, .5em);
+}
+
+/* FLOW: LEFT */
+[tooltip][flow^="left"]::before {
+  top: 50%;
+  border-right-width: 0;
+  border-left-color: #333;
+  left: calc(0em - 5px);
+  transform: translate(-.5em, -50%);
+}
+[tooltip][flow^="left"]::after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translate(-.5em, -50%);
+}
+
+/* FLOW: RIGHT */
+[tooltip][flow^="right"]::before {
+  top: 50%;
+  border-left-width: 0;
+  border-right-color: #333;
+  right: calc(0em - 5px);
+  transform: translate(.5em, -50%);
+}
+[tooltip][flow^="right"]::after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translate(.5em, -50%);
+}
+
+/* KEYFRAMES */
+@keyframes tooltips-vert {
+  to {
+    opacity: .9;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tooltips-horz {
+  to {
+    opacity: .9;
+    transform: translate(0, -50%);
+  }
+}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,
+[tooltip][flow^="down"]:hover::after {
+  animation: tooltips-vert 300ms ease-out forwards;
+}
+
+[tooltip][flow^="left"]:hover::before,
+[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,
+[tooltip][flow^="right"]:hover::after {
+  animation: tooltips-horz 300ms ease-out forwards;
+}
+
+</style>
 <body>
     <div style="width: 500px; position: fixed; bottom: 120px; right: 0; z-index: 999999;">
         <div id="chatbox" class="action_menu" class="col-md-12 col-xl-12 chat">
@@ -33,16 +186,16 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                     @foreach ($messages as $message)
                     @if ($message->user_id == Auth::user()->id)
                     <div class="d-flex justify-content-end mb-4">
-                        <div class="msg_cotainer_send text-white" style="background-color: rgb(45, 139, 240)">
+                        <div class="msg_cotainer_send text-white" tooltip="21-11-2021" style="background-color: rgb(45, 139, 240)">
                             {{$message->message}}
                         </div>
                     </div>
                     @else
                     <div class="d-flex justify-content-start mb-4">
-                        <div class="img_cont_msg">
+                        <div class="img_cont_msg" tooltip="{{$message->user->name}}">
                             <img src="{{$message->avatar}}" class="rounded-circle user_img_msg">
                         </div>
-                        <div class="msg_cotainer_send ml-2" style="background-color: rgba(144, 147, 150, 0.547)">
+                        <div class="msg_cotainer_send ml-2" tooltip="21-11-2021" style="background-color: rgba(144, 147, 150, 0.547)">
                             {{$message->message}}
                         </div>
                     </div>
@@ -100,7 +253,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                 if (e.which === 13 && !e.shiftKey) {
                     $('#chat-content').append(`
                             <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send text-white" style="background-color: rgb(45, 139, 240)">
+                                <div class="msg_cotainer_send text-white" tooltip="21-11-2021" style="background-color: rgb(45, 139, 240)">
                                             ${message}
                                 </div>
                             </div>
@@ -179,10 +332,10 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
                 $('#chat-content').append(
                     room_id == $('#id').val() && id != $('#id').val() ? `
                             <div class="d-flex justify-content-start mb-4">
-                                <div class="img_cont_msg">
+                                <div class="img_cont_msg" tooltip="${name}">
                                     <img src="${avatar}" class="rounded-circle user_img_msg">
                                 </div>
-                                <div class="msg_cotainer_send ml-2" style="background-color: rgba(144, 147, 150, 0.547)">
+                                <div class="msg_cotainer_send ml-2" tooltip="21-11-2021" style="background-color: rgba(144, 147, 150, 0.547)">
                                             ${message}
                                 </div>
                             </div>
@@ -195,6 +348,7 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script>
     $(document).ready(function() {
         $('#action_menu_btn').click(function() {
@@ -203,4 +357,8 @@ $messages = Message::where('room_message_id', Auth::user()->id)->get();
             messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         });
     });
+    $(function() {
+        $('[data-toggle="title"]').tooltip()
+    })
+    </script>
 </script>
