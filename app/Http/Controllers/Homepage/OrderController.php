@@ -138,7 +138,7 @@ class OrderController extends Controller
                         }
                     }
                 }
-                $total_pay += $prd->price;
+                $total_pay +=$del->quantity * $prd->price;
             } else {
                 if ($del->options != null) {
                     foreach ($del->options as $op) {
@@ -149,9 +149,10 @@ class OrderController extends Controller
                         }
                     }
                 }
-                $total_pay += $prd->price_sales;
+                $total_pay +=$del->quantity * $prd->price_sales;
             }
         }
+        // dd($total_pay);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://localhost:8000/carts";
         $vnp_TmnCode = "9RST9CUF"; //Mã website tại VNPAY 
@@ -214,7 +215,7 @@ class OrderController extends Controller
             'code' => '00', 'message' => 'success', 'data' => $vnp_Url
         );
         if (isset($_POST['redirect'])) {
-            if ($request->voucher) {
+            if ($request->voucher_user) {
                 $voucher = Voucher::where('code', $request->voucher_user)->first();
                 $userVoucher = new UserVoucher();
                 $userVoucher->user_id = Auth::user()->id;
@@ -232,7 +233,7 @@ class OrderController extends Controller
             $order->user_id = Auth::user()->id;
             $order->status_id = 1;
             $order->shipper_id = 1;
-            $order->voucher = $request->voucher;
+            $order->voucher = $request->voucher_user;
             $order->note = $request->note;
             $order->type = 'Vnpay';
             $order->save();

@@ -34,7 +34,9 @@
                                                 <div class="input-group">
                                                     <input placeholder="Họ tên"
                                                         value="{{ Auth::user()->name ? Auth::user()->name : old('name') }}"
-                                                        name="name" type="text" class="form-control input-name">
+                                                        name="name" type="text" class="form-control input-name @error('name')
+                                                            is-invalid
+                                                        @enderror">
                                                 </div>
                                                 <p class="text-danger m-0 error-name"></p>
                                             </div>
@@ -45,7 +47,9 @@
                                                                 class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <select name="building" id="building"
-                                                                class="form-control input-building appearance-none  ">
+                                                                class="form-control input-building appearance-none @error('building')
+                                                                is-invalid
+                                                            @enderror">
                                                                 <option value="">Tòa</option>
                                                                 @foreach ($buildings as $building)
                                                                     <option value="{{ $building->id }}">
@@ -61,7 +65,9 @@
                                                                 class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <select name="floor" id="floor"
-                                                                class="form-control input-building appearance-none ">
+                                                                class="form-control input-building appearance-none @error('floor')
+                                                                is-invalid
+                                                            @enderror">
                                                                 <option value="">Tầng</option>
                                                             </select>
                                                         </div>
@@ -73,7 +79,9 @@
                                                                 class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <select name="room" id="room"
-                                                                class="form-control input-building appearance-none ">
+                                                                class="form-control input-building appearance-none @error('room')
+                                                                is-invalid
+                                                            @enderror">
                                                                 <option value="">Phòng</option>
                                                             </select>
                                                         </div>
@@ -91,7 +99,9 @@
                                                             <input placeholder="Số điện thoại"
                                                                 value="{{ Auth::user()->phone ? Auth::user()->phone : old('phone') }}"
                                                                 name="phone" type="text"
-                                                                class="form-control input-phone">
+                                                                class="form-control input-phone @error('phone')
+                                                                is-invalid
+                                                            @enderror">
                                                         </div>
                                                         <p class="text-danger m-0 error-phone"></p>
                                                     </div>
@@ -100,7 +110,9 @@
                                                                 class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <input placeholder="Email" name="email" type="text"
-                                                                class="form-control input-email"
+                                                                class="form-control input-email @error('email')
+                                                                is-invalid
+                                                            @enderror"
                                                                 value="{{ Auth::user()->email ? Auth::user()->email : old('email') }}">
                                                         </div>
                                                         <p class="text-danger m-0 error-email"></p>
@@ -219,7 +231,7 @@
                                     <label for="checkin" class="m-0 mx-1">Thanh toán khi nhận hàng</label>
                                 </div>
                                 @csrf
-                                <input type="hidden" name="voucher_user">
+                                <input type="text" hidden name="voucher_user">
                                 <button class="btn btn-warning text-white" type="submit" name="redirect"
                                     href="">Thanh toán Vnpay<i class="feather-arrow-right"></i></button>
                             </div>
