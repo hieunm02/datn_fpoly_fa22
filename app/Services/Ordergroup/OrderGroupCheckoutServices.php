@@ -59,7 +59,7 @@ class OrderGroupCheckoutServices
             $order->user_id = Auth::user()->id;
             $order->status_id = 1;
             $order->shipper_id = 1;
-            $order->voucher = 'voucher';
+            $order->voucher = $request->voucher_code;
             $order->note = $request->note;
             $order->save();
             $count = $request->product_id;
@@ -91,7 +91,6 @@ class OrderGroupCheckoutServices
             }
             Session::flash('success', 'Đăt hàng thành công');
         } catch (\Exception $err) {
-            dd($err);
             Session::flash('error', 'Không thể thêm mới sản phẩm');
             Log::info($err->getMessage());
             return false;
