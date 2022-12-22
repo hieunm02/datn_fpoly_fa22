@@ -14,6 +14,11 @@
         {{ session()->get('success') }}
     </div>
     @endif
+    @if (session()->has('error'))
+    <div id="setout" class="text-white alert bg-danger position-fixed" style="right: 8px; z-index: 9999;">
+        {{ session()->get('error') }}
+    </div>
+    @endif
 </div>
 <div class="container position-relative">
     <div class="py-5 row">
@@ -225,7 +230,7 @@
                     <a href="#" class="btn border-top btn-lg btn-block" data-dismiss="modal">Đóng</a>
                 </div>
                 <div class="col-6 m-0 p-0">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" id="applyVoucher">Chọn</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="applyVoucher">Chọn</button>
                 </div>
             </div>
         </div>
