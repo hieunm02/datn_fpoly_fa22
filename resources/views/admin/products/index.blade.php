@@ -3,6 +3,9 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('/css/product/style.css') }}">
     <div class="main-content">
+        <div class="page-header">
+            <h2 class="header-title">{{ $title }}</h2>
+        </div>
         <x:notify-messages />
         <div class="card">
             <div class="card-body">

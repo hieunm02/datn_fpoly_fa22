@@ -17,11 +17,21 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Danh sách đơn hàng';
-        $bills = Order::where('status_id', 4)->orderBy('updated_at', 'DESC')->paginate(5);
-        return view('admin.bills.index', compact('bills', 'title'));
+        try {
+            $title = 'Danh sách hóa đơn';
+            $txt_search = $request->get('txt_search');
+
+            $bills = Order::where('status_id', 4)
+                ->where('code', 'like', '%' . $txt_search . '%')
+                ->orderBy('updated_at', 'DESC')
+                ->paginate(5)->withQueryString();
+            return view('admin.bills.index', compact('bills', 'title', 'txt_search'));
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
+
     }
 
     /**

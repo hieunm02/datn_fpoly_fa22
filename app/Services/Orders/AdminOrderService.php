@@ -26,20 +26,16 @@ class AdminOrderService
 
     public function getOrders($request)
     {
-        $text_search = $request->get('text_search');
+        $text_search = $request->get('txt_search');
         $active_search = $request->get('active_search');
-        if ($text_search == null) {
-            $text_search = '';
-        }
-        $query = Order::where('code', 'like', '%' . $text_search . '%')->where('status_id', '!=', 4);
+        $query = Order::where('code', 'like', '%' . $text_search . '%');
 
         if ($active_search) {
-            $query->where('status_id', $active_search)->where('status_id', '!=', 4);
+            $query->where('status_id', $active_search);
         }
 
         return $query->where('status_id', '!=', 4)->orderBy('updated_at', 'DESC');
     }
-
 
     public function getAllOrders()
     {
