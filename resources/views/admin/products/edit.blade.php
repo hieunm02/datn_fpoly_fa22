@@ -77,18 +77,19 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="font-weight-semibold" for="">Ảnh sản phẩm</label><br>
-                                        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
-                                            <div class="media align-items-center m-b-15">
+                                        <div class="row">
+                                            <div class="col-3">
                                                 <div class="avatar avatar-image rounded" style="height: 100px; width:100px">
                                                     <img name="avatar" data-toggle="tooltip" data-placement="top"
                                                         title="Tải lên Ảnh Sản Phẩm" style="cursor: pointer" id="avatar"
                                                         src="{{ asset($product->thumb) }}" />
-                                                    <input id="fileinput" onchange="loadFile(event)" accept=".jpg"
-                                                        type="file" name="thumb"
-                                                        style="display:none; cursor: pointer" />
+                                                    <input id="fileinput" accept="image/jpeg, image/jpg, image/png" type="file"
+                                                        name="thumb" style="display:none; cursor: pointer" />
                                                 </div>
-                                                <div class="m-l-15">
-                                                    <h4 class="m-b-0" id="outPut"></h4>
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="show_images" style="display:none; gap: 0 10px; color: red; font-size:15px">
+                                                    File ảnh không hợp lệ
                                                 </div>
                                             </div>
                                         </div>
