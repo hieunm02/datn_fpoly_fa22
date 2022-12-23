@@ -16,8 +16,8 @@
                                 <div class="m-b-10 mr-3">
                                     <select class="custom-select select-active" style="min-width: 180px;">
                                         <option selected value="">Trạng thái</option>
-                                        <option value="1">Mở</option>
-                                        <option value="0">Khóa</option>
+                                        <option value="0">Mở</option>
+                                        <option value="1">Khóa</option>
                                     </select>
                                 </div>
                                 <div class="m-b-10">
@@ -71,7 +71,6 @@
                                         @if ($voucher->menu_id != null)
                                             <td>{{ $voucher->menu->name }}</td>
                                         @else
-                                            <td>Voucher cá nhân</td>
                                             <td>Voucher cá nhân</td>
                                         @endif
                                         <td>{{ $voucher->quantity }}</td>
@@ -132,7 +131,7 @@
                         <div class="col-lg-2 text-right">
                             <a href="{{ route('vouchers.create') }}" class="btn btn-primary">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add Voucher</span>
+                                <span>Thêm Voucher</span>
                             </a>
                         </div>
                     </div>
