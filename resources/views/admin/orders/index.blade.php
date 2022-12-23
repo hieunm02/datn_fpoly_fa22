@@ -12,29 +12,29 @@
         {{ session()->get('success') }}
     </div>
     @endif
-    @if($orders->count())
     <div class="card">
         <div class="card-body">
-            <div class="row m-b-30">
-                <div class="col-lg-8">
-                    <div class="d-md-flex">
-                        <div class="m-b-10 m-r-15">
-                            <select id="status_id" class="custom-select" onchange="selectOrderByStatus()" style="min-width: 180px;">
-                                <option selected>Trạng thái</option>
-                                @foreach ($status as $stt)
-                                <option class="status" value="{{ $stt->id }}">
-                                    {{ $stt->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="m-b-10">
-                            <input name="code" type="text" id="search-by-code" class="form-control" placeholder="Search by code">
-                        </div>
+            <div class="m-b-50">
+                <form action="" class="row col-md-8">
+                    <div class="col-md-4">
+                        <select name="active_search" id="status_id" class="custom-select" style="width: 180px;">
+                            <option value="">Trạng thái</option>
+                            @foreach ($status as $st)
+                                <option class="" value="{{ $st->id }}"
+                                    @if ($active_search == $st->id) selected="selected" @endif
+                                >{{ $st->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
+                    <div class="col-md-4">
+                        <input type="text" style="width: 180px;" class="form-control" name="txt_search" value="{{ $txt_search }}" placeholder="Nhập từ khóa...">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success">Tìm kiếm</button>
+                    </div>
+                </form>
             </div>
-
+            @if($orders->count())
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">
                     <thead>
@@ -168,11 +168,7 @@
                     {{ $orders->links() }}
                 </div>
             </div>
-        </div>
-    </div>
-    @else
-    <div class="card">
-        <div class="card-body">
+            @else
             <div class="row">
                 <div class="col-12 text-center">
                     <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
@@ -182,9 +178,9 @@
                     </center>
                 </div>
             </div>
+            @endif
         </div>
     </div>
-    @endif
 </div>
 <script>
     $(document).ready(function() {
