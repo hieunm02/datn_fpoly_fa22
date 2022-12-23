@@ -46,6 +46,7 @@
                                     <th>ID</th>
                                     <th>Mã Code</th>
                                     <th>Loại</th>
+                                    <th>Số lượng</th>
                                     <th>Giảm giá</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Thao tác</th>
@@ -71,7 +72,9 @@
                                             <td>{{ $voucher->menu->name }}</td>
                                         @else
                                             <td>Voucher cá nhân</td>
+                                            <td>Voucher cá nhân</td>
                                         @endif
+                                        <td>{{ $voucher->quantity }}</td>
                                         <td>{{ $voucher->discount }} %</td>
                                         <td class="text-center">
                                             @if ($voucher->active === 1)
