@@ -200,15 +200,23 @@ function clickContent() {
     comment.style.display = 'none';
 }
 
-function cong() {
+function cong(number) {
     var val = document.getElementById("quantity").value;
-    document.getElementById("quantity").value = parseInt(val) + 1;
+    if (val >= number) {
+        alert('Số lượng chỉ còn lại '+number)
+        document.getElementById("quantity").value = parseInt(val);
+    }else {   
+        document.getElementById("quantity").value = parseInt(val) + 1;
+    }
 }
 
 function tru() {
     var val = document.getElementById("quantity").value;
     if (parseInt(val) > 1) {
         document.getElementById("quantity").value = parseInt(val) - 1;
+    }else {
+        alert('Số lượng không được nhỏ hơn 1');
+        document.getElementById("quantity").value = 1;
     }
 }
 

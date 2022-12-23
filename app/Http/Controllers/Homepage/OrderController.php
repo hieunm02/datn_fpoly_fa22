@@ -122,7 +122,7 @@ class OrderController extends Controller
     public function vnpay_payment(OrderRequest $request)
     {
         $count_sp = $request->product_id;
-        
+
         $optionss = OptionDetail::all();
         $total_pay = 0;
         foreach ($count_sp as $it) {
@@ -138,7 +138,7 @@ class OrderController extends Controller
                         }
                     }
                 }
-                $total_pay +=$del->quantity * $prd->price;
+                $total_pay += $del->quantity * $prd->price;
             } else {
                 if ($del->options != null) {
                     foreach ($del->options as $op) {
@@ -149,26 +149,24 @@ class OrderController extends Controller
                         }
                     }
                 }
-                $total_pay +=$del->quantity * $prd->price_sales;
+                $total_pay += $del->quantity * $prd->price_sales;
             }
         }
+        $inputDataOrder = $request->all();
         // dd($total_pay);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8000/carts";
+        $vnp_Returnurl = route('return_vnpay_payment', $inputDataOrder);
         $vnp_TmnCode = "9RST9CUF"; //Mã website tại VNPAY 
         $vnp_HashSecret = "FBRMBZBITJAFDLSHMNQPERTDDCJSYPKL"; //Chuỗi bí mật
 
         $vnp_TxnRef = rand_string(12); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 'Thanh toán VnPay';
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = (integer)$total_pay *100;
+        $vnp_Amount = (int)$total_pay * 100;
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
-        // $vnp_ExpireDate = $_POST['txtexpire'];
-        //Billing
-
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -181,7 +179,7 @@ class OrderController extends Controller
             "vnp_OrderInfo" => $vnp_OrderInfo,
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef
+            "vnp_TxnRef" => $vnp_TxnRef,
         );
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
@@ -215,75 +213,81 @@ class OrderController extends Controller
             'code' => '00', 'message' => 'success', 'data' => $vnp_Url
         );
         if (isset($_POST['redirect'])) {
-            if ($request->voucher_user) {
-                $voucher = Voucher::where('code', $request->voucher_user)->first();
-                $userVoucher = new UserVoucher();
-                $userVoucher->user_id = Auth::user()->id;
-                $userVoucher->voucher_id = $voucher->id;
-                $userVoucher->save();
-                $voucher->quantity -= 1;
-                $voucher->save();
-            }
-            $building = Building::find($request->building);
-            $floor = Floor::find($request->floor);
-            $order = new Order();
-            $order->fill($request->all());
-            $order->address = $building->name . ' - ' . $floor->name . ' - ' . $request->room;
-            $order->code = $vnp_TxnRef;
-            $order->user_id = Auth::user()->id;
-            $order->status_id = 1;
-            $order->shipper_id = 1;
-            $order->voucher = $request->voucher_user;
-            $order->note = $request->note;
-            $order->type = 'Vnpay';
-            $order->save();
-            $count = $request->product_id;
-            $options = OptionDetail::all();
-            foreach ($count as $it) {
-                $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
-                $prd = Product::find($del->product_id);
-
-                $data = new OrderProduct();
-                $data->order_id = $order->id;
-                $data->product_id = $it;
-                $data->nameProduct = $prd->name;
-                $data->thumb = $prd->thumb;
-                $data->quantity = $del->quantity;
-                $data->options = $del->options;
-                if ($prd->price_sales == 0 || $prd->price_sales == null) {
-                    if ($del->options != null) {
-                        foreach ($del->options as $op) {
-                            foreach ($options as $it) {
-                                if ($it->id == $op) {
-                                    $prd->price += $it->price;
-                                }
-                            }
-                        }
-                    }
-                    $data->price = $prd->price;
-                    $data->total = $del->quantity * $prd->price;
-                } else {
-                    if ($del->options != null) {
-                        foreach ($del->options as $op) {
-                            foreach ($options as $it) {
-                                if ($it->id == $op) {
-                                    $prd->price_sales += $it->price;
-                                }
-                            }
-                        }
-                    }
-                    $data->price = $prd->price_sales;
-                    $data->total = $del->quantity * $prd->price_sales;
-                }
-                $data->date_order = date(now()->toDateString());
-                $data->save();
-                $del->delete();
-            }
             header('Location: ' . $vnp_Url);
             die();
         } else {
             echo json_encode($returnData);
         }
         // vui lòng tham khảo thêm tại code demo
+    }
+
+    //cho đơn vào order 
+    public function return_vnpay(Request $request)
+    {
+        if ($request->voucher_user) {
+            $voucher = Voucher::where('code', $request->voucher_user)->first();
+            $userVoucher = new UserVoucher();
+            $userVoucher->user_id = Auth::user()->id;
+            $userVoucher->voucher_id = $voucher->id;
+            $userVoucher->save();
+            $voucher->quantity -= 1;
+            $voucher->save();
+        }
+        $building = Building::find($request->building);
+        $floor = Floor::find($request->floor);
+        $order = new Order();
+        $order->fill($request->all());
+        $order->address = $building->name . ' - ' . $floor->name . ' - ' . $request->room;
+        $order->code = $request->vnp_TxnRef;
+        $order->user_id = Auth::user()->id;
+        $order->status_id = 1;
+        $order->shipper_id = 1;
+        $order->voucher = $request->voucher_user;
+        $order->note = $request->note;
+        $order->type = 'Vnpay';
+        $order->save();
+        $count = $request->product_id;
+        $options = OptionDetail::all();
+        foreach ($count as $it) {
+            $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
+            $prd = Product::find($del->product_id);
+
+            $data = new OrderProduct();
+            $data->order_id = $order->id;
+            $data->product_id = $it;
+            $data->nameProduct = $prd->name;
+            $data->thumb = $prd->thumb;
+            $data->quantity = $del->quantity;
+            $data->options = $del->options;
+            if ($prd->price_sales == 0 || $prd->price_sales == null) {
+                if ($del->options != null) {
+                    foreach ($del->options as $op) {
+                        foreach ($options as $it) {
+                            if ($it->id == $op) {
+                                $prd->price += $it->price;
+                            }
+                        }
+                    }
+                }
+                $data->price = $prd->price;
+                $data->total = $del->quantity * $prd->price;
+            } else {
+                if ($del->options != null) {
+                    foreach ($del->options as $op) {
+                        foreach ($options as $it) {
+                            if ($it->id == $op) {
+                                $prd->price_sales += $it->price;
+                            }
+                        }
+                    }
+                }
+                $data->price = $prd->price_sales;
+                $data->total = $del->quantity * $prd->price_sales;
+            }
+            $data->date_order = date(now()->toDateString());
+            $data->save();
+            $del->delete();
+        }
+        return redirect()->route('carts.index');
     }
 }
