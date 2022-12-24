@@ -126,6 +126,7 @@ class OrderController extends Controller
 
         $optionss = OptionDetail::all();
         $total_pay = 0;
+        $voucher = Voucher::where('code', $request->voucher_user)->first();
         foreach ($count_sp as $it) {
             $del = Cart::where('product_id', $it)->where('user_id', Auth::user()->id)->first();
             $prd = Product::find($del->product_id);
@@ -153,6 +154,7 @@ class OrderController extends Controller
                 $total_pay += $del->quantity * $prd->price_sales;
             }
         }
+        $total_pay = $total_pay * (100 - $voucher->discount)/100;
         $inputDataOrder = $request->all();
         // dd($inputDataOrder);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
