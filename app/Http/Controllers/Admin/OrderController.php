@@ -40,19 +40,19 @@ class OrderController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->status == 200) {
-            $orders = $this->orderService->getOrders($request)->get();
-            return response()->json([
-                'orders' => $orders,
-                'arrStatus' => OrderStatus::all(),
-            ]);
-        } else {
-            $orders = $this->orderService->getOrders($request)->paginate(5);
+        try {
+            $orders = $this->orderService->getOrders($request)->paginate(5)->withQueryString();
+
             return view('admin.orders.index', [
                 'title' => 'Quản lý đơn hàng',
-                'orders' => $orders
+                'orders' => $orders,
+                'txt_search' => $request->txt_search ?? '',
+                'active_search' => $request->active_search ?? '',
             ]);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
         }
+
     }
 
     public function show(Request $request)

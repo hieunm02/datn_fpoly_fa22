@@ -12,23 +12,19 @@
         <span class="alert_success">{{ session('success') }}</span>
     </div>
     @endif
-    @if($bills->count())
     <div class="card">
         <div class="card-body">
-            <div class="row m-b-30">
-                <div class="col-lg-7">
-                    <div class="d-md-flex">
-                        <div class="m-b-10">
-                            <select class="custom-select" style="min-width: 180px;">
-                                <option selected>Status</option>
-                                <option value="all">All</option>
-                                <option value="inStock">In Stock </option>
-                                <option value="outOfStock">Out of Stock</option>
-                            </select>
-                        </div>
+            <div class="m-b-50">
+                <form action="" class="row col-md-8">
+                    <div class="col-md-4">
+                        <input type="text" style="width: 180px;" class="form-control" name="txt_search" value="{{ $txt_search }}" placeholder="Nhập từ khóa...">
                     </div>
-                </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success">Tìm kiếm</button>
+                    </div>
+                </form>
             </div>
+            @if($bills->count())
             <div class="table-responsive">
                 <table class="table table-hover e-commerce-table">
                     <thead>
@@ -43,7 +39,7 @@
                             <th>Email</th>
                             <th>Mã</th>
                             <th>Tên</th>
-                            <th>Chức năng</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -137,11 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    @else
-    <div class="card">
-        <div class="card-body">
+            @else
             <div class="row">
                 <div class="col-12 text-center">
                     <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
@@ -151,9 +143,9 @@
                     </center>
                 </div>
             </div>
+            @endif
         </div>
     </div>
-    @endif
 </div>
 <div style="display: flex; justify-content: center">
     {{ $bills->links() }}
