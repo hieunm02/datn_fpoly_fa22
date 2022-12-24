@@ -23,10 +23,10 @@
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">News Info</a>
+                        <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Chi tiết tin tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#product-edit-description">Description</a>
+                        <a class="nav-link" data-toggle="tab" href="#product-edit-description">Nội dung</a>
                     </li>
                 </ul>
             </div>
@@ -38,7 +38,7 @@
                                 <div class="custom-file">
                                     <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>"
                                         id="upload">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <label class="custom-file-label" for="customFile">Chọn ảnh</label>
                                     <input type="hidden" name="image_path" id="thumb">
                                 </div>
                                 @if ($errors->first('image_path'))
@@ -48,7 +48,7 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-semibold" for="titleNews">News title</label>
+                                <label class="font-weight-semibold" for="titleNews">Tiêu đề</label>
                                 <input type="text" name="title" class="form-control <?php echo $errors->first('title') ? 'is-invalid' : ''; ?>" id="titleNews"
                                     placeholder="News title" value="{{ old('title') }}">
                                 @if ($errors->first('title'))
@@ -58,7 +58,20 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-semibold" for="short_desc">Short description</label>
+                                <label class="font-weight-semibold " for="">Trạng thái</label> <br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1"
+                                        value="0" checked>
+                                    <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2"
+                                        value="1">
+                                    <label class="form-check-label" for="inlineRadio2">Không kích hoạt</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-semibold" for="short_desc">Mô tả ngắn</label>
                                 <textarea name="short_desc">{{ old('short_desc') }}</textarea>
                                 <script>
                                     CKEDITOR.replace('short_desc');
@@ -74,7 +87,7 @@
                 </div>
                 <div class="tab-pane fade" id="product-edit-description">
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="content">Content</label>
+                        <label class="font-weight-semibold" for="content">Nội dung</label>
                         <textarea name="content">{{ old('content') }}</textarea>
                         <script>
                             CKEDITOR.replace('content');

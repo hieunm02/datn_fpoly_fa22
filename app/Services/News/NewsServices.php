@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Session;
 
 class NewsServices
 {
+    public function getAlls()
+    {
+        return News::select('id', 'title', 'user_id', 'image_path', 'active')
+        ->where('active',0)
+            ->orderByDesc('updated_at', 'DESC')
+            ->paginate(16);
+    }
     public function getAll()
     {
         return News::select('id', 'title', 'user_id', 'image_path', 'active')
@@ -38,6 +45,7 @@ class NewsServices
     public function create($request)
     {
         try {
+            // dd($request->all());
             News::create([
                 'title' => (string) $request->input('title'),
                 'user_id' => Auth::user()->id,

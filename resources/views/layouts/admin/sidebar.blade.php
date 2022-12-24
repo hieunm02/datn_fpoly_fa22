@@ -156,23 +156,23 @@
 
             {{-- Staffs --}}
             @role('manager')
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);">
-                        <span class="icon-holder">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
-                        <span class="title">Staffs</span>
-                        <span class="arrow">
-                            <i class="arrow-icon"></i>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('staffs.index') }}">Danh sách</a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- End Staffs --}}
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Nhân viên</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('staffs.index') }}">Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+            {{-- End Staffs --}}
             @endrole
             {{-- Users  --}}
             <li class="nav-item dropdown">
@@ -275,7 +275,7 @@
                     <span class="icon-holder">
                         <i class="fab fa-usb"></i>
                     </span>
-                    <span class="title">Options</span>
+                    <span class="title">Tùy biến</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
