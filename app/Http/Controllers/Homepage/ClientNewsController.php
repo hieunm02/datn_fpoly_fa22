@@ -16,7 +16,7 @@ class ClientNewsController extends Controller
 
     public function index()
     {
-        $news = $this->newsServices->getAll();
+        $news = $this->newsServices->getAlls();
         // $authors = User::select('id', 'name')->get();
         $title = "Danh sách bài viết";
         // dd($news);

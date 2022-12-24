@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditStaffRequest;
 use App\Http\Requests\StaffRequest;
 use App\Models\User;
 use App\Services\Staffs\StaffServices;
@@ -141,7 +142,7 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StaffRequest $request, $id)
+    public function update(EditStaffRequest $request, $id)
     {
         // dd($request->all());
         $this->staffServices->update($request, $id);

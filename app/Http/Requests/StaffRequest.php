@@ -40,6 +40,7 @@ class StaffRequest extends FormRequest
             'email.required' => 'Email nhân viên không được để trống!',
             'email.email' => 'Email sai định dạng',
             'image_path.required' => 'Ảnh không được để trống!',
+            'email.unique' => 'Email không được trùng lặp',
             // 'email.exit' => 'Email đã được đăng ký'
         ];
     }

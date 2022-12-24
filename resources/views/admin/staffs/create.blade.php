@@ -42,19 +42,20 @@
                                         <div class="custom-file">
                                             <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>"
                                                 id="upload">
-                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                            <label class="custom-file-label" for="customFile">Chọn ảnh</label>
                                             <input type="hidden" name="image_path" id="thumb">
+                                            @if ($errors->first('image_path'))
+                                                <div class="invalid-feedback">
+                                                    {{ $errors->first('image_path') }}
+                                                </div>
+                                            @endif
                                         </div>
-                                        @if ($errors->first('image_path'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('image_path') }}
-                                            </div>
-                                        @endif
+
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-semibold" for="staffName">Name</label>
+                                        <label class="font-weight-semibold" for="staffName">Tên nhân viên</label>
                                         <input type="text" name="name" class="form-control <?php echo $errors->first('name') ? 'is-invalid' : ''; ?>"
-                                            id="staffName" placeholder="Staff name" value="{{ old('name') }}">
+                                            id="staffName" placeholder="Tên nhân viên" value="{{ old('name') }}">
                                         @if ($errors->first('name'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('name') }}
@@ -62,9 +63,9 @@
                                         @endif
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-semibold" for="staffphone">Phone number</label>
+                                        <label class="font-weight-semibold" for="staffphone">Số điện thoại</label>
                                         <input type="text" name="phone" class="form-control <?php echo $errors->first('phone') ? 'is-invalid' : ''; ?>"
-                                            id="staffphone" placeholder="Staff phone" value="{{ old('phone') }}">
+                                            id="staffphone" placeholder="Số điện thoại" value="{{ old('phone') }}">
                                         @if ($errors->first('phone'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('phone') }}
@@ -72,9 +73,9 @@
                                         @endif
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-semibold" for="staffEmail">Email</label>
-                                        <input type="text" name="email" class="form-control <?php echo $errors->first('title') ? 'is-invalid' : ''; ?>"
-                                            id="staffEmail" placeholder="Staff email" value="{{ old('email') }}">
+                                        <label class="font-weight-semibold" for="staffphone">Email</label>
+                                        <input type="email" name="email" class="form-control <?php echo $errors->first('email') ? 'is-invalid' : ''; ?>"
+                                            id="staffphone" placeholder="Email" value="{{ old('email') }}">
                                         @if ($errors->first('email'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('email') }}

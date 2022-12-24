@@ -125,7 +125,7 @@
                     <span class="icon-holder">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </span>
-                    <span class="title">Staffs</span>
+                    <span class="title">Nhân viên</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>
@@ -277,7 +277,7 @@
                     <span class="icon-holder">
                         <i class="fab fa-usb"></i>
                     </span>
-                    <span class="title">Options</span>
+                    <span class="title">Tùy biến</span>
                     <span class="arrow">
                         <i class="arrow-icon"></i>
                     </span>

@@ -5,10 +5,18 @@ namespace App\Services\News;
 use App\Models\Menu;
 use App\Models\News;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class NewsServices
 {
+    public function getAlls()
+    {
+        return News::select('id', 'title', 'user_id', 'image_path', 'active')
+        ->where('active',0)
+            ->orderByDesc('updated_at', 'DESC')
+            ->paginate(16);
+    }
     public function getAll()
     {
         return News::select('id', 'title', 'user_id', 'image_path', 'active')
@@ -37,13 +45,14 @@ class NewsServices
     public function create($request)
     {
         try {
+            // dd($request->all());
             News::create([
-                'title' => (string) $request->input('title'),
-                'user_id' => 1,
-                'short_desc' => (string) $request->input('short_desc'),
-                'content' => (string) $request->input('content'),
-                'image_path' => (string) $request->input('image_path'),
-                'active' => (int) $request->input('active'),
+                'title' => $request->title,
+                'user_id' => Auth::id(),
+                'short_desc' => $request->short_desc,
+                'content' => $request->content,
+                'image_path' => $request->image_path,
+                'active' => $request->active,
             ]);
 
             notify()->success('Tạo thành công');
