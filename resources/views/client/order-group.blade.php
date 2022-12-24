@@ -254,9 +254,27 @@
                                 <div class="col-3" tooltip="{{$cart->user_name}}">
                                     <img alt="#" src="{{ $cart->user_avatar }}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
-                                <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
-                                    {{ $cart->product_name }}
-                                </div>
+                                {{-- <div class="col-6" style="font-family: Arial; font-size: 17px">
+                                    <div hidden>
+                                        {{ $prd_option = 0 }}
+                                        {{ $total += $cart->product_price * $cart->quantity }}
+                                    </div>
+                                    {{ $cart->product_name }} <br>
+                                    <span style="font-size: 12px">
+                                        @if ($cart->options != null)
+                                        (@foreach (json_decode($cart->options) as $op)
+                                            @foreach ($options as $it)
+                                                @if ($it->id == $op)
+                                                    <p hidden>
+                                                        {{ $total += $it->price * $cart->quantity }}
+                                                        {{ $prd_option += $it->price }}</p>
+                                                    {{ $it->value }},
+                                                @endif
+                                            @endforeach
+                                        @endforeach)
+                                    @endif
+                                    </span>
+                                </div> --}}
                                 <div class="col-3" id="cart-product_price_{{ $cart->user_id }}{{$cart->product_id}}" style="font-family: Arial; font-weight: bold; font-size: 17px">
                                     {{ ($cart->product_price) * ($cart->quantity) }}<sup>đ</sup>
                                 </div>
@@ -291,8 +309,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('OrderGroup-checkout') }}" method="POST">
-                @csrf
+            <form action="{{ route('OrderGroup-checkout') }}" method="GET">
                 <input type="hidden" name="room" value="{{ url()->current() }}">
                 <div class="checkout">
                     @foreach($listMembers as $member)
@@ -377,10 +394,10 @@
                 <textarea type="text" name="note" placeholder="Ví dụ: thêm đá riêng,..." style="width: 100%; border:none"></textarea>
             </div>
 
-            <h6><b>Option</b></h6>
-            <div class="option">
+            {{-- <h6><b>Option</b></h6> --}}
+            {{-- <div class="option">
     
-            </div>
+            </div> --}}
         </div>
         <div class="modal-footer p-0 border-0">
             <div class="col-4 m-0 p-5">
@@ -482,21 +499,20 @@
                 $('#cart_product').val(data.cart_product)
                 $('#cart_product_quantity').val(data.cart_product_quantity)
                 
-                let option = '';
-                for(let $i = 0; $i < data.product_option.length; $i++){
-                    option += `
-                    <div class="form-check">
-                        <input type="checkbox" name="option_product[]" id="option_product" class="form-check-input"
-                            value="${data.product_option[$i].option_detail_id}">
-                        <label for="option" class="form-check-label">${data.product_option[$i].value}
-                            ${data.product_option[$i].price}đ</label>
-                    </div>
-                    `
-                }
-                $('.option').html(
-                    option
-                )
-                console.log(option);
+                // let option = '';
+                // for(let $i = 0; $i < data.product_option.length; $i++){
+                //     option += `
+                //     <div class="form-check">
+                //         <input type="checkbox" name="option_product[]" id="option_product" class="form-check-input"
+                //             value="${data.product_option[$i].option_detail_id}">
+                //         <label for="option" class="form-check-label">${data.product_option[$i].value}
+                //             ${data.product_option[$i].price}đ</label>
+                //     </div>
+                //     `
+                // }
+                // $('.option').html(
+                //     option
+                // )
             }}
         })
     })
@@ -566,6 +582,14 @@
             let cart_total_price = $('#cart_total_price').val()
             let cart_product_quantity = $('#cart_product_quantity').val()
             let room_id = location.href
+            
+            // var options = $("input[type='checkbox']:checked"); // returns object of checkeds.
+            // var arr = []
+            // for (var i = 0; i < options.length; i++) {
+            //     arr.push($(options[i]).val())
+            //     console.log();
+            // };
+            // console.log(arr);
             console.log(user_id, user_name, user_avatar, product_name, product_price, cart_product, cart_product_quantity, quantity, cart_total_price);
 
             // Gửi dữ liệu lên server 
@@ -637,7 +661,7 @@
                                 <div class="col-3" tooltip="${user_name}">
                                     <img alt="#" src="${user_avatar}" class="img-fluid rounded-circle header-user mr-2 header-user">
                                 </div>
-                                <div class="col-6" style="font-family: Arial; font-weight: bold; font-size: 17px">
+                                <div class="col-6" style="font-family: Arial; font-size: 17px">
                                     ${product_name}
                                 </div>
                                 <div class="col-3" id="cart-product_price_${user_id}${product_id}" style="font-family: Arial; font-weight: bold; font-size: 17px">

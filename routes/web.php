@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
     //thanh toán vnpay
     Route::post('vnpay_payment', [HomepageOrderController::class, 'vnpay_payment'])->name('vnpay_payment');
+    Route::get('return_vnpay_payment', [HomepageOrderController::class, 'return_vnpay'])->name('return_vnpay_payment');
 
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
@@ -173,14 +174,15 @@ Route::prefix('/')->group(function () {
 
         //thêm sản phẩm vào giỏ hàng
         Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
-        //xác nhận đặt hàng
-        Route::post('order-group-checkout', [OrderGroupCartController::class, 'checkOut'])->name('order-group-checkout');
+       
         //Danh sách thành viên đặt hàng nhóm
         Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
         //Danh sách sản phẩm trong giỏ hàng đặt nhóm
         Route::post('list_product_cart_order_group', [OrderGroupController::class, 'listProductCart'])->name('list_product_cart_order_group');
         //order group cart
-        Route::post('order_group_cart', [OrderGroupCartController::class, 'index'])->name('OrderGroup-checkout');
+        Route::get('order_group_cart', [OrderGroupCartController::class, 'index'])->name('OrderGroup-checkout');
+         //xác nhận đặt hàng
+         Route::post('order-group-checkout', [OrderGroupCartController::class, 'checkOut'])->name('order-group-checkout');
     });
 });
 

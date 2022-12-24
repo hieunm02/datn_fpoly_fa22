@@ -16,7 +16,6 @@
                                 <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
                                     <div id="image_show">
                                         <img src="{{$staff->avatar}}" alt="">
-
                                     </div>
                                 </div>
                                 <div class="m-l-15">
@@ -46,7 +45,7 @@
                                             <input type="file" class="form-control custom-file-input <?php echo $errors->first('image_path') ? 'is-invalid' : ''; ?>"
                                                 id="upload">
                                             <label class="custom-file-label" for="customFile">Chọn ảnh</label>
-                                            <input type="hidden" name="image_path" id="thumb" value="{{ $staff->avatar }}">
+                                            <input type="hidden" name="image_path" id="thumb">
                                             @if ($errors->first('image_path'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('image_path') }}

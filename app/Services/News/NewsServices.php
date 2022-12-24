@@ -47,12 +47,12 @@ class NewsServices
         try {
             // dd($request->all());
             News::create([
-                'title' => $request->title,
-                'user_id' => Auth::id(),
-                'short_desc' => $request->short_desc,
-                'content' => $request->content,
-                'image_path' => $request->image_path,
-                'active' => $request->active,
+                'title' => (string) $request->input('title'),
+                'user_id' => Auth::user()->id,
+                'short_desc' => (string) $request->input('short_desc'),
+                'content' => (string) $request->input('content'),
+                'image_path' => (string) $request->input('image_path'),
+                'active' => (int) $request->input('active'),
             ]);
 
             notify()->success('Tạo thành công');

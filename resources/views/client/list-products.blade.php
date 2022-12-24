@@ -195,6 +195,7 @@
                         <div class="col-12 mx-auto">
                             <p class="text-50">Sign in to continue</p>
                             <form class="mt-5 mb-4" action="/login" method="POST">
+                                <input name="url" type="hidden" value="{{ $url }}" >
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleInputEmail1" class="text-dark">Email</label>

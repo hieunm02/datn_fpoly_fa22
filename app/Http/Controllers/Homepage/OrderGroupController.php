@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Models\Building;
 use App\Models\Floor;
+use App\Models\OptionDetail;
 use App\Models\Order;
 use App\Models\OrderGroup;
 use App\Models\OrderProduct;
@@ -40,6 +41,8 @@ class OrderGroupController extends Controller
         $products = $this->orderGroupService->getAll();
         //danh sách địa chỉ
         $buildings = $this->CartServices->getBuilding();
+        $total = 0;
+        $options = OptionDetail::all();
 
         return view('client.order-group', [
             'title' => 'Đặt hàng nhóm',
@@ -47,6 +50,8 @@ class OrderGroupController extends Controller
             'carts' => $carts,
             'listMembers' => $listMembers,
             'buildings' => $buildings,
+            'options' => $options,
+            'total' => $total,
         ]);
     }
 
@@ -69,10 +74,5 @@ class OrderGroupController extends Controller
     public function listMember(Request $request)
     {
         $this->orderGroupService->listMember($request);
-    }
-
-    public function listProductCart(Request $request)
-    {
-        $this->orderGroupService->listProductCart($request);
     }
 }

@@ -20,4 +20,9 @@ class Slide extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeActive($query)
+    {
+        $query->where('active', 0);
+    }
 }
