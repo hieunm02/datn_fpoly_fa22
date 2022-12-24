@@ -5,6 +5,7 @@ namespace App\Services\News;
 use App\Models\Menu;
 use App\Models\News;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class NewsServices
@@ -39,7 +40,7 @@ class NewsServices
         try {
             News::create([
                 'title' => (string) $request->input('title'),
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
                 'short_desc' => (string) $request->input('short_desc'),
                 'content' => (string) $request->input('content'),
                 'image_path' => (string) $request->input('image_path'),
