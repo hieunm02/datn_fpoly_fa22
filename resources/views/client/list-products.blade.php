@@ -161,18 +161,18 @@
                     <h6><b>Chào mừng bạn đến với chức năng đặt đồ nhóm!</b></h6>
                 </div>
                 <div class="desc px-3">
-                    <span>*Nếu bạn là trưởng nhóm, hãy click vào nút <b>Tạo nhóm</b>, sau đó copy đường dẫn và gửi cho
+                    <span>*Hãy click vào nút <b>Tạo nhóm</b>, sau đó copy đường dẫn và gửi cho
                         bạn bè</span><br>
-                    <span>*Nếu bạn là thành viên, hãy dán đường dẫn bạn bè gửi vào ô bên dưới, sau đó click vào nút
-                        <b>Vào nhóm</b></span>
+                    {{-- <span>*Nếu bạn là thành viên, hãy dán đường dẫn bạn bè gửi vào ô bên dưới, sau đó click vào nút
+                        <b>Vào nhóm</b></span> --}}
                 </div>
                 <div class="link input-group px-3 mt-3">
-                    <div type="text" class="form-control" id="link_group" name="" contenteditable="">
+                    <div type="text" class="form-control" id="link_group" name="">
                     </div>
                 </div>
                 <div class="modal-button text-center my-3">
                     <input type="button" id="create_group" class="btn btn-light" value="Tạo nhóm">
-                    <input type="button" id="join_group" onclick="joinGroup()" class="btn btn-light" value="Vào nhóm">
+                    {{-- <input type="button" id="join_group" onclick="joinGroup()" class="btn btn-light" value="Vào nhóm"> --}}
                 </div>
             </div>
             <div class="modal-footer p-0 border-0">

@@ -789,7 +789,7 @@
             <a href="#" data-toggle="modal" data-target="#manage-member" id="btn-manage-member" class="ml-auto btn btn-primary">Quản lý thành viên</a>
             `
         )
-    } else if (JSON.parse(role) == "member") {
+    } else {
         $('.checkout').html(
             `
             <input type="submit" id="btn-success_order" class="btn my-3 btn btn-primary" style="color: white; font-weight: bold; width: 100%; font-size: 20px" value="Tôi đã xong">
