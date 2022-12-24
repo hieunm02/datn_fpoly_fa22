@@ -46,68 +46,87 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var new_id = $(this).data("id");
         var active = $("#is-active" + new_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "new/active",
-            data: {
-                active: active,
-                new_id: new_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + new_id).css("color", data.color);
-                $("#icon-active" + new_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + new_id).val(data.value);
-                //Handle List news
-                console.log(newsAll);
-                for (let i = 0; i < newsAll.length; i++) {
-                    if (newsAll[i]["id"] === new_id) {
-                        newsAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "new/active",
+                    data: {
+                        active: active,
+                        new_id: new_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + new_id).css("color", data.color);
+                        $("#icon-active" + new_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + new_id).val(data.value);
+                        //Handle List news
+                        console.log(newsAll);
+                        for (let i = 0; i < newsAll.length; i++) {
+                            if (newsAll[i]["id"] === new_id) {
+                                newsAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete new
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "news/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List news
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "news/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List news
 
-                    for (let i = 0; i < newsAll.length; i++) {
-                        if (newsAll[i]["id"] === id) {
-                            newsAll.splice(i, 1);
+                        for (let i = 0; i < newsAll.length; i++) {
+                            if (newsAll[i]["id"] === id) {
+                                newsAll.splice(i, 1);
+                            }
                         }
-                    }
-                },
-            });
-        }
+                    },
+                });
+            }
+        })
     });
     //Paginate
 
@@ -261,7 +280,7 @@ $(function () {
                             <i class="anticon anticon-edit"></i>
                         </button>
                         </a>
-                        <button 
+                        <button
                             class="btn btn-icon btn-hover btn-sm btn-rounded delete" data-id="${
                                 element.id
                             }">

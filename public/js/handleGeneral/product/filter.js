@@ -46,68 +46,87 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var product_id = $(this).data("id");
         var active = $("#is-active" + product_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "product/active",
-            data: {
-                active: active,
-                product_id: product_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + product_id).css("color", data.color);
-                $("#icon-active" + product_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + product_id).val(data.value);
-                //Handle List products
-                console.log(productsAll);
-                for (let i = 0; i < productsAll.length; i++) {
-                    if (productsAll[i]["id"] === product_id) {
-                        productsAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "product/active",
+                    data: {
+                        active: active,
+                        product_id: product_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + product_id).css("color", data.color);
+                        $("#icon-active" + product_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + product_id).val(data.value);
+                        //Handle List products
+                        console.log(productsAll);
+                        for (let i = 0; i < productsAll.length; i++) {
+                            if (productsAll[i]["id"] === product_id) {
+                                productsAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete product
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "products/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List products
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "products/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List products
 
-                    for (let i = 0; i < productsAll.length; i++) {
-                        if (productsAll[i]["id"] === id) {
-                            productsAll.splice(i, 1);
+                        for (let i = 0; i < productsAll.length; i++) {
+                            if (productsAll[i]["id"] === id) {
+                                productsAll.splice(i, 1);
+                            }
                         }
-                    }
-                },
-            });
-        }
+                    },
+                });
+            }
+        })
     });
     //Paginate
 
@@ -272,13 +291,13 @@ $(function () {
                             }
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td class="text-center">
                         <a href="products/${element.id}/edit">
                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i>
                             </button>
                         </a>
-                        <button 
+                        <button
                             class="btn btn-icon btn-hover btn-sm btn-rounded delete" data-id="${
                                 element.id
                             }">
@@ -377,7 +396,7 @@ function format_number(pnumber,decimals)
     var sec = snum.split('.');
     var whole = parseFloat(sec[0]);
     var result = '';
-    
+
     if(sec.length > 1){
         var dec = new String(sec[1]);
         dec = String(parseFloat(sec[1])/Math.pow(10,(dec.length - decimals)));
@@ -394,7 +413,7 @@ function format_number(pnumber,decimals)
         var dec = new String(whole);
         if(decimals){
             dec += '.';
-            dot = dec.indexOf('.');       
+            dot = dec.indexOf('.');
             while(dec.length <= dot + decimals) { dec += '0'; }
         }
         result = dec;

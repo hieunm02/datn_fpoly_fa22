@@ -46,68 +46,87 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var voucher_id = $(this).data("id");
         var active = $("#is-active" + voucher_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "voucher/active",
-            data: {
-                active: active,
-                voucher_id: voucher_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + voucher_id).css("color", data.color);
-                $("#icon-active" + voucher_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + voucher_id).val(data.value);
-                //Handle List vouchers
-                console.log(vouchersAll);
-                for (let i = 0; i < vouchersAll.length; i++) {
-                    if (vouchersAll[i]["id"] === voucher_id) {
-                        vouchersAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "voucher/active",
+                    data: {
+                        active: active,
+                        voucher_id: voucher_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + voucher_id).css("color", data.color);
+                        $("#icon-active" + voucher_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + voucher_id).val(data.value);
+                        //Handle List vouchers
+                        console.log(vouchersAll);
+                        for (let i = 0; i < vouchersAll.length; i++) {
+                            if (vouchersAll[i]["id"] === voucher_id) {
+                                vouchersAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete voucher
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "vouchers/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List vouchers
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "vouchers/" + id,
+                        type: "DELETE",
+                        dataType: "JSON",
+                        data: {
+                            id: id,
+                            _method: "DELETE",
+                            _token: token,
+                        },
+                        success: function (data) {
+                            Swal.fire("Successful!", "Xóa thành công!", "success");
+                            $(".ele_" + id).remove();
+                            //Handle List vouchers
 
-                    for (let i = 0; i < vouchersAll.length; i++) {
-                        if (vouchersAll[i]["id"] === id) {
-                            vouchersAll.splice(i, 1);
-                        }
-                    }
-                },
-            });
-        }
+                            for (let i = 0; i < vouchersAll.length; i++) {
+                                if (vouchersAll[i]["id"] === id) {
+                                    vouchersAll.splice(i, 1);
+                                }
+                            }
+                        },
+                    });
+                }
+            })
     });
     //Paginate
 

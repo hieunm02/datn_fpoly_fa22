@@ -24,16 +24,6 @@
             <div class="card-body">
                 <div class="row m-b-30">
                     <div class="col-lg-7">
-                        <div class="d-md-flex">
-                            <div class="m-b-10">
-                                <select class="custom-select" style="min-width: 180px;">
-                                    <option selected>Status</option>
-                                    <option value="all">All</option>
-                                    <option value="inStock">In Stock </option>
-                                    <option value="outOfStock">Out of Stock</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-lg-5  text-right">
                         <a class="" href="{{ route('building.create') }}">
