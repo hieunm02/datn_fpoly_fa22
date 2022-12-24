@@ -30,7 +30,7 @@ class OrderGroupServices
         return DB::table('order_group')
         ->join('users', 'order_group.user_id', '=', 'users.id')
         ->join('products', 'order_group.product_id', '=', 'products.id')
-        ->select('order_group.id as id', 'order_group.room as room', 'order_group.role as role', 'order_group.quantity as quantity', 'users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar',
+        ->select('order_group.id as id', 'order_group.options as options', 'order_group.room as room', 'order_group.role as role', 'order_group.quantity as quantity', 'users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar',
         'products.id as product_id', 'products.name as product_name', 'products.price as product_price')
         ->where('order_group.room', URL::full())
         ->where('order_group.quantity', '>', 0)

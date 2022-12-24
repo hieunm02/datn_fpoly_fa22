@@ -24,7 +24,6 @@
     <div class="py-5 row">
         <form action="{{ route('order-group-checkout') }}" class="row" method="post">
             @csrf
-            @method('POST')
             <input type="hidden" value="{{ Auth::id() }}" class="auth_id">
             <div class="col-md-6 mb-3">
                 <div>
@@ -37,16 +36,17 @@
                                     <div class="col-md-12 form-group">
                                         <label class="form-label font-weight-bold">Họ và tên <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input placeholder="Họ tên" value="{{ Auth::user()->name ? Auth::user()->name : old('name') }}" name="name" type="text" class="form-control input-name">
+                                            <input placeholder="Họ tên" value="{{ Auth::user()->name ? Auth::user()->name : old('name') }}" name="name" type="text"
+                                            class="form-control input-name <?php echo $errors->first('name') ? 'is-invalid' : "" ?>">
                                         </div>
-                                        <p class="text-danger m-0 error-name"></p>
+                                        <p class="text-danger m-0 error-name">{{$errors->first('name')}}</p>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-3 form-group">
                                                 <label class="form-label font-weight-bold">Tòa <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <select name="building" id="building" class="form-control input-building appearance-none  ">
+                                                    <select name="building" id="building" class="form-control input-building appearance-none <?php echo $errors->first('building') ? 'is-invalid' : "" ?>">
                                                         <option value="">Tòa</option>
                                                         @foreach ($buildings as $building)
                                                         <option value="{{ $building->id }}">{{ $building->name }}
@@ -59,7 +59,7 @@
                                             <div class="col-md-3 form-group">
                                                 <label class="form-label font-weight-bold">Tầng <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <select name="floor" id="floor" class="form-control input-building appearance-none ">
+                                                    <select name="floor" id="floor" class="form-control input-building appearance-none <?php echo $errors->first('floor') ? 'is-invalid' : "" ?>">
                                                         <option value="">Tầng</option>
                                                     </select>
                                                 </div>
@@ -69,7 +69,7 @@
                                             <div class="col-md-6 form-group">
                                                 <label class="form-label font-weight-bold">Phòng <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <select name="room" id="room" class="form-control input-building appearance-none ">
+                                                    <select name="room" id="room" class="form-control input-building appearance-none <?php echo $errors->first('room') ? 'is-invalid' : "" ?>">
                                                         <option value="">Phòng</option>
                                                     </select>
                                                 </div>
@@ -83,17 +83,18 @@
                                             <div class="col-md-6 form-group">
                                                 <label class="form-label font-weight-bold">Số điện thoại <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <input placeholder="Số điện thoại" value="{{ Auth::user()->phone ? Auth::user()->phone : old('phone') }}" name="phone" type="text" class="form-control input-phone">
+                                                    <input placeholder="Số điện thoại" value="{{ Auth::user()->phone ? Auth::user()->phone : old('phone') }}" name="phone" type="text" 
+                                                    class="form-control input-phone <?php echo $errors->first('phone') ? 'is-invalid' : "" ?>">
                                                 </div>
-                                                <p class="text-danger m-0 error-phone"></p>
+                                                <p class="text-danger m-0 error-phone">{{$errors->first('phone')}}</p>
 
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label class="form-label font-weight-bold">Email <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <input placeholder="Email" name="email" type="text" class="form-control input-email" value="{{ Auth::user()->email ? Auth::user()->email : old('email') }}">
+                                                    <input placeholder="Email" name="email" type="text" class="form-control input-email <?php echo $errors->first('email') ? 'is-invalid' : "" ?>" value="{{ Auth::user()->email ? Auth::user()->email : old('email') }}">
                                                 </div>
-                                                <p class="text-danger m-0 error-email"></p>
+                                                <p class="text-danger m-0 error-email">{{$errors->first('email')}}</p>
 
                                             </div>
                                         </div>
@@ -122,7 +123,7 @@
                         @if (count($carts) > 0)
                         @foreach ($carts as $cart)
                         <div hidden>
-                            {{ $prd_option = 0 }}
+                            {{-- {{ $prd_option = 0 }} --}}
                             {{ $total += $cart->product_price * $cart->quantity }}
                         </div>
 
@@ -134,18 +135,18 @@
                                 <div class="media-body d-flex">
                                     <input type="checkbox" hidden checked name="product_id[]" class="mr-1" value="{{ $cart->id }}">
                                     <p class="m-0">{{ $cart->product_name }}</p>
-                                    <p class="m-0">
+                                    {{-- <p class="m-0">
                                         @if ($cart->options != null)
                                         (@foreach (json_decode($cart->options) as $op)
                                         @foreach ($options as $it)
                                         @if ($it->id == $op)
-                                    <p hidden>{{ $total += ($it->product_price * $cart->quantity) }} {{ $prd_option +=$it->product_price }}</p>
+                                    <p hidden>{{ $total += ($it->price * $cart->quantity) }} {{ $prd_option +=$it->price }}</p>
                                     {{ $it->value }},
                                     @endif
                                     @endforeach
                                     @endforeach)
                                     @endif
-                                    </p>
+                                    </p> --}}
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
@@ -155,7 +156,7 @@
                                     </button>
                                 </span>
                                 <p id="show_total_product{{ $cart->id }}" class="text-gray mb-0 float-right ml-2 text-muted small">
-                                    {{ ($cart->product_price + $prd_option) * $cart->quantity }}
+                                    {{ $cart->product_price * $cart->quantity }}
                                     <sup>đ</sup>
                                 </p>
                                 <button type="button" class="border-0 text-danger bg-white deletePrd" style="outline: none;" data-id={{ $cart->id }}><i class="feather-x-circle"></i></button>

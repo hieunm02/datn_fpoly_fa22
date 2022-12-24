@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderGroupRequest;
 use App\Models\Cart;
 use App\Models\Floor;
 use App\Models\OptionDetail;
@@ -14,6 +15,7 @@ use App\Services\Carts\CartService;
 use App\Services\Ordergroup\OrderGroupCheckoutServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class OrderGroupCartController extends Controller
@@ -34,23 +36,11 @@ class OrderGroupCartController extends Controller
             //danh sách sản phẩm trong giỏ hàng
             $carts = $this->OrderGroupCheckout->getCarts($room);
             //danh sách thành viên trong nhóm
-            // $listMembers = $this->orderGroupService->getListMembers($url);
-            //danh sách sản phẩm
-            // $products = $this->orderGroupService->getAll();
-            //danh sách địa chỉ
             $buildings = $this->OrderGroupCheckout->getBuilding();
-    
-            // return view('client.order-group', [
-            //     'title' => 'Đặt hàng nhóm',
-            //     // 'products' => $products,
-            //     'carts' => $carts,
-            //     // 'listMembers' => $listMembers,
-            //     'buildings' => $buildings,
-            // ]);
             $total = 0;
-            $options = OptionDetail::all();
+            // $options = OptionDetail::all();
             $vouchers = Voucher::all();
-            return view('client.order-group-checkout', compact('carts', 'total', 'buildings', 'options', 'vouchers'));
+            return view('client.order-group-checkout', compact('carts', 'total', 'buildings', 'vouchers'));
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
             return redirect('/');
@@ -71,11 +61,9 @@ class OrderGroupCartController extends Controller
         return response()->json($room, 200);
     }
 
-    public function checkOut(Request $request)
+    public function checkOut(OrderGroupRequest $request)
     {
         $this->OrderGroupCheckout->checkOut($request);
-        
         return redirect('/bills');
-
     }
 }
