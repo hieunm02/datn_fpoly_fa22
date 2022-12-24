@@ -6,12 +6,19 @@ $(function () {
 $('#fileinput').on('change', function(e){
     var files = e.target.files
     let ftype = files[0].type;
+    let fsize = files[0].size;
     switch (ftype) {
         case 'image/png':
         case 'image/jpg':
         case 'image/jpeg':
-        loadFile(e);
-        $('.show_images').css('display', 'none');
+        if (fsize < 10485760){
+            loadFile(e);
+            $('.show_images').css('display', 'none');
+            $('.show_error_size').remove();
+        } else {
+            $('.show_images').remove();
+            $('.show_error_size').css('display', 'inline-flex');
+        }
             break;
         default:
             $('.show_images').css('display', 'inline-flex');
@@ -38,7 +45,7 @@ $(document).ready(function () {
             var files = e.target.files,
                 filesLength = files.length;
                 let data = new FormData();
-                if (filesLength <= 5) {
+                if (filesLength <= 4) {
                     if (filesLength > 0) {
                         let errorSize = '';
                         let errorType = '';

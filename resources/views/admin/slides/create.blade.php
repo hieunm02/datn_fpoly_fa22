@@ -71,7 +71,7 @@
                                             <img name="avatar" data-toggle="tooltip" data-placement="top"
                                                 title="Tải lên Ảnh slides" style="cursor: pointer" id="avatar"
                                                 src="https://a3sharing.com/images/sections/upload.png" />
-                                            <input id="fileinput" onchange="loadFile(event)" accept=".jpg" type="file"
+                                            <input id="fileinput" type="file"
                                                 name="thumb" style="display:none; cursor: pointer" />
                                             <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
                                             <script>
@@ -85,6 +85,26 @@
                                                         }
                                                     })
                                                 });
+                                                $('#fileinput').on('change', function(e){
+                                                    var files = e.target.files
+                                                    let ftype = files[0].type;
+                                                    let fsize = files[0].size;
+                                                    switch (ftype) {
+                                                        case 'image/png':
+                                                        case 'image/jpg':
+                                                        case 'image/jpeg':
+                                                            if (fsize < 10485760){
+                                                                loadFile(e);
+                                                            } else {
+                                                                alert('Ảnh quá dung lượng cho phép')
+                                                            }
+                                                            break;
+                                                        default:
+                                                            alert('Ảnh không đúng định dạng');
+                                                            break;
+                                                    }
+                                                })
+
                                                 var loadFile = function(event) {
                                                     var output = document.querySelector('#avatar');
                                                     console.log(output);

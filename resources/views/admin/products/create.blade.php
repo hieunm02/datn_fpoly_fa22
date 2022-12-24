@@ -89,6 +89,9 @@
                                                 <div class="show_images" style="display:none; gap: 0 10px; color: red; font-size:15px">
                                                     File ảnh không hợp lệ
                                                 </div>
+                                                <div class="show_error_size" style="display:none; gap: 0 10px; color: red; font-size:15px">
+                                                    Quá dung lượng cho phép
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group mt-3">
