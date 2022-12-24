@@ -57,6 +57,10 @@ Route::prefix('/')->group(function () {
     Route::post('vnpay_payment', [HomepageOrderController::class, 'vnpay_payment'])->name('vnpay_payment');
     Route::get('return_vnpay_payment', [HomepageOrderController::class, 'return_vnpay'])->name('return_vnpay_payment');
 
+    //thanh toán vnpay group
+    Route::post('vnpay_payment_group', [OrderGroupCartController::class, 'vnpay_payment_group'])->name('vnpay_payment_group');
+    Route::get('return_vnpay_payment_group', [OrderGroupCartController::class, 'return_vnpay_group'])->name('return_vnpay_payment_group');
+
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}', [CartController::class, 'update']);

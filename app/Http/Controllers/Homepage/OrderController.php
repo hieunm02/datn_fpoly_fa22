@@ -154,7 +154,9 @@ class OrderController extends Controller
                 $total_pay += $del->quantity * $prd->price_sales;
             }
         }
-        $total_pay = $total_pay * (100 - $voucher->discount)/100;
+        if($voucher) {
+            $total_pay = $total_pay * (100 - $voucher->discount)/100;
+        }
         $inputDataOrder = $request->all();
         // dd($inputDataOrder);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -292,8 +294,8 @@ class OrderController extends Controller
                 $data->save();
                 $del->delete();
             }
-            return redirect()->route('carts.index');
+            return redirect()->route('bills');
         }
-        return redirect()->route('carts.index');
+        return redirect()->route('bills');
     }
 }
