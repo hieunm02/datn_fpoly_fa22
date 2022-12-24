@@ -46,68 +46,88 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var slide_id = $(this).data("id");
         var active = $("#is-active" + slide_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "slide/active",
-            data: {
-                active: active,
-                slide_id: slide_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + slide_id).css("color", data.color);
-                $("#icon-active" + slide_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + slide_id).val(data.value);
-                //Handle List slides
-                console.log(slidesAll);
-                for (let i = 0; i < slidesAll.length; i++) {
-                    if (slidesAll[i]["id"] === slide_id) {
-                        slidesAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "slide/active",
+                    data: {
+                        active: active,
+                        slide_id: slide_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + slide_id).css("color", data.color);
+                        $("#icon-active" + slide_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + slide_id).val(data.value);
+                        //Handle List slides
+                        console.log(slidesAll);
+                        for (let i = 0; i < slidesAll.length; i++) {
+                            if (slidesAll[i]["id"] === slide_id) {
+                                slidesAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete slide
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "slides/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List slides
 
-                    for (let i = 0; i < slidesAll.length; i++) {
-                        if (slidesAll[i]["id"] === id) {
-                            slidesAll.splice(i, 1);
+        Swal.fire({
+        title: 'Xác nhận thay đổi?',
+        text: "Bạn chấp nhận xóa!",
+        icon: 'Cảnh báo',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "slides/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List slides
+
+                        for (let i = 0; i < slidesAll.length; i++) {
+                            if (slidesAll[i]["id"] === id) {
+                                slidesAll.splice(i, 1);
+                            }
                         }
-                    }
-                },
-            });
-        }
+                    },
+                });
+            }
+        })
     });
     //Paginate
 
@@ -265,7 +285,7 @@ $(function () {
                             }
                         </div>
                     </td>
-                    <td class="text-center">
+                    <td >
                         <a href="products/${element.id}/edit">
                             <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i>

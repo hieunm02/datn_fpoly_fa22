@@ -61,28 +61,38 @@ $("#upload").change(function (e) {
 function deleteAjax(parameter, id) {
     var token = $(this).data("token");
 
-    if (confirm("Bạn có chắc chắn muốn xóa?")) {
-        $.ajax({
-            url: `${parameter}` + "/" + `${id}`,
-            type: "DELETE",
-            dataType: "JSON",
-            data: {
-                id: id,
-                _method: "DELETE",
-                _token: token,
-            },
-            success: function (data) {
-                console.log(data.model);
-                Swal.fire(
-                    "Successful!",
-                    "Xóa thành công!",
-                    "success"
-                );
-                console.log(data.model.id);
-                $("#id" + data.model.id).remove();
-            },
-        });
-    }
+    Swal.fire({
+        title: 'Xác nhận thay đổi?',
+        text: "Bạn chấp nhận xóa!",
+        icon: 'Cảnh báo',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `${parameter}` + "/" + `${id}`,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        console.log(data.model);
+                        Swal.fire(
+                            "Successful!",
+                            "Xóa thành công!",
+                            "success"
+                        );
+                        console.log(data.model.id);
+                        $("#id" + data.model.id).remove();
+                    },
+                });
+            }
+    })
 }
 
 //View detail order

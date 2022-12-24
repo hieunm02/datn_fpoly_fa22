@@ -46,73 +46,92 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var menu_id = $(this).data("id");
         var active = $("#is-active" + menu_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "menu/active",
-            data: {
-                active: active,
-                menu_id: menu_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + menu_id).css("color", data.color);
-                $("#icon-active" + menu_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + menu_id).val(data.value);
-                //Handle List products
-                console.log(MenusAll);
-                for (let i = 0; i < MenusAll.length; i++) {
-                    if (MenusAll[i]["id"] === menu_id) {
-                        MenusAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "menu/active",
+                    data: {
+                        active: active,
+                        menu_id: menu_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + menu_id).css("color", data.color);
+                        $("#icon-active" + menu_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + menu_id).val(data.value);
+                        //Handle List products
+                        console.log(MenusAll);
+                        for (let i = 0; i < MenusAll.length; i++) {
+                            if (MenusAll[i]["id"] === menu_id) {
+                                MenusAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete product
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "menus/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List products
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "menus/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List products
 
-                    for (let i = 0; i < MenusAll.length; i++) {
-                        if (MenusAll[i]["id"] === id) {
-                            MenusAll.splice(i, 1);
+                        for (let i = 0; i < MenusAll.length; i++) {
+                            if (MenusAll[i]["id"] === id) {
+                                MenusAll.splice(i, 1);
+                            }
                         }
-                    }
 
-                    if (MenusAll === []) {
-                        $(paginates).html("");
-                    }
+                        if (MenusAll === []) {
+                            $(paginates).html("");
+                        }
 
-                },
-            });
-        }
+                    },
+                });
+            }
+        })
     });
     //Paginate
 
