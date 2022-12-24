@@ -75,13 +75,24 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="font-weight-semibold" for="">Ảnh sản phẩm</label><br>
-                                        <div class="avatar avatar-image rounded" style="height: 100px; width:100px">
-                                            <img name="avatar" data-toggle="tooltip" data-placement="top"
-                                                title="Tải lên Ảnh Sản Phẩm" style="cursor: pointer" id="avatar"
-                                                src="https://a3sharing.com/images/sections/upload.png" />
-                                            <input id="fileinput" onchange="loadFile(event)" accept=".jpg" type="file"
-                                                name="thumb" style="display:none; cursor: pointer" />
-                                            <div class="invalid-feedback">{{ $errors->first('thumb') }}</div>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-image rounded" style="height: 100px; width:120px">
+                                                    <img name="avatar" data-toggle="tooltip" data-placement="top"
+                                                        title="Tải lên Ảnh Sản Phẩm" style="cursor: pointer" id="avatar"
+                                                        src="https://www.lifewire.com/thmb/blKERZhp27lzE_9SjqlnovU0v-s=/1768x1326/smart/filters:no_upscale()/cloud-upload-a30f385a928e44e199a62210d578375a.jpg" />
+                                                    <input id="fileinput" accept="image/jpeg, image/jpg, image/png" type="file"
+                                                        name="thumb" style="display:none; cursor: pointer" />
+                                                </div>
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="show_images" style="display:none; gap: 0 10px; color: red; font-size:15px">
+                                                    File ảnh không hợp lệ
+                                                </div>
+                                                <div class="show_error_size" style="display:none; gap: 0 10px; color: red; font-size:15px">
+                                                    Quá dung lượng cho phép
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group mt-3">
                                             <label class="font-weight-semibold" for="productBrand">Số lượng sản

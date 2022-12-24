@@ -1,13 +1,13 @@
 <div class="header">
     <div class="logo logo-dark">
-        <a href="{{ route('index') }}">
-            <img src="{{ asset('assets/images/logo/BeeFood.png') }}" alt="Logo">
+        <a href="{{ route('index') }}" class="text-center">
+            <img src="{{ asset('assets/images/logo/BeeFood.png') }}" class="mx-auto" width="60%" alt="Logo">
             <img class="logo-fold" src="{{ asset('assets/images/logo/BeeFood.png') }}" alt="Logo">
         </a>
     </div>
     <div class="logo logo-white">
         <a href="{{ route('index') }}">
-            <img src="{{ asset('assets/images/logo/BeeFood.png') }}" alt="Logo">
+            <img src="{{ asset('assets/images/logo/BeeFood.png') }}" width="60%" alt="Logo">
             <img class="logo-fold" src="{{ asset('assets/images/logo/BeeFood.png') }}}" alt="Logo">
         </a>
     </div>

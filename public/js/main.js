@@ -5,35 +5,57 @@ $.ajaxSetup({
 });
 
 // UploadFile
-$("#upload").change(function () {
+$("#upload").change(function (e) {
     const form = new FormData();
     form.append("file", $(this)[0].files[0]);
+    var files = e.target.files
+    var file = e.target;
+    let ftype = files[0].type;
+    let fsize = files[0].size;
+        if (files.length > 0){
+            switch (ftype) {
+                case 'image/png':
+                case 'image/jpg':
+                case 'image/jpeg':
+                    if (fsize < 10485760){
+                        $.ajax({
+                            processData: false,
+                            contentType: false,
+                            type: "POST",
+                            dataType: "JSON",
+                            data: form,
+                            url: "/admin/upload/services",
 
-    $.ajax({
-        processData: false,
-        contentType: false,
-        type: "POST",
-        dataType: "JSON",
-        data: form,
-        url: "/admin/upload/services",
+                            success: function (results) {
+                                if (results.error == false) {
+                                    $("#image_show").html(
+                                        '<a href="' +
+                                        results.url +
+                                        '" target="_blank">' +
+                                        '<img src="' +
+                                        results.url +
+                                        '" width="100px"></a> '
+                                    );
 
-        success: function (results) {
-            if (results.error == false) {
-                $("#image_show").html(
-                    '<a href="' +
-                    results.url +
-                    '" target="_blank">' +
-                    '<img src="' +
-                    results.url +
-                    '" width="100px"></a> '
-                );
-
-                $("#thumb").val(results.url);
-            } else {
-                alert("Upload file lỗi");
+                                    $("#thumb").val(results.url);
+                                } else {
+                                    alert("Upload file lỗi");
+                                }
+                            },
+                        });
+                    } else {
+                        alert('Ảnh quá dung lượng')
+                        $("#upload").val("");
+                    }
+                    break;
+                default:
+                    alert('Ảnh không đúng định dạng')
+                    $("#upload").val("");
+                    break;
             }
-        },
-    });
+        } else  {
+           alert('else')
+        }
 });
 
 function deleteAjax(parameter, id) {
@@ -107,8 +129,8 @@ $('.order-detail').on('click', function () {
                 }
                 products += `
                 <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;">
-                    <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span> 
-                    ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} 
+                    <span style="display:block;font-size:13px;font-weight:normal;">${element.nameProduct}</span>
+                    ${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                     <b style="font-size:12px;font-weight:300;"> Số lượng: ${element.quantity}</b>
                     ${element.options != null ? `<span style="display:block;font-size:13px;font-weight:normal;">Option chọn thêm: ${options}</span>` : ''}
                     </p>

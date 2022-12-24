@@ -51,7 +51,7 @@
                 <aside class="col-sm-3 col-md-2 text-white">
                     <ul class="list-unstyled hov_footer">
                         <li> <a href="{{ route('index') }}" class="text-muted">Trang Chủ</a></li>
-                        <li> 
+                        <li>
                             <a href="/login" class="text-muted">
                             @if (is_null(Auth::user()))
                                 Đăng Nhập
@@ -60,15 +60,14 @@
                             @endif
                             </a>
                         </li>
-                        <li> <a href="{{ url('contact-us') }}" class="text-muted">Liên Hệ</a>
-                            <ul>
-                                <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Facebook" target="_blank" href="https://www.facebook.com/khanhshebly/"><i class="feather-facebook"></i> Facebook</a> </li>
-                                <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Youtube" target="_blank" href="https://youtu.be/Z3LZEN6qLVY"><i class="feather-youtube"></i> Youtube</a></li>
-                            </ul>
+                        <li>
+                            <a href="{{ url('contact-us') }}" class="text-muted">Liên Hệ</a>
                         </li>
+                            <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Facebook" target="_blank" href="https://www.facebook.com/khanhshebly/"><i class="feather-facebook"></i> Facebook</a> </li>
+                            <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Youtube" target="_blank" href="https://youtu.be/Z3LZEN6qLVY"><i class="feather-youtube"></i> Youtube</a></li>
                     </ul>
                 </aside>
-                
+
                 <aside class="col-sm-3  col-md-2 text-white">
                     <ul class="list-unstyled hov_footer">
                         <li> <a href="{{ url('carts') }}" class="text-muted"> Giỏ Hàng </a></li>

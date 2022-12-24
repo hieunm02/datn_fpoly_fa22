@@ -46,7 +46,7 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Mã đơm hàng</th>
+                            <th>Mã đơn hàng</th>
                             <th>Tên người nhận</th>
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>

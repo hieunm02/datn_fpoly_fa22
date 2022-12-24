@@ -74,7 +74,7 @@
                                 <td>{{ $slide->product->name }}</td>
                                 <td class="text-center">
                                     <div class="text-center" style="cursor: pointer">
-                                        @if ($slide->active === 0)
+                                        @if ($slide->active === 1)
                                             <div class="m-r-10"></div>
                                             <input type="hidden" id="is-active{{ $slide->id }}"
                                                 value="{{ $slide->active }}">

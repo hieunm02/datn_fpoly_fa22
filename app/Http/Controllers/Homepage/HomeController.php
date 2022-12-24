@@ -46,7 +46,7 @@ class HomeController extends Controller
         $products = $this->productService->getProduct();
         $productBtm = $this->productService->getProduct();
         $menus = $this->menuService->getMenuIndex();
-        $slides = Slide::with('product')->limit(6)->get();
+        $slides = Slide::Active()->limit(6)->get();
         return view('client.index', compact('products', 'productBtm', 'menus', 'slides'));
     }
 
@@ -192,7 +192,7 @@ class HomeController extends Controller
                                 <p class="text-gray mb-3">' . $product->menu->name . '</p>
                                 <p class="text-gray mb-3 time"><span
                                         class="text-dark rounded-sm pb-1 pt-1 pr-2">
-                                        Còn lại: '.$countProduct.'</span> 
+                                        Còn lại: '.$countProduct.'</span>
                                         </span>
                                     <span class="float-right d-block text-danger font-weight-bolder">
                                     '. number_format($product->price, 0, ',', '.').'

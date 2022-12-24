@@ -84,8 +84,6 @@ class ProductServices
 
     public function create($request)
     {
-        // dd($request->all());
-
         $product = new Product();
         $product->fill($request->all());
         if ($request->hasFile('thumb')) {

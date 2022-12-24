@@ -68,34 +68,38 @@ $(function () {
         for (var i = 0; i < checks.length; i++) {
             arr.push($(checks[i]).val())
         };
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            url: "/storeCart",
-            dataType: "JSON",
-            data: {
-                'product_id': product_id,
-                'user_id': user_id,
-                'date': date,
-                'quantity': quantity,
-                'options': arr
-            },
-            success: function (data) {
-                $('#count_cart').empty();
-                var num = 0;
-                data.carts.forEach(el => {
-                    num++;
-                });
-                $('#count_cart').append(num);
-                Swal.fire(
-                    'Successful!',
-                    'Thêm vào giỏ hàng thành công!',
-                    'success'
-                )
-            }
-        });
+        if (quantity <= 0) {
+            alert("Số lượng không được nhỏ hơn 1")
+        } else {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "/storeCart",
+                dataType: "JSON",
+                data: {
+                    'product_id': product_id,
+                    'user_id': user_id,
+                    'date': date,
+                    'quantity': quantity,
+                    'options': arr
+                },
+                success: function (data) {
+                    $('#count_cart').empty();
+                    var num = 0;
+                    data.carts.forEach(el => {
+                        num++;
+                    });
+                    $('#count_cart').append(num);
+                    Swal.fire(
+                        'Successful!',
+                        'Thêm vào giỏ hàng thành công!',
+                        'success'
+                    )
+                }
+            });
+        }
 
     });
     //update giỏ hàng
@@ -151,48 +155,50 @@ $(function () {
     $('.deletePrd').click(function () {
         var cart_id = $(this).data("id");
         // alert(cart_id)
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'DELETE',
-            url: "/carts/delete/" + cart_id,
-            // dataType: "JSON",
-            data: {
-                'cart': cart_id
-            },
-            success: function (data) {
-                $('#show_total').empty();
-                $('#show_order').empty();
-                $('#show_total_product' + cart_id).empty();
-                $('#cart_item' + cart_id).remove();
-                $('#count_cart').empty();
-                var total = 0;
-                var price = 0;
-                var num = 0;
-                data.carts.forEach(el => {
-                    num++;
-                    total += (el.price * el.quantity);
-                    if (el.product_id = cart_id) {
-                        price = (el.quantity * el.price);
+        if(confirm('Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng?')) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'DELETE',
+                url: "/carts/delete/" + cart_id,
+                // dataType: "JSON",
+                data: {
+                    'cart': cart_id
+                },
+                success: function (data) {
+                    $('#show_total').empty();
+                    $('#show_order').empty();
+                    $('#show_total_product' + cart_id).empty();
+                    $('#cart_item' + cart_id).remove();
+                    $('#count_cart').empty();
+                    var total = 0;
+                    var price = 0;
+                    var num = 0;
+                    data.carts.forEach(el => {
+                        num++;
+                        total += (el.price * el.quantity);
+                        if (el.product_id = cart_id) {
+                            price = (el.quantity * el.price);
+                        }
+                    });
+                    if (num == 0) {
+                        $('.hetsanpham').text('Chưa có sản phẩm nào')
                     }
-                });
-                if (num == 0) {
-                    $('.hetsanpham').text('Chưa có sản phẩm nào')
+                    $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
+                    $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
+                    $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
+                    $('.hidden_total').val(total);
+                    $('#count_cart').append(num);
+                    Swal.fire(
+                        'Successful!',
+                        'Xóa sản phẩm khỏi giỏ hàng thành công!',
+                        'success'
+                    )
+                    $('#cart_id' + data.prd.id).remove();
                 }
-                $('#show_total_product' + cart_id).append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(price) + '<sup>đ</sup>');
-                $('#show_total').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
-                $('#show_order').append(new Intl.NumberFormat('vn-VN', { maximumSignificantDigits: 3 }).format(total) + '<sup>đ</sup>');
-                $('.hidden_total').val(total);
-                $('#count_cart').append(num);
-                Swal.fire(
-                    'Successful!',
-                    'Xóa sản phẩm khỏi giỏ hàng thành công!',
-                    'success'
-                )
-                $('#cart_id' + data.prd.id).remove();
-            }
-        });
+            });
+        }
     });
     // thanh toán đơn hàng
     $("#datHang").click(function () {

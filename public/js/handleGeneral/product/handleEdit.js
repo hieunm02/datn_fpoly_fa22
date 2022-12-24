@@ -4,11 +4,29 @@ $(document).ready(function () {
         $("#fileinput").trigger("click");
     });
     // thumb
-    $(function () {
-        $("#thumb").on("click", function () {
-            $("#files").trigger("click");
-        });
-    });
+    $('#fileinput').on('change', function(e){
+        var files = e.target.files
+        let ftype = files[0].type;
+        switch (ftype) {
+            case 'image/png':
+            case 'image/jpg':
+            case 'image/jpeg':
+            loadFile(e);
+            $('.show_images').css('display', 'none');
+                break;
+            default:
+                $('.show_images').css('display', 'inline-flex');
+                break;
+        }
+    })
+    var loadFile = function (event) {
+        var output = document.querySelector("#avatar");
+        console.log(output);
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src); // preview
+        };
+    };
     //
     if (window.File && window.FileList && window.FileReader) {
         var thumbs = $("#thumbnail").val();
@@ -71,13 +89,3 @@ $(document).ready(function () {
         $("#outPut").html($(this).val());
     });
 });
-
-// upload avaratar
-function loadFile(event) {
-    var output = document.querySelector("#avatar");
-
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function () {
-        URL.revokeObjectURL(output.src);
-    };
-}
