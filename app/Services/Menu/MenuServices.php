@@ -15,6 +15,7 @@ class MenuServices
     {
         return Menu::select('id', 'name', 'thumb', 'parent_id')
             ->orderByDesc('id')
+            ->where('active', 0)
             ->get();
     }
 
