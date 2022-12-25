@@ -169,7 +169,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span class="count-number float-right">
+                                            {{-- <span class="count-number float-right">
                                                 <input class="count-number-input pr-1" width="50px" type="number"
                                                     name="quantity" id="quantity{{ $cart->id }}" min="1"
                                                     value="{{ $cart->quantity }}"><button type="button"
@@ -177,15 +177,15 @@
                                                     data-id={{ $cart->id }} style="height: 24px;">
                                                     <i class="feather-check"></i>
                                                 </button>
-                                            </span>
+                                            </span> --}}
                                             <p id="show_total_product{{ $cart->id }}"
                                                 class="text-gray mb-0 float-right ml-2 text-muted small">
                                                 {{ $cart->product_price * $cart->quantity }}
                                                 <sup>đ</sup>
                                             </p>
-                                            <button type="button" class="border-0 text-danger bg-white deletePrd"
+                                            {{-- <button type="button" class="border-0 text-danger bg-white deletePrd"
                                                 style="outline: none;" data-id={{ $cart->id }}><i
-                                                    class="feather-x-circle"></i></button>
+                                                    class="feather-x-circle"></i></button> --}}
                                         </div>
                                     </div>
                                 @endforeach
