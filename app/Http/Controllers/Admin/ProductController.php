@@ -64,6 +64,9 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        if ($request->price_sales >= $request->price) {
+            return back()->with('error_price_sales', 'Giá sale không hợp lệ!');
+        }
         $data = $this->productService->create($request);
         if (!$data) {
             return redirect()->back();
@@ -111,6 +114,9 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, $id)
     {
+        if ($request->price_sales >= $request->price) {
+            return back()->with('error_price_sales', 'Giá sale không hợp lệ!');
+        }
         $this->productService->update($request, $id);
 
         return redirect()->route('products.index');
