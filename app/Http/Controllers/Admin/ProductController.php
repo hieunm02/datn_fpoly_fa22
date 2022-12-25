@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Cart;
 use App\Models\Option;
 use App\Models\OptionDetail;
 use App\Models\Product;
@@ -132,6 +133,12 @@ class ProductController extends Controller
     {
         $product = $this->productService->getById($id);
         $this->productService->delete($id);
+        // lấy ra các sản phẩm trong đơn
+        $orderDetail = Cart::where('product_id', $id)->get();
+        foreach ($orderDetail as $item) {
+            $data = Cart::find($item->id);
+            $data->delete();
+        }
         return response()->json(['model' => $product]);
     }
 
@@ -192,12 +199,11 @@ class ProductController extends Controller
             foreach ($prd_op_details as $prd) {
                 if ($item->id == $prd->option_detail_id) {
                     // dd($item);
-                    if($prd->active == 0){
+                    if ($prd->active == 0) {
                         $item->checked = 'checked';
                     }
                 }
                 $result[$key] = $item;
-
             }
         }
         // dd($result);
