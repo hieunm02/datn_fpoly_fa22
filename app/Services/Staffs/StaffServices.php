@@ -2,6 +2,7 @@
 
 namespace App\Services\Staffs;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,22 @@ class StaffServices
         return User::select('id', 'name', 'email', 'role', 'active', 'avatar')
             ->orderByDesc('id')
             ->paginate(5);
+    }
+
+    public function getStaffs($request)
+    {
+        $text_search = $request->get('text_search');
+        $active_search = $request->get('active_search');
+        if ($text_search == null) {
+            $text_search = '';
+        }
+        $query = Role::where('id', 2)->first()->users()
+            ->where('name', 'like', '%' . $text_search . '%');
+        if ($active_search === '0' || $active_search === '1') {
+            $query->where('active', $active_search);
+        }
+
+        return $query->orderBy('updated_at', 'DESC');
     }
 
     public function create($request)

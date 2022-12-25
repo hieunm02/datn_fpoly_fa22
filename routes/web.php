@@ -56,7 +56,7 @@ Route::prefix('/')->group(function () {
     //thanh toán vnpay
     Route::post('vnpay_payment', [HomepageOrderController::class, 'vnpay_payment'])->name('vnpay_payment');
     Route::get('return_vnpay_payment', [HomepageOrderController::class, 'return_vnpay'])->name('return_vnpay_payment');
-    
+
     Route::post('vnpay_payment_group', [OrderGroupCartController::class, 'vnpay_payment_group'])->name('vnpay_payment_group');
     Route::get('return_vnpay_payment_group', [OrderGroupCartController::class, 'return_vnpay_group'])->name('return_vnpay_payment_group');
 
@@ -242,6 +242,9 @@ Route::prefix('admin')->middleware('role:manager|staff')->group(function () {
     });
     //Staff
     Route::middleware('role:manager')->resource('staffs', StaffController::class);
+    Route::prefix('staff')->group(function () {
+        Route::get('active', [StaffController::class, 'changeActive']);
+    });
 
     //upload thumb
     Route::post('/upload/services', [UploadThumbController::class, 'store']);
