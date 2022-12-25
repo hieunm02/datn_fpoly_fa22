@@ -12,7 +12,18 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row m-b-30">
-                                <div class="col-lg-8">
+                                <div class="d-md-flex col-md-8">
+                                    <div class="m-b-10 mr-3">
+                                        <select class="custom-select select-active" style="min-width: 180px;">
+                                            <option selected value="">Trạng thái</option>
+                                            <option value="0">Mở</option>
+                                            <option value="1">Khóa</option>
+                                        </select>
+                                    </div>
+                                    <div class="m-b-10">
+                                        <input type="text" name="text_search" class="form-control" placeholder="Tìm kiếm..."
+                                            style="width: 180px;">
+                                    </div>
                                 </div>
                                 <div class="col-lg-4 text-right">
                                     <a href="{{ route('staffs.create') }}" class="btn btn-primary">
@@ -21,7 +32,6 @@
                                     </a>
                                 </div>
                             </div>
-
                             <div class="table-responsive">
                                 <table class="table table-hover e-commerce-table">
                                     <thead>
@@ -35,12 +45,11 @@
                                             <th>ID</th>
                                             <th>Tên nhân viên</th>
                                             <th>Email</th>
-                                            <th>Ảnh đại diện</th>
-                                            <th>Trạng thái</th>
-                                            <th colspan="2"></th>
+                                            <th class="text-center">Trạng thái</th>
+                                            <th class="text-center">Thao tác</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="staff_list">
                                         @foreach ($staffs as $item)
                                             <tr id="id{{ $item->id }}">
                                                 <td>
@@ -65,10 +74,8 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <img src="{{ asset($item->avatar) }}" alt="" width="100">
-                                                </td>
-                                                <td>
                                                     <div class="text-center" style="cursor: pointer">
+                                                        <input type="hidden" name="auth_id" value="{{ Auth::user()->id }}">
                                                         @if ($item->active == 1)
                                                             <div class="m-r-10"></div>
                                                             <input type="hidden" id="is-active{{ $item->id }}"
@@ -90,25 +97,27 @@
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    @role('manager')
-                                                    <td class="text-right">
-                                                        <a href="{{ route('staffs.edit', $item->id) }}">
-                                                            <button
-                                                                class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                                                <i class="anticon anticon-edit"></i>
-                                                            </button>
-                                                        </a>
-                                                        <button class="btn btn-icon btn-hover btn-sm btn-rounded"
-                                                            onclick="deleteAjax('staffs',<?php echo $item->id; ?>)">
-                                                            <i class="anticon anticon-delete"></i>
+                                                @role('manager')
+                                                <td class="text-center">
+                                                    <a href="{{ route('staffs.edit', $item->id) }}">
+                                                        <button
+                                                            class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                                            <i class="anticon anticon-edit"></i>
                                                         </button>
-                                                    </td>
+                                                    </a>
+                                                    <button class="btn btn-icon btn-hover btn-sm btn-rounded"
+                                                        onclick="deleteAjax('staffs',<?php echo $item->id; ?>)">
+                                                        <i class="anticon anticon-delete"></i>
+                                                    </button>
+                                                </td>
                                                 @endrole
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="text-right pagination">
+                                {{ $staffs->links() }}
                             </div>
                         </div>
                     </div>
@@ -121,14 +130,14 @@
                         <div class="col-10 text-center">
                             <center class="text-uppercase text-center text-20xl font-size-20 opacity-7 font-weight-border">
                                 <th>
-                                    chưa có nhân viên nào
+                                    Chưa có nhân viên nào
                                 </th>
                             </center>
                         </div>
                         <div class="col-lg-2 text-right">
                             <a href="{{ route('staffs.create') }}" class="btn btn-primary">
                                 <i class="anticon anticon-plus-circle m-r-5"></i>
-                                <span>Add</span>
+                                <span>Thêm tài khoản</span>
                             </a>
                         </div>
                     </div>
@@ -149,4 +158,6 @@
             });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ asset('/js/handleGeneral/staff/filter.js') }}"></script>
 @endsection

@@ -1,8 +1,8 @@
 $(function () {
-    var result = $("#users_list");
+    var result = $("#staff_list");
     var paginates = $(".pagination");
     var auth_id = $('input[name=auth_id]').val();
-    var usersAll = [];
+    var staffsAll = [];
 
     //Search with status
     $(".select-active").on("change", function (event) {
@@ -13,21 +13,21 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "users",
+            url: "staffs",
             typeData: "JSON",
             data: {
                 active_search: active_search,
                 status: 200,
             },
             success: function (data) {
-                usersAll = data.users;
-                if (usersAll) {
+                staffsAll = data.staffs;
+                if (staffsAll) {
                     //Pagination
-                    var usersPage = userPage(data.users, 5, 1);
-                    //users list
-                    usersHtml(usersPage, result);
+                    var staffsPage = staffPage(data.staffs, 5, 1);
+                    //staffs list
+                    staffsHtml(staffsPage, result);
                     // Set numbers of pages
-                    numberPages(usersAll.length);
+                    numberPages(staffsAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -38,7 +38,7 @@ $(function () {
             },
         });
     });
-    //Search with Name users
+    //Search with Name staffs
     $('input[name="text_search"]').keyup(function () {
         $(".select-active").val("");
         var data_id = $(this).val();
@@ -47,9 +47,9 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        var user_id = $(this).data("id");
-        var active = $("#is-active" + user_id).val();
-        if (user_id == auth_id) {
+        var staff_id = $(this).data("id");
+        var active = $("#is-active" + staff_id).val();
+        if (staff_id == auth_id) {
             return;
         }
 
@@ -66,10 +66,10 @@ $(function () {
                 $.ajax({
                     type: "GET",
                     dataType: "JSON",
-                    url: "user/active",
+                    url: "staff/active",
                     data: {
                         active: active,
-                        user_id: user_id,
+                        staff_id: staff_id,
                     },
                     success: function (data) {
                         Swal.fire(
@@ -77,16 +77,55 @@ $(function () {
                             "Thay đổi trạng thái thành công!",
                             "success"
                         );
-                        $(".btn-active" + user_id).css("color", data.color);
-                        $("#icon-active" + user_id)
+                        $(".btn-active" + staff_id).css("color", data.color);
+                        $("#icon-active" + staff_id)
                             .addClass(data.btnActive)
                             .removeClass(data.btnRemove);
-                        $("#is-active" + user_id).val(data.value);
-                        //Handle List users
-                        console.log(usersAll);
-                        for (let i = 0; i < usersAll.length; i++) {
-                            if (usersAll[i]["id"] === user_id) {
-                                usersAll[i]["active"] = data.value;
+                        $("#is-active" + staff_id).val(data.value);
+                        //Handle List staffs
+                        console.log(staffsAll);
+                        for (let i = 0; i < staffsAll.length; i++) {
+                            if (staffsAll[i]["id"] === staff_id) {
+                                staffsAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
+    });
+
+      //Delete new
+      result.on("click", ".delete", function () {
+        var token = $(this).data("token");
+        id = $(this).data("id");
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "staffs/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List news
+
+                        for (let i = 0; i < staffsAll.length; i++) {
+                            if (staffsAll[i]["id"] === id) {
+                                staffsAll.splice(i, 1);
                             }
                         }
                     },
@@ -101,11 +140,11 @@ $(function () {
     paginates.on("click", "#page_item", function () {
         page_id = $(this).data("id");
 
-        usersPage = userPage(usersAll, 5, page_id);
+        staffsPage = staffPage(staffsAll, 5, page_id);
 
-        usersHtml(usersPage, result);
+        staffsHtml(staffsPage, result);
 
-        numberPages(usersAll.length, page_id);
+        numberPages(staffsAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -119,11 +158,11 @@ $(function () {
             page_id = page_id - 1;
         }
 
-        usersPage = userPage(usersAll, 5, page_id);
+        staffsPage = staffPage(staffsAll, 5, page_id);
 
-        usersHtml(usersPage, result);
+        staffsHtml(staffsPage, result);
 
-        numberPages(usersAll.length, page_id);
+        numberPages(staffsAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -132,19 +171,19 @@ $(function () {
     //Click next
     paginates.on("click", "#next_paginate", function () {
         page_id = $(".curent_page").val();
-        if (page_id == Math.ceil(usersAll.length / 5)) {
-            page_id = Math.ceil(usersAll.length / 5);
+        if (page_id == Math.ceil(staffsAll.length / 5)) {
+            page_id = Math.ceil(staffsAll.length / 5);
         } else {
             page_id = Number(page_id) + 1;
         }
 
         console.log(page_id);
 
-        usersPage = userPage(usersAll, 5, page_id);
+        staffsPage = staffPage(staffsAll, 5, page_id);
 
-        usersHtml(usersPage, result);
+        staffsHtml(staffsPage, result);
 
-        numberPages(usersAll.length, page_id);
+        numberPages(staffsAll.length, page_id);
 
         $("#page_item").removeClass("active");
         $(".page_" + page_id).addClass("active");
@@ -171,25 +210,25 @@ $(function () {
         </nav>
     `;
 
-    // Ajax search users
+    // Ajax search staffs
     function ajax(data) {
         $.ajax({
             type: "GET",
-            url: "users",
+            url: "staffs",
             typeData: "JSON",
             data: {
                 text_search: data,
                 status: 200,
             },
             success: function (data) {
-                usersAll = data.users;
-                if (usersAll) {
+                staffsAll = data.staffs;
+                if (staffsAll) {
                     //Pagination
-                    var usersPage = userPage(data.users, 5, 1);
-                    //users list
-                    usersHtml(usersPage, result);
+                    var staffsPage = staffPage(data.staffs, 5, 1);
+                    //staffs list
+                    staffsHtml(staffsPage, result);
                     // Set numbers of pages
-                    numberPages(usersAll.length);
+                    numberPages(staffsAll.length);
                     //Set active
                     $(".page_1").addClass("active");
                     //end paginate
@@ -200,13 +239,13 @@ $(function () {
             },
         });
     }
-    // users list
-    function usersHtml(array, ele) {
+    // staffs list
+    function staffsHtml(array, ele) {
         $(ele).html("");
         array.forEach((element, index) => {
             $(ele).append(
                 `
-                <tr>
+                <tr class="ele_${ element.id }">
                     <td>
                         <div class="checkbox">
                             <input id="check-item-1" type="checkbox">
@@ -224,11 +263,6 @@ $(function () {
                     <td>
                         <div class="d-flex align-items-center">
                             <h6 class="m-b-0">${element.email}</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <h6 class="m-b-0">${element.auth_type}</h6>
                         </div>
                     </td>
                     <td class="text-center">
@@ -256,6 +290,19 @@ $(function () {
                         }
                         </div>
                     </td>
+                    <td class="text-center">
+                        <a href="staffs/${element.id}/edit">
+                        <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                            <i class="anticon anticon-edit"></i>
+                        </button>
+                        </a>
+                        <button
+                            class="btn btn-icon btn-hover btn-sm btn-rounded delete" data-id="${
+                                element.id
+                            }">
+                            <i class="anticon anticon-delete"></i>
+                        </button>
+                    </td>
                 </tr>
                 `
             );
@@ -263,8 +310,8 @@ $(function () {
     }
 
     //Number pages
-    function numberPages(numberusers, curentPage = 1) {
-        pages = Math.ceil(numberusers / 5);
+    function numberPages(numberstaffs, curentPage = 1) {
+        pages = Math.ceil(numberstaffs / 5);
         tempt = 1;
         arr = [];
         c = curentPage;
@@ -310,45 +357,6 @@ $(function () {
             }
         }
 
-          //Delete new
-    result.on("click", ".delete", function () {
-        var token = $(this).data("token");
-        id = $(this).data("id");
-        Swal.fire({
-            title: 'Xác nhận thay đổi?',
-            text: "Bạn chấp nhận xóa!",
-            icon: 'Cảnh báo',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Accept'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                $.ajax({
-                    url: "users/" + id,
-                    type: "DELETE",
-                    dataType: "JSON",
-                    data: {
-                        id: id,
-                        _method: "DELETE",
-                        _token: token,
-                    },
-                    success: function (data) {
-                        Swal.fire("Successful!", "Xóa thành công!", "success");
-                        $(".ele_" + id).remove();
-                        //Handle List news
-
-                        for (let i = 0; i < usersAll.length; i++) {
-                            if (usersAll[i]["id"] === id) {
-                                usersAll.splice(i, 1);
-                            }
-                        }
-                    },
-                });
-            }
-        })
-    });
-
         // Set null paginate
         $(paginates).html("");
         if (pages > 1) {
@@ -378,7 +386,7 @@ $(function () {
     }
 });
 
-//Format price users
+//Format price staffs
 function formatNumber(nStr, decSeperate, groupSeperate) {
     nStr += "";
     x = nStr.split(decSeperate);
@@ -392,7 +400,7 @@ function formatNumber(nStr, decSeperate, groupSeperate) {
 }
 
 //Paginate
-function userPage(array, page_size, page_number) {
+function staffPage(array, page_size, page_number) {
     // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
     return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
