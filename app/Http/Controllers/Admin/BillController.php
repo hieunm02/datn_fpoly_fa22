@@ -31,7 +31,6 @@ class BillController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());
         }
-
     }
 
     /**
@@ -61,21 +60,19 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        $bill = Order::find($request->id);
-        $user = User::find($bill->user_id);
-        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $title = 'Hóa đơn chi tiết';
+        $bill = Order::where('id', $id)->first();
+        $voucher = Voucher::where('code', $bill->voucher)->first();
+        $billDetail = OrderProduct::where('order_id', $bill->id)->get();
+        $total = 0;
         $options = OptionDetail::all();
-        if ($bill->voucher) {
-            $voucher = Voucher::where('code', $bill->voucher)->first();
-        } else {
-            $voucher = null;
-        }
-        return response()->json([
+        return view('admin.bills.bill-detail', [
             'bill' => $bill,
+            'title' => $title,
             'billDetail' => $billDetail,
-            'user' => $user,
+            'total' => $total,
             'options' => $options,
             'voucher' => $voucher,
         ]);

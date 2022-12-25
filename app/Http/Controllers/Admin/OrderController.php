@@ -54,17 +54,19 @@ class OrderController extends Controller
         }
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        $order = Order::find($request->id);
-        $user = User::find($order->user_id);
-        $billDetail = OrderProduct::with('product')->where('order_id', '=', $request->id)->get();
+        $title = 'Chi tiết đơn hàng';
+        $order = Order::where('id', $id)->first();
         $voucher = Voucher::where('code', $order->voucher)->first();
+        $orderDetail = OrderProduct::where('order_id', $order->id)->get();
+        $total = 0;
         $options = OptionDetail::all();
-        return response()->json([
+        return view('admin.orders.order-detail', [
             'order' => $order,
-            'billDetail' => $billDetail,
-            'user' => $user,
+            'title' => $title,
+            'orderDetail' => $orderDetail,
+            'total' => $total,
             'options' => $options,
             'voucher' => $voucher,
         ]);
