@@ -6,7 +6,7 @@ function filterPrd(el) {
     $('div').filter($('.prdTT')).css('display', 'none');
     $('div').filter($('.filterPrd' + el)).css('display', 'block');
 }
-//tạo mới đơn hàng 
+//tạo mới đơn hàng
 function createOrderNew() {
     var a = Math.floor(Math.random() * 10000);
     $("#showCartTT").html('');
@@ -69,30 +69,40 @@ $("#addprd").on('click', function () {
 });
 //xóa snar phẩm ra khỏi đơn
 function deleteTT(el) {
-    if (confirm('Bạn muốn xóa sản phẩm này ra khỏi giỏ hàng?')) {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'DELETE',
-            url: "/carts/delete/" + el,
-            // dataType: "JSON",
-            data: {
-                'cart': el,
-            },
-            success: function (data) {
-                $("#showCartTT").html('');
-                $("#total1").html('')
-                $("#total2").html('')
-                showDonHang($("#orderNew").val())
-                Swal.fire(
-                    'Successful!',
-                    'Xóa sản phẩm khỏi giỏ hàng thành công!',
-                    'success'
-                )
-            }
-        });
-    }
+    Swal.fire({
+        title: 'Xác nhận thay đổi?',
+        text: "Bạn muốn xóa đơn hàng khỏi đơn!",
+        icon: 'Cảnh báo',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'DELETE',
+                url: "/carts/delete/" + el,
+                // dataType: "JSON",
+                data: {
+                    'cart': el,
+                },
+                success: function (data) {
+                    $("#showCartTT").html('');
+                    $("#total1").html('')
+                    $("#total2").html('')
+                    showDonHang($("#orderNew").val())
+                    Swal.fire(
+                        'Successful!',
+                        'Xóa sản phẩm khỏi giỏ hàng thành công!',
+                        'success'
+                    )
+                }
+            });
+        }
+    })
 }
 //Cập nhật số lượng
 function updateQtyTT(el) {
@@ -122,11 +132,18 @@ function updateQtyTT(el) {
 }
 //thanh toán
 $("#payment").on('click', function () {
+    var emailIp = $('input[name=email]').val();
+    var phoneIp = $('input[name=phone]').val();
+
     if ($('input[name=name]').val() == '') {
         $('input[name=name]').addClass('is-invalid');
-    } if ($('input[name=email]').val() == '') {
+    } if (emailIp == '') {
         $('input[name=email]').addClass('is-invalid');
     } if ($('input[name=phone]').val() == '') {
+        $('input[name=phone]').addClass('is-invalid');
+    } if (validateEmail(emailIp) === false) {
+        $('input[name=email]').addClass('is-invalid');
+    }  if (validatePhone(phoneIp) === false) {
         $('input[name=phone]').addClass('is-invalid');
     } else {
         $('input[name=name]').removeClass('is-invalid');
@@ -171,20 +188,40 @@ $("#payment").on('click', function () {
 })
 // Xóa đơn hàng trong thanh toán tt
 $(document).on("click", ".icon-close-order", function () {
-    if (confirm('Bạn có chắc hủy đơn hàng này?')) {
-        $.ajax({
-            type: "DELETE",
-            url: "/admin/thanh-toan-truc-tiep/deleteCartOrder/" + $(this).data("id"),
-            // data: "data",
-            dataType: "JSON",
-            success: function (response) {
-                showDonHang($("#orderNew").val())
-                Swal.fire(
-                    'Successful!',
-                    'Xóa đơn hàng thành công!',
-                    'success'
-                )
-            }
-        });
-    }
+    Swal.fire({
+        title: 'Xác nhận thay đổi?',
+        text: "Bạn muốn hủy đơn hàng này!",
+        icon: 'Cảnh báo',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "DELETE",
+                url: "/admin/thanh-toan-truc-tiep/deleteCartOrder/" + $(this).data("id"),
+                // data: "data",
+                dataType: "JSON",
+                success: function (response) {
+                    showDonHang($("#orderNew").val())
+                    Swal.fire(
+                        'Successful!',
+                        'Xóa đơn hàng thành công!',
+                        'success'
+                    )
+                }
+            });
+        }
+    })
 });
+
+function validateEmail($email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailReg.test( $email );
+}
+
+function validatePhone($phone) {
+    var emailReg = /^([0][0-9\s\-\+\(\)]*)$/;
+    return emailReg.test( $phone );
+}

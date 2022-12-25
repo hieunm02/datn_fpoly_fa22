@@ -15,7 +15,6 @@
                 <div class="col-11">
                     <div class="d-flex align-items-center justify-content-end">
                         <!-- signin -->
-                        {{-- @dd($_SERVER) --}}
                         @if (is_null(Auth::user()))
                             <a href="{{ route('login') }}" class="widget-header mr-4 text-dark m-none">
                                 <div class="icon d-flex align-items-center">
@@ -32,7 +31,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    @role('manager')
+                                    @role(['manager', 'staff'])
                                         <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Trang quản trị</a>
                                     @endrole
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">Tài khoản</a>

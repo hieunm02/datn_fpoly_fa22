@@ -54,6 +54,11 @@
                                                     id="" placeholder="Product Price Sales"
                                                     value="{{ old('price_sales') }}">
                                                 <div class="invalid-feedback">{{ session('price_sales') }}</div>
+                                            @elseif(session()->has('error_price_sales'))
+                                                <input type="text" class="form-control is-invalid" name="price_sales"
+                                                    id="" placeholder="Product Price Sales"
+                                                    value="{{ old('price_sales') }}">
+                                                <div class="invalid-feedback">{{ session('error_price_sales') }}</div>
                                             @else
                                                 <input type="text" class="form-control money" name="price_sales"
                                                     id="" placeholder="Product Price Sales"

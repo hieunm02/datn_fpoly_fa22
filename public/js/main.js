@@ -396,3 +396,16 @@ function sendMessage(message, user_id, avatar, room_id) {
         }
     })
 }
+
+function disableSubmitButtons(form) {
+    form.find('input[type="submit"]').attr('disabled', true);
+    form.find('button[type="submit"]').attr('disabled', true);
+}
+function enableSubmitButtons(form) {
+    form.find('input[type="submit"]').removeAttr('disabled');
+    form.find('button[type="submit"]').removeAttr('disabled');
+}
+$('form').submit(function () {
+    disableSubmitButtons($(this));
+    return true;
+});
