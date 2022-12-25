@@ -39,50 +39,52 @@
     <div class="container">
         <section class="footer-top padding-y py-5">
             <div class="row">
-                <aside class="col-md-4 footer-about">
+                <aside class="col-md-5 footer-about">
                     <article class="d-flex pb-3">
-                        <div><img src="{{ asset('assets/images/logo/BeeFood.png') }}" class="logo-footer mr-3"></div>
                         <div>
+                            <img src="{{ asset('assets/images/logo/BeeFood.png') }}" class="logo-footer mr-3 mb-5">
                             <h6 class="title text-white">Về cửa hàng</h6>
-                            <p class="text-muted">Do lượng sinh viên của trường ngày một đông nên sau mỗi ca học, lượng sinh viên ra vào căng tin luôn trật cứng. Điều đó cũng làm cho việc mua bán trở lên khó khăn kể cả người bán đến người mua. Việc kiểm soát lượng hàng bán và tiền hàng cũng sẽ dễ nhầm lẫn trong lúc đông sinh viên. Vì vậy để giải quyết vấn đề quá tải ở canteen trường nên chúng em đã tạo ra 1 website để sinh viên và giảng viên dễ dàng mua đồ cũng như vấn đề nêu trên.</p>
+                            <p class="text-muted text-justify">Do lượng sinh viên của trường ngày một đông nên sau mỗi
+                                ca học, lượng sinh viên ra vào căng tin luôn trật cứng. Điều đó cũng làm cho việc mua
+                                bán trở lên khó khăn kể cả người bán đến người mua. Việc kiểm soát lượng hàng bán và
+                                tiền hàng cũng sẽ dễ nhầm lẫn trong lúc đông sinh viên. Vì vậy để giải quyết vấn đề quá
+                                tải ở canteen trường nên chúng em đã tạo ra 1 website để sinh viên và giảng viên dễ dàng
+                                mua đồ cũng như vấn đề nêu trên.</p>
                         </div>
                     </article>
                 </aside>
-                <aside class="col-sm-3 col-md-2 text-white">
-                    <ul class="list-unstyled hov_footer">
-                        <li> <a href="{{ route('index') }}" class="text-muted">Trang Chủ</a></li>
-                        <li>
-                            <a href="/login" class="text-muted">
-                            @if (is_null(Auth::user()))
-                                Đăng Nhập
-                            @else
-                           <a href="{{ route('profile.index') }}"> {{ substr(Auth::user()->name, 0, 19) }} </a>
-                            @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('contact-us') }}" class="text-muted">Liên Hệ</a>
-                        </li>
-                            <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Facebook" target="_blank" href="https://www.facebook.com/khanhshebly/"><i class="feather-facebook"></i> Facebook</a> </li>
-                            <li>  <a class="btn btn-icon btn-outline-light mr-1 btn-sm" title="Youtube" target="_blank" href="https://youtu.be/Z3LZEN6qLVY"><i class="feather-youtube"></i> Youtube</a></li>
-                    </ul>
-                </aside>
+                <aside class="col-sm-2 col-md-2 text-white">
 
-                <aside class="col-sm-3  col-md-2 text-white">
-                    <ul class="list-unstyled hov_footer">
-                        <li> <a href="{{ url('carts') }}" class="text-muted"> Giỏ Hàng </a></li>
-                        <li> <a href="{{ url('/bills') }}" class="text-muted"> Đơn Hàng Của Bạn </a></li>
-                    </ul>
                 </aside>
-                <aside class="col-sm-3  col-md-2 text-white">
+                <aside class="col-sm-3 col-md-5 text-white">
                     <ul class="list-unstyled hov_footer">
                         <div class="mapouter border-dark">
                             <div class="gmap_canvas">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639810443356!2d105.74459841485445!3d21.03812778599324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b991d80fd5%3A0x53cefc99d6b0bf6f!2sFPT%20Polytechnic%20Hanoi!5e0!3m2!1sfr!2s!4v1665498762239!5m2!1sfr!2s" width="210%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639810443356!2d105.74459841485445!3d21.03812778599324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b991d80fd5%3A0x53cefc99d6b0bf6f!2sFPT%20Polytechnic%20Hanoi!5e0!3m2!1sfr!2s!4v1665498762239!5m2!1sfr!2s"
+                                    width="100%" height="230" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
                     </ul>
                 </aside>
+            </div>
+            <div class="row">
+                <aside class="col-md-9"></aside>
+                <nav class="col-md-3">
+                    <ul class="navbar me-auto">
+                        <li class="nav-item"><a class="link-light" title="Facebook" target="_blank"
+                                href="https://www.facebook.com/khanhshebly/"><button class="btn btn-outline-light">
+                                    <i class="feather-facebook"> Facebook</i>
+                                </button></a>
+                        </li>
+                        <li class="nav-item"><a class="link-light" title="Youtube" target="_blank"
+                                href="https://youtu.be/Z3LZEN6qLVY"><button class="btn btn-outline-light">
+                                    <i class="feather-youtube"> Youtube</i>
+                                </button></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <!-- row.// -->
         </section>
@@ -95,7 +97,8 @@
         </div>
     </section>
 </footer>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,8 +159,9 @@
                             <div class="form-row">
                                 <div class="form-group col-12">
                                     <label>Điểm</label>
-                                    <input class="form-control" placeholder="Mời nhập số điểm quy đổi" name="point_exchange" id="point_exchange" type="number">
-                                    <p class="error small m-0"  style="color:red">
+                                    <input class="form-control" placeholder="Mời nhập số điểm quy đổi"
+                                        name="point_exchange" id="point_exchange" type="number">
+                                    <p class="error small m-0" style="color:red">
 
                                     </p>
                                 </div>
@@ -171,7 +175,8 @@
                     <button type="button" class="btn border-top btn-lg btn-block" data-dismiss="modal">Đóng</button>
                 </div>
                 <div class="col-6 m-0 p-0">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-exchange-point">Đổi</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                        id="btn-exchange-point">Đổi</button>
                 </div>
             </div>
         </div>
