@@ -13,13 +13,22 @@ class ListProductController extends Controller
     {
         if ($request) {
             $data['products'] = Product::filter($request)->with('menu')->where('active', 1)->paginate(16);
-        } 
-        $data['url'] = url()->current();
+        }
+        if(!url()->current()) {
+            $data['url'] = '';
+        } else {
+            $data['url'] = url()->current();
+        }
         return view('client.list-products', $data);
     }
 
     public function getListMenu($id)
     {
+        if(!url()->current()) {
+            $data['url'] = '';
+        } else {
+            $data['url'] = url()->current();
+        }
         $data['products'] = Product::with('menu')->where('menu_id', '=', $id)
         ->where('active', 1)
         ->paginate(9);

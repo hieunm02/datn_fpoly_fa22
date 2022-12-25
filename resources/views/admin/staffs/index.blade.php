@@ -69,7 +69,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-center" style="cursor: pointer">
-                                                        @if ($item->active === 1)
+                                                        @if ($item->active == 1)
                                                             <div class="m-r-10"></div>
                                                             <input type="hidden" id="is-active{{ $item->id }}"
                                                                 value="{{ $item->active }}">

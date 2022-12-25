@@ -74,16 +74,6 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="form-group">
-                                        <label class="font-weight-semibold" for="staffemail">Email</label>
-                                        <input type="email" name="email" class="form-control <?php echo $errors->first('email') ? 'is-invalid' : ''; ?>"
-                                            id="staffemail" placeholder="Email" value="{{ old('email') ? old('email') : $staff->email }}">
-                                        @if ($errors->first('email'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('email') }}
-                                            </div>
-                                        @endif
-                                    </div>
                                 </div>
                             </div>
                         </div>

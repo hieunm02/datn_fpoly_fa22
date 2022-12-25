@@ -22,7 +22,7 @@ class UserServices
         if ($text_search == null) {
             $text_search = '';
         }
-        $query = User::where('name', 'like', '%' . $text_search . '%');
+        $query = User::where('name', 'like', '%' . $text_search . '%')->role('customer');
 
         if ($active_search === '0' || $active_search === '1') {
             $query->where('active', $active_search);

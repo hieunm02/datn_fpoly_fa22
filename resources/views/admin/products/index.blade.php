@@ -21,7 +21,7 @@
                             </div>
                             <div class="m-b-10">
                                 <input type="text" name="text_search" class="form-control" placeholder="Tìm kiếm..."
-                                    style="min-width: 180px;">
+                                    style="width: 180px;">
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th class="text-center">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="products_list">
@@ -101,7 +101,7 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-center">
                                     <a href="{{ route('products.edit', $product->id) }}">
                                         <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                             <i class="anticon anticon-edit"></i>

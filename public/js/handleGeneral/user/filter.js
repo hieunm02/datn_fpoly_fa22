@@ -54,13 +54,13 @@ $(function () {
         }
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Change it!'
+            confirmButtonText: 'Accept'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -94,34 +94,7 @@ $(function () {
             }
         })
     });
-    //Delete user
-    result.on("click", ".delete", function () {
-        var token = $(this).data("token");
-        id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "users/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List users
 
-                    for (let i = 0; i < usersAll.length; i++) {
-                        if (usersAll[i]["id"] === id) {
-                            usersAll.splice(i, 1);
-                        }
-                    }
-                },
-            });
-        }
-    });
     //Paginate
 
     //Click numberPage

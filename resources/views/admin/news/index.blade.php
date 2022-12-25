@@ -16,8 +16,8 @@
                                 <div class="m-b-10 mr-3">
                                     <select class="custom-select select-active" style="min-width: 180px;">
                                         <option selected value="">Trạng thái</option>
-                                        <option value="1">Mở</option>
-                                        <option value="0">Khóa</option>
+                                        <option value="0">Mở</option>
+                                        <option value="1">Khóa</option>
                                     </select>
                                 </div>
                                 <div class="m-b-10">
@@ -46,7 +46,7 @@
                                     <th>ID</th>
                                     <th>Tiêu đề</th>
                                     <th>Ảnh</th>
-                                    <th>Trạng thái</th>
+                                    <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Thao tác</th>
                                 </tr>
                             </thead>

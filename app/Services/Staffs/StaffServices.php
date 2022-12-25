@@ -19,7 +19,6 @@ class StaffServices
     public function getStaff()
     {
         return User::select('id', 'name', 'email', 'role', 'active', 'avatar')
-            ->where('role', '=', '1')
             ->orderByDesc('id')
             ->paginate(5);
     }
@@ -33,7 +32,7 @@ class StaffServices
                 'phone' => (string) $request->input('phone'),
                 'password' => (string) Hash::make(12345678),
                 'avatar' => (string) $request->input('image_path'),
-                'active' => 1,
+                'active' => 0,
                 'role' => 1
             ]);
             $user->assignRole('staff');
@@ -53,8 +52,8 @@ class StaffServices
             $staffModel = User::find($id);
             $staffModel->update([
                 'name' => (string) $request->name,
-                'email' => (string) $request->email,
-                'role' => 1,
+                'phone' => (string) $request->phone,
+                'image_path' => (string) $request->image_path,
                 'avatar' => (string) $request->input('image_path'),
             ]);
             notify()->success('Cập nhật thành công');

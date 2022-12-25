@@ -57,10 +57,6 @@ Route::prefix('/')->group(function () {
     Route::post('vnpay_payment', [HomepageOrderController::class, 'vnpay_payment'])->name('vnpay_payment');
     Route::get('return_vnpay_payment', [HomepageOrderController::class, 'return_vnpay'])->name('return_vnpay_payment');
 
-    //thanh toán vnpay group
-    Route::post('vnpay_payment_group', [OrderGroupCartController::class, 'vnpay_payment_group'])->name('vnpay_payment_group');
-    Route::get('return_vnpay_payment_group', [OrderGroupCartController::class, 'return_vnpay_group'])->name('return_vnpay_payment_group');
-
     Route::get('/carts/getFloor', [CartController::class, 'getFloor']);
     Route::get('/carts/getRoom', [CartController::class, 'getRoom']);
     Route::put('/carts/update/{id}', [CartController::class, 'update']);
@@ -116,7 +112,11 @@ Route::prefix('/')->group(function () {
         //Login - Logout
         Route::post('/login', [AuthController::class, 'handleLogin']);
         Route::get('/login', function () {
-            $url = $_SERVER['HTTP_REFERER'];
+            if(!$_SERVER['HTTP_REFERER']) {
+                $url = '';
+            } else {
+                $url = $_SERVER['HTTP_REFERER'];
+            }
             return view('client.login', ['url' => $url]);
         })->name('login');
         Route::post('/register', [AuthController::class, 'handleRegister']);
@@ -178,7 +178,7 @@ Route::prefix('/')->group(function () {
 
         //thêm sản phẩm vào giỏ hàng
         Route::post('order-group-add-cart', [OrderGroupController::class, 'addToCart'])->name('order-group-add-cart');
-       
+
         //Danh sách thành viên đặt hàng nhóm
         Route::post('list_member_order_group', [OrderGroupController::class, 'listMember'])->name('list_member_order_group');
         //Danh sách sản phẩm trong giỏ hàng đặt nhóm

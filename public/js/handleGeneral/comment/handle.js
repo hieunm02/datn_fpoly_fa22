@@ -10,10 +10,18 @@ $(function() {
         content = $("textarea[name=content]").val();
 
         if (!content) {
-            alert("Nội dung bình luận đang trống");
+            Swal.fire(
+                "Thông báo!",
+                "Nội dung bình luận không được trống!",
+                "error"
+            );
             return;
         } else if (!userId) {
-            alert("Đăng nhập để có thể bình luận.");
+            Swal.fire(
+                "Thông báo!",
+                "Đăng nhập để có thể bình luận!",
+                "error"
+            );
             return;
         }
         $.ajax({
@@ -66,55 +74,74 @@ $(function() {
     //Delete Comment
 
     $(".dele_comment").click(function() {
-        if (!confirm("Xóa bình luận của bạn.")) {
-            return;
-        }
 
         id = $(this).data("id");
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "comments/delete",
-            data: {
-                id: id,
-            },
-            success: function(data) {
-                $(".ele_" + id).remove();
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "comments/delete",
+                    data: {
+                        id: id,
+                    },
+                    success: function(data) {
+                        $(".ele_" + id).remove();
+                    },
+                });
+            }
+        })
     });
 
     //View input edit comment
 
     $(".edit_comment").click(function() {
-        if (!confirm("Thay đổi bình luận.")) {
-            return;
-        }
+
         id = $(this).data("id");
         $(".text_content_" + id).hide();
         $(".edit-content-" + id).prop("type", "text");
 
         //Save change edit comment
-        $("input[name=edit_content]").keypress(function(event) {
-            var keycode = event.keyCode ? event.keyCode : event.which;
-            if (keycode == "13") {
-                value = $(".edit-content-" + id).val();
-                $.ajax({
-                    type: "GET",
-                    dataType: "JSON",
-                    url: "comments/edit",
-                    data: {
-                        id: id,
-                        value: value,
-                    },
-                    success: function(data) {
-                        $(".text_content_" + id).show();
-                        $(".text_content_" + id).text(value);
-                        $(".edit-content-" + id).prop("type", "hidden");
-                    },
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("input[name=edit_content]").keypress(function(event) {
+                    var keycode = event.keyCode ? event.keyCode : event.which;
+                    if (keycode == "13") {
+                        value = $(".edit-content-" + id).val();
+                        $.ajax({
+                            type: "GET",
+                            dataType: "JSON",
+                            url: "comments/edit",
+                            data: {
+                                id: id,
+                                value: value,
+                            },
+                            success: function(data) {
+                                $(".text_content_" + id).show();
+                                $(".text_content_" + id).text(value);
+                                $(".edit-content-" + id).prop("type", "hidden");
+                            },
+                        });
+                    }
                 });
             }
-        });
+        })
     });
 
     //Like

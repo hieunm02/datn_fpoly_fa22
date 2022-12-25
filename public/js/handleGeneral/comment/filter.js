@@ -46,68 +46,87 @@ $(function () {
     });
     //Change active
     result.on("click", ".btn-status", function () {
-        if (!confirm("Xác nhận đổi trạng thái.")) {
-            return;
-        }
 
         var comment_id = $(this).data("id");
         var active = $("#is-active" + comment_id).val();
-        $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: "comment/active",
-            data: {
-                active: active,
-                comment_id: comment_id,
-            },
-            success: function (data) {
-                Swal.fire(
-                    "Successful!",
-                    "Thay đổi trạng thái thành công!",
-                    "success"
-                );
-                $(".btn-active" + comment_id).css("color", data.color);
-                $("#icon-active" + comment_id)
-                    .addClass(data.btnActive)
-                    .removeClass(data.btnRemove);
-                $("#is-active" + comment_id).val(data.value);
-                //Handle List comments
-                console.log(commentsAll);
-                for (let i = 0; i < commentsAll.length; i++) {
-                    if (commentsAll[i]["id"] === comment_id) {
-                        commentsAll[i]["active"] = data.value;
-                    }
-                }
-            },
-        });
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận thay đổi trạng thái!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: "comment/active",
+                    data: {
+                        active: active,
+                        comment_id: comment_id,
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            "Successful!",
+                            "Thay đổi trạng thái thành công!",
+                            "success"
+                        );
+                        $(".btn-active" + comment_id).css("color", data.color);
+                        $("#icon-active" + comment_id)
+                            .addClass(data.btnActive)
+                            .removeClass(data.btnRemove);
+                        $("#is-active" + comment_id).val(data.value);
+                        //Handle List comments
+                        console.log(commentsAll);
+                        for (let i = 0; i < commentsAll.length; i++) {
+                            if (commentsAll[i]["id"] === comment_id) {
+                                commentsAll[i]["active"] = data.value;
+                            }
+                        }
+                    },
+                });
+            }
+        })
     });
     //Delete comment
     result.on("click", ".delete", function () {
         var token = $(this).data("token");
         id = $(this).data("id");
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
-            $.ajax({
-                url: "comments/" + id,
-                type: "DELETE",
-                dataType: "JSON",
-                data: {
-                    id: id,
-                    _method: "DELETE",
-                    _token: token,
-                },
-                success: function (data) {
-                    Swal.fire("Successful!", "Xóa thành công!", "success");
-                    $(".ele_" + id).remove();
-                    //Handle List comments
+        Swal.fire({
+            title: 'Xác nhận thay đổi?',
+            text: "Bạn chấp nhận xóa!",
+            icon: 'Cảnh báo',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "comments/" + id,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    data: {
+                        id: id,
+                        _method: "DELETE",
+                        _token: token,
+                    },
+                    success: function (data) {
+                        Swal.fire("Successful!", "Xóa thành công!", "success");
+                        $(".ele_" + id).remove();
+                        //Handle List comments
 
-                    for (let i = 0; i < commentsAll.length; i++) {
-                        if (commentsAll[i]["id"] === id) {
-                            commentsAll.splice(i, 1);
+                        for (let i = 0; i < commentsAll.length; i++) {
+                            if (commentsAll[i]["id"] === id) {
+                                commentsAll.splice(i, 1);
+                            }
                         }
-                    }
-                },
-            });
-        }
+                    },
+                });
+            }
+        })
     });
     //Paginate
 
