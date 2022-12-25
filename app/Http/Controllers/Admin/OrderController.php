@@ -52,7 +52,6 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());
         }
-
     }
 
     public function show(Request $request)
@@ -74,7 +73,16 @@ class OrderController extends Controller
     public function updateStatus(Request $request)
     {
         $this->orderService->updateStatus($request->status_id, $request->id);
-
+        //kiểm tra trạng thái nếu là đã giao thì 
+        if ($request->status_id == 4) {
+            // lấy ra các sản phẩm trong đơn
+            $orderDetail = OrderProduct::where('order_id', $request->id)->get();
+            foreach ($orderDetail as $item) {
+                $data = Product::find($item->product_id);
+                $data->quantity = $data->quantity - $item->quantity;
+                $data->save();
+            }
+        }
         $order = Order::find($request->id);
         $user = User::find($order->user_id);
         $adminInfor = User::find(Auth::id());
