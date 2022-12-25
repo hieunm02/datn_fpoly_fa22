@@ -39,6 +39,7 @@
                             <th>Email</th>
                             <th>Mã</th>
                             <th>Tên</th>
+                            <th>Phương thức</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -55,6 +56,7 @@
                             <td>{{$bill->email}}</td>
                             <td>{{$bill->code}}</td>
                             <td>{{$bill->name}}</td>
+                            <td>{{$bill->type}}</td>
                             <td>
                                 <button data-toggle="modal" data-target=".bd-example-modal-xl" data-id="{{$bill->id}}" class="btn btn-icon btn-hover btn-sm btn-rounded bill-detail">
                                     <i class="anticon anticon-eye"></i>

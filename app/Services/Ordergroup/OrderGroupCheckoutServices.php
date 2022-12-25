@@ -60,6 +60,7 @@ class OrderGroupCheckoutServices
             $order->status_id = 1;
             $order->shipper_id = 1;
             $order->voucher = $request->voucher_code;
+            $order->type = 'Mua online';
             $order->note = $request->note;
             $order->save();
             $count = $request->product_id;

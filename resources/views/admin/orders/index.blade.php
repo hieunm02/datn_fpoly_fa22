@@ -51,6 +51,7 @@
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
                             <th>Ngày đặt</th>
+                            <th>Phương thức</th>
                             <th>Người đặt</th>
                             <th>Chi tiết</th>
                             <th>Trạng thái</th>
@@ -71,6 +72,7 @@
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->address }}</td>
                             <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->type }}</td>
                             <td>
                                 @foreach ($authors as $author)
                                 @if ($author->id == $item->user_id)

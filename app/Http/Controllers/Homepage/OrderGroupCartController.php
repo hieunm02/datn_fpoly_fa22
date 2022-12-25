@@ -15,6 +15,7 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Room;
 use App\Models\User;
+use App\Models\UserVoucher;
 use App\Models\Voucher;
 use App\Services\Carts\CartService;
 use App\Services\Ordergroup\OrderGroupCheckoutServices;
@@ -90,7 +91,8 @@ class OrderGroupCartController extends Controller
         session(['url_prev' => url()->previous()]);
         $count_sp = $request->product_id;
         $total_pay = 0;
-        // $voucher = Voucher::where('code', $request->voucher_user)->first();
+        $voucher = Voucher::where('code', $request->voucher_code)->first();
+        
         foreach ($count_sp as $it) {
             $del = OrderGroup::find($it);
             $prd = Product::find($del->product_id);
@@ -100,8 +102,10 @@ class OrderGroupCartController extends Controller
                 $total_pay += $del->quantity * $prd->price_sales;
             }
         }
+        if($voucher) {
+            $total_pay = $total_pay * (100 - $voucher->discount) / 100;
+        }
         // dd($total_pay);
-        // $total_pay = $total_pay * (100 - $voucher->discount) / 100;
         $inputDataOrder = $data;
         // dd($inputDataOrder);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -177,15 +181,15 @@ class OrderGroupCartController extends Controller
     {
         // $url = session('url_prev', '/');
         if ($request->vnp_ResponseCode == "00") {
-            // if ($request->voucher_user) {
-            //     $voucher = Voucher::where('code', $request->voucher_user)->first();
-            //     $userVoucher = new UserVoucher();
-            //     $userVoucher->user_id = Auth::user()->id;
-            //     $userVoucher->voucher_id = $voucher->id;
-            //     $userVoucher->save();
-            //     $voucher->quantity -= 1;
-            //     $voucher->save();
-            // }
+            if ($request->voucher_code) {
+                $voucher = Voucher::where('code', $request->voucher_code)->first();
+                $userVoucher = new UserVoucher();
+                $userVoucher->user_id = Auth::user()->id;
+                $userVoucher->voucher_id = $voucher->id;
+                $userVoucher->save();
+                $voucher->quantity -= 1;
+                $voucher->save();
+            }
             $building = Building::find($request->building);
             $floor = Floor::find($request->floor);
             $order = new Order();
@@ -195,7 +199,8 @@ class OrderGroupCartController extends Controller
             $order->user_id = Auth::user()->id;
             $order->status_id = 1;
             $order->shipper_id = 1;
-            // $order->voucher = $request->voucher_code;
+            $order->type = 'Vnpay';
+            $order->voucher = $request->voucher_code;
             $order->note = $request->note;
             $order->save();
             $count = $request->product_id;
