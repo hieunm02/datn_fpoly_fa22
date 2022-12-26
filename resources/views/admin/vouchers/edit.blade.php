@@ -51,7 +51,7 @@
                                 <label class="font-weight-semibold" for="productName">Quantity voucher</label>
                                 <input type="number" class="form-control <?php echo $errors->first('quantity') ? 'is-invalid' : ''; ?>" name="quantity" placeholder="Số lượng" value="{{ $voucher->quantity }}">
                                 @if ($errors->first('quantity'))
-                                <div class="invalid-feedback">{{ $errors->first('discount') }}</div>
+                                <div class="invalid-feedback">{{ $errors->first('quantity') }}</div>
                                 @endif
                             </div>
 
