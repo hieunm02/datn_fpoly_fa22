@@ -33,7 +33,7 @@ class CartController extends Controller
             $buildings = $this->CartServices->getBuilding();
             $total = 0;
             $options = OptionDetail::all();
-            $vouchers = Voucher::all();
+            $vouchers = Voucher::where('active', 0)->get();
             return view('client.checkout', compact('carts', 'total', 'buildings', 'options', 'vouchers'));
         } else {
             Session::flash('error', 'Bạn chưa đăng nhập');
