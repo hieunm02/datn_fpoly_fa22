@@ -28,14 +28,18 @@ class VoucherRequest extends FormRequest
                 'code' => 'required|min:5|unique:vouchers,code,' . $this->route('voucher'),
                 'active' => 'required',
                 'discount' => 'required|numeric|min:0',
-                'quantity' => 'min:0|numeric'
+                'quantity' => 'min:0|numeric',
+                'start_time' => 'date',
+                'end_time' => 'date',
             ];
         }
         return [
             'code' => 'required|min:5|unique:vouchers',
             'active' => 'required',
             'discount' => 'required|numeric|min:0',
-            'quantity' => 'min:0|numeric'
+            'quantity' => 'min:0|numeric',
+            'start_time' => 'date',
+            'end_time' => 'date',
         ];
     }
 
@@ -48,6 +52,8 @@ class VoucherRequest extends FormRequest
             'active.required' => 'Trạng thái không được để trống',
             'discount.required' => 'Giảm giá không được để trống',
             'discount.numeric' => 'Giảm giá không đúng định dạng',
+            'start_time.date' => 'Ngày nhập không đúng định dạng',
+            'end_time.date' => 'Ngày nhập không đúng định dạng',
             'discount.min' => 'Giảm giá không được âm',
             'quantity.numeric' => 'Số lượng không đúng định dạng',
             'quantity.min' => 'Số lượng không được âm',
