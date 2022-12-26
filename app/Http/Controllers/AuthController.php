@@ -49,12 +49,12 @@ class AuthController extends Controller
 
     public function handleLogin(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'active' => 0])) {
             $user = User::where('email', $request->email)->first();
             Session::put('user_name', $user->name);
             return redirect($request->url);
         } else {
-            return redirect()->route('login')->with('error', 'Tên đăng nhập hoặc mật khẩu không đúng!');
+            return redirect()->route('login')->with('error', 'Tên đăng nhập, mật khẩu không đúng hoặc bị vô hiệu hóa!');
         }
     }
 
