@@ -157,7 +157,7 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->get();
+            $products = Product::where('name', 'LIKE', '%' . $request->result . '%')->where('active', 1)->get();
             $result = '';
             if ($products) {
                 foreach ($products as  $product) {
@@ -211,7 +211,7 @@ class HomeController extends Controller
     public function searchOrderGroup(Request $request)
     {
         if ($request->ajax()) {
-            $products = Product::where('name', 'LIKE', '%' . $request->search . '%')->get();
+            $products = Product::where('name', 'LIKE', '%' . $request->search . '%')->where('active', 1)->get();
             $result = '';
             if ($products) {
                 foreach ($products as  $product) {
