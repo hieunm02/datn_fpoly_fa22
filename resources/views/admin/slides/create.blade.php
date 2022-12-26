@@ -118,6 +118,11 @@
                                         <div class="m-l-15">
                                             <h4 class="m-b-0" id="outPut"></h4>
                                         </div>
+                                                @error('thumb')
+                                                <p class="text-danger">
+                                                    {{ $message }}
+                                                </p>
+                                                @enderror
                                         <div class="alert-error">
                                             @if (session('thumb_error'))
                                                 <span class="text-danger">{{ session('thumb_error') }}</span>

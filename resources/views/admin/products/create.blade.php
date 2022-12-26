@@ -90,6 +90,11 @@
                                                         name="thumb" style="display:none; cursor: pointer" />
                                                 </div>
                                             </div>
+                                            @error('thumb')
+                                            <p class="text-danger">
+                                                {{ $message }}
+                                            </p>
+                                            @enderror
                                             <div class="col-9">
                                                 <div class="show_images" style="display:none; gap: 0 10px; color: red; font-size:15px">
                                                     File ảnh không hợp lệ
