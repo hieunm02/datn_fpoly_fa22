@@ -30,7 +30,7 @@ class ProductRequest extends FormRequest
                 'desc' => 'required|min:6',
                 'thumb' => 'required|image',
                 'quantity' => 'required|integer|min:1',
-                'price' => 'required|after_or_equal:price_sales',
+                'price' => 'required|after_or_equal:price_sales|numeric|min:1',
             ];
         }
 
@@ -40,7 +40,7 @@ class ProductRequest extends FormRequest
             'desc' => 'required|min:6',
             'thumb' => 'required|image',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required',
+            'price' => 'required|numeric|min:1',
         ];
     }
 
@@ -58,6 +58,8 @@ class ProductRequest extends FormRequest
             'quantity.required' => 'Số lượng sản phẩm không được để trống!',
             'quantity.integer' => 'Số lượng sản phẩm phải là số! ',
             'quantity.min' => 'Số lượng sản phẩm phải lớn hơn 1!',
+            'price.numeric' => 'Giá sản phẩm không hợp lệ!',
+            'price.min' => 'Giá sản phẩm không hợp lệ!',
             'price.required' => 'Giá sản phẩm không được để trống!'
 
         ];

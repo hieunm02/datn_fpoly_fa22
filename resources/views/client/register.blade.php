@@ -21,12 +21,10 @@
 
 <body>
     <div class="login-page vh-100">
-        <video loop autoplay muted id="vid">
-            <source src="img/bg.mp4" type="video/mp4">
-            <source src="img/bg.mp4" type="video/ogg">
-            Your browser does not support the video tag.
-        </video>
         <div class="d-flex align-items-center justify-content-center vh-100">
+            <div id="vid" class="col-md-6 pl-5">
+                <img width="100%" style="border-radius: 50px" src="{{ asset('./images/image_login/img.jpeg') }}" alt="">
+            </div>
             <div class="px-5 col-md-6 ml-auto">
                 <div class="px-5 col-10 mx-auto">
                     <h2 class="text-dark my-0">Chào mừng quay trở lại</h2>

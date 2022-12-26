@@ -68,7 +68,7 @@ class AuthController extends Controller
         if($request->password != $request->password_old) {
             return redirect()->route('register')->with('error', 'Mật khẩu không khớp nhau');
         }else {
-            User::create([
+            $user = User::create([
                 'name' => str_replace('@gmail.com', '', $request->email),
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -78,6 +78,7 @@ class AuthController extends Controller
                 'avatar' => 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
                 'phone' => 0000000000,
             ]);
+            $user->assignRole('customer');
             return redirect()->route('login')->with('error', 'Đăng ký thành công!');
         }
     }

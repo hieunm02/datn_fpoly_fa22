@@ -45,27 +45,35 @@ $("#addprd").on('click', function () {
     for (var i = 0; i < checks.length; i++) {
         arr.push($(checks[i]).val())
     };
-    $.ajax({
-        type: "POST",
-        url: "/admin/thanh-toan-truc-tiep",
-        data: {
-            value: arr,
-            order_tt: $("#orderNew").val()
-        },
-        dataType: "JSON",
-        success: function () {
-            $("#showCartTT").html('');
-            $("#total1").html('')
-            $("#total2").html('')
-            $("input[type='checkbox']").prop('checked', false);
-            showDonHang($("#orderNew").val())
-            Swal.fire(
-                'Successful!',
-                'Thêm sản phẩm thành công!',
-                'success'
-            )
-        }
-    });
+    if ($("#orderNew").val() == '') {
+        Swal.fire(
+            'Error!',
+            'Vui lòng tạo đơn hàng mới!',
+            'error'
+        )
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/admin/thanh-toan-truc-tiep",
+            data: {
+                value: arr,
+                order_tt: $("#orderNew").val()
+            },
+            dataType: "JSON",
+            success: function () {
+                $("#showCartTT").html('');
+                $("#total1").html('')
+                $("#total2").html('')
+                $("input[type='checkbox']").prop('checked', false);
+                showDonHang($("#orderNew").val())
+                Swal.fire(
+                    'Successful!',
+                    'Thêm sản phẩm thành công!',
+                    'success'
+                )
+            }
+        });
+    }
 });
 //xóa snar phẩm ra khỏi đơn
 function deleteTT(el) {
@@ -143,7 +151,7 @@ $("#payment").on('click', function () {
         $('input[name=phone]').addClass('is-invalid');
     } if (validateEmail(emailIp) === false) {
         $('input[name=email]').addClass('is-invalid');
-    }  if (validatePhone(phoneIp) === false) {
+    } if (validatePhone(phoneIp) === false) {
         $('input[name=phone]').addClass('is-invalid');
     } else {
         $('input[name=name]').removeClass('is-invalid');
@@ -218,10 +226,10 @@ $(document).on("click", ".icon-close-order", function () {
 
 function validateEmail($email) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailReg.test( $email );
+    return emailReg.test($email);
 }
 
 function validatePhone($phone) {
     var emailReg = /^([0][0-9\s\-\+\(\)]*)$/;
-    return emailReg.test( $phone );
+    return emailReg.test($phone);
 }
