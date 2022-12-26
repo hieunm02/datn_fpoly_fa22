@@ -169,15 +169,10 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            {{-- <span class="count-number float-right">
-                                                <input class="count-number-input pr-1" width="50px" type="number"
-                                                    name="quantity" id="quantity{{ $cart->id }}" min="1"
-                                                    value="{{ $cart->quantity }}"><button type="button"
-                                                    class="btn-sm right inc btn btn-outline-secondary updateQty"
-                                                    data-id={{ $cart->id }} style="height: 24px;">
-                                                    <i class="feather-check"></i>
-                                                </button>
-                                            </span> --}}
+                                            <span class="count-number float-right">
+                                                <p class="count-number-input pr-1" width="50px" >{{ $cart->quantity }}
+                                                    </p>
+                                            </span>
                                             <p id="show_total_product{{ $cart->id }}"
                                                 class="text-gray mb-0 float-right ml-2 text-muted small">
                                                 {{ $cart->product_price * $cart->quantity }}
